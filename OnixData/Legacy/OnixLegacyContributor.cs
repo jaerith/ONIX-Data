@@ -10,6 +10,30 @@ namespace OnixData.Legacy
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixLegacyContributor
     {
+        #region CONSTANTS
+
+        public const string CONST_CONTRIB_ROLE_AUTHOR        = "A01";
+        public const string CONST_CONTRIB_ROLE_GHOST_AUTHOR  = "A02";
+        public const string CONST_CONTRIB_ROLE_SRNPLY_AUTHOR = "A03";
+        public const string CONST_CONTRIB_ROLE_LIBRTO_AUTHOR = "A04";
+        public const string CONST_CONTRIB_ROLE_LYRICS_AUTHOR = "A05";
+        public const string CONST_CONTRIB_ROLE_EDITED_BY     = "B01";
+        public const string CONST_CONTRIB_ROLE_REVISED_BY    = "B02";
+        public const string CONST_CONTRIB_ROLE_RETOLD_BY     = "B03";
+        public const string CONST_CONTRIB_ROLE_COMPILED_BY   = "C01";
+        public const string CONST_CONTRIB_ROLE_SELECTED_BY   = "C02";
+        public const string CONST_CONTRIB_ROLE_PRODUCER      = "D01";
+        public const string CONST_CONTRIB_ROLE_DIRECTOR      = "D02";
+        public const string CONST_CONTRIB_ROLE_ACTOR         = "E01";
+        public const string CONST_CONTRIB_ROLE_DANCER        = "E02";
+        public const string CONST_CONTRIB_ROLE_NARRATOR      = "E03";
+        public const string CONST_CONTRIB_ROLE_COMMENTATOR   = "E04";
+        public const string CONST_CONTRIB_ROLE_VOCAL_SOLO    = "E05";
+        public const string CONST_CONTRIB_ROLE_FILMED_BY     = "F01";
+        public const string CONST_CONTRIB_ROLE_OTHER         = "Z99";
+
+        #endregion
+
         public OnixLegacyContributor()
         {
             SequenceNumber     = -1;
@@ -20,7 +44,7 @@ namespace OnixData.Legacy
             KeyNames           = "";
         }
 
-        private int sequenceNumberField;
+        private int    sequenceNumberField;
 
         private string contributorRoleField;
 

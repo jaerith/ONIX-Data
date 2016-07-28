@@ -10,6 +10,16 @@ namespace OnixData.Legacy
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixLegacyMeasure
     {
+        #region CONSTANTS
+
+        public const int CONST_MEASURE_TYPE_HEIGHT = 1;
+        public const int CONST_MEASURE_TYPE_WIDTH  = 2;
+        public const int CONST_MEASURE_TYPE_THICK  = 3;
+        public const int CONST_MEASURE_TYPE_WEIGHT = 8;
+        public const int CONST_MEASURE_TYPE_DIAMTR = 9;
+
+        #endregion
+
         public OnixLegacyMeasure()
         {
             MeasureTypeCode = -1;

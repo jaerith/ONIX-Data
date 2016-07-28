@@ -313,6 +313,22 @@ namespace OnixData.Legacy
             }
         }
 
+        public OnixLegacyContributor GetPrimaryAuthor
+        {
+            get
+            {
+                OnixLegacyContributor PrimaryAuthor = new OnixLegacyContributor();
+
+                if ((Contributor != null) && (Contributor.Length > 0))
+                {
+                    PrimaryAuthor =
+                        Contributor.Where(x => x.ContributorRole == OnixLegacyContributor.CONST_CONTRIB_ROLE_AUTHOR).FirstOrDefault();
+                }
+
+                return PrimaryAuthor;
+            }
+        }
+
         /// <remarks/>
         public string ContributorStatement
         {
@@ -472,6 +488,22 @@ namespace OnixData.Legacy
             }
         }
 
+        public OnixLegacyMeasure Height
+        {
+            get
+            {
+                OnixLegacyMeasure FoundHeight = new OnixLegacyMeasure();
+
+                if ((Measure != null) && (Measure.Length > 0))
+                {
+                    FoundHeight =
+                        Measure.Where(x => x.MeasureTypeCode == OnixLegacyMeasure.CONST_MEASURE_TYPE_HEIGHT).FirstOrDefault();
+                }
+
+                return FoundHeight;
+            }
+        }
+
         /// <remarks/>
         public OnixLegacyRelatedProduct RelatedProduct
         {
@@ -482,6 +514,24 @@ namespace OnixData.Legacy
             set
             {
                 this.relatedProductField = value;
+            }
+        }
+
+        public OnixLegacyPrice USDRetailPrice
+        {
+            get
+            {
+                OnixLegacyPrice USDPrice = new OnixLegacyPrice();
+
+                if ((SupplyDetail != null) && (SupplyDetail.Price != null) && (SupplyDetail.Price.Length > 0))
+                {
+                    OnixLegacyPrice[] Prices = SupplyDetail.Price;
+
+                    USDPrice =
+                        Prices.Where(x => (x.PriceTypeCode == OnixLegacyPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD")).FirstOrDefault();
+                }
+
+                return USDPrice;
             }
         }
 

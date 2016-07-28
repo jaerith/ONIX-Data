@@ -10,6 +10,17 @@ namespace OnixData.Legacy
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixLegacyPrice
     {
+        #region CONSTANTS
+
+        public const int CONST_PRICE_TYPE_RRP_EXCL  = 1;
+        public const int CONST_PRICE_TYPE_RRP_INCL  = 2;
+        public const int CONST_PRICE_TYPE_FRP_EXCL  = 3;
+        public const int CONST_PRICE_TYPE_FRP_INCL  = 4;
+        public const int CONST_PRICE_TYPE_SUPP_COST = 5;
+        public const int CONST_PRICE_TYPE_RRP_PREP  = 21;
+
+        #endregion
+
         public OnixLegacyPrice()
         {
             PriceTypeCode = -1;
@@ -18,13 +29,10 @@ namespace OnixData.Legacy
             CurrencyCode  = "";
         }
 
-        private int priceTypeCodeField;
-
+        private int                     priceTypeCodeField;
         private OnixLegacyDiscountCoded discountCodedField;
-
-        private decimal priceAmountField;
-
-        private string currencyCodeField;
+        private decimal                 priceAmountField;
+        private string                  currencyCodeField;
 
         /// <remarks/>
         public int PriceTypeCode
