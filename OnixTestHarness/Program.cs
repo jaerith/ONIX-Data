@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using OnixData.Legacy;
+using OnixData.Version3;
 
 namespace OnixTestHarness
 {
@@ -15,15 +16,26 @@ namespace OnixTestHarness
         {
             try
             {
-                int    nPrdIdx = 0;
-                string xml     = File.ReadAllText(@"C:\tmp\tmp2\onix.legacy.xml");
+                int    nLegacyPrdIdx = 0;
+                int    nOnixPrdIdx   = 0;
+                string sLegacyXml    = File.ReadAllText(@"C:\tmp\tmp2\onix.legacy.xml");
+                string sOnixXml      = File.ReadAllText(@"C:\tmp\tmp2\onix.sample.v3.xml");
 
-                OnixLegacyMessage onixLegacyMessage = xml.ParseXML<OnixLegacyMessage>();
+                OnixLegacyMessage onixLegacyMessage = sLegacyXml.ParseXML<OnixLegacyMessage>();
 
                 foreach (OnixLegacyProduct TmpProduct in onixLegacyMessage.Product)
                 {
-                    System.Console.WriteLine("Product [" + (nPrdIdx++) + "] has EAN(" + TmpProduct.EAN + ").");
+                    System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" + 
+                                             TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount + ".");
+                }           
+
+                OnixMessage onixMessage = sOnixXml.ParseXML<OnixMessage>();
+                foreach (OnixProduct TmpProduct in onixMessage.Product)
+                {
+                    System.Console.WriteLine("Product [" + (nOnixPrdIdx++) + "] has EAN(" +
+                                             TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount + ".");
                 }
+
             }
             catch (Exception ex)
             {
