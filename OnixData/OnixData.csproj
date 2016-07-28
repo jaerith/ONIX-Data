@@ -60,10 +60,35 @@
     <Compile Include="Legacy\OnixLegacyPrice.cs" />
     <Compile Include="Legacy\OnixLegacyTitle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Version3\Header\OnixHeader.cs" />
+    <Compile Include="Version3\Header\OnixHeaderAddressee.cs" />
+    <Compile Include="Version3\Header\OnixHeaderSender.cs" />
+    <Compile Include="Version3\Title\OnixCollection.cs" />
+    <Compile Include="Version3\OnixContributor.cs" />
+    <Compile Include="Version3\OnixDescriptiveDetail.cs" />
+    <Compile Include="Version3\OnixExtent.cs" />
+    <Compile Include="Version3\OnixImprint.cs" />
+    <Compile Include="Version3\Market\OnixMarket.cs" />
+    <Compile Include="Version3\Market\OnixMarketDate.cs" />
+    <Compile Include="Version3\Market\OnixMarketPublishingDetail.cs" />
+    <Compile Include="Version3\Market\OnixMarketTerritory.cs" />
+    <Compile Include="Version3\OnixMeasure.cs" />
+    <Compile Include="Version3\OnixMessage.cs" />
+    <Compile Include="Version3\Price\OnixPrice.cs" />
+    <Compile Include="Version3\Price\OnixPriceTax.cs" />
+    <Compile Include="Version3\OnixProduct.cs" />
+    <Compile Include="Version3\OnixProductId.cs" />
+    <Compile Include="Version3\OnixProductSupply.cs" />
+    <Compile Include="Version3\Publishing\OnixPublisher.cs" />
+    <Compile Include="Version3\Publishing\OnixPublishingDetail.cs" />
+    <Compile Include="Version3\OnixSubject.cs" />
+    <Compile Include="Version3\OnixSupplier.cs" />
+    <Compile Include="Version3\OnixSupplyDetail.cs" />
+    <Compile Include="Version3\OnixTextContent.cs" />
+    <Compile Include="Version3\Title\OnixTitleDetail.cs" />
+    <Compile Include="Version3\Title\OnixTitleElement.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Version3\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
