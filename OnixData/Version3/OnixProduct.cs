@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using OnixData.Version3.Market;
 using OnixData.Version3.Price;
 using OnixData.Version3.Publishing;
 
@@ -225,6 +226,21 @@ namespace OnixData.Version3
             }
         }
 
+        public bool HasUSDRetailPrice()
+        {
+            bool bHasUSDPrice = false;
+
+            if ((ProductSupply != null)              &&
+                (ProductSupply.SupplyDetail != null) &&
+                (ProductSupply.SupplyDetail.Price != null))
+            {
+                bHasUSDPrice =
+                    ProductSupply.SupplyDetail.Price.Any(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
+            }
+
+            return bHasUSDPrice;
+        }
+
         public OnixPrice USDRetailPrice
         {
             get
@@ -286,6 +302,25 @@ namespace OnixData.Version3
             {
                 this.productSupplyField = value;
             }
+        }
+
+        public bool HasUSRights()
+        {
+            bool bHasUSRights = false;
+
+            int[] aSalesRightsColl = new int[] { OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
+                                                 OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
+
+            if ((ProductSupply != null)        &&
+                (ProductSupply.Market != null) &&
+                (ProductSupply.Market.Territory != null))
+            {
+                List<string> TempCountriesIncluded = ProductSupply.Market.Territory.CountriesIncludedList;
+
+                bHasUSRights = TempCountriesIncluded.Contains("US");
+            }
+
+            return bHasUSRights;
         }
     }
 }

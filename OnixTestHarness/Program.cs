@@ -25,15 +25,17 @@ namespace OnixTestHarness
 
                 foreach (OnixLegacyProduct TmpProduct in onixLegacyMessage.Product)
                 {
-                    System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" + 
-                                             TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount + ".");
+                    System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
+                                             TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
+                                             ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
                 }           
 
                 OnixMessage onixMessage = sOnixXml.ParseXML<OnixMessage>();
                 foreach (OnixProduct TmpProduct in onixMessage.Product)
                 {
                     System.Console.WriteLine("Product [" + (nOnixPrdIdx++) + "] has EAN(" +
-                                             TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount + ".");
+                                             TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
+                                             ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
                 }
 
             }

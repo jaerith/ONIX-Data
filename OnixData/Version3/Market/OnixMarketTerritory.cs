@@ -10,12 +10,24 @@ namespace OnixData.Version3.Market
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixMarketTerritory
     {
+        #region CONSTANTS
+
+        private const char CONST_LIST_DELIM = ' ';
+
+        public const int CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS    = 1;
+        public const int CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS = 2;
+        public const int CONST_SR_TYPE_NOT_FOR_SALE                 = 3;
+
+        #endregion
+
         public OnixMarketTerritory()
         {
-            CountriesIncluded = "";
+            countriesIncludedField = "";
+            countriesIncludedList  = new List<string>();
         }
 
-        private string countriesIncludedField;
+        private string       countriesIncludedField;
+        private List<string> countriesIncludedList;
 
         /// <remarks/>
         public string CountriesIncluded
@@ -27,6 +39,22 @@ namespace OnixData.Version3.Market
             set
             {
                 this.countriesIncludedField = value;
+
+                if (!String.IsNullOrEmpty(this.countriesIncludedField))
+                {
+                    if (this.countriesIncludedField.Contains(CONST_LIST_DELIM))
+                        this.countriesIncludedList = new List<string>(this.countriesIncludedField.Split(CONST_LIST_DELIM));
+                    else
+                        this.countriesIncludedList = new List<string>() { this.countriesIncludedField };
+                }
+            }
+        }
+
+        public List<string> CountriesIncludedList
+        {
+            get
+            {
+                return this.countriesIncludedList;
             }
         }
     }

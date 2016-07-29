@@ -33,6 +33,42 @@ namespace OnixData.Legacy
         private OnixLegacyDiscountCoded discountCodedField;
         private decimal                 priceAmountField;
         private string                  currencyCodeField;
+        private string                  priceEffectiveFromField;
+        private string                  priceEffectiveUntilField;
+        private string                  priceTypeDescriptionField;
+        private string                  pricePerField;
+        private int                     minimumOrderQuantityField;
+        private string                  priceStatusField;
+        private string                  countryCodeField;
+
+        /*
+     else if (!strTagName.compare("PriceEffectiveFrom") || !strTagName.compare("j161"))
+     {}
+     else if (!strTagName.compare("PriceEffectiveUntil") || !strTagName.compare("j162"))
+     {}
+     else if (!strTagName.compare("PriceTypeDescription") || !strTagName.compare("j262"))
+     {}
+     else if (!strTagName.compare("PricePer") || !strTagName.compare("j239"))
+     {}
+     else if (!strTagName.compare("MinimumOrderQuantity") || !strTagName.compare("j263"))
+     {}
+     else if (!strTagName.compare("PriceStatus") || !strTagName.compare("j266"))
+     {}
+     else if (!strTagName.compare("CountryCode") || !strTagName.compare("j251"))
+
+         */
+
+        public int PriceType
+        {
+            get
+            {
+                return PriceTypeCode;
+            }
+            set
+            {
+                PriceTypeCode = value;
+            }
+        }
 
         /// <remarks/>
         public int PriceTypeCode
@@ -85,5 +121,98 @@ namespace OnixData.Legacy
                 this.currencyCodeField = value;
             }
         }
+
+        /// <remarks/>
+        public string PriceEffectiveFrom
+        {
+            get
+            {
+                return this.priceEffectiveFromField;
+            }
+            set
+            {
+                this.priceEffectiveFromField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string PriceEffectiveUntil
+        {
+            get
+            {
+                return this.priceEffectiveUntilField;
+            }
+            set
+            {
+                this.priceEffectiveUntilField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string PriceTypeDescription
+        {
+            get
+            {
+                return this.priceTypeDescriptionField;
+            }
+            set
+            {
+                this.priceTypeDescriptionField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string PricePer
+        {
+            get
+            {
+                return this.pricePerField;
+            }
+            set
+            {
+                this.pricePerField = value;
+            }
+        }
+
+        /// <remarks/>
+        public int MinimumOrderQuantity
+        {
+            get
+            {
+                return this.minimumOrderQuantityField;
+            }
+            set
+            {
+                this.minimumOrderQuantityField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string PriceStatus
+        {
+            get
+            {
+                return this.priceStatusField;
+            }
+            set
+            {
+                this.priceStatusField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string CountryCode
+        {
+            get
+            {
+                return this.countryCodeField;
+            }
+            set
+            {
+                this.countryCodeField = value;
+            }
+        }
+        
+
     }
 }

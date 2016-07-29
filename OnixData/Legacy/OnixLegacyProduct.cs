@@ -60,7 +60,10 @@ namespace OnixData.Legacy
             Imprint   = new OnixLegacyImprint();
             Publisher = new OnixLegacyPublisher();
 
-            PublicationDate = 0;
+            cityOfPublicationField = countryOfPublicationField  = publishingStatusField = "";
+            announcementDateField  = tradeAnnouncementDateField = "";
+
+            PublicationDate = YearFirstPublished = 0;
 
             Measure = new OnixLegacyMeasure[0];
 
@@ -107,7 +110,15 @@ namespace OnixData.Legacy
 
         private OnixLegacyPublisher publisherField;
 
-        private uint publicationDateField;
+        private string cityOfPublicationField;
+        private string countryOfPublicationField;
+        private string publishingStatusField;
+        private string announcementDateField;
+        private string tradeAnnouncementDateField;
+        private uint   publicationDateField;
+        private uint   yearFirstPublishedField;
+
+        private OnixLegacySalesRights[] salesRightsField;
 
         private OnixLegacyMeasure[] measureField;
 
@@ -462,6 +473,71 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
+        public string CityOfPublication
+        {
+            get
+            {
+                return this.cityOfPublicationField;
+            }
+            set
+            {
+                this.cityOfPublicationField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string CountryOfPublication
+        {
+            get
+            {
+                return this.countryOfPublicationField;
+            }
+            set
+            {
+                this.countryOfPublicationField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string PublishingStatus
+        {
+            get
+            {
+                return this.publishingStatusField;
+            }
+            set
+            {
+                this.publishingStatusField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string AnnouncementDate
+        {
+            get
+            {
+                return this.announcementDateField;
+            }
+            set
+            {
+                this.announcementDateField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string TradeAnnouncementDate
+        {
+            get
+            {
+                return this.tradeAnnouncementDateField;
+            }
+            set
+            {
+                this.tradeAnnouncementDateField = value;
+            }
+        }
+
+        /// <remarks/>
         public uint PublicationDate
         {
             get
@@ -471,6 +547,52 @@ namespace OnixData.Legacy
             set
             {
                 this.publicationDateField = value;
+            }
+        }
+
+        /// <remarks/>
+        public uint YearFirstPublished
+        {
+            get
+            {
+                return this.yearFirstPublishedField;
+            }
+            set
+            {
+                this.yearFirstPublishedField = value;
+            }
+        }
+
+        public bool HasUSRights()
+        {
+            bool bHasUSRights = false;
+
+            int[] aSalesRightsColl = new int[] { OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
+                                                 OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
+
+            if ((salesRightsField != null) && (salesRightsField.Length > 0))
+            {
+                bHasUSRights =
+                    salesRightsField.Any(x => aSalesRightsColl.Contains(x.SalesRightsType) && 
+                                              (x.RightsCountryList.Contains("US") || 
+                                               x.RightsTerritoryList.Contains("WORLD") || 
+                                               x.RightsTerritoryList.Contains("ROW")));
+            }
+
+            return bHasUSRights;
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("SalesRights")]
+        public OnixLegacySalesRights[] SalesRights
+        {
+            get
+            {
+                return this.salesRightsField;
+            }
+            set
+            {
+                this.salesRightsField = value;
             }
         }
 
@@ -515,6 +637,32 @@ namespace OnixData.Legacy
             {
                 this.relatedProductField = value;
             }
+        }
+
+        public bool HasFutureRetailPrice()
+        {
+            bool bHasFuturePrice = false;
+
+            if ((SupplyDetail != null) && (SupplyDetail.Price != null) && (SupplyDetail.Price.Length > 0))
+            {
+                bHasFuturePrice =
+                    SupplyDetail.Price.Any(x => !String.IsNullOrEmpty(x.PriceEffectiveFrom));
+            }
+
+            return bHasFuturePrice;
+        }
+
+        public bool HasUSDRetailPrice()
+        {
+            bool bHasUSDPrice = false;
+
+            if ((SupplyDetail != null) && (SupplyDetail.Price != null) && (SupplyDetail.Price.Length > 0))
+            {
+                bHasUSDPrice = 
+                    SupplyDetail.Price.Any(x => (x.PriceTypeCode == OnixLegacyPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
+            }
+
+            return bHasUSDPrice;
         }
 
         public OnixLegacyPrice USDRetailPrice
