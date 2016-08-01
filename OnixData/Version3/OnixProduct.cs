@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OnixData.Version3.Market;
 using OnixData.Version3.Price;
 using OnixData.Version3.Publishing;
+using OnixData.Version3.Title;
 
 namespace OnixData.Version3
 {
@@ -206,6 +207,83 @@ namespace OnixData.Version3
             }
         }
 
+        public string Title
+        {
+            get
+            {
+                string ProductTitle = "";
+
+                if ((DescriptiveDetail != null)             &&
+                    (DescriptiveDetail.TitleDetail != null) &&
+                    (DescriptiveDetail.TitleDetail.TitleType == OnixTitleElement.CONST_TITLE_TYPE_PRODUCT))
+                {
+                    OnixTitleDetail ProductTitleDetail = DescriptiveDetail.TitleDetail;
+
+                    if (ProductTitleDetail.TitleElement != null)
+                        ProductTitle = ProductTitleDetail.TitleElement.Title;
+                }
+
+                return ProductTitle;
+            }
+        }
+
+        public string SeriesTitle
+        {
+            get
+            {
+                string FoundSeriesTitle = "";
+
+                if ((DescriptiveDetail != null)            &&
+                    (DescriptiveDetail.Collection != null) && 
+                    (DescriptiveDetail.Collection.Length > 0))
+                {
+                    OnixCollection seriesCollection =
+                        DescriptiveDetail.Collection.Where(x => x.CollectionType == OnixCollection.CONST_COLL_TYPE_SERIES).FirstOrDefault();
+
+                    if ((seriesCollection.TitleDetail != null) && (seriesCollection.TitleDetail.TitleElement != null))
+                        FoundSeriesTitle = seriesCollection.TitleDetail.TitleElement.Title;
+                }
+
+                return FoundSeriesTitle;
+            }
+        }
+
+        public OnixSubject BisacCategoryCode
+        {
+            get
+            {
+                OnixSubject FoundSubject = new OnixSubject();
+
+                if ((DescriptiveDetail != null)         &&
+                    (DescriptiveDetail.Subject != null) && 
+                    (DescriptiveDetail.Subject.Length > 0))
+                {
+                    FoundSubject =
+                        DescriptiveDetail.Subject.Where(x => x.SubjectSchemeIdentifier == OnixSubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID).FirstOrDefault();
+                }
+
+                return FoundSubject;
+            }
+        }
+
+        public OnixSubject BisacRegionCode
+        {
+            get
+            {
+                OnixSubject FoundSubject = new OnixSubject();
+
+                if ((DescriptiveDetail != null)         &&
+                    (DescriptiveDetail.Subject != null) &&
+                    (DescriptiveDetail.Subject.Length > 0))
+                {
+                    FoundSubject =
+                        DescriptiveDetail.Subject.Where(x => x.SubjectSchemeIdentifier == OnixSubject.CONST_SUBJ_SCHEME_REGION_ID).FirstOrDefault();
+                }
+
+                return FoundSubject;
+            }
+        }
+
         public OnixMeasure Height
         {
             get
@@ -288,6 +366,46 @@ namespace OnixData.Version3
             set
             {
                 this.publishingDetailField = value;
+            }
+        }
+
+        public string ImprintName
+        {
+            get
+            {
+                string FoundImprintName = "";
+
+                if ((PublishingDetail != null) &&
+                    (PublishingDetail.Imprint != null) &&
+                    (PublishingDetail.Imprint.Length > 0))
+                {
+                    FoundImprintName = PublishingDetail.Imprint[0].ImprintName;
+                }
+
+                return FoundImprintName;
+            }
+        }
+
+        public string PublisherName
+        {
+            get
+            {
+                string FoundPubName = "";
+
+                if ((PublishingDetail != null)           &&
+                    (PublishingDetail.Publisher != null) &&
+                    (PublishingDetail.Publisher.Length > 0))
+                {
+                    List<int> SoughtPubTypes =
+                        new List<int>() { 0, OnixPublisher.CONST_PUB_ROLE_PUBLISHER, OnixPublisher.CONST_PUB_ROLE_CO_PUB };
+
+                    OnixPublisher FoundPublisher =
+                        PublishingDetail.Publisher.Where(x => SoughtPubTypes.Contains(x.PublishingRole)).FirstOrDefault();
+
+                    FoundPubName = FoundPublisher.PublisherName;
+                }
+
+                return FoundPubName;
             }
         }
 

@@ -10,6 +10,15 @@ namespace OnixData.Legacy
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixLegacyOtherText
     {
+        #region CONSTANTS
+
+        public const int CONST_OTEXT_TYPE_MAIN_DESC   = 1;
+        public const int CONST_OTEXT_TYPE_ANNOTATION  = 2;
+        public const int CONST_OTEXT_TYPE_REV_QUOTE   = 8;
+        public const int CONST_OTEXT_TYPE_SERIES_DESC = 43;
+        
+        #endregion
+
         public OnixLegacyOtherText()
         {
             TextTypeCode = -1;

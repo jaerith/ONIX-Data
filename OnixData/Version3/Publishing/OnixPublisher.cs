@@ -10,9 +10,16 @@ namespace OnixData.Version3.Publishing
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixPublisher
     {
+        #region CONSTANTS
+
+        public const int CONST_PUB_ROLE_PUBLISHER = 1;
+        public const int CONST_PUB_ROLE_CO_PUB    = 2;
+
+        #endregion
+
         public OnixPublisher()
         {
-            PublishingRole = -1;
+            PublishingRole = 0;
             PublisherName  = "";
         }
 

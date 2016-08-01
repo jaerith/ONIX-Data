@@ -10,6 +10,13 @@ namespace OnixData.Legacy
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixLegacySubject
     {
+        #region CONSTANTS
+
+        public const int CONST_SUBJ_SCHEME_BISAC_CAT_ID = 10;
+        public const int CONST_SUBJ_SCHEME_REGION_ID    = 11;
+
+        #endregion
+
         public OnixLegacySubject()
         {
             SubjectSchemeIdentifier = -1;

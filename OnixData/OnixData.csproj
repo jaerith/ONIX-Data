@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Legacy\OnixLegacyDiscountCoded.cs" />
+    <Compile Include="Legacy\OnixLegacyExtent.cs" />
     <Compile Include="Legacy\OnixLegacyHeader.cs" />
     <Compile Include="Legacy\OnixLegacyIllustrations.cs" />
     <Compile Include="Legacy\OnixLegacyImprint.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Legacy\OnixLegacyProductId.cs" />
     <Compile Include="Legacy\OnixLegacyPublisher.cs" />
     <Compile Include="Legacy\OnixLegacyRelatedProduct.cs" />
+    <Compile Include="Legacy\OnixLegacySeries.cs" />
     <Compile Include="Legacy\OnixLegacySubject.cs" />
     <Compile Include="Legacy\OnixLegacySupplyDetail.cs" />
     <Compile Include="Legacy\OnixLegacyPrice.cs" />
@@ -68,7 +70,7 @@
     <Compile Include="Version3\OnixContributor.cs" />
     <Compile Include="Version3\OnixDescriptiveDetail.cs" />
     <Compile Include="Version3\OnixExtent.cs" />
-    <Compile Include="Version3\OnixImprint.cs" />
+    <Compile Include="Version3\Publishing\OnixImprint.cs" />
     <Compile Include="Version3\Market\OnixMarket.cs" />
     <Compile Include="Version3\Market\OnixMarketDate.cs" />
     <Compile Include="Version3\Market\OnixMarketPublishingDetail.cs" />

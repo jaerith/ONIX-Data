@@ -10,6 +10,10 @@ namespace OnixData.Legacy
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixLegacyImprint
     {
+        #region CONSTANTS
+        public const int CONST_IMPRINT_ROLE_PROP = 2;
+        #endregion
+
         public OnixLegacyImprint()
         {
             NameCodeType     = -1;

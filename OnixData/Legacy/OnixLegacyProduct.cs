@@ -52,13 +52,12 @@ namespace OnixData.Legacy
 
             BASICMainSubject = "";
 
-            Subject = new OnixLegacySubject();
-
+            Extent    = new OnixLegacyExtent[0];
+            Subject   = new OnixLegacySubject[0];
             OtherText = new OnixLegacyOtherText[0];
             MediaFile = new OnixLegacyMediaFile[0];
-
-            Imprint   = new OnixLegacyImprint();
-            Publisher = new OnixLegacyPublisher();
+            Imprint   = new OnixLegacyImprint[0];
+            Publisher = new OnixLegacyPublisher[0];
 
             cityOfPublicationField = countryOfPublicationField  = publishingStatusField = "";
             announcementDateField  = tradeAnnouncementDateField = "";
@@ -98,17 +97,15 @@ namespace OnixData.Legacy
 
         private OnixLegacyIllustrations illustrationsField;
 
-        private string bASICMainSubjectField;
+        private string basicMainSubjectField;
 
-        private OnixLegacySubject subjectField;
-
+        private OnixLegacyExtent[]    extentField;
+        private OnixLegacySeries[]    seriesField;
+        private OnixLegacySubject[]   subjectField;
         private OnixLegacyOtherText[] otherTextField;
-
         private OnixLegacyMediaFile[] mediaFileField;
-
-        private OnixLegacyImprint imprintField;
-
-        private OnixLegacyPublisher publisherField;
+        private OnixLegacyImprint[]   imprintField;
+        private OnixLegacyPublisher[] publisherField;
 
         private string cityOfPublicationField;
         private string countryOfPublicationField;
@@ -397,16 +394,71 @@ namespace OnixData.Legacy
         {
             get
             {
-                return this.bASICMainSubjectField;
+                return this.basicMainSubjectField;
             }
             set
             {
-                this.bASICMainSubjectField = value;
+                this.basicMainSubjectField = value;
             }
         }
 
         /// <remarks/>
-        public OnixLegacySubject Subject
+        [System.Xml.Serialization.XmlElementAttribute("Extent")]
+        public OnixLegacyExtent[] Extent
+        {
+            get
+            {
+                return this.extentField;
+            }
+            set
+            {
+                this.extentField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Series")]
+        public OnixLegacySeries[] Series
+        {
+            get
+            {
+                return this.seriesField;
+            }
+            set
+            {
+                this.seriesField = value;
+            }
+        }
+
+        public int SeriesNumber
+        {
+            get
+            {
+                int FoundSeriesNum = 0;
+
+                if ((Series != null) && (Series.Length > 0))
+                    FoundSeriesNum = Series[0].NumberWithinSeries;
+
+                return FoundSeriesNum;
+            }
+        }
+
+        public string SeriesTitle
+        {
+            get
+            {
+                string FoundSeriesTitle = "";
+
+                if ((Series != null) && (Series.Length > 0))
+                    FoundSeriesTitle = Series[0].TitleOfSeries;
+
+                return FoundSeriesTitle;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Subject")]
+        public OnixLegacySubject[] Subject
         {
             get
             {
@@ -415,6 +467,38 @@ namespace OnixData.Legacy
             set
             {
                 this.subjectField = value;
+            }
+        }
+
+        public OnixLegacySubject BisacCategoryCode
+        {
+            get
+            {
+                OnixLegacySubject FoundSubject = new OnixLegacySubject();
+
+                if ((Subject != null) && (Subject.Length > 0))
+                {
+                    FoundSubject =
+                        Subject.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID).FirstOrDefault();
+                }
+
+                return FoundSubject;
+            }
+        }
+
+        public OnixLegacySubject BisacRegionCode
+        {
+            get
+            {
+                OnixLegacySubject FoundSubject = new OnixLegacySubject();
+
+                if ((Subject != null) && (Subject.Length > 0))
+                {
+                    FoundSubject =
+                        Subject.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_REGION_ID).FirstOrDefault();
+                }
+
+                return FoundSubject;
             }
         }
 
@@ -447,7 +531,8 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public OnixLegacyImprint Imprint
+        [System.Xml.Serialization.XmlElementAttribute("Imprint")]
+        public OnixLegacyImprint[] Imprint
         {
             get
             {
@@ -459,8 +544,27 @@ namespace OnixData.Legacy
             }
         }
 
+        public string ProprietaryImprintName
+        {
+            get
+            {
+                string FoundImprintName = "";
+
+                if ((Imprint != null) && (Imprint.Length > 0))
+                {
+                    OnixLegacyImprint FoundImprint =
+                        Imprint.Where(x => x.NameCodeType == OnixLegacyImprint.CONST_IMPRINT_ROLE_PROP).FirstOrDefault();
+
+                    FoundImprintName = FoundImprint.ImprintName;
+                }
+
+                return FoundImprintName;
+            }
+        }
+
         /// <remarks/>
-        public OnixLegacyPublisher Publisher
+        [System.Xml.Serialization.XmlElementAttribute("Publisher")]
+        public OnixLegacyPublisher[] Publisher
         {
             get
             {
@@ -469,6 +573,27 @@ namespace OnixData.Legacy
             set
             {
                 this.publisherField = value;
+            }
+        }
+
+        public string PublisherName
+        {
+            get
+            {
+                string FoundPubName = "";
+
+                if ((Publisher != null) && (Publisher.Length > 0))
+                {
+                    List<int> SoughtPubTypes =
+                        new List<int>() { 0, OnixLegacyPublisher.CONST_PUB_ROLE_PUBLISHER, OnixLegacyPublisher.CONST_PUB_ROLE_CO_PUB };
+
+                    OnixLegacyPublisher FoundPublisher =
+                        Publisher.Where(x => SoughtPubTypes.Contains(x.PublishingRole)).FirstOrDefault();
+
+                    FoundPubName = FoundPublisher.PublisherName;
+                }
+
+                return FoundPubName;
             }
         }
 

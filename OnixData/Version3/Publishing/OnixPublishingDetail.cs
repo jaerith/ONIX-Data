@@ -12,15 +12,16 @@ namespace OnixData.Version3.Publishing
     {
         public OnixPublishingDetail()
         {
-            Imprint   = new OnixImprint();
-            Publisher = new OnixPublisher();
+            Imprint   = new OnixImprint[0];
+            Publisher = new OnixPublisher[0];
         }
 
-        private OnixImprint   imprintField;
-        private OnixPublisher publisherField;
+        private OnixImprint[]   imprintField;
+        private OnixPublisher[] publisherField;
 
         /// <remarks/>
-        public OnixImprint Imprint
+        [System.Xml.Serialization.XmlElementAttribute("Imprint")]
+        public OnixImprint[] Imprint
         {
             get
             {
@@ -33,7 +34,8 @@ namespace OnixData.Version3.Publishing
         }
 
         /// <remarks/>
-        public OnixPublisher Publisher
+        [System.Xml.Serialization.XmlElementAttribute("Publisher")]
+        public OnixPublisher[] Publisher
         {
             get
             {

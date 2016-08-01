@@ -10,14 +10,40 @@ namespace OnixData.Version3.Title
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixTitleElement
     {
+        #region CONSTANTS
+
+        public const int CONST_TITLE_TYPE_PRODUCT    = 1;
+        public const int CONST_TITLE_TYPE_COLLECTION = 2;
+        public const int CONST_TITLE_TYPE_SUB_COLL   = 3;
+        public const int CONST_TITLE_TYPE_SUB_ITEM   = 4;
+
+        #endregion
+
         public OnixTitleElement()
         {
             TitleElementLevel = -1;
-            TitleText         = "";
+            TitleText         = TitlePrefix = TitleWithoutPrefix = "";
         }
 
         private int    titleElementLevelField;
         private string titleTextField;
+        private string titlePrefixField;
+        private string titleWithoutPrefixField;
+
+        public string Title
+        {
+            get
+            {
+                string sTitle = "";
+
+                if (!String.IsNullOrEmpty(TitleText))
+                    sTitle = TitleText;
+                else if (!String.IsNullOrEmpty(TitleWithoutPrefix))
+                    sTitle = TitlePrefix + " " + TitleWithoutPrefix;
+
+                return sTitle;
+            }
+        }
 
         /// <remarks/>
         public int TitleElementLevel
@@ -42,6 +68,32 @@ namespace OnixData.Version3.Title
             set
             {
                 this.titleTextField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string TitlePrefix
+        {
+            get
+            {
+                return this.titlePrefixField;
+            }
+            set
+            {
+                this.titlePrefixField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string TitleWithoutPrefix
+        {
+            get
+            {
+                return this.titleWithoutPrefixField;
+            }
+            set
+            {
+                this.titleWithoutPrefixField = value;
             }
         }
     }

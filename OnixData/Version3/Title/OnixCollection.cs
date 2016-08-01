@@ -10,6 +10,13 @@ namespace OnixData.Version3.Title
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixCollection
     {
+        #region CONSTANTS
+
+        public const int CONST_COLL_TYPE_SERIES = 10;
+        public const int CONST_COLL_TYPE_AGGR   = 20;
+
+        #endregion
+
         public OnixCollection()
         {
             CollectionType = -1;

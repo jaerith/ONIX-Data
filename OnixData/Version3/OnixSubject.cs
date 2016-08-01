@@ -10,6 +10,13 @@ namespace OnixData.Version3
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixSubject
     {
+        #region CONSTANTS
+
+        public const int CONST_SUBJ_SCHEME_BISAC_CAT_ID = 10;
+        public const int CONST_SUBJ_SCHEME_REGION_ID    = 11;
+
+        #endregion
+
         public OnixSubject()
         {
             MainSubject = SubjectCode = "";

@@ -10,9 +10,16 @@ namespace OnixData.Legacy
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixLegacyPublisher
     {
+        #region CONSTANTS
+
+        public const int CONST_PUB_ROLE_PUBLISHER = 1;
+        public const int CONST_PUB_ROLE_CO_PUB    = 2;
+
+        #endregion
+
         public OnixLegacyPublisher()
         {
-            NameCodeType     = -1;
+            NameCodeType     = PublishingRole = 0;
             NameCodeTypeName = "";
             NameCodeValue    = 0;
             PublisherName    = "";
@@ -21,6 +28,7 @@ namespace OnixData.Legacy
         private int    nameCodeTypeField;
         private string nameCodeTypeNameField;
         private uint   nameCodeValueField;
+        private int    publishingRoleField;
         private string publisherNameField;
 
         /// <remarks/>
@@ -59,6 +67,18 @@ namespace OnixData.Legacy
             set
             {
                 this.nameCodeValueField = value;
+            }
+        }
+
+        public int PublishingRole
+        {
+            get
+            {
+                return this.publishingRoleField;
+            }
+            set
+            {
+                this.publishingRoleField = value;
             }
         }
 

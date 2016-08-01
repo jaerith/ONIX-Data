@@ -19,7 +19,7 @@ namespace OnixData.Version3
             ProductForm = "";
 
             Measure     = new OnixMeasure[0];
-            Collection  = new OnixCollection();
+            Collection  = new OnixCollection[0];
             TitleDetail = new OnixTitleDetail();
             Contributor = new OnixContributor[0];
             Extent      = new OnixExtent[0];
@@ -31,7 +31,7 @@ namespace OnixData.Version3
         private int    audienceCodeField;
 
         private OnixMeasure[]     measureField;
-        private OnixCollection    collectionField;
+        private OnixCollection[]  collectionField;
         private OnixTitleDetail   titleDetailField;
         private OnixContributor[] contributorField;
         private OnixExtent[]      extentField;
@@ -78,7 +78,8 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        public OnixCollection Collection
+        [System.Xml.Serialization.XmlElementAttribute("Collection")]
+        public OnixCollection[] Collection
         {
             get
             {
@@ -89,6 +90,21 @@ namespace OnixData.Version3
                 this.collectionField = value;
             }
         }
+
+        /*
+        public int SeriesNumber
+        {
+            get
+            {
+                int FoundSeriesNum = 0;
+
+                if ((Series != null) && (Series.Length > 0))
+                    FoundSeriesNum = Series[0].NumberWithinSeries;
+
+                return FoundSeriesNum;
+            }
+        }
+        */
 
         /// <remarks/>
         public OnixTitleDetail TitleDetail
