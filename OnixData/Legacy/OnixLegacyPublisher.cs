@@ -21,13 +21,13 @@ namespace OnixData.Legacy
         {
             NameCodeType     = PublishingRole = 0;
             NameCodeTypeName = "";
-            NameCodeValue    = 0;
+            NameCodeValue    = "";
             PublisherName    = "";
         }
 
         private int    nameCodeTypeField;
         private string nameCodeTypeNameField;
-        private uint   nameCodeValueField;
+        private string nameCodeValueField;
         private int    publishingRoleField;
         private string publisherNameField;
 
@@ -58,7 +58,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public uint NameCodeValue
+        public string NameCodeValue
         {
             get
             {

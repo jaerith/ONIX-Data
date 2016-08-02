@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OnixData.Version3.Market;
 using OnixData.Version3.Price;
 using OnixData.Version3.Publishing;
+using OnixData.Version3.Related;
 using OnixData.Version3.Title;
 
 namespace OnixData.Version3
@@ -29,6 +30,7 @@ namespace OnixData.Version3
             DescriptiveDetail = new OnixDescriptiveDetail();
             CollateralDetail  = new OnixTextContent[0];
             PublishingDetail  = new OnixPublishingDetail();
+            RelatedMaterial   = new OnixRelatedMaterial();
             ProductSupply     = new OnixProductSupply();
         }
 
@@ -44,6 +46,7 @@ namespace OnixData.Version3
         private OnixDescriptiveDetail descriptiveDetailField;
         private OnixTextContent[]     collateralDetailField;
         private OnixPublishingDetail  publishingDetailField;
+        private OnixRelatedMaterial   relatedMaterialField;
         private OnixProductSupply     productSupplyField;
 
         /// <remarks/>
@@ -406,6 +409,19 @@ namespace OnixData.Version3
                 }
 
                 return FoundPubName;
+            }
+        }
+
+        /// <remarks/>
+        public OnixRelatedMaterial RelatedMaterial
+        {
+            get
+            {
+                return this.relatedMaterialField;
+            }
+            set
+            {
+                this.relatedMaterialField = value;
             }
         }
 

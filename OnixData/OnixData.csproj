@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Legacy\OnixLegacyAudRange.cs" />
+    <Compile Include="Legacy\OnixLegacyBaseProduct.cs" />
     <Compile Include="Legacy\OnixLegacyDiscountCoded.cs" />
     <Compile Include="Legacy\OnixLegacyExtent.cs" />
     <Compile Include="Legacy\OnixLegacyHeader.cs" />
@@ -66,6 +68,11 @@
     <Compile Include="Version3\Header\OnixHeader.cs" />
     <Compile Include="Version3\Header\OnixHeaderAddressee.cs" />
     <Compile Include="Version3\Header\OnixHeaderSender.cs" />
+    <Compile Include="Version3\OnixAudienceRange.cs" />
+    <Compile Include="Version3\Related\OnixRelatedMaterial.cs" />
+    <Compile Include="Version3\Related\OnixRelatedProduct.cs" />
+    <Compile Include="Version3\Related\OnixRelatedWork.cs" />
+    <Compile Include="Version3\Related\OnixWorkIdentifier.cs" />
     <Compile Include="Version3\Title\OnixCollection.cs" />
     <Compile Include="Version3\OnixContributor.cs" />
     <Compile Include="Version3\OnixDescriptiveDetail.cs" />

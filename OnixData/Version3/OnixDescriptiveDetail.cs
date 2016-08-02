@@ -16,26 +16,37 @@ namespace OnixData.Version3
         {
             ProductComposition = AudienceCode = -1;
 
-            ProductForm = "";
+            ProductForm            = "";
+            ProductFormDescription = "";
 
-            Measure     = new OnixMeasure[0];
-            Collection  = new OnixCollection[0];
-            TitleDetail = new OnixTitleDetail();
-            Contributor = new OnixContributor[0];
-            Extent      = new OnixExtent[0];
-            Subject     = new OnixSubject[0];
+            ProductContentType = new string[0];
+            EditionType        = new string[0];
+            EditionNumber      = new int[0];
+
+            Measure       = new OnixMeasure[0];
+            Collection    = new OnixCollection[0];
+            TitleDetail   = new OnixTitleDetail();
+            Contributor   = new OnixContributor[0];
+            Extent        = new OnixExtent[0];
+            Subject       = new OnixSubject[0];
+            AudienceRange = new OnixAudienceRange[0];
         }
 
-        private int    productCompositionField;
-        private string productFormField;
-        private int    audienceCodeField;
+        private int      productCompositionField;
+        private string   productFormField;
+        private string   productFormDescriptionField;
+        private string[] productContentTypeField;
+        private string[] editionTypeField;
+        private int[]    editionNumberField;
+        private int      audienceCodeField;
 
-        private OnixMeasure[]     measureField;
-        private OnixCollection[]  collectionField;
-        private OnixTitleDetail   titleDetailField;
-        private OnixContributor[] contributorField;
-        private OnixExtent[]      extentField;
-        private OnixSubject[]     subjectField;
+        private OnixMeasure[]       measureField;
+        private OnixCollection[]    collectionField;
+        private OnixTitleDetail     titleDetailField;
+        private OnixContributor[]   contributorField;
+        private OnixExtent[]        extentField;
+        private OnixSubject[]       subjectField;
+        private OnixAudienceRange[] audienceRangeField;
 
         /// <remarks/>
         public int ProductComposition
@@ -60,6 +71,61 @@ namespace OnixData.Version3
             set
             {
                 this.productFormField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string ProductFormDescription
+        {
+            get
+            {
+                return this.productFormDescriptionField;
+            }
+            set
+            {
+                this.productFormDescriptionField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("ProductContentType")]
+        public string[] ProductContentType
+        {
+            get
+            {
+                return this.productContentTypeField;
+            }
+            set
+            {
+                this.productContentTypeField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("EditionType")]
+        public string[] EditionType
+        {
+            get
+            {
+                return this.editionTypeField;
+            }
+            set
+            {
+                this.editionTypeField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("EditionNumber")]
+        public int[] EditionNumber
+        {
+            get
+            {
+                return this.editionNumberField;
+            }
+            set
+            {
+                this.editionNumberField = value;
             }
         }
 
@@ -171,6 +237,20 @@ namespace OnixData.Version3
             set
             {
                 this.audienceCodeField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("AudienceRange")]
+        public OnixAudienceRange[] AudienceRange
+        {
+            get
+            {
+                return this.audienceRangeField;
+            }
+            set
+            {
+                this.audienceRangeField = value;
             }
         }
     }
