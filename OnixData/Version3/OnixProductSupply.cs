@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using OnixData.Version3.Market;
+using OnixData.Version3.Supply;
 
 namespace OnixData.Version3
 {

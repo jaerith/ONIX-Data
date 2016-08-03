@@ -11,6 +11,20 @@ namespace OnixData.Legacy
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class OnixLegacyProduct : OnixLegacyBaseProduct
     {
+        #region CONSTANTS
+
+        private const int CONST_PRD_PACK_SLIPSLEEVE      = 1;
+        private const int CONST_PRD_PACK_CLAMSHELL       = 2;
+        private const int CONST_PRD_PACK_JEWELCASE       = 5;
+        private const int CONST_PRD_PACK_IN_BOX          = 9;
+        private const int CONST_PRD_PACK_SLIP_CASE_SNGL  = 10;
+        private const int CONST_PRD_PACK_SLIP_CASE_MULT  = 11;
+        private const int CONST_PRD_PACK_TUBE_ROLL       = 12;
+        private const int CONST_PRD_PACK_BINDER          = 13;
+        private const int CONST_PRD_PACK_WALLET          = 14;
+
+        #endregion
+
         public OnixLegacyProduct()
         {
             RecordReference  = 0;
@@ -18,6 +32,8 @@ namespace OnixData.Legacy
 
             ProductIdentifier = new OnixLegacyProductId[0];
 
+            BookFormDetail         = "";
+            ProductPackaging       = 0;
             ProductForm            = "";
             ProductFormDetail      = "";
             ProductFormDescription = "";
@@ -48,6 +64,7 @@ namespace OnixData.Legacy
 
             Extent        = new OnixLegacyExtent[0];
             Subject       = new OnixLegacySubject[0];
+            Complexity    = new OnixLegacyComplexity[0];
             AudienceRange = new OnixLegacyAudRange[0];
             OtherText     = new OnixLegacyOtherText[0];
             MediaFile     = new OnixLegacyMediaFile[0];
@@ -63,6 +80,9 @@ namespace OnixData.Legacy
             RelatedProduct = new OnixLegacyRelatedProduct[0];
             SupplyDetail   = new OnixLegacySupplyDetail();
         }
+
+        private string bookFormDetailField;
+        private int    productPackagingField;
 
         private string[] editionTypeCodeField;
         private int[]    editionNumberField;
@@ -84,13 +104,14 @@ namespace OnixData.Legacy
         private string basicMainSubjectField;
         private string audienceCodeField;
 
-        private OnixLegacyExtent[]    extentField;
-        private OnixLegacySeries[]    seriesField;
-        private OnixLegacySubject[]   subjectField;
-        private OnixLegacyAudRange[]  audienceRangeField;
-        private OnixLegacyOtherText[] otherTextField;
-        private OnixLegacyMediaFile[] mediaFileField;
-        private OnixLegacyImprint[]   imprintField;
+        private OnixLegacyExtent[]     extentField;
+        private OnixLegacySeries[]     seriesField;
+        private OnixLegacySubject[]    subjectField;
+        private OnixLegacyComplexity[] complexityField;
+        private OnixLegacyAudRange[]   audienceRangeField;
+        private OnixLegacyOtherText[]  otherTextField;
+        private OnixLegacyMediaFile[]  mediaFileField;
+        private OnixLegacyImprint[]    imprintField;
 
         private string cityOfPublicationField;
         private string countryOfPublicationField;
@@ -104,6 +125,32 @@ namespace OnixData.Legacy
         private OnixLegacyMeasure[]        measureField;
         private OnixLegacyRelatedProduct[] relatedProductField;
         private OnixLegacySupplyDetail     supplyDetailField;
+
+        /// <remarks/>
+        public string BookFormDetail
+        {
+            get
+            {
+                return this.bookFormDetailField;
+            }
+            set
+            {
+                this.bookFormDetailField = value;
+            }
+        }
+
+        /// <remarks/>
+        public int ProductPackaging
+        {
+            get
+            {
+                return this.productPackagingField;
+            }
+            set
+            {
+                this.productPackagingField = value;
+            }
+        }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("EditionTypeCode")]
@@ -359,6 +406,20 @@ namespace OnixData.Legacy
             set
             {
                 this.subjectField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Complexity")]
+        public OnixLegacyComplexity[] Complexity
+        {
+            get
+            {
+                return this.complexityField;
+            }
+            set
+            {
+                this.complexityField = value;
             }
         }
 
@@ -636,6 +697,19 @@ namespace OnixData.Legacy
             }
         }
 
+        /// <remarks/>
+        public OnixLegacySupplyDetail SupplyDetail
+        {
+            get
+            {
+                return this.supplyDetailField;
+            }
+            set
+            {
+                this.supplyDetailField = value;
+            }
+        }
+
         public bool HasFutureRetailPrice()
         {
             bool bHasFuturePrice = false;
@@ -680,16 +754,19 @@ namespace OnixData.Legacy
             }
         }
 
-        /// <remarks/>
-        public OnixLegacySupplyDetail SupplyDetail
+        public List<OnixLegacySupplierId> ProprietarySuppliers
         {
             get
             {
-                return this.supplyDetailField;
-            }
-            set
-            {
-                this.supplyDetailField = value;
+                List<OnixLegacySupplierId> PropSuppliers = new List<OnixLegacySupplierId>();
+
+                if ((SupplyDetail != null) && (SupplyDetail.SupplierIdentifier != null) && (SupplyDetail.SupplierIdentifier.Length > 0))
+                {
+                    PropSuppliers =
+                        SupplyDetail.SupplierIdentifier.Where(x => x.SupplierIDType == OnixLegacySupplierId.CONST_SUPPL_ID_TYPE_PROP).ToList();
+                }
+
+                return PropSuppliers;
             }
         }
     }

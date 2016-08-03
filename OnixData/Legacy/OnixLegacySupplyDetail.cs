@@ -15,23 +15,29 @@ namespace OnixData.Legacy
             SupplierName        = "";
             ReturnsCodeType     = -1;
             ReturnsCode         = "";
+            LastDateForReturns  = "";
             AvailabilityCode    = "";
             ProductAvailability = -1;
-            OnSaleDate          = 0;
+            ExpectedShipDate    = "";
+            OnSaleDate          = "";
             PackQuantity        = -1;
 
-            Price = new OnixLegacyPrice[0];
+            SupplierIdentifier = new OnixLegacySupplierId[0];
+            Price              = new OnixLegacyPrice[0];
         }
 
         private string supplierNameField;
         private int    returnsCodeTypeField;
         private string returnsCodeField;
+        private string lastDateForReturnsField;
         private string availabilityCodeField;
         private int    productAvailabilityField;
-        private uint   onSaleDateField;
+        private string expectedShipDateField;
+        private string onSaleDateField;
         private int    packQuantityField;
 
-        private OnixLegacyPrice[] priceField;
+        private OnixLegacySupplierId[] supplierIdentifierField;
+        private OnixLegacyPrice[]      priceField;
 
         /// <remarks/>
         public string SupplierName
@@ -73,6 +79,19 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
+        public string LastDateForReturns
+        {
+            get
+            {
+                return this.lastDateForReturnsField;
+            }
+            set
+            {
+                this.lastDateForReturnsField = value;
+            }
+        }
+
+        /// <remarks/>
         public string AvailabilityCode
         {
             get
@@ -99,7 +118,20 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public uint OnSaleDate
+        public string ExpectedShipDate
+        {
+            get
+            {
+                return this.expectedShipDateField;
+            }
+            set
+            {
+                this.expectedShipDateField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string OnSaleDate
         {
             get
             {
@@ -121,6 +153,19 @@ namespace OnixData.Legacy
             set
             {
                 this.packQuantityField = value;
+            }
+        }
+       
+        [System.Xml.Serialization.XmlElementAttribute("SupplierIdentifier")]
+        public OnixLegacySupplierId[] SupplierIdentifier
+        {
+            get
+            {
+                return this.supplierIdentifierField;
+            }
+            set
+            {
+                this.supplierIdentifierField = value;
             }
         }
 

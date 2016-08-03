@@ -8,6 +8,7 @@ using OnixData.Version3.Market;
 using OnixData.Version3.Price;
 using OnixData.Version3.Publishing;
 using OnixData.Version3.Related;
+using OnixData.Version3.Supply;
 using OnixData.Version3.Title;
 
 namespace OnixData.Version3
