@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using OnixData;
 using OnixData.Legacy;
 using OnixData.Version3;
 
@@ -38,6 +39,19 @@ namespace OnixTestHarness
                                              ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
                 }
 
+                FileInfo LegacyFileInfo = new FileInfo(@"C:\tmp\tmp2\onix.legacy.xml");
+                using (OnixLegacyParser LegacyParser = new OnixLegacyParser(LegacyFileInfo, true))
+                {
+                    if (LegacyParser.Message != null)
+                    {
+                        foreach (OnixLegacyProduct TmpProduct in LegacyParser.Message.Product)
+                        {
+                            System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
+                                                     TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
+                                                     ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
