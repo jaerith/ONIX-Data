@@ -26,7 +26,7 @@ namespace OnixTestHarness
             return stream;
         }
 
-        public static T ParseXML<T>(this string @this) where T : class
+        public static T ParseXML<T>(this string @this, string sRoot = "ONIXMessage") where T : class
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.ConformanceLevel = ConformanceLevel.Document;
@@ -38,7 +38,7 @@ namespace OnixTestHarness
             // settings.ValidationFlags &= ~(XmlSchemaValidationFlags.ReportValidationWarnings);
 
             var reader = XmlReader.Create(@this.Trim().ToStream(), settings);
-            return new XmlSerializer(typeof(T), new XmlRootAttribute("ONIXMessage")).Deserialize(reader) as T;
+            return new XmlSerializer(typeof(T), new XmlRootAttribute(sRoot)).Deserialize(reader) as T;
         }
 
         public static T ParseJSON<T>(this string @this) where T : class
