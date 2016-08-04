@@ -11,8 +11,6 @@ namespace OnixData.Legacy
     /// This class will serve as the serialization envelope for ONIX files that are written 
     /// using the legacy standard (i.e., Version 2.1).
     /// 
-    /// NOTE: These classes are only appropriate for using the Reference edition of the legacy standard.
-    /// 
     /// </summary>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     // [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
@@ -42,6 +40,19 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
+        public OnixLegacyHeader header
+        {
+            get
+            {
+                return this.headerField;
+            }
+            set
+            {
+                this.headerField = value;
+            }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Product")]
         public OnixLegacyProduct[] Product
         {
@@ -49,6 +60,16 @@ namespace OnixData.Legacy
             {
                 return this.productField;
             }
+            set
+            {
+                this.productField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("product")]
+        public OnixLegacyProduct[] product
+        {
             set
             {
                 this.productField = value;

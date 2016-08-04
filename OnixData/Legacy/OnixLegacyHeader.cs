@@ -35,6 +35,8 @@ namespace OnixData.Legacy
         private string defaultWeightUnitField;
         private string defaultClassOfTradeField;
 
+        #region Reference tags
+
         /// <remarks/>
         public string FromCompany
         {
@@ -178,6 +180,154 @@ namespace OnixData.Legacy
             }
         }
 
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public string m174
+        {
+            get
+            {
+                return FromCompany;
+            }
+            set
+            {
+                FromCompany = value;
+            }
+        }
+
+        /// <remarks/>
+        public string m175
+        {
+            get
+            {
+                return FromPerson;
+            }
+            set
+            {
+                FromPerson = value;
+            }
+        }
+
+        /// <remarks/>
+        public string m283
+        {
+            get
+            {
+                return FromEmail;
+            }
+            set
+            {
+                FromEmail = value;
+            }
+        }
+
+        /// <remarks/>
+        public uint m182
+        {
+            get
+            {
+                return SentDate;
+            }
+            set
+            {
+                SentDate = value;
+            }
+        }
+
+        /// <remarks/>
+        public string m183
+        {
+            get
+            {
+                return MessageNote;
+            }
+            set
+            {
+                MessageNote = value;
+            }
+        }
+
+        /// <remarks/>
+        public string m184
+        {
+            get
+            {
+                return DefaultLanguageOfText;
+            }
+            set
+            {
+                DefaultLanguageOfText = value;
+            }
+        }
+
+        /// <remarks/>
+        public string m185
+        {
+            get
+            {
+                return DefaultPriceTypeCode;
+            }
+            set
+            {
+                DefaultPriceTypeCode = value;
+            }
+        }
+
+        /// <remarks/>
+        public string m186
+        {
+            get
+            {
+                return DefaultCurrencyCode;
+            }
+            set
+            {
+                DefaultCurrencyCode = value;
+            }
+        }
+
+        /// <remarks/>
+        public string m187
+        {
+            get
+            {
+                return DefaultLinearUnit;
+            }
+            set
+            {
+                DefaultLinearUnit = value;
+            }
+        }
+
+        /// <remarks/>
+        public string m188
+        {
+            get
+            {
+                return DefaultWeightUnit;
+            }
+            set
+            {
+                DefaultWeightUnit = value;
+            }
+        }
+
+        /// <remarks/>
+        public string m193
+        {
+            get
+            {
+                return DefaultClassOfTrade;
+            }
+            set
+            {
+                DefaultClassOfTrade = value;
+            }
+        }        
+
+        #endregion
     }
 }
 
