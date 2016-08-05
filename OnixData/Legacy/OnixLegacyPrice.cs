@@ -42,6 +42,8 @@ namespace OnixData.Legacy
         private string                  priceStatusField;
         private string                  countryCodeField;
 
+        #region Reference Tags
+
         public int PriceType
         {
             get
@@ -209,7 +211,95 @@ namespace OnixData.Legacy
                 this.countryCodeField = value;
             }
         }
-        
+
+        #endregion
+
+        #region Short Tags
+
+        public int j148
+        {
+            get { return this.PriceTypeCode; }
+            set { PriceTypeCode = value; }
+        }
+
+        /// <remarks/>
+        public string j149
+        {
+            get { return ClassOfTrade; }
+            set { ClassOfTrade = value; }
+        }
+
+        /// <remarks/>
+        public OnixLegacyDiscountCoded discountcoded
+        {
+            get { return DiscountCoded; }
+            set { DiscountCoded = value; }
+        }
+
+        /// <remarks/>
+        public decimal j151
+        {
+            get { return this.priceAmountField; }
+            set { this.priceAmountField = value; }
+        }
+
+        /// <remarks/>
+        public string j152
+        {
+            get { return CurrencyCode; }
+            set { CurrencyCode = value; }
+        }
+
+        /// <remarks/>
+        public string j161
+        {
+            get { return this.priceEffectiveFromField; }
+            set { this.priceEffectiveFromField = value; }
+        }
+
+        /// <remarks/>
+        public string j162
+        {
+            get { return this.priceEffectiveUntilField; }
+            set { this.priceEffectiveUntilField = value; }
+        }
+
+        /// <remarks/>
+        public string j262
+        {
+            get { return PriceTypeDescription; }
+            set { PriceTypeDescription = value; }
+        }
+
+        /// <remarks/>
+        public string j239
+        {
+            get { return PricePer; }
+            set { PricePer = value; }
+        }
+
+        /// <remarks/>
+        public int j263
+        {
+            get { return this.minimumOrderQuantityField; }
+            set { this.minimumOrderQuantityField = value; }
+        }
+
+        /// <remarks/>
+        public string j266
+        {
+            get { return PriceStatus; }
+            set { PriceStatus = value; }
+        }
+
+        /// <remarks/>
+        public string b251
+        {
+            get { return CountryCode; }
+            set { CountryCode = value; }
+        }
+
+        #endregion
 
     }
 }

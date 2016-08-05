@@ -44,11 +44,11 @@ namespace OnixData.Legacy
         {
             get
             {
-                return this.headerField;
+                return Header;
             }
             set
             {
-                this.headerField = value;
+                Header = value;
             }
         }
 
@@ -70,9 +70,13 @@ namespace OnixData.Legacy
         [System.Xml.Serialization.XmlElementAttribute("product")]
         public OnixLegacyProduct[] product
         {
+            get
+            {
+                return Product;
+            }
             set
             {
-                this.productField = value;
+                Product = value;
             }
         }
     }

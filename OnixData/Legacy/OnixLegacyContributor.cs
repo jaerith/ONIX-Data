@@ -45,16 +45,13 @@ namespace OnixData.Legacy
         }
 
         private int    sequenceNumberField;
-
         private string contributorRoleField;
-
         private string personNameField;
-
         private string personNameInvertedField;
-
         private string namesBeforeKeyField;
-
         private string keyNamesField;
+
+        #region Reference Tags
 
         /// <remarks/>
         public int SequenceNumber
@@ -133,5 +130,89 @@ namespace OnixData.Legacy
                 this.keyNamesField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b034
+        {
+            get
+            {
+                return SequenceNumber;
+            }
+            set
+            {
+                SequenceNumber = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b035
+        {
+            get
+            {
+                return ContributorRole;
+            }
+            set
+            {
+                ContributorRole = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b036
+        {
+            get
+            {
+                return PersonName;
+            }
+            set
+            {
+                PersonName = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b037
+        {
+            get
+            {
+                return PersonNameInverted;
+            }
+            set
+            {
+                PersonNameInverted = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b039
+        {
+            get
+            {
+                return NamesBeforeKey;
+            }
+            set
+            {
+                NamesBeforeKey = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b040
+        {
+            get
+            {
+                return KeyNames;
+            }
+            set
+            {
+                KeyNames = value;
+            }
+        }
+
+        #endregion
     }
 }

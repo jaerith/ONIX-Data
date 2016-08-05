@@ -26,6 +26,8 @@ namespace OnixData.Legacy
         private int    numberWithinSeriesField;
         private string titleOfSeriesField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int NumberWithinSeries
         {
@@ -51,4 +53,25 @@ namespace OnixData.Legacy
                 this.titleOfSeriesField = value;
             }
         }
-    }}
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b019
+        {
+            get { return NumberWithinSeries; }
+            set { NumberWithinSeries = value; }
+        }
+
+        /// <remarks/>
+        public string b018
+        {
+            get { return TitleOfSeries; }
+            set { TitleOfSeries = value; }
+        }
+
+        #endregion
+    }
+}

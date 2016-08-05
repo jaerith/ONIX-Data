@@ -126,6 +126,8 @@ namespace OnixData.Legacy
         private OnixLegacyRelatedProduct[] relatedProductField;
         private OnixLegacySupplyDetail     supplyDetailField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public string BookFormDetail
         {
@@ -769,5 +771,264 @@ namespace OnixData.Legacy
                 return PropSuppliers;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public string b013
+        {
+            get { return BookFormDetail; }
+            set { BookFormDetail = value; }
+        }
+
+        /// <remarks/>
+        public int b225
+        {
+            get { return ProductPackaging; }
+            set { ProductPackaging = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("b056")]
+        public string[] b056
+        {
+            get { return EditionTypeCode; }
+            set { EditionTypeCode = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("b057")]
+        public int[] b057
+        {
+            get { return EditionNumber; }
+            set { EditionNumber = value; }
+        }
+
+        /// <remarks/>
+        public OnixLegacyTitle title
+        {
+            get { return Title; }
+            set { Title = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("contributor")]
+        public OnixLegacyContributor[] contributor
+        {
+            get { return Contributor; }
+            set { Contributor = value; }
+        }
+
+        /// <remarks/>
+        public string b049
+        {
+            get { return ContributorStatement; }
+            set { ContributorStatement = value; }
+        }
+
+        /// <remarks/>
+        public OnixLegacyLanguage language
+        {
+            get { return Language; }
+            set { Language = value; }
+        }
+
+
+        /// <remarks/>
+        public int b026
+        {
+            get { return ItemNumberWithinSet; }
+            set { ItemNumberWithinSet = value; }
+        }
+
+        /// <remarks/>
+        public int b061
+        {
+            get { return NumberOfPages; }
+            set { NumberOfPages = value; }
+        }
+
+        /// <remarks/>
+        public int b254
+        {
+            get { return PagesRoman; }
+            set { PagesRoman = value; }
+        }
+
+        /// <remarks/>
+        public int b255
+        {
+            get { return PagesArabic; }
+            set { PagesArabic = value; }
+        }
+
+        /// <remarks/>
+        public OnixLegacyIllustrations illustrations
+        {
+            get { return Illustrations; }
+            set { Illustrations = value; }
+        }
+
+        /// <remarks/>
+        public string b064
+        {
+            get { return BASICMainSubject; }
+            set { BASICMainSubject = value; }
+        }
+
+        /// <remarks/> 
+        public string b073
+        {
+            get { return AudienceCode; }
+            set { AudienceCode = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("extent")]
+        public OnixLegacyExtent[] extent
+        {
+            get { return Extent; }
+            set { Extent = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("series")]
+        public OnixLegacySeries[] series
+        {
+            get { return Series; }
+            set { Series = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("subject")]
+        public OnixLegacySubject[] subject
+        {
+            get { return Subject; }
+            set { Subject = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("complexity")]
+        public OnixLegacyComplexity[] complexity
+        {
+            get { return Complexity; }
+            set { Complexity = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("audiencerange")]
+        public OnixLegacyAudRange[] audiencerange
+        {
+            get { return AudienceRange; }
+            set { AudienceRange = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("othertext")]
+        public OnixLegacyOtherText[] othertext
+        {
+            get { return OtherText; }
+            set { OtherText = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("mediafile")]
+        public OnixLegacyMediaFile[] mediafile
+        {
+            get { return MediaFile; }
+            set { MediaFile = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("imprint")]
+        public OnixLegacyImprint[] imprint
+        {
+            get { return Imprint; }
+            set { Imprint = value; }
+        }
+
+        /// <remarks/>
+        public string b209
+        {
+            get { return CityOfPublication; }
+            set { CityOfPublication = value; }
+        }
+
+        /// <remarks/>
+        public string b083
+        {
+            get { return CountryOfPublication; }
+            set { CountryOfPublication = value; }
+        }
+
+        /// <remarks/>
+        public string b394
+        {
+            get { return PublishingStatus; }
+            set { PublishingStatus = value; }
+        }
+
+        /// <remarks/>
+        public string b086
+        {
+            get { return AnnouncementDate; }
+            set { AnnouncementDate = value; }
+        }
+
+        /// <remarks/>
+        public string b362
+        {
+            get { return TradeAnnouncementDate; }
+            set { TradeAnnouncementDate = value; }
+        }
+
+        /// <remarks/>
+        public uint b003
+        {
+            get { return PublicationDate; }
+            set { PublicationDate = value; }
+        }
+
+        /// <remarks/>
+        public uint b088
+        {
+            get { return YearFirstPublished; }
+            set { YearFirstPublished = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("salesrights")]
+        public OnixLegacySalesRights[] salesrights
+        {
+            get { return SalesRights; }
+            set { SalesRights = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("measure")]
+        public OnixLegacyMeasure[] measure
+        {
+            get { return Measure; }
+            set { Measure = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("relatedproduct")]
+        public OnixLegacyRelatedProduct[] relatedproduct
+        {
+            get { return RelatedProduct; }
+            set { RelatedProduct = value; }
+        }
+
+        /// <remarks/>
+        public OnixLegacySupplyDetail supplydetail
+        {
+            get { return SupplyDetail; }
+            set { SupplyDetail = value; }
+        }
+
+        #endregion
     }
 }

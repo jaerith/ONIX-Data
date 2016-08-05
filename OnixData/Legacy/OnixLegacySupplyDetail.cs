@@ -39,6 +39,8 @@ namespace OnixData.Legacy
         private OnixLegacySupplierId[] supplierIdentifierField;
         private OnixLegacyPrice[]      priceField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public string SupplierName
         {
@@ -182,5 +184,90 @@ namespace OnixData.Legacy
                 this.priceField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public string j137
+        {
+            get { return SupplierName; }
+            set { SupplierName = value; }
+        }
+
+        /// <remarks/>
+        public int j268
+        {
+            get
+            { return ReturnsCodeType; }
+            set { ReturnsCodeType = value; }
+        }
+
+        /// <remarks/>
+        public string j269
+        {
+            get { return ReturnsCode; }
+            set { ReturnsCode = value; }
+        }
+
+        /// <remarks/>
+        public string j387
+        {
+            get { return LastDateForReturns; }
+            set { LastDateForReturns = value; }
+        }
+
+        /// <remarks/>
+        public string j141
+        {
+            get { return AvailabilityCode; }
+            set { AvailabilityCode = value; }
+        }
+
+        /// <remarks/>
+        public int j396
+        {
+            get { return ProductAvailability; }
+            set { ProductAvailability = value; }
+        }
+
+        /// <remarks/>
+        public string j142
+        {
+            get { return ExpectedShipDate; }
+            set { ExpectedShipDate = value; }
+        }
+
+        /// <remarks/>
+        public string j143
+        {
+            get { return OnSaleDate; }
+            set { OnSaleDate = value; }
+        }
+
+        /// <remarks/>
+        public int j145
+        {
+            get { return PackQuantity; }
+            set { PackQuantity = value; }
+        }
+
+        [System.Xml.Serialization.XmlElementAttribute("supplieridentifier")]
+        public OnixLegacySupplierId[] supplieridentifier
+        {
+            get { return this.supplierIdentifierField; }
+            set { this.supplierIdentifierField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("price")]
+        public OnixLegacyPrice[] price
+        {
+            get { return this.priceField; }
+            set { this.priceField = value; }
+        }
+
+        #endregion
     }
 }

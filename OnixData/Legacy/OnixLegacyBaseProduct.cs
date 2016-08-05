@@ -67,6 +67,8 @@ namespace OnixData.Legacy
 
         protected OnixLegacyPublisher[] publisherField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public ulong RecordReference
         {
@@ -358,6 +360,240 @@ namespace OnixData.Legacy
                 return FoundPubName;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public ulong a001
+        {
+            get
+            {
+                return RecordReference;
+            }
+            set
+            {
+                RecordReference = value;
+            }
+        }
+
+        /// <remarks/>
+        public int a002
+        {
+            get
+            {
+                return NotificationType;
+            }
+            set
+            {
+                NotificationType = value;
+            }
+        }
+
+        public string b004
+        {
+            get
+            {
+                return ISBN;
+            }
+            set
+            {
+                ISBN = value;
+            }
+        }
+
+        public string b005
+        {
+            get
+            {
+                return EAN;
+            }
+            set
+            {
+                EAN = value;
+            }
+        }
+
+        public string b006
+        {
+            get
+            {
+                return UPC;
+            }
+            set
+            {
+                UPC = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("productidentifier")]
+        public OnixLegacyProductId[] productidentifier
+        {
+            get
+            {
+                return ProductIdentifier;
+            }
+            set
+            {
+                ProductIdentifier = value;
+            }
+        }
+
+        public int b246
+        {
+            get
+            {
+                return Barcode;
+            }
+            set
+            {
+                Barcode = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b012
+        {
+            get
+            {
+                return ProductForm;
+            }
+            set
+            {
+                ProductForm = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b333
+        {
+            get
+            {
+                return ProductFormDetail;
+            }
+            set
+            {
+                ProductFormDetail = value;
+            }
+        }
+
+        public int b210
+        {
+            get
+            {
+                return NumberOfPieces;
+            }
+            set
+            {
+                NumberOfPieces = value;
+            }
+        }
+
+        public int b384
+        {
+            get
+            {
+                return TradeCategory;
+            }
+            set
+            {
+                TradeCategory = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("b385")]
+        public string[] b385
+        {
+            get
+            {
+                return ProductContentType;
+            }
+            set
+            {
+                ProductContentType = value;
+            }
+        }
+
+        public string b211
+        {
+            get
+            {
+                return EpubType;
+            }
+            set
+            {
+                EpubType = value;
+            }
+        }
+
+        public string b212
+        {
+            get
+            {
+                return EpubTypeVersion;
+            }
+            set
+            {
+                EpubTypeVersion = value;
+            }
+        }
+
+        public string b216
+        {
+            get
+            {
+                return EpubFormatDescription;
+            }
+            set
+            {
+                EpubFormatDescription = value;
+            }
+        }
+
+        /// <remarks/>
+        public OnixLegacyProductFormFeature productformfeature
+        {
+            get
+            {
+                return ProductFormFeature;
+            }
+            set
+            {
+                ProductFormFeature = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b014
+        {
+            get
+            {
+                return ProductFormDescription;
+            }
+            set
+            {
+                ProductFormDescription = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("publisher")]
+        public OnixLegacyPublisher[] publisher
+        {
+            get
+            {
+                return Publisher;
+            }
+            set
+            {
+                Publisher = value;
+            }
+        }
+
+        #endregion
 
     }
 }

@@ -19,6 +19,8 @@ namespace OnixData.Legacy
         private int    languageRoleField;
         private string languageCodeField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int LanguageRole
         {
@@ -44,5 +46,25 @@ namespace OnixData.Legacy
                 this.languageCodeField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b253
+        {
+            get { return LanguageRole; }
+            set { LanguageRole = value; }
+        }
+
+        /// <remarks/>
+        public string b252
+        {
+            get { return LanguageCode; }
+            set { LanguageCode = value; }
+        }
+
+        #endregion
     }
 }

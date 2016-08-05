@@ -26,6 +26,8 @@ namespace OnixData.Legacy
         private int    subjectSchemeIdentifierField;
         private string subjectCodeField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int SubjectSchemeIdentifier
         {
@@ -51,5 +53,25 @@ namespace OnixData.Legacy
                 this.subjectCodeField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b067
+        {
+            get { return SubjectSchemeIdentifier; }
+            set { SubjectSchemeIdentifier = value; }
+        }
+
+        /// <remarks/>
+        public string b069
+        {
+            get { return SubjectCode; }
+            set { SubjectCode = value; }
+        }
+
+        #endregion
     }
 }
