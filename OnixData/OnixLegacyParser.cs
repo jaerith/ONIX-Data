@@ -16,25 +16,47 @@ namespace OnixData
 {
     public class OnixLegacyParser : IDisposable, IEnumerable
     {
+        #region CONSTANTS
+
+        private const string CONST_ONIX_MESSAGE_REFERENCE_TAG = "ONIXMessage";
+        private const string CONST_ONIX_MESSAGE_SHORT_TAG     = "ONIXmessage";
+
+        private const string CONST_ONIX_HEADER_REFERENCE_TAG = "Header";
+        private const string CONST_ONIX_HEADER_SHORT_TAG     = "header";
+
+        #endregion
+
+        private bool              ParserRefVerFlag  = false;
         private bool              ParserRVWFlag     = false;
         private FileInfo          ParserFileInfo    = null;
         private XmlReader         LegacyOnixReader  = null;
         private OnixLegacyMessage LegacyOnixMessage = null;
 
-        public OnixLegacyParser(FileInfo LegacyOnixFilepath, bool ReportValidationWarnings, bool LoadEntireFileIntoMemory = true)
+        public bool ReferenceVersion
         {
+            get { return this.ParserRefVerFlag; }
+        }
+
+        public OnixLegacyParser(FileInfo LegacyOnixFilepath, 
+                                    bool ReportValidationWarnings, 
+                                    bool ReferenceVersion, 
+                                    bool LoadEntireFileIntoMemory = true)
+        {
+            string sOnixMsgTag = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
+
             if (!File.Exists(LegacyOnixFilepath.FullName))
                 throw new Exception("ERROR!  File(" + LegacyOnixFilepath + ") does not exist.");
 
-            this.ParserFileInfo = LegacyOnixFilepath;
-            this.ParserRVWFlag  = ReportValidationWarnings;
+            this.ParserRefVerFlag = ReferenceVersion;
+            this.ParserFileInfo   = LegacyOnixFilepath;
+            this.ParserRVWFlag    = ReportValidationWarnings;
 
             this.LegacyOnixReader = CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag);
 
             if (LoadEntireFileIntoMemory)
             {
                 this.LegacyOnixMessage =
-                    new XmlSerializer(typeof(OnixLegacyMessage), new XmlRootAttribute("ONIXMessage")).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
+                    new XmlSerializer(typeof(OnixLegacyMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
             }
         }
 
@@ -58,6 +80,9 @@ namespace OnixData
         {
             get
             {
+                string sOnixHdrTag = 
+                    this.ParserRefVerFlag ? CONST_ONIX_HEADER_REFERENCE_TAG : CONST_ONIX_HEADER_SHORT_TAG;
+
                 OnixLegacyHeader LegacyHeader = new OnixLegacyHeader();
 
                 if (this.LegacyOnixMessage != null)
@@ -67,7 +92,7 @@ namespace OnixData
                     XmlDocument XMLDoc = new XmlDocument();
                     XMLDoc.Load(this.LegacyOnixReader);
 
-                    XmlNodeList HeaderList = XMLDoc.GetElementsByTagName("Header");
+                    XmlNodeList HeaderList = XMLDoc.GetElementsByTagName(sOnixHdrTag);
 
                     if ((HeaderList != null) && (HeaderList.Count > 0))
                     {
@@ -75,7 +100,7 @@ namespace OnixData
                         string  sHeaderBody = HeaderNode.OuterXml;
 
                         LegacyHeader = 
-                            new XmlSerializer(typeof(OnixLegacyHeader), new XmlRootAttribute("Header"))
+                            new XmlSerializer(typeof(OnixLegacyHeader), new XmlRootAttribute(sOnixHdrTag))
                             .Deserialize(new StringReader(sHeaderBody)) as OnixLegacyHeader;
                     }
                 }
@@ -115,6 +140,7 @@ namespace OnixData
         private XmlReader        OnixReader = null;
         
         private int                CurrentIndex      = -1;
+        private string             ProductXmlTag     = null;
         private XmlDocument        OnixDoc           = null;
         private XmlNodeList        ProductList       = null;
         private OnixLegacyProduct  CurrentRecord     = null;
@@ -122,10 +148,12 @@ namespace OnixData
 
         public OnixLegacyEnumerator(OnixLegacyParser ProvidedParser, FileInfo LegacyOnixFilepath) 
         {
-            OnixParser = ProvidedParser;
-            OnixReader = OnixLegacyParser.CreateXmlReader(LegacyOnixFilepath, false);
+            this.ProductXmlTag = ProvidedParser.ReferenceVersion ? "Product" : "product";
 
-            ProductSerializer = new XmlSerializer(typeof(OnixLegacyProduct), new XmlRootAttribute("Product"));
+            this.OnixParser = ProvidedParser;
+            this.OnixReader = OnixLegacyParser.CreateXmlReader(LegacyOnixFilepath, false);
+
+            ProductSerializer = new XmlSerializer(typeof(OnixLegacyProduct), new XmlRootAttribute(this.ProductXmlTag));
         }
 
         public void Dispose()
@@ -143,13 +171,22 @@ namespace OnixData
                 this.OnixDoc = new XmlDocument();
                 this.OnixDoc.Load(this.OnixReader);
 
-                this.ProductList = this.OnixDoc.GetElementsByTagName("Product");
+                this.ProductList = this.OnixDoc.GetElementsByTagName(this.ProductXmlTag);
             }
 
             if (++CurrentIndex < this.ProductList.Count)
             {
-                CurrentRecord =
-                    this.ProductSerializer.Deserialize(new StringReader(this.ProductList[CurrentIndex].OuterXml)) as OnixLegacyProduct;
+                try
+                {
+                    CurrentRecord =
+                        this.ProductSerializer.Deserialize(new StringReader(this.ProductList[CurrentIndex].OuterXml)) as OnixLegacyProduct;
+                }
+                catch (Exception ex)
+                {
+                    CurrentRecord = new OnixLegacyProduct();
+
+                    CurrentRecord.ParsingError = ex;
+                }
             }
             else
                 bResult = false;
