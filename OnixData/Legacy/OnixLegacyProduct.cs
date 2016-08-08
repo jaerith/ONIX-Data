@@ -79,6 +79,8 @@ namespace OnixData.Legacy
             Measure        = new OnixLegacyMeasure[0];
             RelatedProduct = new OnixLegacyRelatedProduct[0];
             SupplyDetail   = new OnixLegacySupplyDetail();
+
+            ParsingError = null;
         }
 
         private string bookFormDetailField;
@@ -125,6 +127,8 @@ namespace OnixData.Legacy
         private OnixLegacyMeasure[]        measureField;
         private OnixLegacyRelatedProduct[] relatedProductField;
         private OnixLegacySupplyDetail     supplyDetailField;
+
+        public Exception ParsingError { get; set; }
 
         #region Reference Tags
 

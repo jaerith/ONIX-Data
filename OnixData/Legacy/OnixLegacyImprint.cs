@@ -27,6 +27,8 @@ namespace OnixData.Legacy
         private uint   nameCodeValueField;
         private string imprintNameField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int NameCodeType
         {
@@ -78,5 +80,39 @@ namespace OnixData.Legacy
                 this.imprintNameField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b241
+        {
+            get { return NameCodeType; }
+            set { NameCodeType = value; }
+        }
+
+        /// <remarks/>
+        public string b242
+        {
+            get { return NameCodeTypeName; }
+            set { NameCodeTypeName = value; }
+        }
+
+        /// <remarks/>
+        public uint b243
+        {
+            get { return NameCodeValue; }
+            set { NameCodeValue = value; }
+        }
+
+        /// <remarks/>
+        public string b079
+        {
+            get { return ImprintName; }
+            set { ImprintName = value; }
+        }
+
+        #endregion
     }
 }

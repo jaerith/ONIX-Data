@@ -28,6 +28,8 @@ namespace OnixData.Legacy
         private int    textTypeCodeField;
         private string textField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int TextTypeCode
         {
@@ -53,5 +55,25 @@ namespace OnixData.Legacy
                 this.textField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int d102
+        {
+            get { return TextTypeCode; }
+            set { TextTypeCode = value; }
+        }
+
+        /// <remarks/>
+        public string d104
+        {
+            get { return Text; }
+            set { Text = value; }
+        }
+
+        #endregion
     }
 }

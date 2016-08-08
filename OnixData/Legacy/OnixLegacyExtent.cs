@@ -38,6 +38,8 @@ namespace OnixData.Legacy
         private double extentValueField;
         private int    extentUnitField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int ExtentType
         {
@@ -76,5 +78,32 @@ namespace OnixData.Legacy
                 this.extentUnitField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b218
+        {
+            get { return ExtentType; }
+            set { ExtentType = value; }
+        }
+
+        /// <remarks/>
+        public double b219
+        {
+            get { return ExtentValue; }
+            set { ExtentValue = value; }
+        }
+
+        /// <remarks/>
+        public int b220
+        {
+            get { return ExtentUnit; }
+            set { ExtentUnit = value; }
+        }
+
+        #endregion
     }
 }

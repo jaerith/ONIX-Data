@@ -138,79 +138,43 @@ namespace OnixData.Legacy
         /// <remarks/>
         public int b034
         {
-            get
-            {
-                return SequenceNumber;
-            }
-            set
-            {
-                SequenceNumber = value;
-            }
+            get { return SequenceNumber; }
+            set { SequenceNumber = value; }
         }
 
         /// <remarks/>
         public string b035
         {
-            get
-            {
-                return ContributorRole;
-            }
-            set
-            {
-                ContributorRole = value;
-            }
+            get { return ContributorRole; }
+            set { ContributorRole = value; }
         }
 
         /// <remarks/>
         public string b036
         {
-            get
-            {
-                return PersonName;
-            }
-            set
-            {
-                PersonName = value;
-            }
+            get { return PersonName; }
+            set { PersonName = value; }
         }
 
         /// <remarks/>
         public string b037
         {
-            get
-            {
-                return PersonNameInverted;
-            }
-            set
-            {
-                PersonNameInverted = value;
-            }
+            get { return PersonNameInverted; }
+            set { PersonNameInverted = value; }
         }
 
         /// <remarks/>
         public string b039
         {
-            get
-            {
-                return NamesBeforeKey;
-            }
-            set
-            {
-                NamesBeforeKey = value;
-            }
+            get { return NamesBeforeKey; }
+            set { NamesBeforeKey = value; }
         }
 
         /// <remarks/>
         public string b040
         {
-            get
-            {
-                return KeyNames;
-            }
-            set
-            {
-                KeyNames = value;
-            }
+            get { return KeyNames; }
+            set { KeyNames = value; }
         }
 
         #endregion

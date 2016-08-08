@@ -19,6 +19,8 @@ namespace OnixData.Legacy
         private int    productFormFeatureTypeField;
         private string productFormFeatureValueField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int ProductFormFeatureType
         {
@@ -44,5 +46,25 @@ namespace OnixData.Legacy
                 this.productFormFeatureValueField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b334
+        {
+            get { return ProductFormFeatureType; }
+            set { ProductFormFeatureType = value; }
+        }
+
+        /// <remarks/>
+        public string b335
+        {
+            get { return ProductFormFeatureValue; }
+            set { ProductFormFeatureValue = value; }
+        }
+
+        #endregion
     }
 }

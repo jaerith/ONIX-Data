@@ -33,6 +33,8 @@ namespace OnixData.Legacy
         private string       rightsTerritoryField;
         private List<string> rightsTerritoryList;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int SalesRightsType
         {
@@ -103,5 +105,50 @@ namespace OnixData.Legacy
                 return this.rightsTerritoryList;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b089
+        {
+            get
+            {
+                return SalesRightsType;
+            }
+            set
+            {
+                SalesRightsType = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b090
+        {
+            get
+            {
+                return RightsCountry;
+            }
+            set
+            {
+                RightsCountry = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b388
+        {
+            get
+            {
+                return RightsTerritory;
+            }
+            set
+            {
+                RightsTerritory = value;
+            }
+        }
+
+        #endregion
     }
 }

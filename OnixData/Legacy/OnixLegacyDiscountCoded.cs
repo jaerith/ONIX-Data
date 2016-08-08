@@ -21,6 +21,8 @@ namespace OnixData.Legacy
             DiscountCode         = -1;
         }
 
+        #region Reference Tags
+
         /// <remarks/>
         public int DiscountCodeType
         {
@@ -59,6 +61,33 @@ namespace OnixData.Legacy
                 this.discountCodeField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int j363
+        {
+            get { return DiscountCodeType; }
+            set { DiscountCodeType = value; }
+        }
+
+        /// <remarks/>
+        public string j378
+        {
+            get { return DiscountCodeTypeName; }
+            set { DiscountCodeTypeName = value; }
+        }
+
+        /// <remarks/>
+        public int j364
+        {
+            get { return DiscountCode; }
+            set { DiscountCode = value; }
+        }
+
+        #endregion
     }
 
 }

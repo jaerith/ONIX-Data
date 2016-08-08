@@ -26,6 +26,8 @@ namespace OnixData.Legacy
         private OnixLegacyHeader    headerField;
         private OnixLegacyProduct[] productField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public OnixLegacyHeader Header
         {
@@ -36,19 +38,6 @@ namespace OnixData.Legacy
             set
             {
                 this.headerField = value;
-            }
-        }
-
-        /// <remarks/>
-        public OnixLegacyHeader header
-        {
-            get
-            {
-                return Header;
-            }
-            set
-            {
-                Header = value;
             }
         }
 
@@ -66,6 +55,23 @@ namespace OnixData.Legacy
             }
         }
 
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public OnixLegacyHeader header
+        {
+            get
+            {
+                return Header;
+            }
+            set
+            {
+                Header = value;
+            }
+        }
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("product")]
         public OnixLegacyProduct[] product
@@ -79,5 +85,7 @@ namespace OnixData.Legacy
                 Product = value;
             }
         }
+
+        #endregion
     }
 }

@@ -19,6 +19,8 @@ namespace OnixData.Legacy
         private int    illustrationTypeField;
         private string illustrationTypeDescriptionField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int IllustrationType
         {
@@ -44,5 +46,25 @@ namespace OnixData.Legacy
                 this.illustrationTypeDescriptionField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b256
+        {
+            get { return IllustrationType; }
+            set { IllustrationType = value; }
+        }
+
+        /// <remarks/>
+        public string b361
+        {
+            get { return IllustrationTypeDescription; }
+            set { IllustrationTypeDescription = value; }
+        }
+
+        #endregion
     }
 }

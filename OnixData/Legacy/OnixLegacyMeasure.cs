@@ -31,6 +31,8 @@ namespace OnixData.Legacy
         private decimal measurementField;
         private string  measureUnitCodeField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int MeasureTypeCode
         {
@@ -69,5 +71,32 @@ namespace OnixData.Legacy
                 this.measureUnitCodeField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int c093
+        {
+            get { return MeasureTypeCode; }
+            set { MeasureTypeCode = value; }
+        }
+
+        /// <remarks/>
+        public decimal c094
+        {
+            get { return Measurement; }
+            set { Measurement = value; }
+        }
+
+        /// <remarks/>
+        public string c095
+        {
+            get { return MeasureUnitCode; }
+            set { MeasureUnitCode = value; }
+        }
+
+        #endregion
     }
 }

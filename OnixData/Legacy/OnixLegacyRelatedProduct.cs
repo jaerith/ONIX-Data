@@ -27,6 +27,8 @@ namespace OnixData.Legacy
 
         private int relationCodeField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int RelationCode
         {
@@ -39,5 +41,18 @@ namespace OnixData.Legacy
                 this.relationCodeField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int h208
+        {
+            get { return RelationCode; }
+            set { RelationCode = value; }
+        }
+
+        #endregion
     }
 }

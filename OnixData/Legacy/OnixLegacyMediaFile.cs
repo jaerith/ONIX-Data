@@ -23,6 +23,8 @@ namespace OnixData.Legacy
         private int    mediaFileLinkTypeCodeField;
         private string mediaFileLinkField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int MediaFileTypeCode
         {
@@ -74,5 +76,39 @@ namespace OnixData.Legacy
                 this.mediaFileLinkField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int f114
+        {
+            get { return MediaFileTypeCode; }
+            set { MediaFileTypeCode = value; }
+        }
+
+        /// <remarks/>
+        public int f115
+        {
+            get { return MediaFileFormatCode; }
+            set { MediaFileFormatCode = value; }
+        }
+
+        /// <remarks/>
+        public int f116
+        {
+            get { return MediaFileLinkTypeCode; }
+            set { MediaFileLinkTypeCode = value; }
+        }
+
+        /// <remarks/>
+        public string f117
+        {
+            get { return MediaFileLink; }
+            set { MediaFileLink = value; }
+        }
+
+        #endregion
     }
 }

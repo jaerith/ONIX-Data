@@ -36,6 +36,8 @@ namespace OnixData.Legacy
             AudienceRangeValue     = new string[0];
         }
 
+        #region Reference Tags
+
         /// <remarks/>
         public int AudienceRangeQualifier
         {
@@ -124,6 +126,35 @@ namespace OnixData.Legacy
                 return FindAudRangeValue(CONST_AUD_RANGE_TYPE_US_GRADES, CONST_AUD_RANGE_PRCN_TO);
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b074
+        {
+            get { return AudienceRangeQualifier; }
+            set { AudienceRangeQualifier = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("b075")]
+        public int[] b075
+        {
+            get { return AudienceRangePrecision; }
+            set { AudienceRangePrecision = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("b076")]
+        public string[] b076
+        {
+            get { return AudienceRangeValue; }
+            set { AudienceRangeValue = value; }
+        }
+
+        #endregion
 
         #region Support Methods
 

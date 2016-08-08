@@ -30,6 +30,8 @@ namespace OnixData.Legacy
         private string idTypeNameField;
         private string idValueField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int SupplierIDType
         {
@@ -68,5 +70,32 @@ namespace OnixData.Legacy
                 this.idValueField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int j345
+        {
+            get { return SupplierIDType; }
+            set { SupplierIDType = value; }
+        }
+
+        /// <remarks/>
+        public string b233
+        {
+            get { return IDTypeName; }
+            set { IDTypeName = value; }
+        }
+
+        /// <remarks/>
+        public string b244
+        {
+            get { return IDValue; }
+            set { IDValue = value; }
+        }
+
+        #endregion
     }
 }
