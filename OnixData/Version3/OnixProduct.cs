@@ -33,6 +33,8 @@ namespace OnixData.Version3
             PublishingDetail  = new OnixPublishingDetail();
             RelatedMaterial   = new OnixRelatedMaterial();
             ProductSupply     = new OnixProductSupply();
+
+            ParsingError = null;
         }
 
         private string recordReferenceField;
@@ -49,6 +51,10 @@ namespace OnixData.Version3
         private OnixPublishingDetail  publishingDetailField;
         private OnixRelatedMaterial   relatedMaterialField;
         private OnixProductSupply     productSupplyField;
+
+        public Exception ParsingError { get; set; }
+
+        #region Reference Tags
 
         /// <remarks/>
         public string RecordReference
@@ -347,7 +353,6 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("TextContent", IsNullable = false)]
         public OnixTextContent[] CollateralDetail
         {
             get
@@ -457,5 +462,75 @@ namespace OnixData.Version3
 
             return bHasUSRights;
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public string a001
+        {
+            get { return this.recordReferenceField; }
+            set { this.recordReferenceField = value; }
+        }
+
+        /// <remarks/>
+        public int a002
+        {
+            get { return this.notificationTypeField; }
+            set { this.notificationTypeField = value; }
+        }
+
+        /// <remarks/>
+        public int a194
+        {
+            get { return this.recordSourceTypeField; }
+            set { this.recordSourceTypeField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("productidentifier", IsNullable = false)]
+        public OnixProductId[] productidentifier
+        {
+            get { return this.productIdentifierField; }
+            set { this.productIdentifierField = value; }
+        }
+
+        /// <remarks/>
+        public OnixDescriptiveDetail descriptivedetail
+        {
+            get { return DescriptiveDetail; }
+            set { DescriptiveDetail = value; }
+        }
+
+        /// <remarks/>
+        public OnixTextContent[] collateraldetail
+        {
+            get { return CollateralDetail; }
+            set { CollateralDetail = value; }
+        }
+
+        /// <remarks/>
+        public OnixPublishingDetail publishingdetail
+        {
+            get { return PublishingDetail; }
+            set { PublishingDetail = value; }
+        }
+
+        /// <remarks/>
+        public OnixRelatedMaterial relatedmaterial
+        {
+            get { return RelatedMaterial; }
+            set { RelatedMaterial = value; }
+        }
+
+        /// <remarks/>
+        public OnixProductSupply productsupply
+        {
+            get { return ProductSupply; }
+            set { ProductSupply = value; }
+        }
+
+        #endregion
     }
 }

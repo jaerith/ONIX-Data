@@ -19,6 +19,8 @@ namespace OnixData.Version3.Price
         private int    taxTypeField;
         private string taxRateCodeField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int TaxType
         {
@@ -44,5 +46,25 @@ namespace OnixData.Version3.Price
                 this.taxRateCodeField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int x470
+        {
+            get { return TaxType; }
+            set { TaxType = value; }
+        }
+
+        /// <remarks/>
+        public string x471
+        {
+            get { return TaxRateCode; }
+            set { TaxRateCode = value; }
+        }
+
+        #endregion
     }
 }

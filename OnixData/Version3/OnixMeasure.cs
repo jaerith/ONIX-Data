@@ -22,14 +22,18 @@ namespace OnixData.Version3
 
         public OnixMeasure()
         {
-            MeasureType = Measurement = -1;
+            MeasureType = -1;
+
+            Measurement = 0;
 
             MeasureUnitCode = "";
         }
 
-        private int    measureTypeField;
-        private int    measurementField;
-        private string measureUnitCodeField;
+        private int     measureTypeField;
+        private decimal measurementField;
+        private string  measureUnitCodeField;
+
+        #region Reference Tags
 
         /// <remarks/>
         public int MeasureType
@@ -45,7 +49,7 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        public int Measurement
+        public decimal Measurement
         {
             get
             {
@@ -69,5 +73,32 @@ namespace OnixData.Version3
                 this.measureUnitCodeField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int x315
+        {
+            get { return MeasureType; }
+            set { MeasureType = value; }
+        }
+
+        /// <remarks/>
+        public decimal c094
+        {
+            get { return Measurement; }
+            set { Measurement = value; }
+        }
+
+        /// <remarks/>
+        public string c095
+        {
+            get { return MeasureUnitCode; }
+            set { MeasureUnitCode = value; }
+        }
+
+        #endregion
     }
 }

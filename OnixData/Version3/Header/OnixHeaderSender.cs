@@ -19,6 +19,8 @@ namespace OnixData.Version3.Header
         private string contactNameField;
         private string emailAddressField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public string SenderName
         {
@@ -57,5 +59,32 @@ namespace OnixData.Version3.Header
                 this.emailAddressField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public string x298
+        {
+            get { return SenderName; }
+            set { SenderName = value; }
+        }
+
+        /// <remarks/>
+        public string x299
+        {
+            get { return ContactName; }
+            set { ContactName = value; }
+        }
+
+        /// <remarks/>
+        public string j272
+        {
+            get { return EmailAddress; }
+            set { EmailAddress = value; }
+        }
+
+        #endregion
     }
 }

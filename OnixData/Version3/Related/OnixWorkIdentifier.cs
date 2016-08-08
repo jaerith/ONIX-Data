@@ -20,6 +20,8 @@ namespace OnixData.Version3.Related
         private string idTypeNameField;
         private string idValueField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int WorkIDType
         {
@@ -58,5 +60,32 @@ namespace OnixData.Version3.Related
                 this.idValueField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b201
+        {
+            get {  return this.workIDTypeField; }
+            set { this.workIDTypeField = value; }
+        }
+
+        /// <remarks/>
+        public string b233
+        {
+            get { return this.idTypeNameField; }
+            set { this.idTypeNameField = value; }
+        }
+
+        /// <remarks/>
+        public string b244
+        {
+            get { return this.idValueField; }
+            set { this.idValueField = value; }
+        }
+
+        #endregion
     }
 }

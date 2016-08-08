@@ -24,9 +24,10 @@ namespace OnixData.Version3.Related
 
         }
 
-        private int workRelationCodeField;
-
+        private int                  workRelationCodeField;
         private OnixWorkIdentifier[] workIdentifierField;
+
+        #region Reference Tags
 
         /// <remarks/>
         public int WorkRelationCode
@@ -54,5 +55,26 @@ namespace OnixData.Version3.Related
                 this.workIdentifierField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int x454
+        {
+            get { return WorkRelationCode; }
+            set { WorkRelationCode = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("workidentifier")]
+        public OnixWorkIdentifier[] workidentifier
+        {
+            get { return WorkIdentifier; }
+            set { WorkIdentifier = value; }
+        }
+
+        #endregion
     }
 }

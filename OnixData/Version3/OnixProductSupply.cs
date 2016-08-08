@@ -24,6 +24,8 @@ namespace OnixData.Version3
         private OnixMarketPublishingDetail marketPublishingDetailField;
         private OnixSupplyDetail           supplyDetailField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public OnixMarket Market
         {
@@ -62,5 +64,32 @@ namespace OnixData.Version3
                 this.supplyDetailField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public OnixMarket market
+        {
+            get { return Market; }
+            set { Market = value; }
+        }
+
+        /// <remarks/>
+        public OnixMarketPublishingDetail marketpublishingdetail
+        {
+            get { return MarketPublishingDetail; }
+            set { MarketPublishingDetail = value; }
+        }
+
+        /// <remarks/>
+        public OnixSupplyDetail supplydetail
+        {
+            get { return SupplyDetail; }
+            set { SupplyDetail = value; }
+        }
+
+        #endregion
     }
 }

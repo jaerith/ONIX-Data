@@ -21,6 +21,8 @@ namespace OnixData.Version3.Publishing
 
         private string imprintNameField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public string ImprintName
         {
@@ -33,5 +35,18 @@ namespace OnixData.Version3.Publishing
                 this.imprintNameField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public string b079
+        {
+            get { return ImprintName; }
+            set { ImprintName = value; }
+        }
+
+        #endregion
     }
 }

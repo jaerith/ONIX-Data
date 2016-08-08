@@ -21,7 +21,7 @@ namespace OnixData.Version3
 
             ProductContentType = new string[0];
             EditionType        = new string[0];
-            EditionNumber      = new int[0];
+            EditionNumber      = -1;
 
             Measure       = new OnixMeasure[0];
             Collection    = new OnixCollection[0];
@@ -37,7 +37,7 @@ namespace OnixData.Version3
         private string   productFormDescriptionField;
         private string[] productContentTypeField;
         private string[] editionTypeField;
-        private int[]    editionNumberField;
+        private int      editionNumberField;
         private int      audienceCodeField;
 
         private OnixMeasure[]       measureField;
@@ -47,6 +47,8 @@ namespace OnixData.Version3
         private OnixExtent[]        extentField;
         private OnixSubject[]       subjectField;
         private OnixAudienceRange[] audienceRangeField;
+
+        #region Reference Tags
 
         /// <remarks/>
         public int ProductComposition
@@ -116,8 +118,7 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("EditionNumber")]
-        public int[] EditionNumber
+        public int EditionNumber
         {
             get
             {
@@ -253,5 +254,116 @@ namespace OnixData.Version3
                 this.audienceRangeField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int x314
+        {
+            get { return ProductComposition; }
+            set { ProductComposition = value; }
+        }
+
+        /// <remarks/>
+        public string b012
+        {
+            get { return ProductForm; }
+            set { ProductForm = value; }
+        }
+
+        /// <remarks/>
+        public string b014
+        {
+            get { return ProductFormDescription; }
+            set { ProductFormDescription = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("b385")]
+        public string[] b385
+        {
+            get { return ProductContentType; }
+            set { ProductContentType = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("x419")]
+        public string[] x419
+        {
+            get { return EditionType; }
+            set { EditionType = value; }
+        }
+
+        public int b057
+        {
+            get { return EditionNumber; }
+            set { EditionNumber = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("measure")]
+        public OnixMeasure[] measure
+        {
+            get { return Measure; }
+            set { Measure = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("collection")]
+        public OnixCollection[] collection
+        {
+            get { return Collection; }
+            set { Collection = value; }
+        }
+
+        /// <remarks/>
+        public OnixTitleDetail titledetail
+        {
+            get { return TitleDetail; }
+            set { TitleDetail = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("contributor")]
+        public OnixContributor[] contributor
+        {
+            get { return Contributor; }
+            set { Contributor = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("extent")]
+        public OnixExtent[] extent
+        {
+            get { return Extent; }
+            set { Extent = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("subject")]
+        public OnixSubject[] subject
+        {
+            get { return Subject; }
+            set { Subject = value; }
+        }
+
+        /// <remarks/>
+        public int b073
+        {
+            get { return AudienceCode; }
+            set { AudienceCode = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("audiencerange")]
+        public OnixAudienceRange[] audiencerange
+        {
+            get { return AudienceRange; }
+            set { AudienceRange = value; }
+        } 
+
+        #endregion
     }
 }

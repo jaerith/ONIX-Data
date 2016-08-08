@@ -17,6 +17,8 @@ namespace OnixData.Version3.Market
 
         private OnixMarketTerritory territoryField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public OnixMarketTerritory Territory
         {
@@ -29,5 +31,18 @@ namespace OnixData.Version3.Market
                 this.territoryField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public OnixMarketTerritory territory
+        {
+            get { return Territory; }
+            set { Territory = value; }
+        }
+
+        #endregion
     }
 }

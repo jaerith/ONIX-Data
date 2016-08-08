@@ -29,6 +29,8 @@ namespace OnixData.Version3.Market
         private string       countriesIncludedField;
         private List<string> countriesIncludedList;
 
+        #region Reference Tags
+
         /// <remarks/>
         public string CountriesIncluded
         {
@@ -57,5 +59,18 @@ namespace OnixData.Version3.Market
                 return this.countriesIncludedList;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public string x449
+        {
+            get { return CountriesIncluded; }
+            set { CountriesIncluded = value; }
+        }        
+
+        #endregion
     }
 }

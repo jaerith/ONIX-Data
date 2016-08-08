@@ -19,6 +19,8 @@ namespace OnixData.Version3.Publishing
         private OnixImprint[]   imprintField;
         private OnixPublisher[] publisherField;
 
+        #region Reference Tags
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Imprint")]
         public OnixImprint[] Imprint
@@ -46,5 +48,27 @@ namespace OnixData.Version3.Publishing
                 this.publisherField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("imprint")]
+        public OnixImprint[] imprint
+        {
+            get { return Imprint; }
+            set { Imprint = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("publisher")]
+        public OnixPublisher[] publisher
+        {
+            get { return Publisher; }
+            set { Publisher = value; }
+        }
+
+        #endregion
     }
 }

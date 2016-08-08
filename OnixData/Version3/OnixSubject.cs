@@ -29,6 +29,8 @@ namespace OnixData.Version3
         private int    subjectSchemeVersionField;
         private string subjectCodeField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public string MainSubject
         {
@@ -80,5 +82,40 @@ namespace OnixData.Version3
                 this.subjectCodeField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public string x425
+        {
+            get { return MainSubject; }
+            set { MainSubject = value; }
+        }
+
+        /// <remarks/>
+        public int b067
+        {
+            get { return SubjectSchemeIdentifier; }
+            set { SubjectSchemeIdentifier = value; }
+        }
+
+        /// <remarks/>
+        public string b069
+        {
+            get { return SubjectCode; }
+            set { SubjectCode = value; }
+        }
+
+
+        /// <remarks/>
+        public int b068
+        {
+            get { return SubjectSchemeVersion; }
+            set { SubjectSchemeVersion = value; }
+        }
+
+        #endregion
     }
 }

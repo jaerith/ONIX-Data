@@ -17,6 +17,8 @@ namespace OnixData.Version3.Header
 
         private string addresseeNameField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public string AddresseeName
         {
@@ -29,5 +31,18 @@ namespace OnixData.Version3.Header
                 this.addresseeNameField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public string x300
+        {
+            get { return AddresseeName; }
+            set { AddresseeName = value; }
+        }        
+
+        #endregion
     }
 }

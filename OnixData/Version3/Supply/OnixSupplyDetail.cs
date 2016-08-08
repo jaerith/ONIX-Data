@@ -28,6 +28,8 @@ namespace OnixData.Version3.Supply
         private int                     packQuantityField;
         private OnixPrice[]             priceField;
 
+        #region Reference Tags
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Supplier", IsNullable = false)]
         public OnixSupplier[] Supplier
@@ -94,6 +96,50 @@ namespace OnixData.Version3.Supply
             {
                 this.returnsConditionsField = value;
             }
+        }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("supplier", IsNullable = false)]
+        public OnixSupplier[] supplier
+        {
+            get { return Supplier; }
+            set { Supplier = value; }
+        }
+
+        /// <remarks/>
+        public string j396
+        {
+            get { return ProductAvailability; }
+            set { ProductAvailability = value; }
+        }
+
+        /// <remarks/>
+        public int j145
+        {
+            get { return PackQuantity; }
+            set { PackQuantity = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("price", IsNullable = false)]
+        public OnixPrice[] price
+        {
+            get { return Price; }
+            set { Price = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("returnsconditions", IsNullable = false)]
+        public OnixReturnsConditions[] returnsconditions
+        {
+            get { return ReturnsConditions; }
+            set { ReturnsConditions = value; }
         }        
+
+        #endregion
     }
 }

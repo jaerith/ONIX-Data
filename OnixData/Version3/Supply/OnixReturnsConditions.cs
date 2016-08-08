@@ -30,6 +30,8 @@ namespace OnixData.Version3.Supply
         private string returnsCodeTypeNameField;
         private string returnsCodeField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int ReturnsCodeType
         {
@@ -68,5 +70,32 @@ namespace OnixData.Version3.Supply
                 this.returnsCodeField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int j268
+        {
+            get { return ReturnsCodeType; }
+            set { ReturnsCodeType = value; }
+        }
+
+        /// <remarks/>
+        public string x460
+        {
+            get { return ReturnsCodeTypeName; }
+            set { ReturnsCodeTypeName = value; }
+        }
+
+        /// <remarks/>
+        public string j269
+        {
+            get { return ReturnsCode; }
+            set { ReturnsCode = value; }
+        }
+
+        #endregion
     }
 }

@@ -22,6 +22,8 @@ namespace OnixData.Version3
         private OnixHeader    headerField;
         private OnixProduct[] productField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public OnixHeader Header
         {
@@ -48,5 +50,26 @@ namespace OnixData.Version3
                 this.productField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public OnixHeader header
+        {
+            get { return Header; }
+            set { Header = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("product")]
+        public OnixProduct[] product
+        {
+            get { return Product; }
+            set { Product = value; }
+        }
+
+        #endregion
     }
 }

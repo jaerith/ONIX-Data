@@ -34,6 +34,8 @@ namespace OnixData.Version3.Price
         private OnixPriceTax taxField;
         private string       currencyCodeField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int PriceType
         {
@@ -85,5 +87,39 @@ namespace OnixData.Version3.Price
                 this.currencyCodeField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int x462
+        {
+            get { return PriceType; }
+            set { PriceType = value; }
+        }
+
+        /// <remarks/>
+        public decimal j151
+        {
+            get { return PriceAmount; }
+            set { PriceAmount = value; }
+        }
+
+        /// <remarks/>
+        public OnixPriceTax tax
+        {
+            get { return Tax; }
+            set { Tax = value; }
+        }
+
+        /// <remarks/>
+        public string j152
+        {
+            get { return CurrencyCode; }
+            set { CurrencyCode = value; }
+        }
+
+        #endregion
     }
 }

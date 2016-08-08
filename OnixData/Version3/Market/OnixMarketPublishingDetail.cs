@@ -19,6 +19,8 @@ namespace OnixData.Version3.Market
         private int            marketPublishingStatusField;
         private OnixMarketDate marketDateField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int MarketPublishingStatus
         {
@@ -44,5 +46,25 @@ namespace OnixData.Version3.Market
                 this.marketDateField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int j407
+        {
+            get { return MarketPublishingStatus; }
+            set { MarketPublishingStatus = value; }
+        }
+
+        /// <remarks/>
+        public OnixMarketDate marketdate
+        {
+            get { return MarketDate; }
+            set { MarketDate = value; }
+        }
+
+        #endregion
     }
 }

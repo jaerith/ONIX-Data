@@ -33,6 +33,8 @@ namespace OnixData.Version3
         private int    productIDTypeField;
         private string iDValueField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int ProductIDType
         {
@@ -58,5 +60,38 @@ namespace OnixData.Version3
                 this.iDValueField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b221
+        {
+            get
+            {
+                return ProductIDType;
+            }
+            set
+            {
+                ProductIDType = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b244
+        {
+            get
+            {
+                return IDValue;
+            }
+            set
+            {
+                IDValue = value;
+            }
+        }
+
+        #endregion
+
     }
 }

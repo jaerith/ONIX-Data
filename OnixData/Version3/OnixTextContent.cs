@@ -30,6 +30,8 @@ namespace OnixData.Version3
         private int    contentAudienceField;
         private string textField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int TextType
         {
@@ -68,5 +70,32 @@ namespace OnixData.Version3
                 this.textField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int x426
+        {
+            get { return TextType; }
+            set { TextType = value; }
+        }
+
+        /// <remarks/>
+        public int x427
+        {
+            get { return ContentAudience; }
+            set { ContentAudience = value; }
+        }
+
+        /// <remarks/>
+        public string d104
+        {
+            get { return Text; }
+            set { Text = value; }
+        }
+
+        #endregion
     }
 }

@@ -37,7 +37,7 @@ namespace OnixData.Version3
         public OnixContributor()
         {
             SequenceNumber  = -1;
-            ContributorRole = "";
+            ContributorRole = personNameField = personNameInvertedField = "";
             NamesBeforeKey  = KeyNames = "";
         }
 
@@ -45,6 +45,10 @@ namespace OnixData.Version3
         private string contributorRoleField;
         private string namesBeforeKeyField;
         private string keyNamesField;
+        private string personNameField;
+        private string personNameInvertedField;
+
+        #region Reference Tags
 
         /// <remarks/>
         public int SequenceNumber
@@ -97,5 +101,79 @@ namespace OnixData.Version3
                 this.keyNamesField = value;
             }
         }
+
+        /// <remarks/>
+        public string PersonName
+        {
+            get
+            {
+                return this.personNameField;
+            }
+            set
+            {
+                this.personNameField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string PersonNameInverted
+        {
+            get
+            {
+                return this.personNameInvertedField;
+            }
+            set
+            {
+                this.personNameInvertedField = value;
+            }
+        }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b034
+        {
+            get { return SequenceNumber; }
+            set { SequenceNumber = value; }
+        }
+
+        /// <remarks/>
+        public string b035
+        {
+            get { return ContributorRole; }
+            set { ContributorRole = value; }
+        }
+
+        /// <remarks/>
+        public string b036
+        {
+            get { return PersonName; }
+            set { PersonName = value; }
+        }
+
+        /// <remarks/>
+        public string b037
+        {
+            get { return PersonNameInverted; }
+            set { PersonNameInverted = value; }
+        }
+
+        /// <remarks/>
+        public string b039
+        {
+            get { return NamesBeforeKey; }
+            set { NamesBeforeKey = value; }
+        }
+
+        /// <remarks/>
+        public string b040
+        {
+            get { return KeyNames; }
+            set { KeyNames = value; }
+        }
+
+        #endregion
     }
 }

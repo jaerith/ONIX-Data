@@ -21,6 +21,8 @@ namespace OnixData.Version3.Market
         private int  dateFormatField;
         private uint dateField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int MarketDateRole
         {
@@ -59,5 +61,32 @@ namespace OnixData.Version3.Market
                 this.dateField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int j408
+        {
+            get { return MarketDateRole; }
+            set { MarketDateRole = value; }
+        }
+
+        /// <remarks/>
+        public int j260
+        {
+            get { return DateFormat; }
+            set { DateFormat = value; }
+        }
+
+        /// <remarks/>
+        public uint b306
+        {
+            get { return Date; }
+            set { Date = value; }
+        }
+
+        #endregion
     }
 }

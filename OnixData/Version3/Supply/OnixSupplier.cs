@@ -19,6 +19,8 @@ namespace OnixData.Version3.Supply
         private int    supplierRoleField;
         private string supplierNameField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int SupplierRole
         {
@@ -44,5 +46,25 @@ namespace OnixData.Version3.Supply
                 this.supplierNameField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int j292
+        {
+            get { return SupplierRole; }
+            set { SupplierRole = value; }
+        }
+
+        /// <remarks/>
+        public string j137
+        {
+            get { return SupplierName; }
+            set { SupplierName = value; }
+        }
+
+        #endregion
     }
 }

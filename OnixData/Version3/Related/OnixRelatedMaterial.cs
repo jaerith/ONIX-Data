@@ -19,6 +19,8 @@ namespace OnixData.Version3.Related
         private OnixRelatedWork[]    relatedWorkField;
         private OnixRelatedProduct[] relatedProductField;
 
+        #region Reference Tags
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("RelatedWork")]
         public OnixRelatedWork[] RelatedWork
@@ -47,5 +49,26 @@ namespace OnixData.Version3.Related
             }
         }
 
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("relatedwork")]
+        public OnixRelatedWork[] relatedwork
+        {
+            get { return RelatedWork; }
+            set { RelatedWork = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("relatedproduct")]
+        public OnixRelatedProduct[] relatedproduct
+        {
+            get { return RelatedProduct; }
+            set { RelatedProduct = value; }
+        }
+
+        #endregion
     }
 }

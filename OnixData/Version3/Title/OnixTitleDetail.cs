@@ -19,6 +19,8 @@ namespace OnixData.Version3.Title
         private int              titleTypeField;
         private OnixTitleElement titleElementField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int TitleType
         {
@@ -44,5 +46,25 @@ namespace OnixData.Version3.Title
                 this.titleElementField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b202
+        {
+            get { return TitleType; }
+            set { TitleType = value; }
+        }
+
+        /// <remarks/>
+        public OnixTitleElement titleelement
+        {
+            get { return TitleElement; }
+            set { TitleElement = value; }
+        }
+
+        #endregion
     }
 }

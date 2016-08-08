@@ -26,6 +26,8 @@ namespace OnixData.Version3.Title
         private int             collectionTypeField;
         private OnixTitleDetail titleDetailField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int CollectionType
         {
@@ -51,5 +53,25 @@ namespace OnixData.Version3.Title
                 this.titleDetailField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int x329
+        {
+            get { return CollectionType; }
+            set { CollectionType = value; }
+        }
+
+        /// <remarks/>
+        public OnixTitleDetail titledetail
+        {
+            get { return TitleDetail; }
+            set { TitleDetail = value; }
+        }
+
+        #endregion
     }
 }

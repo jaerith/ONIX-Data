@@ -26,6 +26,8 @@ namespace OnixData.Version3.Publishing
         private int    publishingRoleField;
         private string publisherNameField;
 
+        #region Reference Tags
+
         /// <remarks/>
         public int PublishingRole
         {
@@ -51,10 +53,25 @@ namespace OnixData.Version3.Publishing
                 this.publisherNameField = value;
             }
         }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public int b291
+        {
+            get { return PublishingRole; }
+            set { PublishingRole = value; }
+        }
+
+        /// <remarks/>
+        public string b081
+        {
+            get { return PublisherName; }
+            set { PublisherName = value; }
+        }
+
+        #endregion
     }
-
-
-
-
-
 }
