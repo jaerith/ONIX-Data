@@ -12,13 +12,12 @@ namespace OnixData.Legacy
     {
         private int    discountCodeTypeField;
         private string discountCodeTypeNameField;
-        private int    discountCodeField;
+        private string discountCodeField;
 
         public OnixLegacyDiscountCoded()
         {
             DiscountCodeType     = -1;
-            DiscountCodeTypeName = "";
-            DiscountCode         = -1;
+            DiscountCodeTypeName = DiscountCode = "";
         }
 
         #region Reference Tags
@@ -50,7 +49,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int DiscountCode
+        public string DiscountCode
         {
             get
             {
@@ -81,7 +80,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int j364
+        public string j364
         {
             get { return DiscountCode; }
             set { DiscountCode = value; }
