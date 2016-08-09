@@ -30,12 +30,13 @@ namespace OnixData.Legacy
             RecordReference  = 0;
             NotificationType = NumberOfPieces = TradeCategory = Barcode = -1;
 
-            ProductIdentifier = new OnixLegacyProductId[0];
+            productIdentifierField  = shortProductIdentifierField  = new OnixLegacyProductId[0];
+            productContentTypeField = shortProductContentTypeField = new string[0];
+            publisherField          = shortPublisherField          = new OnixLegacyPublisher[0];
 
-            ProductForm            = "";
+            ProductForm = "";
             ProductFormDetail      = "";
             ProductFormDescription = "";
-            ProductContentType     = new string[0];
             EpubType               = "";
             EpubTypeVersion        = "";
             EpubFormatDescription  = "";
@@ -51,13 +52,16 @@ namespace OnixData.Legacy
         protected string upcField;
 
         protected OnixLegacyProductId[] productIdentifierField;
+        protected OnixLegacyProductId[] shortProductIdentifierField;
+
+        protected string[] productContentTypeField;
+        protected string[] shortProductContentTypeField;
 
         protected int      barCodeField;
         protected string   productFormField;
         protected string   productFormDetailField;
         protected int      numberOfPiecesField;
         protected int      tradeCategoryField;
-        protected string[] productContentTypeField;
         protected string   epubTypeField;
         protected string   epubTypeVersionField;
         protected string   epubFormatDescriptionField;
@@ -66,6 +70,148 @@ namespace OnixData.Legacy
         protected OnixLegacyProductFormFeature productFormFeatureField;
 
         protected OnixLegacyPublisher[] publisherField;
+        protected OnixLegacyPublisher[] shortPublisherField;
+
+        #region ONIX Helpers
+
+        public string ISBN
+        {
+            get
+            {
+                OnixLegacyProductId[] ProductIdList = OnixProductIdList;
+
+                string TempISBN = this.isbnField;
+                if (String.IsNullOrEmpty(TempISBN))
+                {
+                    if ((ProductIdList != null) && (ProductIdList.Length > 0))
+                    {
+                        OnixLegacyProductId IsbnProductId =
+                            ProductIdList.Where(x => x.ProductIDType == CONST_PRODUCT_TYPE_ISBN).FirstOrDefault();
+
+                        if ((IsbnProductId != null) && !String.IsNullOrEmpty(IsbnProductId.IDValue))
+                            TempISBN = this.isbnField = IsbnProductId.IDValue;
+                    }
+                }
+
+                return TempISBN;
+            }
+            set
+            {
+                this.isbnField = value;
+            }
+        }
+
+        public string EAN
+        {
+            get
+            {
+                OnixLegacyProductId[] ProductIdList = OnixProductIdList;
+
+                string TempEAN = this.eanField;
+                if (String.IsNullOrEmpty(TempEAN))
+                {
+                    if ((ProductIdList != null) && (ProductIdList.Length > 0))
+                    {
+                        OnixLegacyProductId EanProductId =
+                            ProductIdList.Where(x => (x.ProductIDType == CONST_PRODUCT_TYPE_EAN) ||
+                                                     (x.ProductIDType == CONST_PRODUCT_TYPE_ISBN13)).FirstOrDefault();
+
+                        if ((EanProductId != null) && !String.IsNullOrEmpty(EanProductId.IDValue))
+                            TempEAN = this.eanField = EanProductId.IDValue;
+                    }
+                }
+
+                return TempEAN;
+            }
+            set
+            {
+                this.eanField = value;
+            }
+        }
+
+        public string UPC
+        {
+            get
+            {
+                OnixLegacyProductId[] ProductIdList = OnixProductIdList;
+
+                string TempUPC = this.upcField;
+                if (String.IsNullOrEmpty(TempUPC))
+                {
+                    if ((ProductIdList != null) && (ProductIdList.Length > 0))
+                    {
+                        OnixLegacyProductId UpcProductId =
+                            ProductIdList.Where(x => x.ProductIDType == CONST_PRODUCT_TYPE_UPC).FirstOrDefault();
+
+                        if ((UpcProductId != null) && !String.IsNullOrEmpty(UpcProductId.IDValue))
+                            TempUPC = this.upcField = UpcProductId.IDValue;
+                    }
+                }
+
+                return TempUPC;
+            }
+            set
+            {
+                this.upcField = value;
+            }
+        }
+
+        #endregion
+
+        #region ONIX Lists
+
+        public OnixLegacyProductId[] OnixProductIdList
+        {
+            get
+            {
+                OnixLegacyProductId[] ProductIdList = null;
+
+                if (this.productIdentifierField != null)
+                    ProductIdList = this.productIdentifierField;
+                else if (this.shortProductIdentifierField != null)
+                    ProductIdList = this.shortProductIdentifierField;
+                else
+                    ProductIdList = new OnixLegacyProductId[0];
+
+                return ProductIdList;
+            }
+        }
+
+        public string[] OnixProductContentTypeList
+        {
+            get
+            {
+                string[] ContentTypeList = null;
+
+                if (this.productContentTypeField != null)
+                    ContentTypeList = this.productContentTypeField;
+                else if (this.shortProductContentTypeField != null)
+                    ContentTypeList = this.shortProductContentTypeField;
+                else
+                    ContentTypeList = new string[0];
+
+                return ContentTypeList;
+            }
+        }
+
+        public OnixLegacyPublisher[] OnixPublisherList
+        {
+            get
+            {
+                OnixLegacyPublisher[] PubList = null;
+
+                if (this.publisherField != null)
+                    PubList = this.publisherField;
+                else if (this.shortPublisherField != null)
+                    PubList = this.shortPublisherField;
+                else
+                    PubList = new OnixLegacyPublisher[0];
+
+                return PubList;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
@@ -92,85 +238,6 @@ namespace OnixData.Legacy
             set
             {
                 this.notificationTypeField = value;
-            }
-        }
-
-        public string ISBN
-        {
-            get
-            {
-                string TempISBN = this.isbnField;
-
-                if (String.IsNullOrEmpty(TempISBN))
-                {
-                    if ((ProductIdentifier != null) && (ProductIdentifier.Length > 0))
-                    {
-                        OnixLegacyProductId IsbnProductId = 
-                            ProductIdentifier.Where(x => x.ProductIDType == CONST_PRODUCT_TYPE_ISBN).FirstOrDefault();
-
-                        if ((IsbnProductId != null) && !String.IsNullOrEmpty(IsbnProductId.IDValue))
-                            TempISBN = this.isbnField = IsbnProductId.IDValue;
-                    }
-                }
-
-                return TempISBN;
-            }
-            set
-            {
-                this.isbnField = value;
-            }
-        }
-
-        public string EAN
-        {
-            get
-            {
-                string TempEAN = this.eanField;
-
-                if (String.IsNullOrEmpty(TempEAN))
-                {
-                    if ((ProductIdentifier != null) && (ProductIdentifier.Length > 0))
-                    {
-                        OnixLegacyProductId EanProductId =
-                            ProductIdentifier.Where(x => (x.ProductIDType == CONST_PRODUCT_TYPE_EAN) || 
-                                                         (x.ProductIDType == CONST_PRODUCT_TYPE_ISBN13)).FirstOrDefault();
-
-                        if ((EanProductId != null) && !String.IsNullOrEmpty(EanProductId.IDValue))
-                            TempEAN = this.eanField = EanProductId.IDValue;
-                    }
-                }
-
-                return TempEAN;
-            }
-            set
-            {
-                this.eanField = value;
-            }
-        }
-
-        public string UPC
-        {
-            get
-            {
-                string TempUPC = this.upcField;
-
-                if (String.IsNullOrEmpty(TempUPC))
-                {
-                    if ((ProductIdentifier != null) && (ProductIdentifier.Length > 0))
-                    {
-                        OnixLegacyProductId UpcProductId =
-                            ProductIdentifier.Where(x => x.ProductIDType == CONST_PRODUCT_TYPE_UPC).FirstOrDefault();
-
-                        if ((UpcProductId != null) && !String.IsNullOrEmpty(UpcProductId.IDValue))
-                            TempUPC = this.upcField = UpcProductId.IDValue;
-                    }
-                }
-
-                return TempUPC;
-            }
-            set
-            {
-                this.upcField = value;
             }
         }
 
@@ -368,229 +435,121 @@ namespace OnixData.Legacy
         /// <remarks/>
         public ulong a001
         {
-            get
-            {
-                return RecordReference;
-            }
-            set
-            {
-                RecordReference = value;
-            }
+            get { return RecordReference; }
+            set { RecordReference = value; }
         }
 
         /// <remarks/>
         public int a002
         {
-            get
-            {
-                return NotificationType;
-            }
-            set
-            {
-                NotificationType = value;
-            }
+            get { return NotificationType; }
+            set { NotificationType = value; }
         }
 
         public string b004
         {
-            get
-            {
-                return ISBN;
-            }
-            set
-            {
-                ISBN = value;
-            }
+            get { return ISBN; }
+            set { ISBN = value; }
         }
 
         public string b005
         {
-            get
-            {
-                return EAN;
-            }
-            set
-            {
-                EAN = value;
-            }
+            get { return EAN; }
+            set { EAN = value; }
         }
 
         public string b006
         {
-            get
-            {
-                return UPC;
-            }
-            set
-            {
-                UPC = value;
-            }
+            get { return UPC; }
+            set { UPC = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("productidentifier")]
         public OnixLegacyProductId[] productidentifier
         {
-            get
-            {
-                return ProductIdentifier;
-            }
-            set
-            {
-                ProductIdentifier = value;
-            }
+            get { return shortProductIdentifierField; }
+            set { shortProductIdentifierField = value; }
         }
 
         public int b246
         {
-            get
-            {
-                return Barcode;
-            }
-            set
-            {
-                Barcode = value;
-            }
+            get { return Barcode; }
+            set { Barcode = value; }
         }
 
         /// <remarks/>
         public string b012
         {
-            get
-            {
-                return ProductForm;
-            }
-            set
-            {
-                ProductForm = value;
-            }
+            get { return ProductForm; }
+            set { ProductForm = value; }
         }
 
         /// <remarks/>
         public string b333
         {
-            get
-            {
-                return ProductFormDetail;
-            }
-            set
-            {
-                ProductFormDetail = value;
-            }
+            get { return ProductFormDetail; }
+            set { ProductFormDetail = value; }
         }
 
         public int b210
         {
-            get
-            {
-                return NumberOfPieces;
-            }
-            set
-            {
-                NumberOfPieces = value;
-            }
+            get { return NumberOfPieces; }
+            set { NumberOfPieces = value; }
         }
 
         public int b384
         {
-            get
-            {
-                return TradeCategory;
-            }
-            set
-            {
-                TradeCategory = value;
-            }
+            get { return TradeCategory; }
+            set { TradeCategory = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("b385")]
         public string[] b385
         {
-            get
-            {
-                return ProductContentType;
-            }
-            set
-            {
-                ProductContentType = value;
-            }
+            get { return shortProductContentTypeField; }
+            set { shortProductContentTypeField = value; }
         }
 
         public string b211
         {
-            get
-            {
-                return EpubType;
-            }
-            set
-            {
-                EpubType = value;
-            }
+            get { return EpubType; }
+            set { EpubType = value; }
         }
 
         public string b212
         {
-            get
-            {
-                return EpubTypeVersion;
-            }
-            set
-            {
-                EpubTypeVersion = value;
-            }
+            get { return EpubTypeVersion; }
+            set { EpubTypeVersion = value; }
         }
 
         public string b216
         {
-            get
-            {
-                return EpubFormatDescription;
-            }
-            set
-            {
-                EpubFormatDescription = value;
-            }
+            get { return EpubFormatDescription; }
+            set { EpubFormatDescription = value; }
         }
 
         /// <remarks/>
         public OnixLegacyProductFormFeature productformfeature
         {
-            get
-            {
-                return ProductFormFeature;
-            }
-            set
-            {
-                ProductFormFeature = value;
-            }
+            get { return ProductFormFeature; }
+            set { ProductFormFeature = value; }
         }
 
         /// <remarks/>
         public string b014
         {
-            get
-            {
-                return ProductFormDescription;
-            }
-            set
-            {
-                ProductFormDescription = value;
-            }
+            get { return ProductFormDescription; }
+            set { ProductFormDescription = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("publisher")]
         public OnixLegacyPublisher[] publisher
         {
-            get
-            {
-                return Publisher;
-            }
-            set
-            {
-                Publisher = value;
-            }
+            get { return shortPublisherField; }
+            set { shortPublisherField = value; }
         }
 
         #endregion

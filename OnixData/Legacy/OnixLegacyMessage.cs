@@ -20,11 +20,31 @@ namespace OnixData.Legacy
         public OnixLegacyMessage()
         {
             Header  = new OnixLegacyHeader();
-            Product = new OnixLegacyProduct[0];
+            Product = null;
+            product = null;
         }
 
         private OnixLegacyHeader    headerField;
+
         private OnixLegacyProduct[] productField;
+        private OnixLegacyProduct[] altProductField;
+
+        public OnixLegacyProduct[] OnixProducts
+        {
+            get
+            {
+                OnixLegacyProduct[] productList = null;
+
+                if (Product != null)
+                    productList = Product;
+                else if (product != null)
+                    productList = product;
+                else
+                    productList = new OnixLegacyProduct[0];
+
+                return productList;
+            }
+        }
 
         #region Reference Tags
 
@@ -78,11 +98,11 @@ namespace OnixData.Legacy
         {
             get
             {
-                return Product;
+                return altProductField;
             }
             set
             {
-                Product = value;
+                altProductField = value;
             }
         }
 

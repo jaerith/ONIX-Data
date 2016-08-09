@@ -41,13 +41,13 @@ namespace OnixData.Legacy
             EpubType               = "";
             EpubTypeVersion        = "";
             EpubFormatDescription  = "";
-            EditionTypeCode        = new string[0];
-            EditionNumber          = new int[0];
+
+            editionTypeCodeField = shortEditionTypeCodeField = null;
+            editionNumberField   = shortEditionNumberField   = null;
 
             ProductFormFeature = new OnixLegacyProductFormFeature();
 
-            Title       = new OnixLegacyTitle();
-            Contributor = new OnixLegacyContributor[0];
+            Title = new OnixLegacyTitle();
 
             ContributorStatement = "";
 
@@ -62,14 +62,15 @@ namespace OnixData.Legacy
             BASICMainSubject = "";
             AudienceCode     = "";
 
-            Extent        = new OnixLegacyExtent[0];
-            Subject       = new OnixLegacySubject[0];
-            Complexity    = new OnixLegacyComplexity[0];
-            AudienceRange = new OnixLegacyAudRange[0];
-            OtherText     = new OnixLegacyOtherText[0];
-            MediaFile     = new OnixLegacyMediaFile[0];
-            Imprint       = new OnixLegacyImprint[0];
-            Publisher     = new OnixLegacyPublisher[0];
+            contributorField   = shortContributorField   = new OnixLegacyContributor[0];
+            extentField        = shortExtentField        = new OnixLegacyExtent[0];
+            seriesField        = shortSeriesField        = new OnixLegacySeries[0];
+            subjectField       = shortSubjectField       = new OnixLegacySubject[0];
+            complexityField    = shortComplexityField    = new OnixLegacyComplexity[0];
+            audienceRangeField = shortAudienceRangeField = new OnixLegacyAudRange[0];
+            imprintField       = shortImprintField       = new OnixLegacyImprint[0];
+            mediaFileField     = shortMediaFileField     = new OnixLegacyMediaFile[0];
+            otherTextField     = shortOtherTextField     = new OnixLegacyOtherText[0];
 
             cityOfPublicationField = countryOfPublicationField  = publishingStatusField = "";
             announcementDateField  = tradeAnnouncementDateField = "";
@@ -87,10 +88,11 @@ namespace OnixData.Legacy
         private int    productPackagingField;
 
         private string[] editionTypeCodeField;
+        private string[] shortEditionTypeCodeField;
         private int[]    editionNumberField;
+        private int[]    shortEditionNumberField;
 
-        private OnixLegacyTitle         titleField;
-        private OnixLegacyContributor[] contributorField;
+        private OnixLegacyTitle titleField;
 
         private string contributorStatementField;
 
@@ -106,14 +108,24 @@ namespace OnixData.Legacy
         private string basicMainSubjectField;
         private string audienceCodeField;
 
-        private OnixLegacyExtent[]     extentField;
-        private OnixLegacySeries[]     seriesField;
-        private OnixLegacySubject[]    subjectField;
-        private OnixLegacyComplexity[] complexityField;
-        private OnixLegacyAudRange[]   audienceRangeField;
-        private OnixLegacyOtherText[]  otherTextField;
-        private OnixLegacyMediaFile[]  mediaFileField;
-        private OnixLegacyImprint[]    imprintField;
+        private OnixLegacyContributor[] contributorField;
+        private OnixLegacyContributor[] shortContributorField;
+        private OnixLegacyExtent[]      extentField;
+        private OnixLegacyExtent[]      shortExtentField;
+        private OnixLegacySeries[]      seriesField;
+        private OnixLegacySeries[]      shortSeriesField;
+        private OnixLegacySubject[]     subjectField;
+        private OnixLegacySubject[]     shortSubjectField;
+        private OnixLegacyComplexity[]  complexityField;
+        private OnixLegacyComplexity[]  shortComplexityField;
+        private OnixLegacyAudRange[]    audienceRangeField;
+        private OnixLegacyAudRange[]    shortAudienceRangeField;
+        private OnixLegacyImprint[]     imprintField;
+        private OnixLegacyImprint[]     shortImprintField;
+        private OnixLegacyMediaFile[]   mediaFileField;
+        private OnixLegacyMediaFile[]   shortMediaFileField;
+        private OnixLegacyOtherText[]   otherTextField;
+        private OnixLegacyOtherText[]   shortOtherTextField;
 
         private string cityOfPublicationField;
         private string countryOfPublicationField;
@@ -128,7 +140,310 @@ namespace OnixData.Legacy
         private OnixLegacyRelatedProduct[] relatedProductField;
         private OnixLegacySupplyDetail     supplyDetailField;
 
-        public Exception ParsingError { get; set; }
+        #region Parsing Error
+
+        private Exception ParsingError;
+
+        public Exception GetParsingError() { return ParsingError; }
+
+        public bool IsValid() { return (ParsingError == null); }
+
+        public void SetParsingError(Exception value) { ParsingError = value; }
+
+        #endregion
+
+        #region ONIX Helpers
+
+        public OnixLegacySubject BisacCategoryCode
+        {
+            get
+            {
+                OnixLegacySubject FoundSubject = new OnixLegacySubject();
+
+                OnixLegacySubject[] SubjectList = OnixSubjectList;
+                if ((SubjectList != null) && (SubjectList.Length > 0))
+                {
+                    FoundSubject =
+                        SubjectList.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID).FirstOrDefault();
+                }
+
+                return FoundSubject;
+            }
+        }
+
+        public OnixLegacySubject BisacRegionCode
+        {
+            get
+            {
+                OnixLegacySubject FoundSubject = new OnixLegacySubject();
+
+                OnixLegacySubject[] SubjectList = OnixSubjectList;
+                if ((SubjectList != null) && (SubjectList.Length > 0))
+                {
+                    FoundSubject =
+                        SubjectList.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_REGION_ID).FirstOrDefault();
+                }
+
+                return FoundSubject;
+            }
+        }
+
+        public OnixLegacyContributor PrimaryAuthor
+        {
+            get
+            {
+                OnixLegacyContributor PrimaryAuthor = new OnixLegacyContributor();
+
+                OnixLegacyContributor[] ContributorList = OnixContributorList;
+                if ((ContributorList != null) && (ContributorList.Length > 0))
+                {
+                    PrimaryAuthor =
+                        ContributorList.Where(x => x.ContributorRole == OnixLegacyContributor.CONST_CONTRIB_ROLE_AUTHOR).FirstOrDefault();
+                }
+
+                return PrimaryAuthor;
+            }
+        }
+
+        public string ProprietaryImprintName
+        {
+            get
+            {
+                string FoundImprintName = "";
+
+                OnixLegacyImprint[] ImprintList = OnixImprintList;
+                if ((ImprintList != null) && (ImprintList.Length > 0))
+                {
+                    OnixLegacyImprint FoundImprint =
+                        ImprintList.Where(x => x.NameCodeType == OnixLegacyImprint.CONST_IMPRINT_ROLE_PROP).FirstOrDefault();
+
+                    FoundImprintName = FoundImprint.ImprintName;
+                }
+
+                return FoundImprintName;
+            }
+        }
+
+        public int SeriesNumber
+        {
+            get
+            {
+                int FoundSeriesNum = 0;
+
+                OnixLegacySeries[] SeriesList = OnixSeriesList;
+                if ((SeriesList != null) && (SeriesList.Length > 0))
+                    FoundSeriesNum = SeriesList[0].NumberWithinSeries;
+
+                return FoundSeriesNum;
+            }
+        }
+
+        public string SeriesTitle
+        {
+            get
+            {
+                string FoundSeriesTitle = "";
+
+                OnixLegacySeries[] SeriesList = OnixSeriesList;
+                if ((SeriesList != null) && (SeriesList.Length > 0))
+                    FoundSeriesTitle = SeriesList[0].TitleOfSeries;
+
+                return FoundSeriesTitle;
+            }
+        }
+
+        #endregion
+
+        #region ONIX Lists
+
+        public OnixLegacyAudRange[] OnixAudRangeList
+        {
+            get
+            {
+                OnixLegacyAudRange[] AudRanges = null;
+
+                if (this.audienceRangeField != null)
+                    AudRanges = this.audienceRangeField;
+                else if (this.shortAudienceRangeField != null)
+                    AudRanges = this.shortAudienceRangeField;
+                else
+                    AudRanges = new OnixLegacyAudRange[0];
+
+                return AudRanges;
+            }
+        }
+
+        public string[] OnixEditionTypeCodeList
+        {
+            get
+            {
+                string[] EditionTypeCodes = null;
+
+                if (editionTypeCodeField != null)
+                    EditionTypeCodes = this.editionTypeCodeField;
+                else if (shortEditionTypeCodeField != null)
+                    EditionTypeCodes = this.shortEditionTypeCodeField;
+                else
+                    EditionTypeCodes = new string[0];
+
+                return EditionTypeCodes;
+            }
+        }
+
+        public int[] OnixEditionNumberList
+        {
+            get
+            {
+                int[] EditionNumbers = null;
+
+                if (editionNumberField != null)
+                    EditionNumbers = this.editionNumberField;
+                else if (shortEditionNumberField != null)
+                    EditionNumbers = this.shortEditionNumberField;
+                else
+                    EditionNumbers = new int[0];
+
+                return EditionNumbers;
+            }
+        }
+
+        public OnixLegacyComplexity[] OnixComplexityList
+        {
+            get
+            {
+                OnixLegacyComplexity[] Complexities = null;
+
+                if (this.complexityField != null)
+                    Complexities = this.complexityField;
+                else if (this.shortComplexityField != null)
+                    Complexities = this.shortComplexityField;
+                else
+                    Complexities = new OnixLegacyComplexity[0];
+
+                return Complexities;
+            }
+        }
+
+        public OnixLegacyContributor[] OnixContributorList
+        {
+            get
+            {
+                OnixLegacyContributor[] Contributors = null;
+
+                if (this.contributorField != null)
+                    Contributors = this.contributorField;
+                else if (this.shortContributorField != null)
+                    Contributors = this.shortContributorField;
+                else
+                    Contributors = new OnixLegacyContributor[0];
+
+                return Contributors;
+            }
+        }
+
+        public OnixLegacyExtent[] OnixExtentList
+        {
+            get
+            {
+                OnixLegacyExtent[] Extents = null;
+
+                if (this.extentField != null)
+                    Extents = this.extentField;
+                else if (this.shortExtentField != null)
+                    Extents = this.shortExtentField;
+                else
+                    Extents = new OnixLegacyExtent[0];
+
+                return Extents;
+            }
+        }
+
+        public OnixLegacyImprint[] OnixImprintList
+        {
+            get
+            {
+                OnixLegacyImprint[] Imprints = null;
+
+                if (this.imprintField != null)
+                    Imprints = this.imprintField;
+                else if (this.shortImprintField != null)
+                    Imprints = this.shortImprintField;
+                else
+                    Imprints = new OnixLegacyImprint[0];
+
+                return Imprints;
+            }
+        }
+
+        public OnixLegacyMediaFile[] OnixMediaFileList
+        {
+            get
+            {
+                OnixLegacyMediaFile[] MediaFiles = null;
+
+                if (this.mediaFileField != null)
+                    MediaFiles = this.mediaFileField;
+                else if (this.shortMediaFileField != null)
+                    MediaFiles = this.shortMediaFileField;
+                else
+                    MediaFiles = new OnixLegacyMediaFile[0];
+
+                return MediaFiles;
+            }
+        }
+
+        public OnixLegacyOtherText[] OnixOtherTextList
+        {
+            get
+            {
+                OnixLegacyOtherText[] OtherTexts = null;
+
+                if (this.otherTextField != null)
+                    OtherTexts = this.otherTextField;
+                else if (this.shortOtherTextField != null)
+                    OtherTexts = this.shortOtherTextField;
+                else
+                    OtherTexts = new OnixLegacyOtherText[0];
+
+                return OtherTexts;
+            }
+        }
+
+        public OnixLegacySeries[] OnixSeriesList
+        {
+            get
+            {
+                OnixLegacySeries[] Series = null;
+
+                if (this.seriesField != null)
+                    Series = this.seriesField;
+                else if (this.shortSeriesField != null)
+                    Series = this.shortSeriesField;
+                else
+                    Series = new OnixLegacySeries[0];
+
+                return Series;
+            }
+        }
+
+        public OnixLegacySubject[] OnixSubjectList
+        {
+            get
+            {
+                OnixLegacySubject[] Subjects = null;
+
+                if (this.subjectField != null)
+                    Subjects = this.subjectField;
+                else if (this.shortSubjectField != null)
+                    Subjects = this.shortSubjectField;
+                else
+                    Subjects = new OnixLegacySubject[0];
+
+                return Subjects;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
@@ -210,22 +525,6 @@ namespace OnixData.Legacy
             set
             {
                 this.contributorField = value;
-            }
-        }
-
-        public OnixLegacyContributor GetPrimaryAuthor
-        {
-            get
-            {
-                OnixLegacyContributor PrimaryAuthor = new OnixLegacyContributor();
-
-                if ((Contributor != null) && (Contributor.Length > 0))
-                {
-                    PrimaryAuthor =
-                        Contributor.Where(x => x.ContributorRole == OnixLegacyContributor.CONST_CONTRIB_ROLE_AUTHOR).FirstOrDefault();
-                }
-
-                return PrimaryAuthor;
             }
         }
 
@@ -375,32 +674,6 @@ namespace OnixData.Legacy
             }
         }
 
-        public int SeriesNumber
-        {
-            get
-            {
-                int FoundSeriesNum = 0;
-
-                if ((Series != null) && (Series.Length > 0))
-                    FoundSeriesNum = Series[0].NumberWithinSeries;
-
-                return FoundSeriesNum;
-            }
-        }
-
-        public string SeriesTitle
-        {
-            get
-            {
-                string FoundSeriesTitle = "";
-
-                if ((Series != null) && (Series.Length > 0))
-                    FoundSeriesTitle = Series[0].TitleOfSeries;
-
-                return FoundSeriesTitle;
-            }
-        }
-
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Subject")]
         public OnixLegacySubject[] Subject
@@ -443,38 +716,6 @@ namespace OnixData.Legacy
             }
         }
 
-        public OnixLegacySubject BisacCategoryCode
-        {
-            get
-            {
-                OnixLegacySubject FoundSubject = new OnixLegacySubject();
-
-                if ((Subject != null) && (Subject.Length > 0))
-                {
-                    FoundSubject =
-                        Subject.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID).FirstOrDefault();
-                }
-
-                return FoundSubject;
-            }
-        }
-
-        public OnixLegacySubject BisacRegionCode
-        {
-            get
-            {
-                OnixLegacySubject FoundSubject = new OnixLegacySubject();
-
-                if ((Subject != null) && (Subject.Length > 0))
-                {
-                    FoundSubject =
-                        Subject.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_REGION_ID).FirstOrDefault();
-                }
-
-                return FoundSubject;
-            }
-        }
-
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("OtherText")]
         public OnixLegacyOtherText[] OtherText
@@ -514,24 +755,6 @@ namespace OnixData.Legacy
             set
             {
                 this.imprintField = value;
-            }
-        }
-
-        public string ProprietaryImprintName
-        {
-            get
-            {
-                string FoundImprintName = "";
-
-                if ((Imprint != null) && (Imprint.Length > 0))
-                {
-                    OnixLegacyImprint FoundImprint =
-                        Imprint.Where(x => x.NameCodeType == OnixLegacyImprint.CONST_IMPRINT_ROLE_PROP).FirstOrDefault();
-
-                    FoundImprintName = FoundImprint.ImprintName;
-                }
-
-                return FoundImprintName;
             }
         }
 
@@ -675,18 +898,22 @@ namespace OnixData.Legacy
 
         public OnixLegacyMeasure Height
         {
-            get
-            {
-                OnixLegacyMeasure FoundHeight = new OnixLegacyMeasure();
+            get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_HEIGHT); }
+        }
 
-                if ((Measure != null) && (Measure.Length > 0))
-                {
-                    FoundHeight =
-                        Measure.Where(x => x.MeasureTypeCode == OnixLegacyMeasure.CONST_MEASURE_TYPE_HEIGHT).FirstOrDefault();
-                }
+        public OnixLegacyMeasure Thick
+        {
+            get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_THICK); }
+        }
 
-                return FoundHeight;
-            }
+        public OnixLegacyMeasure Weight
+        {
+            get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_WEIGHT); }
+        }
+
+        public OnixLegacyMeasure Width
+        {
+            get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_WIDTH); }
         }
 
         /// <remarks/>
@@ -798,16 +1025,16 @@ namespace OnixData.Legacy
         [System.Xml.Serialization.XmlElementAttribute("b056")]
         public string[] b056
         {
-            get { return EditionTypeCode; }
-            set { EditionTypeCode = value; }
+            get { return shortEditionTypeCodeField; }
+            set { shortEditionTypeCodeField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("b057")]
         public int[] b057
         {
-            get { return EditionNumber; }
-            set { EditionNumber = value; }
+            get { return shortEditionNumberField; }
+            set { shortEditionNumberField = value; }
         }
 
         /// <remarks/>
@@ -821,8 +1048,8 @@ namespace OnixData.Legacy
         [System.Xml.Serialization.XmlElementAttribute("contributor")]
         public OnixLegacyContributor[] contributor
         {
-            get { return Contributor; }
-            set { Contributor = value; }
+            get { return this.shortContributorField; }
+            set { this.shortContributorField = value; }
         }
 
         /// <remarks/>
@@ -893,64 +1120,64 @@ namespace OnixData.Legacy
         [System.Xml.Serialization.XmlElementAttribute("extent")]
         public OnixLegacyExtent[] extent
         {
-            get { return Extent; }
-            set { Extent = value; }
+            get { return shortExtentField; }
+            set { shortExtentField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("series")]
         public OnixLegacySeries[] series
         {
-            get { return Series; }
-            set { Series = value; }
+            get { return shortSeriesField; }
+            set { shortSeriesField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("subject")]
         public OnixLegacySubject[] subject
         {
-            get { return Subject; }
-            set { Subject = value; }
+            get { return shortSubjectField; }
+            set { shortSubjectField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("complexity")]
         public OnixLegacyComplexity[] complexity
         {
-            get { return Complexity; }
-            set { Complexity = value; }
+            get { return shortComplexityField; }
+            set { shortComplexityField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("audiencerange")]
         public OnixLegacyAudRange[] audiencerange
         {
-            get { return AudienceRange; }
-            set { AudienceRange = value; }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("othertext")]
-        public OnixLegacyOtherText[] othertext
-        {
-            get { return OtherText; }
-            set { OtherText = value; }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("mediafile")]
-        public OnixLegacyMediaFile[] mediafile
-        {
-            get { return MediaFile; }
-            set { MediaFile = value; }
+            get { return shortAudienceRangeField; }
+            set { shortAudienceRangeField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("imprint")]
         public OnixLegacyImprint[] imprint
         {
-            get { return Imprint; }
-            set { Imprint = value; }
+            get { return shortImprintField; }
+            set { shortImprintField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("othertext")]
+        public OnixLegacyOtherText[] othertext
+        {
+            get { return shortOtherTextField; }
+            set { shortOtherTextField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("mediafile")]
+        public OnixLegacyMediaFile[] mediafile
+        {
+            get { return shortMediaFileField; }
+            set { shortMediaFileField = value; }
         }
 
         /// <remarks/>
@@ -1031,6 +1258,23 @@ namespace OnixData.Legacy
         {
             get { return SupplyDetail; }
             set { SupplyDetail = value; }
+        }
+
+        #endregion
+
+        #region Support Methods
+
+        public OnixLegacyMeasure GetMeasurement(int Type)
+        {
+            OnixLegacyMeasure FoundMeasurement = new OnixLegacyMeasure();
+
+            if ((Measure != null) && (Measure.Length > 0))
+            {
+                FoundMeasurement =
+                    Measure.Where(x => x.MeasureTypeCode == Type).FirstOrDefault();
+            }
+
+            return FoundMeasurement;
         }
 
         #endregion
