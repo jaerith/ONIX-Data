@@ -58,6 +58,8 @@ namespace OnixData
                 this.LegacyOnixMessage =
                     new XmlSerializer(typeof(OnixLegacyMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
             }
+            else
+                this.LegacyOnixMessage = null;
         }
 
         static public XmlReader CreateXmlReader(FileInfo LegacyOnixFilepath, bool ReportValidationWarnings)
@@ -185,7 +187,7 @@ namespace OnixData
                 {
                     CurrentRecord = new OnixLegacyProduct();
 
-                    CurrentRecord.ParsingError = ex;
+                    CurrentRecord.SetParsingError(ex);
                 }
             }
             else

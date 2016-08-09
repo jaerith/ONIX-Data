@@ -185,7 +185,7 @@ namespace OnixData
                 {
                     CurrentRecord = new OnixProduct();
 
-                    CurrentRecord.ParsingError = ex;
+                    CurrentRecord.SetParsingError(ex);
                 }
             }
             else
