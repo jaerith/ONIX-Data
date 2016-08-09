@@ -24,59 +24,74 @@ namespace OnixTestHarness
                 string sOnixXml        = File.ReadAllText(@"C:\tmp\tmp2\onix.sample.v3.xml");
                 string sLegacyShortXml = File.ReadAllText(@"C:\tmp\tmp2\onix.legacy.short.xml");
 
-                OnixLegacyMessage onixLegacyShortMessage = sLegacyShortXml.ParseXML<OnixLegacyMessage>("ONIXmessage");
-
-                if ((onixLegacyShortMessage.Product != null) && (onixLegacyShortMessage.Product.Count() > 0))
+                if (true)
                 {
-                    foreach (OnixLegacyProduct TmpProduct in onixLegacyShortMessage.Product)
+                    using (OnixLegacyParser onixLegacyShortParser =
+                               new OnixLegacyParser(new FileInfo(@"C:\tmp\tmp2\onix.legacy.short.xml"), true, false, false))
                     {
-                        System.Console.WriteLine("Product [" + (nLegacyShortIdx++) + "] has EAN(" +
-                                                 TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
-                                                 ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
+                        OnixLegacyHeader Header = onixLegacyShortParser.MessageHeader;
+
+                        foreach (OnixLegacyProduct TmpProduct in onixLegacyShortParser)
+                        {
+                            // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
+
+                            if (TmpProduct.IsValid())
+                            {
+                                System.Console.WriteLine("Product [" + (nLegacyShortIdx++) + "] has EAN(" +
+                                                         TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
+                                                         ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
+                            }
+                            else
+                            {
+                                System.Console.WriteLine(TmpProduct.GetParsingError());
+                            }
+                        }
+                    }
+                }
+
+                if (true)
+                {
+                    FileInfo LegacyFileInfo = new FileInfo(@"C:\tmp\tmp2\onix.legacy.xml");
+                    using (OnixLegacyParser LegacyParser = new OnixLegacyParser(LegacyFileInfo, true, true, false))
+                    {
+                        OnixLegacyHeader Header = LegacyParser.MessageHeader;
+
+                        foreach (OnixLegacyProduct TmpProduct in LegacyParser)
+                        {
+                            // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
+
+                            if (TmpProduct.IsValid())
+                            {
+                                System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
+                                                            TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
+                                                            ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
+                            }
+                            else
+                            {
+                                System.Console.WriteLine(TmpProduct.GetParsingError());
+                            }
+                        }
                     }
                 }
 
                 if (false)
                 {
-                    FileInfo LegacyFileInfo = new FileInfo(@"C:\tmp\tmp2\onix.legacy.xml");
-                    using (OnixLegacyParser LegacyParser = new OnixLegacyParser(LegacyFileInfo, true, false))
+                    OnixLegacyMessage onixLegacyMessage = sLegacyXml.ParseXML<OnixLegacyMessage>();
+
+                    foreach (OnixLegacyProduct TmpProduct in onixLegacyMessage.Product)
                     {
-                        OnixLegacyHeader Header = LegacyParser.MessageHeader;
-
-                        if (LegacyParser.Message != null)
-                        {
-                            foreach (OnixLegacyProduct TmpProduct in LegacyParser.Message.Product)
-                            {
-                                System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
-                                                         TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
-                                                         ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
-                            }
-                        }
-
-                        foreach (OnixLegacyProduct TempProduct in LegacyParser)
-                        {
-                            System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
-                                                     TempProduct.EAN + ") and USD Retail Price(" + TempProduct.USDRetailPrice.PriceAmount +
-                                                     ") - HasUSRights(" + TempProduct.HasUSRights() + ").");
-                        }
+                        System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
+                                                 TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
+                                                 ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
                     }
-                }
 
-                OnixLegacyMessage onixLegacyMessage = sLegacyXml.ParseXML<OnixLegacyMessage>();
-
-                foreach (OnixLegacyProduct TmpProduct in onixLegacyMessage.Product)
-                {
-                    System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
-                                             TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
-                                             ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
-                }           
-
-                OnixMessage onixMessage = sOnixXml.ParseXML<OnixMessage>();
-                foreach (OnixProduct TmpProduct in onixMessage.Product)
-                {
-                    System.Console.WriteLine("Product [" + (nOnixPrdIdx++) + "] has EAN(" +
-                                             TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
-                                             ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
+                    OnixMessage onixMessage = sOnixXml.ParseXML<OnixMessage>();
+                    foreach (OnixProduct TmpProduct in onixMessage.Product)
+                    {
+                        System.Console.WriteLine("Product [" + (nOnixPrdIdx++) + "] has EAN(" +
+                                                 TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
+                                                 ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
+                    }
                 }
             }
             catch (Exception ex)

@@ -52,7 +52,13 @@ namespace OnixData.Version3
         private OnixRelatedMaterial   relatedMaterialField;
         private OnixProductSupply     productSupplyField;
 
-        public Exception ParsingError { get; set; }
+        private Exception ParsingError;
+
+        public Exception GetParsingError() { return ParsingError; }
+
+        public bool IsValid() { return (ParsingError == null); }
+
+        public void SetParsingError(Exception value) { ParsingError = value; }
 
         #region Reference Tags
 
