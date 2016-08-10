@@ -15,12 +15,36 @@ namespace OnixData.Version3
     {
         public OnixMessage()
         {
-            Header  = new OnixHeader();
-            Product = new OnixProduct[0];
+            Header = new OnixHeader();
+
+            productField = shortProductField = new OnixProduct[0];
         }
 
         private OnixHeader    headerField;
+
         private OnixProduct[] productField;
+        private OnixProduct[] shortProductField;
+
+        #region ONIX Lists
+
+        public OnixProduct[] OnixProducts
+        {
+            get
+            {
+                OnixProduct[] productList = null;
+
+                if (Product != null)
+                    productList = Product;
+                else if (product != null)
+                    productList = product;
+                else
+                    productList = new OnixProduct[0];
+
+                return productList;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 

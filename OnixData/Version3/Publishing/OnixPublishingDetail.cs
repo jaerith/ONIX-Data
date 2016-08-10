@@ -17,7 +17,47 @@ namespace OnixData.Version3.Publishing
         }
 
         private OnixImprint[]   imprintField;
+        private OnixImprint[]   shortImprintField;
         private OnixPublisher[] publisherField;
+        private OnixPublisher[] shortPublisherField;
+
+        #region ONIX Lists
+
+        public OnixImprint[] OnixImprintList
+        {
+            get
+            {
+                OnixImprint[] Imprints = null;
+
+                if (this.imprintField != null)
+                    Imprints = this.imprintField;
+                else if (this.shortImprintField != null)
+                    Imprints = this.shortImprintField;
+                else
+                    Imprints = new OnixImprint[0];
+
+                return Imprints;
+            }
+        }
+
+        public OnixPublisher[] OnixPublisherList
+        {
+            get
+            {
+                OnixPublisher[] Publishers = null;
+
+                if (this.publisherField != null)
+                    Publishers = this.publisherField;
+                else if (this.shortPublisherField != null)
+                    Publishers = this.shortPublisherField;
+                else
+                    Publishers = new OnixPublisher[0];
+
+                return Publishers;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
@@ -57,16 +97,16 @@ namespace OnixData.Version3.Publishing
         [System.Xml.Serialization.XmlElementAttribute("imprint")]
         public OnixImprint[] imprint
         {
-            get { return Imprint; }
-            set { Imprint = value; }
+            get { return shortImprintField; }
+            set { shortImprintField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("publisher")]
         public OnixPublisher[] publisher
         {
-            get { return Publisher; }
-            set { Publisher = value; }
+            get { return shortPublisherField; }
+            set { shortPublisherField = value; }
         }
 
         #endregion

@@ -14,11 +14,34 @@ namespace OnixData.Version3.Related
         {
             ProductRelationCode = -1;
 
-            ProductIdentifier = new OnixProductId[0];
+            productIdentifierField = shortProductIdentifierField = new OnixProductId[0];
         }
 
-        private int             productRelationCodeField;
+        private int productRelationCodeField;
+
         private OnixProductId[] productIdentifierField;
+        private OnixProductId[] shortProductIdentifierField;
+
+        #region ONIX Lists
+
+        public OnixProductId[] OnixProductIdList
+        {
+            get
+            {
+                OnixProductId[] ProductIds = null;
+
+                if (this.productIdentifierField != null)
+                    ProductIds = this.productIdentifierField;
+                else if (this.shortProductIdentifierField != null)
+                    ProductIds = this.shortProductIdentifierField;
+                else
+                    ProductIds = new OnixProductId[0];
+
+                return ProductIds;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
@@ -64,8 +87,8 @@ namespace OnixData.Version3.Related
         [System.Xml.Serialization.XmlElementAttribute("productidentifier")]
         public OnixProductId[] productidentifier
         {
-            get { return ProductIdentifier; }
-            set { ProductIdentifier = value; }
+            get { return shortProductIdentifierField; }
+            set { shortProductIdentifierField = value; }
         }
 
         #endregion

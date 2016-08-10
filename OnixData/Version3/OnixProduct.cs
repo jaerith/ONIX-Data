@@ -9,6 +9,7 @@ using OnixData.Version3.Price;
 using OnixData.Version3.Publishing;
 using OnixData.Version3.Related;
 using OnixData.Version3.Supply;
+using OnixData.Version3.Text;
 using OnixData.Version3.Title;
 
 namespace OnixData.Version3
@@ -17,6 +18,20 @@ namespace OnixData.Version3
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixProduct
     {
+        #region CONSTANTS
+
+        public const int CONST_PRODUCT_TYPE_PROP   = 1;
+        public const int CONST_PRODUCT_TYPE_ISBN   = 2;
+        public const int CONST_PRODUCT_TYPE_EAN    = 3;
+        public const int CONST_PRODUCT_TYPE_UPC    = 4;
+        public const int CONST_PRODUCT_TYPE_ISMN   = 5;
+        public const int CONST_PRODUCT_TYPE_DOI    = 6;
+        public const int CONST_PRODUCT_TYPE_LCCN   = 13;
+        public const int CONST_PRODUCT_TYPE_GTIN   = 14;
+        public const int CONST_PRODUCT_TYPE_ISBN13 = 15;
+
+        #endregion
+
         public OnixProduct()
         {
             RecordReference = "";
@@ -25,11 +40,12 @@ namespace OnixData.Version3
 
             ISBN = UPC = "";
 
-            EAN = -1;
+            eanField = -1;
 
-            ProductIdentifier = new OnixProductId[0];
+            productIdentifierField = shortProductIdentifierField = new OnixProductId[0];
+
             DescriptiveDetail = new OnixDescriptiveDetail();
-            CollateralDetail  = new OnixTextContent[0];
+            CollateralDetail  = new OnixCollateralDetail();
             PublishingDetail  = new OnixPublishingDetail();
             RelatedMaterial   = new OnixRelatedMaterial();
             ProductSupply     = new OnixProductSupply();
@@ -46,47 +62,44 @@ namespace OnixData.Version3
         private string upcField;
 
         private OnixProductId[]       productIdentifierField;
+        private OnixProductId[]       shortProductIdentifierField;
+
+        private OnixCollateralDetail  collateralDetailField;
         private OnixDescriptiveDetail descriptiveDetailField;
-        private OnixTextContent[]     collateralDetailField;
         private OnixPublishingDetail  publishingDetailField;
         private OnixRelatedMaterial   relatedMaterialField;
         private OnixProductSupply     productSupplyField;
 
+        #region Parsing Error
+
+        private string    InputXml;
         private Exception ParsingError;
 
-        public Exception GetParsingError() { return ParsingError; }
+        public string    GetInputXml() { return InputXml; }
+        public void      SetInputXml(string value) { InputXml = value; }
 
         public bool IsValid() { return (ParsingError == null); }
 
-        public void SetParsingError(Exception value) { ParsingError = value; }
+        public Exception GetParsingError() { return ParsingError; }
+        public void      SetParsingError(Exception value) { ParsingError = value; }
 
-        #region Reference Tags
+        #endregion
 
-        /// <remarks/>
-        public string RecordReference
-        {
-            get
-            {
-                return this.recordReferenceField;
-            }
-            set
-            {
-                this.recordReferenceField = value;
-            }
-        }
+        #region ONIX Helpers
 
         public string ISBN
         {
             get
             {
-                string TempISBN = this.isbnField;
+                OnixProductId[] ProductIdList = OnixProductIdList;
 
+                string TempISBN = this.isbnField;
                 if (String.IsNullOrEmpty(TempISBN))
                 {
-                    if ((ProductIdentifier != null) && (ProductIdentifier.Length > 0))
+                    if ((ProductIdList != null) && (ProductIdList.Length > 0))
                     {
                         OnixProductId IsbnProductId =
-                            ProductIdentifier.Where(x => x.ProductIDType == OnixProductId.CONST_PRODUCT_TYPE_ISBN).FirstOrDefault();
+                            ProductIdList.Where(x => x.ProductIDType == CONST_PRODUCT_TYPE_ISBN).FirstOrDefault();
 
                         if ((IsbnProductId != null) && !String.IsNullOrEmpty(IsbnProductId.IDValue))
                             TempISBN = this.isbnField = IsbnProductId.IDValue;
@@ -105,15 +118,16 @@ namespace OnixData.Version3
         {
             get
             {
-                long TempEAN = this.eanField;
+                OnixProductId[] ProductIdList = OnixProductIdList;
 
+                long TempEAN = this.eanField;
                 if (TempEAN <= 0)
                 {
-                    if ((ProductIdentifier != null) && (ProductIdentifier.Length > 0))
+                    if ((ProductIdList != null) && (ProductIdList.Length > 0))
                     {
                         OnixProductId EanProductId =
-                            ProductIdentifier.Where(x => (x.ProductIDType == OnixProductId.CONST_PRODUCT_TYPE_EAN) ||
-                                                         (x.ProductIDType == OnixProductId.CONST_PRODUCT_TYPE_ISBN13)).FirstOrDefault();
+                            ProductIdList.Where(x => (x.ProductIDType == CONST_PRODUCT_TYPE_EAN) ||
+                                                     (x.ProductIDType == CONST_PRODUCT_TYPE_ISBN13)).FirstOrDefault();
 
                         if ((EanProductId != null) && !String.IsNullOrEmpty(EanProductId.IDValue))
                             TempEAN = this.eanField = Convert.ToInt64(EanProductId.IDValue);
@@ -132,14 +146,15 @@ namespace OnixData.Version3
         {
             get
             {
-                string TempUPC = this.upcField;
+                OnixProductId[] ProductIdList = OnixProductIdList;
 
+                string TempUPC = this.upcField;
                 if (String.IsNullOrEmpty(TempUPC))
                 {
-                    if ((ProductIdentifier != null) && (ProductIdentifier.Length > 0))
+                    if ((ProductIdList != null) && (ProductIdList.Length > 0))
                     {
                         OnixProductId UpcProductId =
-                            ProductIdentifier.Where(x => x.ProductIDType == OnixProductId.CONST_PRODUCT_TYPE_UPC).FirstOrDefault();
+                            ProductIdList.Where(x => x.ProductIDType == CONST_PRODUCT_TYPE_UPC).FirstOrDefault();
 
                         if ((UpcProductId != null) && !String.IsNullOrEmpty(UpcProductId.IDValue))
                             TempUPC = this.upcField = UpcProductId.IDValue;
@@ -151,6 +166,236 @@ namespace OnixData.Version3
             set
             {
                 this.upcField = value;
+            }
+        }
+
+        public OnixMeasure Height
+        {
+            get { return GetMeasurement(OnixMeasure.CONST_MEASURE_TYPE_HEIGHT); }
+        }
+
+        public OnixMeasure Thick
+        {
+            get { return GetMeasurement(OnixMeasure.CONST_MEASURE_TYPE_THICK); }
+        }
+
+        public OnixMeasure Weight
+        {
+            get { return GetMeasurement(OnixMeasure.CONST_MEASURE_TYPE_WEIGHT); }
+        }
+
+        public OnixMeasure Width
+        {
+            get { return GetMeasurement(OnixMeasure.CONST_MEASURE_TYPE_WIDTH); }
+        }
+
+        public OnixContributor PrimaryAuthor
+        {
+            get
+            {
+                OnixContributor MainAuthor = new OnixContributor();
+
+                if ((DescriptiveDetail.OnixContributorList != null) && (DescriptiveDetail.OnixContributorList.Length > 0))
+                {
+                    MainAuthor =
+                        DescriptiveDetail.OnixContributorList.Where(x => x.ContributorRole == OnixContributor.CONST_CONTRIB_ROLE_AUTHOR).FirstOrDefault();
+                }
+
+                return MainAuthor;
+            }
+        }
+
+        public string SeriesTitle
+        {
+            get
+            {
+                string FoundSeriesTitle = "";
+
+                if ((DescriptiveDetail != null) &&
+                    (DescriptiveDetail.OnixCollectionList != null) &&
+                    (DescriptiveDetail.OnixCollectionList.Length > 0))
+                {
+                    OnixCollection seriesCollection =
+                        DescriptiveDetail.OnixCollectionList.Where(x => x.CollectionType == OnixCollection.CONST_COLL_TYPE_SERIES).FirstOrDefault();
+
+                    if ((seriesCollection.TitleDetail != null) && (seriesCollection.TitleDetail.TitleElement != null))
+                        FoundSeriesTitle = seriesCollection.TitleDetail.TitleElement.Title;
+                }
+
+                return FoundSeriesTitle;
+            }
+        }
+
+        public OnixSubject BisacCategoryCode
+        {
+            get
+            {
+                OnixSubject FoundSubject = new OnixSubject();
+
+                if ((DescriptiveDetail != null) &&
+                    (DescriptiveDetail.OnixSubjectList != null) &&
+                    (DescriptiveDetail.OnixSubjectList.Length > 0))
+                {
+                    FoundSubject =
+                        DescriptiveDetail.OnixSubjectList.Where(x => x.SubjectSchemeIdentifier == OnixSubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID).FirstOrDefault();
+                }
+
+                return FoundSubject;
+            }
+        }
+
+        public OnixSubject BisacRegionCode
+        {
+            get
+            {
+                OnixSubject FoundSubject = new OnixSubject();
+
+                if ((DescriptiveDetail != null) &&
+                    (DescriptiveDetail.OnixSubjectList != null) &&
+                    (DescriptiveDetail.OnixSubjectList.Length > 0))
+                {
+                    FoundSubject =
+                        DescriptiveDetail.OnixSubjectList.Where(x => x.SubjectSchemeIdentifier == OnixSubject.CONST_SUBJ_SCHEME_REGION_ID).FirstOrDefault();
+                }
+
+                return FoundSubject;
+            }
+        }
+
+        public bool HasUSDRetailPrice()
+        {
+            bool bHasUSDPrice = false;
+
+            if ((ProductSupply != null) &&
+                (ProductSupply.SupplyDetail != null) &&
+                (ProductSupply.SupplyDetail.OnixPriceList != null))
+            {
+                OnixPrice[] Prices = ProductSupply.SupplyDetail.OnixPriceList;
+
+                bHasUSDPrice =
+                    Prices.Any(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
+            }
+
+            return bHasUSDPrice;
+        }
+
+        public OnixPrice USDRetailPrice
+        {
+            get
+            {
+                OnixPrice USDPrice = new OnixPrice();
+
+                if ((ProductSupply != null) &&
+                    (ProductSupply.SupplyDetail != null) &&
+                    (ProductSupply.SupplyDetail.OnixPriceList != null))
+                {
+                    OnixPrice[] Prices = ProductSupply.SupplyDetail.OnixPriceList;
+
+                    USDPrice =
+                        Prices.Where(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD")).FirstOrDefault();
+
+                    if (USDPrice == null)
+                        USDPrice = new OnixPrice();
+                }
+
+                return USDPrice;
+            }
+        }
+
+        public string ImprintName
+        {
+            get
+            {
+                string FoundImprintName = "";
+
+                if ((PublishingDetail != null) &&
+                    (PublishingDetail.OnixImprintList != null) &&
+                    (PublishingDetail.OnixImprintList.Length > 0))
+                {
+                    FoundImprintName = PublishingDetail.OnixImprintList[0].ImprintName;
+                }
+
+                return FoundImprintName;
+            }
+        }
+
+        public string PublisherName
+        {
+            get
+            {
+                string FoundPubName = "";
+
+                if ((PublishingDetail != null) &&
+                    (PublishingDetail.OnixPublisherList != null) &&
+                    (PublishingDetail.OnixPublisherList.Length > 0))
+                {
+                    List<int> SoughtPubTypes =
+                        new List<int>() { 0, OnixPublisher.CONST_PUB_ROLE_PUBLISHER, OnixPublisher.CONST_PUB_ROLE_CO_PUB };
+
+                    OnixPublisher FoundPublisher =
+                        PublishingDetail.OnixPublisherList.Where(x => SoughtPubTypes.Contains(x.PublishingRole)).FirstOrDefault();
+
+                    FoundPubName = FoundPublisher.PublisherName;
+                }
+
+                return FoundPubName;
+            }
+        }
+
+        public bool HasUSRights()
+        {
+            bool bHasUSRights = false;
+
+            int[] aSalesRightsColl = new int[] { OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
+                                                 OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
+
+            if ((ProductSupply != null) &&
+                (ProductSupply.Market != null) &&
+                (ProductSupply.Market.Territory != null))
+            {
+                List<string> TempCountriesIncluded = ProductSupply.Market.Territory.CountriesIncludedList;
+
+                bHasUSRights = TempCountriesIncluded.Contains("US");
+            }
+
+            return bHasUSRights;
+        }
+
+        #endregion
+
+        #region ONIX Lists
+
+        public OnixProductId[] OnixProductIdList
+        {
+            get
+            {
+                OnixProductId[] ProductIdList = null;
+
+                if (this.productIdentifierField != null)
+                    ProductIdList = this.productIdentifierField;
+                else if (this.shortProductIdentifierField != null)
+                    ProductIdList = this.shortProductIdentifierField;
+                else
+                    ProductIdList = new OnixProductId[0];
+
+                return ProductIdList;
+            }
+        }
+
+        #endregion
+
+        #region Reference Tags
+
+        /// <remarks/>
+        public string RecordReference
+        {
+            get
+            {
+                return this.recordReferenceField;
+            }
+            set
+            {
+                this.recordReferenceField = value;
             }
         }
 
@@ -194,19 +439,15 @@ namespace OnixData.Version3
             }
         }
 
-        public OnixContributor GetPrimaryAuthor
+        public OnixCollateralDetail CollateralDetail
         {
             get
             {
-                OnixContributor PrimaryAuthor = new OnixContributor();
-
-                if ((DescriptiveDetail.Contributor != null) && (DescriptiveDetail.Contributor.Length > 0))
-                {
-                    PrimaryAuthor =
-                        DescriptiveDetail.Contributor.Where(x => x.ContributorRole == OnixContributor.CONST_CONTRIB_ROLE_AUTHOR).FirstOrDefault();
-                }
-
-                return PrimaryAuthor;
+                return this.collateralDetailField;
+            }
+            set
+            {
+                this.collateralDetailField = value;
             }
         }
 
@@ -243,134 +484,6 @@ namespace OnixData.Version3
             }
         }
 
-        public string SeriesTitle
-        {
-            get
-            {
-                string FoundSeriesTitle = "";
-
-                if ((DescriptiveDetail != null)            &&
-                    (DescriptiveDetail.Collection != null) && 
-                    (DescriptiveDetail.Collection.Length > 0))
-                {
-                    OnixCollection seriesCollection =
-                        DescriptiveDetail.Collection.Where(x => x.CollectionType == OnixCollection.CONST_COLL_TYPE_SERIES).FirstOrDefault();
-
-                    if ((seriesCollection.TitleDetail != null) && (seriesCollection.TitleDetail.TitleElement != null))
-                        FoundSeriesTitle = seriesCollection.TitleDetail.TitleElement.Title;
-                }
-
-                return FoundSeriesTitle;
-            }
-        }
-
-        public OnixSubject BisacCategoryCode
-        {
-            get
-            {
-                OnixSubject FoundSubject = new OnixSubject();
-
-                if ((DescriptiveDetail != null)         &&
-                    (DescriptiveDetail.Subject != null) && 
-                    (DescriptiveDetail.Subject.Length > 0))
-                {
-                    FoundSubject =
-                        DescriptiveDetail.Subject.Where(x => x.SubjectSchemeIdentifier == OnixSubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID).FirstOrDefault();
-                }
-
-                return FoundSubject;
-            }
-        }
-
-        public OnixSubject BisacRegionCode
-        {
-            get
-            {
-                OnixSubject FoundSubject = new OnixSubject();
-
-                if ((DescriptiveDetail != null)         &&
-                    (DescriptiveDetail.Subject != null) &&
-                    (DescriptiveDetail.Subject.Length > 0))
-                {
-                    FoundSubject =
-                        DescriptiveDetail.Subject.Where(x => x.SubjectSchemeIdentifier == OnixSubject.CONST_SUBJ_SCHEME_REGION_ID).FirstOrDefault();
-                }
-
-                return FoundSubject;
-            }
-        }
-
-        public OnixMeasure Height
-        {
-            get
-            {
-                OnixMeasure FoundHeight = new OnixMeasure();
-
-                if ((DescriptiveDetail != null)         &&
-                    (DescriptiveDetail.Measure != null) && 
-                    (DescriptiveDetail.Measure.Length > 0))
-                {
-                    OnixMeasure[] MeasureList = DescriptiveDetail.Measure;
-
-                    FoundHeight =
-                        MeasureList.Where(x => x.MeasureType == OnixMeasure.CONST_MEASURE_TYPE_HEIGHT).FirstOrDefault();
-                }
-
-                return FoundHeight;
-            }
-        }
-
-        public bool HasUSDRetailPrice()
-        {
-            bool bHasUSDPrice = false;
-
-            if ((ProductSupply != null)              &&
-                (ProductSupply.SupplyDetail != null) &&
-                (ProductSupply.SupplyDetail.Price != null))
-            {
-                bHasUSDPrice =
-                    ProductSupply.SupplyDetail.Price.Any(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
-            }
-
-            return bHasUSDPrice;
-        }
-
-        public OnixPrice USDRetailPrice
-        {
-            get
-            {
-                OnixPrice USDPrice = new OnixPrice();
-
-                if ((ProductSupply != null) && 
-                    (ProductSupply.SupplyDetail != null) && 
-                    (ProductSupply.SupplyDetail.Price != null))
-                {
-                    OnixPrice[] Prices = ProductSupply.SupplyDetail.Price;
-
-                    USDPrice =
-                        Prices.Where(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD")).FirstOrDefault();
-
-                    if (USDPrice == null)
-                        USDPrice = new OnixPrice();
-                }
-
-                return USDPrice;
-            }
-        }
-
-        /// <remarks/>
-        public OnixTextContent[] CollateralDetail
-        {
-            get
-            {
-                return this.collateralDetailField;
-            }
-            set
-            {
-                this.collateralDetailField = value;
-            }
-        }
-
         /// <remarks/>
         public OnixPublishingDetail PublishingDetail
         {
@@ -381,46 +494,6 @@ namespace OnixData.Version3
             set
             {
                 this.publishingDetailField = value;
-            }
-        }
-
-        public string ImprintName
-        {
-            get
-            {
-                string FoundImprintName = "";
-
-                if ((PublishingDetail != null) &&
-                    (PublishingDetail.Imprint != null) &&
-                    (PublishingDetail.Imprint.Length > 0))
-                {
-                    FoundImprintName = PublishingDetail.Imprint[0].ImprintName;
-                }
-
-                return FoundImprintName;
-            }
-        }
-
-        public string PublisherName
-        {
-            get
-            {
-                string FoundPubName = "";
-
-                if ((PublishingDetail != null)           &&
-                    (PublishingDetail.Publisher != null) &&
-                    (PublishingDetail.Publisher.Length > 0))
-                {
-                    List<int> SoughtPubTypes =
-                        new List<int>() { 0, OnixPublisher.CONST_PUB_ROLE_PUBLISHER, OnixPublisher.CONST_PUB_ROLE_CO_PUB };
-
-                    OnixPublisher FoundPublisher =
-                        PublishingDetail.Publisher.Where(x => SoughtPubTypes.Contains(x.PublishingRole)).FirstOrDefault();
-
-                    FoundPubName = FoundPublisher.PublisherName;
-                }
-
-                return FoundPubName;
             }
         }
 
@@ -448,25 +521,6 @@ namespace OnixData.Version3
             {
                 this.productSupplyField = value;
             }
-        }
-
-        public bool HasUSRights()
-        {
-            bool bHasUSRights = false;
-
-            int[] aSalesRightsColl = new int[] { OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
-                                                 OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
-
-            if ((ProductSupply != null)        &&
-                (ProductSupply.Market != null) &&
-                (ProductSupply.Market.Territory != null))
-            {
-                List<string> TempCountriesIncluded = ProductSupply.Market.Territory.CountriesIncludedList;
-
-                bHasUSRights = TempCountriesIncluded.Contains("US");
-            }
-
-            return bHasUSRights;
         }
 
         #endregion
@@ -498,8 +552,8 @@ namespace OnixData.Version3
         [System.Xml.Serialization.XmlElementAttribute("productidentifier", IsNullable = false)]
         public OnixProductId[] productidentifier
         {
-            get { return this.productIdentifierField; }
-            set { this.productIdentifierField = value; }
+            get { return this.shortProductIdentifierField; }
+            set { this.shortProductIdentifierField = value; }
         }
 
         /// <remarks/>
@@ -510,7 +564,7 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        public OnixTextContent[] collateraldetail
+        public OnixCollateralDetail collateraldetail
         {
             get { return CollateralDetail; }
             set { CollateralDetail = value; }
@@ -535,6 +589,27 @@ namespace OnixData.Version3
         {
             get { return ProductSupply; }
             set { ProductSupply = value; }
+        }
+
+        #endregion
+
+        #region Support Methods
+
+        public OnixMeasure GetMeasurement(int Type)
+        {
+            OnixMeasure FoundMeasurement = new OnixMeasure();
+
+            if ((DescriptiveDetail != null) &&
+                (DescriptiveDetail.Measure != null) &&
+                (DescriptiveDetail.Measure.Length > 0))
+            {
+                OnixMeasure[] MeasureList = DescriptiveDetail.Measure;
+
+                FoundMeasurement =
+                    MeasureList.Where(x => x.MeasureType == Type).FirstOrDefault();
+            }
+
+            return FoundMeasurement;
         }
 
         #endregion

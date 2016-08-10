@@ -20,12 +20,35 @@ namespace OnixData.Version3.Related
         public OnixRelatedWork()
         {
             WorkRelationCode = -1;
-            WorkIdentifier   = new OnixWorkIdentifier[0];
 
+            workIdentifierField = shortWorkIdentifierField = new OnixWorkIdentifier[0];
         }
 
-        private int                  workRelationCodeField;
+        private int workRelationCodeField;
+
         private OnixWorkIdentifier[] workIdentifierField;
+        private OnixWorkIdentifier[] shortWorkIdentifierField;
+
+        #region ONIX Lists
+
+        public OnixWorkIdentifier[] OnixWorkIdList
+        {
+            get
+            {
+                OnixWorkIdentifier[] WorkIds = null;
+
+                if (this.workIdentifierField != null)
+                    WorkIds = this.workIdentifierField;
+                else if (this.shortWorkIdentifierField != null)
+                    WorkIds = this.shortWorkIdentifierField;
+                else
+                    WorkIds = new OnixWorkIdentifier[0];
+
+                return WorkIds;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
@@ -71,8 +94,8 @@ namespace OnixData.Version3.Related
         [System.Xml.Serialization.XmlElementAttribute("workidentifier")]
         public OnixWorkIdentifier[] workidentifier
         {
-            get { return WorkIdentifier; }
-            set { WorkIdentifier = value; }
+            get { return shortWorkIdentifierField; }
+            set { shortWorkIdentifierField = value; }
         }
 
         #endregion

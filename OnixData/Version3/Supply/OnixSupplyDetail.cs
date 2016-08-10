@@ -22,27 +22,72 @@ namespace OnixData.Version3.Supply
             ReturnsConditions = new OnixReturnsConditions[0];
         }
 
-        private OnixSupplier[]          supplierField;
+        private string productAvailabilityField;
+        private int    packQuantityField;
+
         private OnixReturnsConditions[] returnsConditionsField;
-        private string                  productAvailabilityField;
-        private int                     packQuantityField;
+        private OnixReturnsConditions[] shortReturnsConditionsField;
         private OnixPrice[]             priceField;
+        private OnixPrice[]             shortPriceField;
+        private OnixSupplier[]          supplierField;
+        private OnixSupplier[]          shortSupplierField;
 
-        #region Reference Tags
+        #region ONIX Lists
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Supplier", IsNullable = false)]
-        public OnixSupplier[] Supplier
+        public OnixPrice[] OnixPriceList
         {
             get
             {
-                return this.supplierField;
-            }
-            set
-            {
-                this.supplierField = value;
+                OnixPrice[] Prices = null;
+
+                if (this.priceField != null)
+                    Prices = this.priceField;
+                else if (this.shortPriceField != null)
+                    Prices = this.shortPriceField;
+                else
+                    Prices = new OnixPrice[0];
+
+                return Prices;
             }
         }
+
+        public OnixReturnsConditions[] OnixReturnsConditionsList
+        {
+            get
+            {
+                OnixReturnsConditions[] ReturnsConditions = null;
+
+                if (this.returnsConditionsField != null)
+                    ReturnsConditions = this.returnsConditionsField;
+                else if (this.shortReturnsConditionsField != null)
+                    ReturnsConditions = this.shortReturnsConditionsField;
+                else
+                    ReturnsConditions = new OnixReturnsConditions[0];
+
+                return ReturnsConditions;
+            }
+        }
+
+        public OnixSupplier[] OnixSupplierList
+        {
+            get
+            {
+                OnixSupplier[] Suppliers = null;
+
+                if (this.supplierField != null)
+                    Suppliers = this.supplierField;
+                else if (this.shortSupplierField != null)
+                    Suppliers = this.shortSupplierField;
+                else
+                    Suppliers = new OnixSupplier[0];
+
+                return Suppliers;
+            }
+        }
+
+        #endregion
+
+        #region Reference Tags
 
         /// <remarks/>
         public string ProductAvailability
@@ -98,17 +143,23 @@ namespace OnixData.Version3.Supply
             }
         }
 
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Supplier", IsNullable = false)]
+        public OnixSupplier[] Supplier
+        {
+            get
+            {
+                return this.supplierField;
+            }
+            set
+            {
+                this.supplierField = value;
+            }
+        }
+
         #endregion
 
         #region Short Tags
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("supplier", IsNullable = false)]
-        public OnixSupplier[] supplier
-        {
-            get { return Supplier; }
-            set { Supplier = value; }
-        }
 
         /// <remarks/>
         public string j396
@@ -128,17 +179,25 @@ namespace OnixData.Version3.Supply
         [System.Xml.Serialization.XmlElementAttribute("price", IsNullable = false)]
         public OnixPrice[] price
         {
-            get { return Price; }
-            set { Price = value; }
+            get { return shortPriceField; }
+            set { shortPriceField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("returnsconditions", IsNullable = false)]
         public OnixReturnsConditions[] returnsconditions
         {
-            get { return ReturnsConditions; }
-            set { ReturnsConditions = value; }
-        }        
+            get { return shortReturnsConditionsField; }
+            set { shortReturnsConditionsField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("supplier", IsNullable = false)]
+        public OnixSupplier[] supplier
+        {
+            get { return shortSupplierField; }
+            set { shortSupplierField = value; }
+        }
 
         #endregion
     }
