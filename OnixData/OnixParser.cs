@@ -18,6 +18,8 @@ namespace OnixData
     {
         #region CONSTANTS
 
+        private const int CONST_DTD_REFERENCE_LENGTH = 2048;
+
         private const string CONST_ONIX_MESSAGE_REFERENCE_TAG = "ONIXMessage";
         private const string CONST_ONIX_MESSAGE_SHORT_TAG     = "ONIXmessage";
 
@@ -39,8 +41,33 @@ namespace OnixData
 
         public OnixParser(FileInfo OnixFilepath, 
                               bool ReportValidationWarnings, 
-                              bool ReferenceVersion, 
-                              bool LoadEntireFileIntoMemory = true)
+                              bool LoadEntireFileIntoMemory = false)
+        {
+            if (!File.Exists(OnixFilepath.FullName))
+                throw new Exception("ERROR!  File(" + OnixFilepath + ") does not exist.");
+
+            this.ParserFileInfo = OnixFilepath;
+            this.ParserRVWFlag  = ReportValidationWarnings;
+            this.CurrOnixReader = CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag);
+
+            bool   ReferenceVersion = DetectDtdVersionReference(OnixFilepath);
+            string sOnixMsgTag      = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
+
+            this.ParserRefVerFlag = ReferenceVersion;
+
+            if (LoadEntireFileIntoMemory)
+            {
+                this.CurrOnixMessage =
+                    new XmlSerializer(typeof(OnixMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.CurrOnixReader) as OnixMessage;
+            }
+            else
+                this.CurrOnixMessage = null;
+        }
+
+        public OnixParser(FileInfo OnixFilepath,
+                              bool ReportValidationWarnings,
+                              bool ReferenceVersion,
+                              bool LoadEntireFileIntoMemory = false)
         {
             string sOnixMsgTag = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
 
@@ -48,8 +75,8 @@ namespace OnixData
                 throw new Exception("ERROR!  File(" + OnixFilepath + ") does not exist.");
 
             this.ParserRefVerFlag = ReferenceVersion;
-            this.ParserFileInfo   = OnixFilepath;
-            this.ParserRVWFlag    = ReportValidationWarnings;
+            this.ParserFileInfo = OnixFilepath;
+            this.ParserRVWFlag = ReportValidationWarnings;
 
             this.CurrOnixReader = CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag);
 
@@ -132,6 +159,31 @@ namespace OnixData
         {
             return new OnixEnumerator(this, this.ParserFileInfo);
         }
+
+        public bool DetectDtdVersionReference(FileInfo LegacyOnixFilepath)
+        {
+            bool bReferenceVersion = true;
+
+            if (LegacyOnixFilepath.Length < CONST_DTD_REFERENCE_LENGTH)
+                throw new Exception("ERROR!  ONIX File is smaller than expected!");
+
+            byte[] buffer = new byte[CONST_DTD_REFERENCE_LENGTH];
+            using (FileStream fs = new FileStream(LegacyOnixFilepath.FullName, FileMode.Open, FileAccess.Read))
+            {
+                fs.Read(buffer, 0, buffer.Length);
+                fs.Close();
+            }
+
+            string sRefMsgTag = "<" + CONST_ONIX_MESSAGE_REFERENCE_TAG + ">";
+            string sFileHead  = Encoding.Default.GetString(buffer);
+            if (sFileHead.Contains(sRefMsgTag))
+                bReferenceVersion = true;
+            else
+                bReferenceVersion = false;
+
+            return bReferenceVersion;
+        }
+
     }
 
     public class OnixEnumerator : IDisposable, IEnumerator
@@ -176,16 +228,19 @@ namespace OnixData
 
             if (++CurrentIndex < this.ProductList.Count)
             {
+                string sInputXml = this.ProductList[CurrentIndex].OuterXml;
+
                 try
                 {
                     CurrentRecord =
-                        this.ProductSerializer.Deserialize(new StringReader(this.ProductList[CurrentIndex].OuterXml)) as OnixProduct;
+                        this.ProductSerializer.Deserialize(new StringReader(sInputXml)) as OnixProduct;
                 }
                 catch (Exception ex)
                 {
                     CurrentRecord = new OnixProduct();
 
                     CurrentRecord.SetParsingError(ex);
+                    CurrentRecord.SetInputXml(sInputXml);
                 }
             }
             else

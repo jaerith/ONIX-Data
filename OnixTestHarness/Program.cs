@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using OnixData;
 using OnixData.Legacy;
 using OnixData.Version3;
+using OnixData.Version3.Header;
 
 namespace OnixTestHarness
 {
@@ -27,13 +28,23 @@ namespace OnixTestHarness
                 if (true)
                 {
                     using (OnixLegacyParser onixLegacyShortParser =
-                               new OnixLegacyParser(new FileInfo(@"C:\tmp\tmp2\onix.legacy.short.xml"), true, false, false))
+                               new OnixLegacyParser(new FileInfo(@"C:\tmp\tmp2\onix.legacy.short.xml"), true))
                     {
                         OnixLegacyHeader Header = onixLegacyShortParser.MessageHeader;
 
                         foreach (OnixLegacyProduct TmpProduct in onixLegacyShortParser)
                         {
                             // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
+
+                            if ((TmpProduct.OnixAudRangeList != null) && (TmpProduct.OnixAudRangeList.Length > 0))
+                            {
+                                OnixLegacyAudRange AudRange = TmpProduct.OnixAudRangeList[0];
+
+                                string AgeFrom = AudRange.USAgeFrom;
+                                string AgeTo   = AudRange.USAgeTo;
+
+                                System.Console.WriteLine("AgeFrom(" + AgeFrom + "), AgeTo(" + AgeTo + ")");
+                            }
 
                             if (TmpProduct.IsValid())
                             {
@@ -49,7 +60,7 @@ namespace OnixTestHarness
                     }
                 }
 
-                if (true)
+                if (false)
                 {
                     FileInfo LegacyFileInfo = new FileInfo(@"C:\tmp\tmp2\onix.legacy.xml");
                     using (OnixLegacyParser LegacyParser = new OnixLegacyParser(LegacyFileInfo, true, true, false))
@@ -60,11 +71,87 @@ namespace OnixTestHarness
                         {
                             // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
 
+                            if ((TmpProduct.OnixAudRangeList != null) && (TmpProduct.OnixAudRangeList.Length > 0))
+                            {
+                                OnixLegacyAudRange AudRange = TmpProduct.OnixAudRangeList[0];
+
+                                string AgeFrom = AudRange.USAgeFrom;
+                                string AgeTo   = AudRange.USAgeTo;
+
+                                System.Console.WriteLine("AgeFrom(" + AgeFrom + "), AgeTo(" + AgeTo + ")");
+                            }
+
                             if (TmpProduct.IsValid())
                             {
                                 System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
                                                             TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
                                                             ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
+                            }
+                            else
+                            {
+                                System.Console.WriteLine(TmpProduct.GetParsingError());
+                            }
+                        }
+                    }
+                }
+
+                if (true)
+                {
+                    nOnixPrdIdx = 0;
+
+                    FileInfo CurrentFileInfo = new FileInfo(@"C:\tmp\tmp2\onix.sample.v3.xml");
+                    using (OnixParser V3Parser = new OnixParser(CurrentFileInfo, true))
+                    {
+                        OnixHeader Header = V3Parser.MessageHeader;
+
+                        foreach (OnixProduct TmpProduct in V3Parser)
+                        {
+                            long   lTempEAN  = TmpProduct.EAN;
+                            string sTempISBN = TmpProduct.ISBN;
+
+                            OnixData.Version3.Price.OnixPrice USDPrice = TmpProduct.USDRetailPrice;
+
+                            // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
+
+                            if (TmpProduct.IsValid())
+                            {
+                                System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
+                                                         TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
+                                                         ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
+                            }
+                            else
+                            {
+                                System.Console.WriteLine(TmpProduct.GetParsingError());
+                            }
+                        }
+                    }
+                }
+
+                if (true)
+                {
+                    nOnixPrdIdx = 0;
+
+                    FileInfo CurrentFileInfo = new FileInfo(@"C:\tmp\tmp2\onix.sample.v3.short.xml");
+                    using (OnixParser V3Parser = new OnixParser(CurrentFileInfo, true, false, false))
+                    {
+                        OnixHeader Header = V3Parser.MessageHeader;
+
+                        foreach (OnixProduct TmpProduct in V3Parser)
+                        {
+                            long   lTempEAN  = TmpProduct.EAN;
+                            string sTempISBN = TmpProduct.ISBN;
+
+                            OnixContributor MainAuthor = TmpProduct.PrimaryAuthor;
+
+                            OnixData.Version3.Price.OnixPrice USDPrice = TmpProduct.USDRetailPrice;
+
+                            // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
+
+                            if (TmpProduct.IsValid())
+                            {
+                                System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
+                                                         TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
+                                                         ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
                             }
                             else
                             {

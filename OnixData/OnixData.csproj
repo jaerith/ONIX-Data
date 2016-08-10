@@ -73,11 +73,13 @@
     <Compile Include="Version3\Header\OnixHeaderAddressee.cs" />
     <Compile Include="Version3\Header\OnixHeaderSender.cs" />
     <Compile Include="Version3\OnixAudienceRange.cs" />
+    <Compile Include="Version3\Text\OnixCollateralDetail.cs" />
     <Compile Include="Version3\Related\OnixRelatedMaterial.cs" />
     <Compile Include="Version3\Related\OnixRelatedProduct.cs" />
     <Compile Include="Version3\Related\OnixRelatedWork.cs" />
     <Compile Include="Version3\Related\OnixWorkIdentifier.cs" />
     <Compile Include="Version3\Supply\OnixReturnsConditions.cs" />
+    <Compile Include="Version3\Text\OnixContentDate.cs" />
     <Compile Include="Version3\Title\OnixCollection.cs" />
     <Compile Include="Version3\OnixContributor.cs" />
     <Compile Include="Version3\OnixDescriptiveDetail.cs" />
@@ -99,7 +101,7 @@
     <Compile Include="Version3\OnixSubject.cs" />
     <Compile Include="Version3\Supply\OnixSupplier.cs" />
     <Compile Include="Version3\Supply\OnixSupplyDetail.cs" />
-    <Compile Include="Version3\OnixTextContent.cs" />
+    <Compile Include="Version3\Text\OnixTextContent.cs" />
     <Compile Include="Version3\Title\OnixTitleDetail.cs" />
     <Compile Include="Version3\Title\OnixTitleElement.cs" />
   </ItemGroup>

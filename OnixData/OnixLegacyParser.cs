@@ -18,6 +18,8 @@ namespace OnixData
     {
         #region CONSTANTS
 
+        private const int    CONST_DTD_REFERENCE_LENGTH = 2048;
+
         private const string CONST_ONIX_MESSAGE_REFERENCE_TAG = "ONIXMessage";
         private const string CONST_ONIX_MESSAGE_SHORT_TAG     = "ONIXmessage";
 
@@ -39,8 +41,33 @@ namespace OnixData
 
         public OnixLegacyParser(FileInfo LegacyOnixFilepath, 
                                     bool ReportValidationWarnings, 
-                                    bool ReferenceVersion, 
-                                    bool LoadEntireFileIntoMemory = true)
+                                    bool LoadEntireFileIntoMemory = false)
+        {
+            if (!File.Exists(LegacyOnixFilepath.FullName))
+                throw new Exception("ERROR!  File(" + LegacyOnixFilepath + ") does not exist.");
+
+            this.ParserFileInfo   = LegacyOnixFilepath;
+            this.ParserRVWFlag    = ReportValidationWarnings;
+            this.LegacyOnixReader = CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag);
+
+            bool   ReferenceVersion = DetectDtdVersionReference(LegacyOnixFilepath);
+            string sOnixMsgTag      = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
+
+            this.ParserRefVerFlag = ReferenceVersion;
+
+            if (LoadEntireFileIntoMemory)
+            {
+                this.LegacyOnixMessage =
+                    new XmlSerializer(typeof(OnixLegacyMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
+            }
+            else
+                this.LegacyOnixMessage = null;
+        }
+
+        public OnixLegacyParser(FileInfo LegacyOnixFilepath,
+                                    bool ReportValidationWarnings,
+                                    bool ReferenceVersion,
+                                    bool LoadEntireFileIntoMemory = false)
         {
             string sOnixMsgTag = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
 
@@ -134,6 +161,34 @@ namespace OnixData
         {
             return new OnixLegacyEnumerator(this, this.ParserFileInfo);
         }
+
+        #region Support Methods
+
+        public bool DetectDtdVersionReference(FileInfo LegacyOnixFilepath)
+        {
+            bool bReferenceVersion = true;
+
+            if (LegacyOnixFilepath.Length < CONST_DTD_REFERENCE_LENGTH)
+                throw new Exception("ERROR!  ONIX File is smaller than expected!");
+
+            byte[] buffer = new byte[CONST_DTD_REFERENCE_LENGTH];
+            using (FileStream fs = new FileStream(LegacyOnixFilepath.FullName, FileMode.Open, FileAccess.Read))
+            {
+                fs.Read(buffer, 0, buffer.Length);
+                fs.Close();
+            }
+
+            string sRefMsgTag = "<" + CONST_ONIX_MESSAGE_REFERENCE_TAG + ">";
+            string sFileHead  = Encoding.Default.GetString(buffer);
+            if (sFileHead.Contains(sRefMsgTag))
+                bReferenceVersion = true;
+            else
+                bReferenceVersion = false;
+
+            return bReferenceVersion;
+        }
+
+        #endregion
     }
 
     public class OnixLegacyEnumerator : IDisposable, IEnumerator
@@ -178,16 +233,19 @@ namespace OnixData
 
             if (++CurrentIndex < this.ProductList.Count)
             {
+                string sInputXml = this.ProductList[CurrentIndex].OuterXml;
+
                 try
                 {
                     CurrentRecord =
-                        this.ProductSerializer.Deserialize(new StringReader(this.ProductList[CurrentIndex].OuterXml)) as OnixLegacyProduct;
+                        this.ProductSerializer.Deserialize(new StringReader(sInputXml)) as OnixLegacyProduct;
                 }
                 catch (Exception ex)
                 {
                     CurrentRecord = new OnixLegacyProduct();
 
                     CurrentRecord.SetParsingError(ex);
+                    CurrentRecord.SetInputXml(sInputXml);
                 }
             }
             else
