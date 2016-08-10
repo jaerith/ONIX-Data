@@ -22,8 +22,8 @@ namespace OnixData.Legacy
             OnSaleDate          = "";
             PackQuantity        = -1;
 
-            SupplierIdentifier = new OnixLegacySupplierId[0];
-            Price              = new OnixLegacyPrice[0];
+            supplierIdentifierField = shortSupplierIdentifierField = new OnixLegacySupplierId[0];
+            priceField              = shortPriceField              = new OnixLegacyPrice[0];
         }
 
         private string supplierNameField;
@@ -37,7 +37,47 @@ namespace OnixData.Legacy
         private int    packQuantityField;
 
         private OnixLegacySupplierId[] supplierIdentifierField;
+        private OnixLegacySupplierId[] shortSupplierIdentifierField;
         private OnixLegacyPrice[]      priceField;
+        private OnixLegacyPrice[]      shortPriceField;
+
+        #region ONIX Lists
+
+        public OnixLegacySupplierId[] OnixSupplierIdList
+        {
+            get
+            {
+                OnixLegacySupplierId[] SupplierIds = null;
+
+                if (supplierIdentifierField != null)
+                    SupplierIds = this.supplierIdentifierField;
+                else if (shortSupplierIdentifierField != null)
+                    SupplierIds = this.shortSupplierIdentifierField;
+                else
+                    SupplierIds = new OnixLegacySupplierId[0];
+
+                return SupplierIds;
+            }
+        }
+
+        public OnixLegacyPrice[] OnixPriceList
+        {
+            get
+            {
+                OnixLegacyPrice[] Prices = null;
+
+                if (priceField != null)
+                    Prices = this.priceField;
+                else if (shortPriceField != null)
+                    Prices = this.shortPriceField;
+                else
+                    Prices = new OnixLegacyPrice[0];
+
+                return Prices;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
@@ -256,16 +296,16 @@ namespace OnixData.Legacy
         [System.Xml.Serialization.XmlElementAttribute("supplieridentifier")]
         public OnixLegacySupplierId[] supplieridentifier
         {
-            get { return this.supplierIdentifierField; }
-            set { this.supplierIdentifierField = value; }
+            get { return this.shortSupplierIdentifierField; }
+            set { this.shortSupplierIdentifierField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("price")]
         public OnixLegacyPrice[] price
         {
-            get { return this.priceField; }
-            set { this.priceField = value; }
+            get { return this.shortPriceField; }
+            set { this.shortPriceField = value; }
         }
 
         #endregion

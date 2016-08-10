@@ -29,6 +29,8 @@ namespace OnixData.Legacy
         private OnixLegacyProduct[] productField;
         private OnixLegacyProduct[] altProductField;
 
+        #region ONIX Lists
+
         public OnixLegacyProduct[] OnixProducts
         {
             get
@@ -45,6 +47,8 @@ namespace OnixData.Legacy
                 return productList;
             }
         }
+
+        #endregion
 
         #region Reference Tags
 

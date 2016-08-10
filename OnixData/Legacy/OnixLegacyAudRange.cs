@@ -25,16 +25,109 @@ namespace OnixData.Legacy
 
         #endregion
 
-        private int      audienceRangeQualifierField;
-        private int[]    audienceRangePrecisionField;
-        private string[] audienceRangeValueField;
-
         public OnixLegacyAudRange()
         {
             AudienceRangeQualifier = -1;
-            AudienceRangePrecision = new int[0];
-            AudienceRangeValue     = new string[0];
+
+            audienceRangePrecisionField = shortAudienceRangePrecisionField = new int[0];
+            audienceRangeValueField     = shortAudienceRangeValueField     = new string[0];
         }
+
+        private int      audienceRangeQualifierField;
+        private int[]    audienceRangePrecisionField;
+        private int[]    shortAudienceRangePrecisionField;
+        private string[] audienceRangeValueField;
+        private string[] shortAudienceRangeValueField;
+
+        #region ONIX Helper Methods
+
+        public string USAgeFrom
+        {
+            get
+            {
+                string FoundAgeFrom = FindAudRangeValue(CONST_AUD_RANGE_TYPE_INTEREST_AGE, CONST_AUD_RANGE_PRCN_FROM);
+                if (String.IsNullOrEmpty(FoundAgeFrom))
+                    FoundAgeFrom = FindAudRangeValue(CONST_AUD_RANGE_TYPE_READING_AGE, CONST_AUD_RANGE_PRCN_FROM);
+
+                return FoundAgeFrom;
+            }
+        }
+
+        public string USAgeTo
+        {
+            get
+            {
+                string FoundAgeTo = FindAudRangeValue(CONST_AUD_RANGE_TYPE_INTEREST_AGE, CONST_AUD_RANGE_PRCN_TO);
+                if (String.IsNullOrEmpty(FoundAgeTo))
+                    FoundAgeTo = FindAudRangeValue(CONST_AUD_RANGE_TYPE_READING_AGE, CONST_AUD_RANGE_PRCN_TO);
+
+                return FoundAgeTo;
+            }
+        }
+
+        public string USGradeExact
+        {
+            get
+            {
+                return FindAudRangeValue(CONST_AUD_RANGE_TYPE_US_GRADES, CONST_AUD_RANGE_PRCN_EXACT);
+            }
+        }
+
+        public string USGradeFrom
+        {
+            get
+            {
+                return FindAudRangeValue(CONST_AUD_RANGE_TYPE_US_GRADES, CONST_AUD_RANGE_PRCN_FROM);
+            }
+        }
+
+        public string USGradeTo
+        {
+            get
+            {
+                return FindAudRangeValue(CONST_AUD_RANGE_TYPE_US_GRADES, CONST_AUD_RANGE_PRCN_TO);
+            }
+        }
+
+        #endregion
+
+        #region ONIX Lists
+
+        public int[] OnixAudRangePrecisionList
+        {
+            get
+            {
+                int[] PrecisionList = null;
+
+                if (this.audienceRangePrecisionField != null)
+                    PrecisionList = this.audienceRangePrecisionField;
+                else if (this.shortAudienceRangePrecisionField != null)
+                    PrecisionList = this.shortAudienceRangePrecisionField;
+                else
+                    PrecisionList = new int[0];
+
+                return PrecisionList;
+            }
+        }
+
+        public string[] OnixAudRangeValueList
+        {
+            get
+            {
+                string[] ValueList = null;
+
+                if (this.audienceRangeValueField != null)
+                    ValueList = this.audienceRangeValueField;
+                else if (this.shortAudienceRangeValueField != null)
+                    ValueList = this.shortAudienceRangeValueField;
+                else
+                    ValueList = new string[0];
+
+                return ValueList;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
@@ -79,54 +172,6 @@ namespace OnixData.Legacy
             }
         }
 
-        public string USAgeFrom
-        {
-            get
-            {                
-                string FoundAgeFrom = FindAudRangeValue(CONST_AUD_RANGE_TYPE_INTEREST_AGE, CONST_AUD_RANGE_PRCN_FROM);
-                if (!String.IsNullOrEmpty(FoundAgeFrom))
-                    FoundAgeFrom = FindAudRangeValue(CONST_AUD_RANGE_TYPE_READING_AGE, CONST_AUD_RANGE_PRCN_FROM);
-
-                return FoundAgeFrom;
-            }
-        }
-
-        public string USAgeTo
-        {
-            get
-            {
-                string FoundAgeTo = FindAudRangeValue(CONST_AUD_RANGE_TYPE_INTEREST_AGE, CONST_AUD_RANGE_PRCN_TO);
-                if (!String.IsNullOrEmpty(FoundAgeTo))
-                    FoundAgeTo = FindAudRangeValue(CONST_AUD_RANGE_TYPE_READING_AGE, CONST_AUD_RANGE_PRCN_TO);
-
-                return FoundAgeTo;
-            }
-        }
-
-        public string USGradeExact
-        {
-            get
-            {
-                return FindAudRangeValue(CONST_AUD_RANGE_TYPE_US_GRADES, CONST_AUD_RANGE_PRCN_EXACT);
-            }
-        }
-
-        public string USGradeFrom
-        {
-            get
-            {
-                return FindAudRangeValue(CONST_AUD_RANGE_TYPE_US_GRADES, CONST_AUD_RANGE_PRCN_FROM);
-            }
-        }
-
-        public string USGradeTo
-        {
-            get
-            {
-                return FindAudRangeValue(CONST_AUD_RANGE_TYPE_US_GRADES, CONST_AUD_RANGE_PRCN_TO);
-            }
-        }
-
         #endregion
 
         #region Short Tags
@@ -142,16 +187,16 @@ namespace OnixData.Legacy
         [System.Xml.Serialization.XmlElementAttribute("b075")]
         public int[] b075
         {
-            get { return AudienceRangePrecision; }
-            set { AudienceRangePrecision = value; }
+            get { return shortAudienceRangePrecisionField; }
+            set { shortAudienceRangePrecisionField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("b076")]
         public string[] b076
         {
-            get { return AudienceRangeValue; }
-            set { AudienceRangeValue = value; }
+            get { return shortAudienceRangeValueField; }
+            set { shortAudienceRangeValueField = value; }
         }
 
         #endregion
@@ -162,12 +207,12 @@ namespace OnixData.Legacy
         {
             string FoundRangeValue = "";
 
-            if ((AudienceRangeQualifier == pnRangeType) && (AudienceRangePrecision != null))
+            if ((AudienceRangeQualifier == pnRangeType) && (OnixAudRangePrecisionList != null))
             {
-                int nFoundIndex = Array.IndexOf(AudienceRangePrecision, pnPrecisionType);
+                int nFoundIndex = Array.IndexOf(OnixAudRangePrecisionList, pnPrecisionType);
 
-                if ((nFoundIndex >= 0) && (AudienceRangeValue != null) && (AudienceRangeValue.Length >= nFoundIndex))
-                    FoundRangeValue = AudienceRangeValue[nFoundIndex];
+                if ((nFoundIndex >= 0) && (OnixAudRangeValueList != null) && (OnixAudRangeValueList.Length >= nFoundIndex))
+                    FoundRangeValue = OnixAudRangeValueList[nFoundIndex];
             }
 
             return FoundRangeValue;

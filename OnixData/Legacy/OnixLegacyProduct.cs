@@ -62,25 +62,25 @@ namespace OnixData.Legacy
             BASICMainSubject = "";
             AudienceCode     = "";
 
-            contributorField   = shortContributorField   = new OnixLegacyContributor[0];
-            extentField        = shortExtentField        = new OnixLegacyExtent[0];
-            seriesField        = shortSeriesField        = new OnixLegacySeries[0];
-            subjectField       = shortSubjectField       = new OnixLegacySubject[0];
-            complexityField    = shortComplexityField    = new OnixLegacyComplexity[0];
-            audienceRangeField = shortAudienceRangeField = new OnixLegacyAudRange[0];
-            imprintField       = shortImprintField       = new OnixLegacyImprint[0];
-            mediaFileField     = shortMediaFileField     = new OnixLegacyMediaFile[0];
-            otherTextField     = shortOtherTextField     = new OnixLegacyOtherText[0];
+            audienceRangeField  = shortAudienceRangeField  = new OnixLegacyAudRange[0];
+            contributorField    = shortContributorField    = new OnixLegacyContributor[0];
+            extentField         = shortExtentField         = new OnixLegacyExtent[0];
+            seriesField         = shortSeriesField         = new OnixLegacySeries[0];
+            subjectField        = shortSubjectField        = new OnixLegacySubject[0];
+            complexityField     = shortComplexityField     = new OnixLegacyComplexity[0];            
+            imprintField        = shortImprintField        = new OnixLegacyImprint[0];
+            measureField        = shortMeasureField        = new OnixLegacyMeasure[0];
+            mediaFileField      = shortMediaFileField      = new OnixLegacyMediaFile[0];
+            otherTextField      = shortOtherTextField      = new OnixLegacyOtherText[0];
+            relatedProductField = shortRelatedProductField = new OnixLegacyRelatedProduct[0];
+            salesRightsField    = shortSalesRightsField    = new OnixLegacySalesRights[0];
 
             cityOfPublicationField = countryOfPublicationField  = publishingStatusField = "";
             announcementDateField  = tradeAnnouncementDateField = "";
 
             PublicationDate = YearFirstPublished = 0;
 
-            Measure        = new OnixLegacyMeasure[0];
-            RelatedProduct = new OnixLegacyRelatedProduct[0];
-            SupplyDetail   = new OnixLegacySupplyDetail();
-
+            SupplyDetail = new OnixLegacySupplyDetail();
             ParsingError = null;
         }
 
@@ -108,24 +108,30 @@ namespace OnixData.Legacy
         private string basicMainSubjectField;
         private string audienceCodeField;
 
-        private OnixLegacyContributor[] contributorField;
-        private OnixLegacyContributor[] shortContributorField;
-        private OnixLegacyExtent[]      extentField;
-        private OnixLegacyExtent[]      shortExtentField;
-        private OnixLegacySeries[]      seriesField;
-        private OnixLegacySeries[]      shortSeriesField;
-        private OnixLegacySubject[]     subjectField;
-        private OnixLegacySubject[]     shortSubjectField;
-        private OnixLegacyComplexity[]  complexityField;
-        private OnixLegacyComplexity[]  shortComplexityField;
-        private OnixLegacyAudRange[]    audienceRangeField;
-        private OnixLegacyAudRange[]    shortAudienceRangeField;
-        private OnixLegacyImprint[]     imprintField;
-        private OnixLegacyImprint[]     shortImprintField;
-        private OnixLegacyMediaFile[]   mediaFileField;
-        private OnixLegacyMediaFile[]   shortMediaFileField;
-        private OnixLegacyOtherText[]   otherTextField;
-        private OnixLegacyOtherText[]   shortOtherTextField;
+        private OnixLegacyAudRange[]       audienceRangeField;
+        private OnixLegacyAudRange[]       shortAudienceRangeField;
+        private OnixLegacyContributor[]    contributorField;
+        private OnixLegacyContributor[]    shortContributorField;
+        private OnixLegacyExtent[]         extentField;
+        private OnixLegacyExtent[]         shortExtentField;
+        private OnixLegacySeries[]         seriesField;
+        private OnixLegacySeries[]         shortSeriesField;
+        private OnixLegacySubject[]        subjectField;
+        private OnixLegacySubject[]        shortSubjectField;
+        private OnixLegacyComplexity[]     complexityField;
+        private OnixLegacyComplexity[]     shortComplexityField;
+        private OnixLegacyImprint[]        imprintField;
+        private OnixLegacyImprint[]        shortImprintField;
+        private OnixLegacyMediaFile[]      mediaFileField;
+        private OnixLegacyMediaFile[]      shortMediaFileField;
+        private OnixLegacyMeasure[]        measureField;
+        private OnixLegacyMeasure[]        shortMeasureField;
+        private OnixLegacyRelatedProduct[] relatedProductField;
+        private OnixLegacyRelatedProduct[] shortRelatedProductField;
+        private OnixLegacyOtherText[]      otherTextField;
+        private OnixLegacyOtherText[]      shortOtherTextField;
+        private OnixLegacySalesRights[]    salesRightsField;
+        private OnixLegacySalesRights[]    shortSalesRightsField;
 
         private string cityOfPublicationField;
         private string countryOfPublicationField;
@@ -135,20 +141,20 @@ namespace OnixData.Legacy
         private uint   publicationDateField;
         private uint   yearFirstPublishedField;
 
-        private OnixLegacySalesRights[]    salesRightsField;
-        private OnixLegacyMeasure[]        measureField;
-        private OnixLegacyRelatedProduct[] relatedProductField;
-        private OnixLegacySupplyDetail     supplyDetailField;
+        private OnixLegacySupplyDetail supplyDetailField;
 
         #region Parsing Error
 
+        private string    InputXml;
         private Exception ParsingError;
 
-        public Exception GetParsingError() { return ParsingError; }
+        public string    GetInputXml() { return InputXml; }
+        public void      SetInputXml(string value) { InputXml = value; }
 
         public bool IsValid() { return (ParsingError == null); }
 
-        public void SetParsingError(Exception value) { ParsingError = value; }
+        public Exception GetParsingError() { return ParsingError; }
+        public void      SetParsingError(Exception value) { ParsingError = value; }
 
         #endregion
 
@@ -188,6 +194,72 @@ namespace OnixData.Legacy
             }
         }
 
+        public bool HasFutureRetailPrice()
+        {
+            bool bHasFuturePrice = false;
+
+            if ((SupplyDetail != null) && (SupplyDetail.OnixPriceList != null) && (SupplyDetail.OnixPriceList.Length > 0))
+            {
+                bHasFuturePrice =
+                    SupplyDetail.OnixPriceList.Any(x => !String.IsNullOrEmpty(x.PriceEffectiveFrom));
+            }
+
+            return bHasFuturePrice;
+        }
+
+        public bool HasUSDRetailPrice()
+        {
+            bool bHasUSDPrice = false;
+
+            if ((SupplyDetail != null) && (SupplyDetail.OnixPriceList != null) && (SupplyDetail.OnixPriceList.Length > 0))
+            {
+                bHasUSDPrice =
+                    SupplyDetail.OnixPriceList.Any(x => (x.PriceTypeCode == OnixLegacyPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
+            }
+
+            return bHasUSDPrice;
+        }
+
+        public bool HasUSRights()
+        {
+            bool bHasUSRights = false;
+
+            int[] aSalesRightsColl = new int[] { OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
+                                                 OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
+
+            OnixLegacySalesRights[] SalesRightsList = OnixSalesRightsList;
+            if ((SalesRightsList != null) && (SalesRightsList.Length > 0))
+            {
+                bHasUSRights =
+                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsType) &&
+                                              (x.RightsCountryList.Contains("US") ||
+                                               x.RightsTerritoryList.Contains("WORLD") ||
+                                               x.RightsTerritoryList.Contains("ROW")));
+            }
+
+            return bHasUSRights;
+        }
+
+        public OnixLegacyMeasure Height
+        {
+            get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_HEIGHT); }
+        }
+
+        public OnixLegacyMeasure Thick
+        {
+            get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_THICK); }
+        }
+
+        public OnixLegacyMeasure Weight
+        {
+            get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_WEIGHT); }
+        }
+
+        public OnixLegacyMeasure Width
+        {
+            get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_WIDTH); }
+        }
+
         public OnixLegacyContributor PrimaryAuthor
         {
             get
@@ -224,6 +296,22 @@ namespace OnixData.Legacy
             }
         }
 
+        public List<OnixLegacySupplierId> ProprietarySuppliers
+        {
+            get
+            {
+                List<OnixLegacySupplierId> PropSuppliers = new List<OnixLegacySupplierId>();
+
+                if ((SupplyDetail != null) && (SupplyDetail.OnixSupplierIdList != null) && (SupplyDetail.OnixSupplierIdList.Length > 0))
+                {
+                    PropSuppliers =
+                        SupplyDetail.OnixSupplierIdList.Where(x => x.SupplierIDType == OnixLegacySupplierId.CONST_SUPPL_ID_TYPE_PROP).ToList();
+                }
+
+                return PropSuppliers;
+            }
+        }
+
         public int SeriesNumber
         {
             get
@@ -249,6 +337,24 @@ namespace OnixData.Legacy
                     FoundSeriesTitle = SeriesList[0].TitleOfSeries;
 
                 return FoundSeriesTitle;
+            }
+        }
+
+        public OnixLegacyPrice USDRetailPrice
+        {
+            get
+            {
+                OnixLegacyPrice USDPrice = new OnixLegacyPrice();
+
+                if ((SupplyDetail != null) && (SupplyDetail.OnixPriceList != null) && (SupplyDetail.OnixPriceList.Length > 0))
+                {
+                    OnixLegacyPrice[] Prices = SupplyDetail.OnixPriceList;
+
+                    USDPrice =
+                        Prices.Where(x => (x.PriceTypeCode == OnixLegacyPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD")).FirstOrDefault();
+                }
+
+                return USDPrice;
             }
         }
 
@@ -392,6 +498,23 @@ namespace OnixData.Legacy
             }
         }
 
+        public OnixLegacyMeasure[] OnixMeasureList
+        {
+            get
+            {
+                OnixLegacyMeasure[] Measures = null;
+
+                if (this.measureField != null)
+                    Measures = this.measureField;
+                else if (this.shortMeasureField != null)
+                    Measures = this.shortMeasureField;
+                else
+                    Measures = new OnixLegacyMeasure[0];
+
+                return Measures;
+            }
+        }
+
         public OnixLegacyOtherText[] OnixOtherTextList
         {
             get
@@ -406,6 +529,40 @@ namespace OnixData.Legacy
                     OtherTexts = new OnixLegacyOtherText[0];
 
                 return OtherTexts;
+            }
+        }
+
+        public OnixLegacyRelatedProduct[] OnixRelatedProductList
+        {
+            get
+            {
+                OnixLegacyRelatedProduct[] RelatedProducts = null;
+
+                if (this.relatedProductField != null)
+                    RelatedProducts = this.relatedProductField;
+                else if (this.shortRelatedProductField != null)
+                    RelatedProducts = this.shortRelatedProductField;
+                else
+                    RelatedProducts = new OnixLegacyRelatedProduct[0];
+
+                return RelatedProducts;
+            }
+        }
+
+        public OnixLegacySalesRights[] OnixSalesRightsList
+        {
+            get
+            {
+                OnixLegacySalesRights[] SalesRights = null;
+
+                if (this.salesRightsField != null)
+                    SalesRights = this.salesRightsField;
+                else if (this.shortSalesRightsField != null)
+                    SalesRights = this.shortSalesRightsField;
+                else
+                    SalesRights = new OnixLegacySalesRights[0];
+
+                return SalesRights;
             }
         }
 
@@ -849,25 +1006,6 @@ namespace OnixData.Legacy
             }
         }
 
-        public bool HasUSRights()
-        {
-            bool bHasUSRights = false;
-
-            int[] aSalesRightsColl = new int[] { OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
-                                                 OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
-
-            if ((salesRightsField != null) && (salesRightsField.Length > 0))
-            {
-                bHasUSRights =
-                    salesRightsField.Any(x => aSalesRightsColl.Contains(x.SalesRightsType) && 
-                                              (x.RightsCountryList.Contains("US") || 
-                                               x.RightsTerritoryList.Contains("WORLD") || 
-                                               x.RightsTerritoryList.Contains("ROW")));
-            }
-
-            return bHasUSRights;
-        }
-
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("SalesRights")]
         public OnixLegacySalesRights[] SalesRights
@@ -896,26 +1034,6 @@ namespace OnixData.Legacy
             }
         }
 
-        public OnixLegacyMeasure Height
-        {
-            get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_HEIGHT); }
-        }
-
-        public OnixLegacyMeasure Thick
-        {
-            get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_THICK); }
-        }
-
-        public OnixLegacyMeasure Weight
-        {
-            get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_WEIGHT); }
-        }
-
-        public OnixLegacyMeasure Width
-        {
-            get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_WIDTH); }
-        }
-
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("RelatedProduct")]
         public OnixLegacyRelatedProduct[] RelatedProduct
@@ -940,66 +1058,6 @@ namespace OnixData.Legacy
             set
             {
                 this.supplyDetailField = value;
-            }
-        }
-
-        public bool HasFutureRetailPrice()
-        {
-            bool bHasFuturePrice = false;
-
-            if ((SupplyDetail != null) && (SupplyDetail.Price != null) && (SupplyDetail.Price.Length > 0))
-            {
-                bHasFuturePrice =
-                    SupplyDetail.Price.Any(x => !String.IsNullOrEmpty(x.PriceEffectiveFrom));
-            }
-
-            return bHasFuturePrice;
-        }
-
-        public bool HasUSDRetailPrice()
-        {
-            bool bHasUSDPrice = false;
-
-            if ((SupplyDetail != null) && (SupplyDetail.Price != null) && (SupplyDetail.Price.Length > 0))
-            {
-                bHasUSDPrice = 
-                    SupplyDetail.Price.Any(x => (x.PriceTypeCode == OnixLegacyPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
-            }
-
-            return bHasUSDPrice;
-        }
-
-        public OnixLegacyPrice USDRetailPrice
-        {
-            get
-            {
-                OnixLegacyPrice USDPrice = new OnixLegacyPrice();
-
-                if ((SupplyDetail != null) && (SupplyDetail.Price != null) && (SupplyDetail.Price.Length > 0))
-                {
-                    OnixLegacyPrice[] Prices = SupplyDetail.Price;
-
-                    USDPrice =
-                        Prices.Where(x => (x.PriceTypeCode == OnixLegacyPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD")).FirstOrDefault();
-                }
-
-                return USDPrice;
-            }
-        }
-
-        public List<OnixLegacySupplierId> ProprietarySuppliers
-        {
-            get
-            {
-                List<OnixLegacySupplierId> PropSuppliers = new List<OnixLegacySupplierId>();
-
-                if ((SupplyDetail != null) && (SupplyDetail.SupplierIdentifier != null) && (SupplyDetail.SupplierIdentifier.Length > 0))
-                {
-                    PropSuppliers =
-                        SupplyDetail.SupplierIdentifier.Where(x => x.SupplierIDType == OnixLegacySupplierId.CONST_SUPPL_ID_TYPE_PROP).ToList();
-                }
-
-                return PropSuppliers;
             }
         }
 
@@ -1042,6 +1100,14 @@ namespace OnixData.Legacy
         {
             get { return Title; }
             set { Title = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("audiencerange")]
+        public OnixLegacyAudRange[] audiencerange
+        {
+            get { return shortAudienceRangeField; }
+            set { shortAudienceRangeField = value; }
         }
 
         /// <remarks/>
@@ -1149,14 +1215,6 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("audiencerange")]
-        public OnixLegacyAudRange[] audiencerange
-        {
-            get { return shortAudienceRangeField; }
-            set { shortAudienceRangeField = value; }
-        }
-
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("imprint")]
         public OnixLegacyImprint[] imprint
         {
@@ -1173,11 +1231,35 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("measure")]
+        public OnixLegacyMeasure[] measure
+        {
+            get { return shortMeasureField; }
+            set { shortMeasureField = value; }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("mediafile")]
         public OnixLegacyMediaFile[] mediafile
         {
             get { return shortMediaFileField; }
             set { shortMediaFileField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("relatedproduct")]
+        public OnixLegacyRelatedProduct[] relatedproduct
+        {
+            get { return shortRelatedProductField; }
+            set { shortRelatedProductField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("salesrights")]
+        public OnixLegacySalesRights[] salesrights
+        {
+            get { return shortSalesRightsField; }
+            set { shortSalesRightsField = value; }
         }
 
         /// <remarks/>
@@ -1230,30 +1312,6 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("salesrights")]
-        public OnixLegacySalesRights[] salesrights
-        {
-            get { return SalesRights; }
-            set { SalesRights = value; }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("measure")]
-        public OnixLegacyMeasure[] measure
-        {
-            get { return Measure; }
-            set { Measure = value; }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("relatedproduct")]
-        public OnixLegacyRelatedProduct[] relatedproduct
-        {
-            get { return RelatedProduct; }
-            set { RelatedProduct = value; }
-        }
-
-        /// <remarks/>
         public OnixLegacySupplyDetail supplydetail
         {
             get { return SupplyDetail; }
@@ -1268,10 +1326,11 @@ namespace OnixData.Legacy
         {
             OnixLegacyMeasure FoundMeasurement = new OnixLegacyMeasure();
 
-            if ((Measure != null) && (Measure.Length > 0))
+            OnixLegacyMeasure[] MeasureList = OnixMeasureList;
+            if ((MeasureList != null) && (MeasureList.Length > 0))
             {
                 FoundMeasurement =
-                    Measure.Where(x => x.MeasureTypeCode == Type).FirstOrDefault();
+                    MeasureList.Where(x => x.MeasureTypeCode == Type).FirstOrDefault();
             }
 
             return FoundMeasurement;
