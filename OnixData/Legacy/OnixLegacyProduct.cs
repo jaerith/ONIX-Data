@@ -27,7 +27,7 @@ namespace OnixData.Legacy
 
         public OnixLegacyProduct()
         {
-            RecordReference  = 0;
+            RecordReference  = "";
             NotificationType = NumberOfPieces = TradeCategory = Barcode = -1;
 
             ProductIdentifier = new OnixLegacyProductId[0];

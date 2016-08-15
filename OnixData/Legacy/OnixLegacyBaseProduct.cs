@@ -27,7 +27,7 @@ namespace OnixData.Legacy
 
         public OnixLegacyBaseProduct()
         {
-            RecordReference  = 0;
+            RecordReference  = "";
             NotificationType = NumberOfPieces = TradeCategory = Barcode = -1;
 
             productIdentifierField  = shortProductIdentifierField  = new OnixLegacyProductId[0];
@@ -44,8 +44,8 @@ namespace OnixData.Legacy
             ProductFormFeature = new OnixLegacyProductFormFeature();
         }
 
-        protected ulong recordReferenceField;
-        protected int   notificationTypeField;
+        protected string recordReferenceField;
+        protected int    notificationTypeField;
 
         protected string isbnField;
         protected string eanField;
@@ -216,7 +216,7 @@ namespace OnixData.Legacy
         #region Reference Tags
 
         /// <remarks/>
-        public ulong RecordReference
+        public string RecordReference
         {
             get
             {
@@ -433,7 +433,7 @@ namespace OnixData.Legacy
         #region Short Tags
 
         /// <remarks/>
-        public ulong a001
+        public string a001
         {
             get { return RecordReference; }
             set { RecordReference = value; }
