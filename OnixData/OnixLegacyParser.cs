@@ -120,10 +120,14 @@ namespace OnixData
                      * 
                     XmlSchemaSet schemas = new XmlSchemaSet();
 
+                    string XsdFilepath = "";
+
                     if (ParserRefVerFlag)
-                        schemas.Add(null, XmlReader.Create(new StringReader(File.ReadAllText(@"C:\ONIX_XSD\2.1\ONIX_BookProduct_Release2.1_reference.xsd"))));
+                        XsdFilepath = @"C:\ONIX_XSD\2.1\ONIX_BookProduct_Release2.1_reference.xsd";
                     else
-                        schemas.Add(null, XmlReader.Create(new StringReader(File.ReadAllText(@"C:\ONIX_XSD\2.1\ONIX_BookProduct_Release2.1_short.xsd"))));
+                        XsdFilepath = @"C:\ONIX_XSD\2.1\ONIX_BookProduct_Release2.1_short.xsd";
+
+                    schemas.Add(null, XmlReader.Create(new StringReader(File.ReadAllText(XsdFilepath))));
 
                     settings.Schemas        = schemas;
                     settings.ValidationType = ValidationType.Schema;                
@@ -239,10 +243,14 @@ namespace OnixData
 
                     XmlSchemaSet schemas = new XmlSchemaSet();
 
+                    string XsdFilepath = "";
+
                     if (ParserRefVerFlag)
-                        schemas.Add(null, XmlReader.Create(new StringReader(File.ReadAllText(@"C:\ONIX_XSD\2.1\ONIX_BookProduct_Release2.1_reference.xsd"))));
+                        XsdFilepath = @"C:\ONIX_XSD\2.1\ONIX_BookProduct_Release2.1_reference.xsd";
                     else
-                        schemas.Add(null, XmlReader.Create(new StringReader(File.ReadAllText(@"C:\ONIX_XSD\2.1\ONIX_BookProduct_Release2.1_short.xsd"))));
+                        XsdFilepath = @"C:\ONIX_XSD\2.1\ONIX_BookProduct_Release2.1_short.xsd";
+
+                    schemas.Add(null, XmlReader.Create(new StringReader(File.ReadAllText(XsdFilepath))));
 
                     schemas.Compile();
 
