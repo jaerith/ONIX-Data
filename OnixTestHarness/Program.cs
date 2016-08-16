@@ -21,19 +21,23 @@ namespace OnixTestHarness
                 int    nLegacyShortIdx = 0;
                 int    nLegacyPrdIdx   = 0;
                 int    nOnixPrdIdx     = 0;
+                string sLegShortFile   = @"C:\tmp\tmp2\onix.legacy.short.xml";
                 string sLegacyXml      = File.ReadAllText(@"C:\tmp\tmp2\onix.legacy.xml");
                 string sOnixXml        = File.ReadAllText(@"C:\tmp\tmp2\onix.sample.v3.xml");
                 string sLegacyShortXml = File.ReadAllText(@"C:\tmp\tmp2\onix.legacy.short.xml");
 
                 if (true)
                 {
-                    using (OnixLegacyParser onixLegacyShortParser =
-                               new OnixLegacyParser(new FileInfo(@"C:\tmp\tmp2\onix.legacy.short.xml"), true))
+                    using (OnixLegacyParser onixLegacyShortParser = new OnixLegacyParser(new FileInfo(sLegShortFile), true))
                     {
+                        bool ValidFile = onixLegacyShortParser.ValidateFile();
+
                         OnixLegacyHeader Header = onixLegacyShortParser.MessageHeader;
 
                         foreach (OnixLegacyProduct TmpProduct in onixLegacyShortParser)
                         {
+                            int x = 0;
+
                             // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
 
                             if ((TmpProduct.OnixAudRangeList != null) && (TmpProduct.OnixAudRangeList.Length > 0))
@@ -60,10 +64,10 @@ namespace OnixTestHarness
                     }
                 }
 
-                if (false)
+                if (true)
                 {
                     FileInfo LegacyFileInfo = new FileInfo(@"C:\tmp\tmp2\onix.legacy.xml");
-                    using (OnixLegacyParser LegacyParser = new OnixLegacyParser(LegacyFileInfo, true, true, false))
+                    using (OnixLegacyParser LegacyParser = new OnixLegacyParser(LegacyFileInfo, true, false))
                     {
                         OnixLegacyHeader Header = LegacyParser.MessageHeader;
 
@@ -132,7 +136,7 @@ namespace OnixTestHarness
                     nOnixPrdIdx = 0;
 
                     FileInfo CurrentFileInfo = new FileInfo(@"C:\tmp\tmp2\onix.sample.v3.short.xml");
-                    using (OnixParser V3Parser = new OnixParser(CurrentFileInfo, true, false, false))
+                    using (OnixParser V3Parser = new OnixParser(true, CurrentFileInfo, false, false))
                     {
                         OnixHeader Header = V3Parser.MessageHeader;
 
