@@ -64,10 +64,10 @@ namespace OnixData
                 this.CurrOnixMessage = null;
         }
 
-        public OnixParser(FileInfo OnixFilepath,
-                              bool ReportValidationWarnings,
-                              bool ReferenceVersion,
-                              bool LoadEntireFileIntoMemory = false)
+        public OnixParser(bool ReportValidationWarnings,
+                      FileInfo OnixFilepath,
+                          bool ReferenceVersion,
+                          bool LoadEntireFileIntoMemory = false)
         {
             string sOnixMsgTag = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
 
