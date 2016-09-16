@@ -116,7 +116,8 @@ namespace OnixData
                 if (bUseXSD)
                 {
                     /*
-                     * NOTE: XSD Validation does not appear to be working correctly yet
+                     * NOTE: XSD Validation does not appear to be working correctly yet,
+					 *       especially in that it always qualifies all ONIX files as valid
                      * 
                     XmlSchemaSet schemas = new XmlSchemaSet();
 
@@ -143,6 +144,7 @@ namespace OnixData
 
                 /*
                  * NOTE: DTD Validation does not appear that it will ever work correctly on the .NET platform
+				 *       , especially in that it never qualifies an ONIX file as valid
                  * 
                 if (bUseDTD)
                 {
@@ -299,6 +301,17 @@ namespace OnixData
         #endregion
     }
 
+	/*
+	 * This class can be useful in the case that one wants to iterate through an ONIX file, even if it has a bad record due to:
+	 * 
+	 * a.) incorrect XML syntax
+	 * b.) improper tag placement
+	 * c.) invalid data types
+	 * 
+	 * In that way, the user of the class can investigate each record on a case-by-case basis, and the file can be processed
+	 * without a sole record preventing the rest of the file from being handled.
+	 * 
+	 */
     public class OnixLegacyEnumerator : IDisposable, IEnumerator
     {
         private OnixLegacyParser OnixParser = null;
