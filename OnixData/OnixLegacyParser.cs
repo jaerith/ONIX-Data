@@ -311,6 +311,8 @@ namespace OnixData
 	 * In that way, the user of the class can investigate each record on a case-by-case basis, and the file can be processed
 	 * without a sole record preventing the rest of the file from being handled.
 	 * 
+	 * NOTE: It is still recommended that the files be validated through an alternate process before using this class.
+	 * 
 	 */
     public class OnixLegacyEnumerator : IDisposable, IEnumerator
     {
