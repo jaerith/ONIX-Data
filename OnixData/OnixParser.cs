@@ -14,6 +14,15 @@ using OnixData.Version3.Header;
 
 namespace OnixData
 {
+    /// <summary>
+    /// 
+    /// This class serves as a way to parse files of the ONIX 3.0 standard.
+    /// You can use this class to either:
+    /// 
+    /// a.) Deserialize and load the entire file into memory
+    /// b.) Enumerate through the file record by record, loading each into memory one at a time
+    ///     
+    /// </summary>
     public class OnixParser : IDisposable, IEnumerable
     {
         #region CONSTANTS
@@ -87,6 +96,14 @@ namespace OnixData
             }
         }
 
+        /// <summary>
+        /// 
+        /// This method will prepare the XmlReader that we will use to read the ONIX XML file.
+        /// 
+        /// <param name="CurrOnixFilepath">The path to the ONIX file</param>
+        /// <param name="ReportValidationWarnings">The indicator for whether we should report validation warnings to the caller</param>
+        /// <returns>The XmlReader that will be used to read the ONIX file</returns>
+        /// </summary>
         static public XmlReader CreateXmlReader(FileInfo CurrOnixFilepath, bool ReportValidationWarnings)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -186,17 +203,21 @@ namespace OnixData
 
     }
 
-	/*
-	 * This class can be useful in the case that one wants to iterate through an ONIX file, even if it has a bad record due to:
-	 * 
-	 * a.) incorrect XML syntax
-	 * b.) improper tag placement
-	 * c.) invalid data types
-	 * 
-	 * In that way, the user of the class can investigate each record on a case-by-case basis, and the file can be processed
-	 * without a sole record preventing the rest of the file from being handled.
-	 * 
-	 */	
+    /// <summary>
+    ///
+    /// This class can be useful in the case that one wants to iterate through an ONIX file, even if it has a bad record due to:
+	/// 
+	/// a.) incorrect XML syntax
+	/// b.) invalid text within a XML document (like certain hexadecimal Unicode)
+	/// d.) improper tag placement
+	/// d.) invalid data types
+	/// 
+    /// In that way, the user of the class can investigate each record on a case-by-case basis, and the file can be processed
+	/// without a sole record preventing the rest of the file from being handled.
+	/// 
+    /// NOTE: It is still recommended that the files be validated through an alternate process before using this class.
+	/// 
+    /// </summary> 
     public class OnixEnumerator : IDisposable, IEnumerator
     {
         private OnixParser OnixParser = null;
