@@ -120,6 +120,14 @@ namespace OnixData
             return XmlReader.Create(CurrOnixFilepath.FullName, settings);
         }
 
+        /// <summary>
+        /// 
+        /// This property will return the header of an ONIX file.  If the file has already been loaded 
+        /// into memory, it will extract the header from the internal member reader.  If not, it will 
+        /// open the file temporarily and extract it from there.
+        /// 
+        /// <returns>The header of the ONIX file</returns>
+        /// </summary>
         public OnixHeader MessageHeader
         {
             get
@@ -177,6 +185,14 @@ namespace OnixData
             return new OnixEnumerator(this, this.ParserFileInfo);
         }
 
+        /// <summary>
+        /// 
+        /// This method will help determine whether the XML structure of an ONIX file belongs to the 'Reference' type 
+        /// of ONIX (i.e., verbose tags) or the 'Short' type of ONIX (i.e., alphanumeric tags).
+        /// 
+        /// <param name="LegacyOnixFilepath">The path to the ONIX file</param>
+        /// <returns>The Boolean that indicates whether or not the ONIX file belongs to the 'Reference' type</returns>
+        /// </summary>
         public bool DetectDtdVersionReference(FileInfo LegacyOnixFilepath)
         {
             bool bReferenceVersion = true;
