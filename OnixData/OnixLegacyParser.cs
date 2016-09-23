@@ -254,6 +254,15 @@ namespace OnixData
             return new OnixLegacyEnumerator(this, this.ParserFileInfo);
         }
 
+		/// <summary>
+        /// 
+        /// This method was intended to provide the functionality of validating a legacy ONIX file against its 
+		/// respective DTD/XSD.  Unfortunately, though, the .NET platform does not seem to be compatible with 
+		/// parsing and understanding a complex schema as specified in the ONIX standard.  So, it seems that this
+		/// method will never come into fruition.
+		/// 
+        /// <returns>The Boolean that indicates whether or not the ONIX file is valid</returns>
+        /// </summary>
         public bool ValidateFile()
         {
             bool ValidOnixFile = true;
