@@ -18,6 +18,9 @@ namespace OnixData.Legacy
         public const int CONST_PRICE_TYPE_FRP_INCL  = 4;
         public const int CONST_PRICE_TYPE_SUPP_COST = 5;
         public const int CONST_PRICE_TYPE_RRP_PREP  = 21;
+		
+		public const int CONST_PUB_DISC_CD_TYPE_PTY   = 2;
+        public const int CONST_PUB_DISC_CD_TYPE_PTY_2 = 5;
 
         #endregion
 
@@ -41,6 +44,23 @@ namespace OnixData.Legacy
         private int                     minimumOrderQuantityField;
         private string                  priceStatusField;
         private string                  countryCodeField;
+		
+        #region ONIX helpers
+
+        public bool HasViablePubDiscountCode()
+        {
+            bool bHasViablePubDiscCd = false;
+
+            if ((discountCodedField != null))
+            {
+                bHasViablePubDiscCd =
+                    (discountCodedField.DiscountCodeType == CONST_PUB_DISC_CD_TYPE_PTY) || (discountCodedField.DiscountCodeType == CONST_PUB_DISC_CD_TYPE_PTY_2);
+            }
+
+            return bHasViablePubDiscCd;
+        }
+
+        #endregion		
 
         #region Reference Tags
 
