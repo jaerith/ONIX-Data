@@ -10,3 +10,39 @@ Unfortunately, since validation of ONIX files has proven problematic on the .NET
 If you would like to become better acquainted with legacy format of the ONIX standard, you can find documentation and relevant files (XSDs, DTDs, etc.) on <a target="_blank" href="http://www.editeur.org/15/Archived-Previous-Releases/">the archive page of EDITEUR</a>.
 
 If you would like to become better acquainted with the current version of the ONIX standard, you can find documentation and relevant files (XSDs, DTDs, etc.) on <a target="_blank" href="http://www.editeur.org/93/Release-3.0-Downloads/">the current page of EDITEUR</a>.
+
+#USAGE EXAMPLE
+
+    // An example of using the ONIX parser for the legacy standard
+    using (OnixLegacyParser onixLegacyShortParser = new OnixLegacyParser(new FileInfo(sLegacyShortFilepath), true))
+    {
+        OnixLegacyHeader Header = onixLegacyShortParser.MessageHeader;
+
+        // Check some values of the header
+    
+        foreach (OnixLegacyProduct TmpProduct in onixLegacyShortParser)
+        {
+            string Ean = TmpProduct.EAN;
+
+            /*
+             * The IsValid method will inform the caller if the XML within the Product tag is invalid due to syntax
+             * or due to invalid data types within the tags (i.e., a Price with text).
+             *
+             * (The functionality to validate the product in accordance with the ONIX standard is beyond the scope
+             * of this library.)
+             *
+             * If the product is valid, we can use it; if not, we can record its issue.  In this way, we can proceed 
+             * with parsing the file, without being blocked by a problem with one record.
+             */
+            if (TmpProduct.IsValid())
+            {
+                System.Console.WriteLine("Product [" + (nLegacyShortIdx++) + "] has EAN(" +
+                                         TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
+                                         ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
+            }
+            else
+            {
+                System.Console.WriteLine(TmpProduct.GetParsingError());
+            }
+        }
+    }
