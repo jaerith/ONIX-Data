@@ -5,7 +5,17 @@ Even though the "sunset date" for the legacy version 2.1 has passed, many (if no
 
 Unfortunately, since validation of ONIX files has proven problematic on the .NET platform, there is an <a target="_blank" href="https://github.com/jaerith/ONIX-Validator">accompanying Java project</a> that can serve to validate those files instead.
 
-# NOTES
+# Requirements
+* Visual Studio 2012 (at least)
+* An unconditional love for a XML tag collection that attempts to cover the ontology of the known universe.
+
+# ONIX Editions Handled
+* [x] ONIX 2.1.3 and earlier (short tags)
+* [x] ONIX 2.1.3 and earlier (reference tags)
+* [x] ONIX 3.0 (short tags)
+* [x] ONIX 3.0 (reference tags)
+
+# Notes
 
 If you would like to become better acquainted with legacy format of the ONIX standard, you can find documentation and relevant files (XSDs, DTDs, etc.) on <a target="_blank" href="http://www.editeur.org/15/Archived-Previous-Releases/">the archive page of EDITEUR</a>.
 
