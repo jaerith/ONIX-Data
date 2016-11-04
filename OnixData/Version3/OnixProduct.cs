@@ -141,6 +141,27 @@ namespace OnixData.Version3
                 this.eanField = value;
             }
         }
+		
+        public string PROPRIETARY_ID
+        {
+            get
+            {
+                string sPropId = "";
+
+                OnixProductId[] ProductIdList = OnixProductIdList;
+
+                if ((ProductIdList != null) && (ProductIdList.Length > 0))
+                {
+                    OnixProductId PropProductId =
+                        ProductIdList.Where(x => (x.ProductIDType == CONST_PRODUCT_TYPE_PROP)).FirstOrDefault();
+
+                    if ((PropProductId != null) && !String.IsNullOrEmpty(PropProductId.IDValue))
+                        sPropId = PropProductId.IDValue;
+                }
+
+                return sPropId;
+            }
+        }		
 
         public string UPC
         {
