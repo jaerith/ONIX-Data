@@ -36,7 +36,7 @@ namespace OnixData.Legacy
 
         public OnixLegacyContributor()
         {
-            SequenceNumber     = -1;
+            SequenceNumber     = "";
             ContributorRole    = "";
             PersonName         = "";
             PersonNameInverted = "";
@@ -44,7 +44,7 @@ namespace OnixData.Legacy
             KeyNames           = "";
         }
 
-        private int    sequenceNumberField;
+        private string sequenceNumberField;
         private string contributorRoleField;
         private string personNameField;
         private string personNameInvertedField;
@@ -54,7 +54,7 @@ namespace OnixData.Legacy
         #region Reference Tags
 
         /// <remarks/>
-        public int SequenceNumber
+        public string SequenceNumber
         {
             get
             {
@@ -136,7 +136,7 @@ namespace OnixData.Legacy
         #region Short Tags
 
         /// <remarks/>
-        public int b034
+        public string b034
         {
             get { return SequenceNumber; }
             set { SequenceNumber = value; }
