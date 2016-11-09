@@ -142,6 +142,27 @@ namespace OnixData.Version3
             }
         }
 		
+        public string LIBRARY_CONGRESS_NUM
+        {
+            get
+            {
+                string sLibCongressNum = "";
+
+                OnixProductId[] ProductIdList = OnixProductIdList;
+
+                if ((ProductIdList != null) && (ProductIdList.Length > 0))
+                {
+                    OnixProductId LccnProductId =
+                        ProductIdList.Where(x => (x.ProductIDType == CONST_PRODUCT_TYPE_LCCN)).FirstOrDefault();
+
+                    if ((LccnProductId != null) && !String.IsNullOrEmpty(LccnProductId.IDValue))
+                        sLibCongressNum = LccnProductId.IDValue;
+                }
+
+                return sLibCongressNum;
+            }
+        }
+		
         public string PROPRIETARY_ID
         {
             get
