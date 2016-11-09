@@ -129,6 +129,27 @@ namespace OnixData.Legacy
             }
         }
 		
+        public string LIBRARY_CONGRESS_NUM
+        {
+            get
+            {
+                string sLibCongressNum = "";
+
+                OnixLegacyProductId[] ProductIdList = OnixProductIdList;
+
+                if ((ProductIdList != null) && (ProductIdList.Length > 0))
+                {
+                    OnixLegacyProductId LccnProductId =
+                        ProductIdList.Where(x => (x.ProductIDType == CONST_PRODUCT_TYPE_LCCN)).FirstOrDefault();
+
+                    if ((LccnProductId != null) && !String.IsNullOrEmpty(LccnProductId.IDValue))
+                        sLibCongressNum = LccnProductId.IDValue;
+                }
+
+                return sLibCongressNum;
+            }
+        }
+		
         public string PROPRIETARY_ID
         {
             get
