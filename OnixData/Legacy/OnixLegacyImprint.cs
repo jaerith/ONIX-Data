@@ -24,7 +24,7 @@ namespace OnixData.Legacy
 
         private int    nameCodeTypeField;
         private string nameCodeTypeNameField;
-        private uint   nameCodeValueField;
+        private string nameCodeValueField;
         private string imprintNameField;
 
         #region Reference Tags
@@ -56,7 +56,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public uint NameCodeValue
+        public string NameCodeValue
         {
             get
             {
@@ -100,7 +100,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public uint b243
+        public string b243
         {
             get { return NameCodeValue; }
             set { NameCodeValue = value; }
