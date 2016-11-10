@@ -49,6 +49,22 @@ If you would like to become better acquainted with the current version of the ON
                 System.Console.WriteLine("Product [" + (nLegacyShortIdx++) + "] has EAN(" +
                                          TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
                                          ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
+                                         
+
+                /*
+                 * For 1-to-many composites, where a product can have more than one subitem (like Contributor), you should
+                 * use the lists that have a prefix of 'Onix', so that you can avoid having to detect whether or not the
+                 * reference or short composites have been used.
+                 */
+                if (TmpProduct.OnixContributorList != null)
+                {
+                    foreach (OnixLegacyContributor TempContrib in TmpProduct.OnixContributorList)
+                    {
+                        System.Console.WriteLine("\tAnd has a contributor with key name (" + TempContrib.KeyNames + ")."); 
+                    }
+                }
+            }
+
             }
             else
             {
