@@ -18,7 +18,7 @@ namespace OnixData.Legacy
         {
             NameCodeType     = -1;
             NameCodeTypeName = "";
-            NameCodeValue    = 0;
+            NameCodeValue    = "";
             ImprintName      = "";
         }
 
