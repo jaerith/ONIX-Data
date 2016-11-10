@@ -10,6 +10,13 @@ namespace OnixData.Version3.Title
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixTitleDetail
     {
+        #region CONSTANTS
+
+        public const int CONST_TITLE_TYPE_UN_TITLE   = 0;
+        public const int CONST_TITLE_TYPE_DIST_TITLE = 1;
+
+        #endregion	
+	
         public OnixTitleDetail()
         {
             TitleType    = -1;
