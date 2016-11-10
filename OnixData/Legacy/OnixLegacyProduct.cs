@@ -86,6 +86,7 @@ namespace OnixData.Legacy
 
         private string bookFormDetailField;
         private int    productPackagingField;
+        private string distinctiveTitleField;
 
         private string[] editionTypeCodeField;
         private string[] shortEditionTypeCodeField;
@@ -656,7 +657,20 @@ namespace OnixData.Legacy
             {
                 this.editionNumberField = value;
             }
-        }        
+        }
+
+        /// <remarks/>
+        public string DistinctiveTitle
+        {
+            get
+            {
+                return this.distinctiveTitleField;
+            }
+            set
+            {
+                this.distinctiveTitleField = value;
+            }
+        }
 
         /// <remarks/>
         public OnixLegacyTitle Title
@@ -1093,6 +1107,13 @@ namespace OnixData.Legacy
         {
             get { return shortEditionNumberField; }
             set { shortEditionNumberField = value; }
+        }
+
+        /// <remarks/>
+        public string b028
+        {
+            get { return DistinctiveTitle; }
+            set { DistinctiveTitle = value; }
         }
 
         /// <remarks/>
