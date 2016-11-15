@@ -12,6 +12,12 @@ namespace OnixData.Version3.Supply
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixSupplyDetail
     {
+        #region CONSTANTS
+
+        public const int CONST_RET_CODE_TYPE_BISAC = 2;
+
+        #endregion	
+	
         public OnixSupplyDetail()
         {
             ProductAvailability = "";
