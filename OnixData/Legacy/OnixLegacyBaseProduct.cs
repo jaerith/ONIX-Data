@@ -27,8 +27,8 @@ namespace OnixData.Legacy
 
         public OnixLegacyBaseProduct()
         {
-            RecordReference  = "";
-            NotificationType = NumberOfPieces = TradeCategory = Barcode = -1;
+            RecordReference  = Barcode = "";
+            NotificationType = NumberOfPieces = TradeCategory = -1;
 
             productIdentifierField  = shortProductIdentifierField  = new OnixLegacyProductId[0];
             productContentTypeField = shortProductContentTypeField = new string[0];
@@ -57,7 +57,7 @@ namespace OnixData.Legacy
         protected string[] productContentTypeField;
         protected string[] shortProductContentTypeField;
 
-        protected int      barCodeField;
+        protected string   barCodeField;
         protected string   productFormField;
         protected string   productFormDetailField;
         protected int      numberOfPiecesField;
@@ -128,7 +128,7 @@ namespace OnixData.Legacy
                 this.eanField = value;
             }
         }
-		
+
         public string LIBRARY_CONGRESS_NUM
         {
             get
@@ -149,7 +149,7 @@ namespace OnixData.Legacy
                 return sLibCongressNum;
             }
         }
-		
+
         public string PROPRIETARY_ID
         {
             get
@@ -169,7 +169,7 @@ namespace OnixData.Legacy
 
                 return sPropId;
             }
-        }		
+        }
 
         public string UPC
         {
@@ -297,7 +297,7 @@ namespace OnixData.Legacy
             }
         }
 
-        public int Barcode
+        public string Barcode
         {
             get
             {
@@ -455,13 +455,13 @@ namespace OnixData.Legacy
             {
                 string FoundPubName = "";
 
-                if ((Publisher != null) && (Publisher.Length > 0))
+                if ((OnixPublisherList != null) && (OnixPublisherList.Length > 0))
                 {
                     List<int> SoughtPubTypes =
                         new List<int>() { 0, OnixLegacyPublisher.CONST_PUB_ROLE_PUBLISHER, OnixLegacyPublisher.CONST_PUB_ROLE_CO_PUB };
 
                     OnixLegacyPublisher FoundPublisher =
-                        Publisher.Where(x => SoughtPubTypes.Contains(x.PublishingRole)).FirstOrDefault();
+                        OnixPublisherList.Where(x => SoughtPubTypes.Contains(x.PublishingRole)).FirstOrDefault();
 
                     FoundPubName = FoundPublisher.PublisherName;
                 }
@@ -514,7 +514,7 @@ namespace OnixData.Legacy
             set { shortProductIdentifierField = value; }
         }
 
-        public int b246
+        public string b246
         {
             get { return Barcode; }
             set { Barcode = value; }
