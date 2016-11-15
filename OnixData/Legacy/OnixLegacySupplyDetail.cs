@@ -10,6 +10,12 @@ namespace OnixData.Legacy
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixLegacySupplyDetail
     {
+        #region CONSTANTS
+
+        public const int CONST_RET_CODE_TYPE_BISAC = 2;
+
+        #endregion	
+	
         public OnixLegacySupplyDetail()
         {
             SupplierName        = "";
