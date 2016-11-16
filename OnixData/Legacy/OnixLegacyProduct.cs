@@ -290,7 +290,8 @@ namespace OnixData.Legacy
                     OnixLegacyImprint FoundImprint =
                         ImprintList.Where(x => x.NameCodeType == OnixLegacyImprint.CONST_IMPRINT_ROLE_PROP).FirstOrDefault();
 
-                    FoundImprintName = FoundImprint.ImprintName;
+                    if (FoundImprint != null)
+                        FoundImprintName = FoundImprint.ImprintName;
                 }
 
                 return FoundImprintName;
