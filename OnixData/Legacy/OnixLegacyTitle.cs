@@ -15,8 +15,8 @@ namespace OnixData.Legacy
         public const int CONST_TITLE_TYPE_UN_TITLE   = 0;
         public const int CONST_TITLE_TYPE_DIST_TITLE = 1;
 
-        #endregion	
-	
+        #endregion
+
         public OnixLegacyTitle()
         {
             TitleType = -1;
@@ -29,6 +29,42 @@ namespace OnixData.Legacy
         private string titlePrefixField;
         private string titleWithoutPrefixField;
         private string subtitleField;
+
+        #region ONIX Helpers
+
+        public string OnixTitle
+        {
+            get
+            {
+                StringBuilder TitleBuilder = new StringBuilder();
+
+                if (this.Title != null)
+                {
+                    if (!String.IsNullOrEmpty(this.Title))
+                        TitleBuilder.Append(this.Title);
+                    else if (!String.IsNullOrEmpty(this.TitleWithoutPrefix))
+                    {
+                        if (!String.IsNullOrEmpty(this.TitlePrefix))
+                            TitleBuilder.Append(this.TitlePrefix).Append(" ");
+
+                        TitleBuilder.Append(this.TitleWithoutPrefix);
+                    }
+                    else if ((this.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE) &&
+                             (this.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE))
+                    {
+                        if (!String.IsNullOrEmpty(this.TitleText))
+                            TitleBuilder.Append(this.TitleText);
+                    }
+
+                    if (!String.IsNullOrEmpty(this.Subtitle))
+                        TitleBuilder.Append(": ").Append(this.Subtitle);
+                }
+
+                return TitleBuilder.ToString();
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
