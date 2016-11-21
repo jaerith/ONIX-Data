@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Legacy\OnixLegacyAudience.cs" />
     <Compile Include="Legacy\OnixLegacyAudRange.cs" />
     <Compile Include="Legacy\OnixLegacyBaseProduct.cs" />
     <Compile Include="Legacy\OnixLegacyComplexity.cs" />
