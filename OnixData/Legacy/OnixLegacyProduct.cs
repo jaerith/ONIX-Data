@@ -62,6 +62,7 @@ namespace OnixData.Legacy
             BASICMainSubject = "";
             AudienceCode     = "";
 
+            audienceField       = shortAudienceField       = new OnixLegacyAudience[0];
             audienceRangeField  = shortAudienceRangeField  = new OnixLegacyAudRange[0];
             contributorField    = shortContributorField    = new OnixLegacyContributor[0];
             extentField         = shortExtentField         = new OnixLegacyExtent[0];
@@ -92,6 +93,7 @@ namespace OnixData.Legacy
         private string[] shortEditionTypeCodeField;
         private int[]    editionNumberField;
         private int[]    shortEditionNumberField;
+        private string   editionStatementField;
 
         private OnixLegacyTitle titleField;
 
@@ -109,6 +111,8 @@ namespace OnixData.Legacy
         private string basicMainSubjectField;
         private string audienceCodeField;
 
+        private OnixLegacyAudience[]       audienceField;
+        private OnixLegacyAudience[]       shortAudienceField;
         private OnixLegacyAudRange[]       audienceRangeField;
         private OnixLegacyAudRange[]       shortAudienceRangeField;
         private OnixLegacyContributor[]    contributorField;
@@ -221,6 +225,34 @@ namespace OnixData.Legacy
             return bHasUSDPrice;
         }
 
+        public bool HasNonUSRights()
+        {
+            bool bHasNonUSRights = false;
+
+            int[] aSalesRightsColl = new int[] { OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
+                                                 OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
+
+            OnixLegacySalesRights[] SalesRightsList = OnixSalesRightsList;
+            if ((SalesRightsList != null) && (SalesRightsList.Length > 0))
+            {
+                foreach (OnixLegacySalesRights TempSalesRights in SalesRightsList)
+                {
+                    List<string> TempCountryList = new List<string>(TempSalesRights.RightsCountryList);
+                    TempCountryList.RemoveAll(x => x == "US");
+                    TempCountryList.RemoveAll(x => x == "WORLD");
+                    TempCountryList.RemoveAll(x => x == "ROW");
+
+                    if (TempCountryList.Count > 0)
+                    {
+                        bHasNonUSRights = true;
+                        break;
+                    }
+                }
+            }
+
+            return bHasNonUSRights;
+        }
+
         public bool HasUSRights()
         {
             bool bHasUSRights = false;
@@ -241,6 +273,23 @@ namespace OnixData.Legacy
             return bHasUSRights;
         }
 
+        public bool HasWorldRights()
+        {
+            bool bHasWorldRights = false;
+
+            int[] aSalesRightsColl = new int[] { OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
+                                                 OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
+
+            OnixLegacySalesRights[] SalesRightsList = OnixSalesRightsList;
+            if ((SalesRightsList != null) && (SalesRightsList.Length > 0))
+            {
+                bHasWorldRights =
+                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsType) && x.RightsTerritoryList.Contains("WORLD"));
+            }
+
+            return bHasWorldRights;
+        }
+
         public OnixLegacyMeasure Height
         {
             get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_HEIGHT); }
@@ -259,6 +308,35 @@ namespace OnixData.Legacy
         public OnixLegacyMeasure Width
         {
             get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_WIDTH); }
+        }
+
+        public string OnixAudienceCode
+        {
+            get
+            {
+                string sAudCode = "";
+
+                if (!String.IsNullOrEmpty(AudienceCode))
+                    sAudCode = AudienceCode;
+                else
+                {
+                    OnixLegacyAudience[] AudienceList = audienceField;
+                    if ((AudienceList == null) || (AudienceList.Length <= 0))
+                        AudienceList = shortAudienceField;
+
+                    if ((AudienceList != null) && (AudienceList.Length > 0))
+                    {
+                        OnixLegacyAudience OnixAudCode = 
+                            AudienceList.Where(x => x.AudienceCodeType == OnixLegacyAudience.CONST_AUD_TYPE_ONIX).FirstOrDefault();
+
+                        if ((OnixAudCode != null) && !String.IsNullOrEmpty(OnixAudCode.AudienceCodeValue))
+                            sAudCode = OnixAudCode.AudienceCodeValue;
+
+                    }
+                }
+
+                return sAudCode;
+            }
         }
 
         public OnixLegacyContributor PrimaryAuthor
@@ -661,6 +739,19 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
+        public string EditionStatement
+        {
+            get
+            {
+                return this.editionStatementField;
+            }
+            set
+            {
+                this.editionStatementField = value;
+            }
+        }
+
+        /// <remarks/>
         public string DistinctiveTitle
         {
             get
@@ -871,6 +962,20 @@ namespace OnixData.Legacy
             set
             {
                 this.complexityField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Audience")]
+        public OnixLegacyAudience[] Audience
+        {
+            get
+            {
+                return this.audienceField;
+            }
+            set
+            {
+                this.audienceField = value;
             }
         }
 
@@ -1111,6 +1216,15 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
+        public string b058
+        {
+            get { return EditionStatement; }
+            set { EditionStatement = value; }
+        }
+
+        // EditionStatement
+
+        /// <remarks/>
         public string b028
         {
             get { return DistinctiveTitle; }
@@ -1122,6 +1236,14 @@ namespace OnixData.Legacy
         {
             get { return Title; }
             set { Title = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("audience")]
+        public OnixLegacyAudience[] audience
+        {
+            get { return shortAudienceField; }
+            set { shortAudienceField = value; }
         }
 
         /// <remarks/>
