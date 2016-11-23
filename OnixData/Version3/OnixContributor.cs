@@ -36,17 +36,67 @@ namespace OnixData.Version3
 
         public OnixContributor()
         {
-            SequenceNumber  = -1;
-            ContributorRole = personNameField = personNameInvertedField = "";
-            NamesBeforeKey  = KeyNames = "";
+            SequenceNumber    = -1;
+            ContributorRole   = personNameField = personNameInvertedField = "";
+            NamesBeforeKey    = KeyNames = "";
+            TitlesBeforeNames = TitlesAfterNames = LettersAfterNames = "";
+
+            onixNamesBeforeKey = onixKeyNames = onixLettersAndTitles = null;
         }
 
         private int    sequenceNumberField;
         private string contributorRoleField;
+        private string titlesBeforeNamesField;
         private string namesBeforeKeyField;
         private string keyNamesField;
         private string personNameField;
         private string personNameInvertedField;
+        private string lettersAfterNamesField;
+        private string titlesAfterNamesField;
+
+        private string onixNamesBeforeKey;
+        private string onixKeyNames;
+        private string onixLettersAndTitles;
+
+        #region ONIX Helpers
+
+        /// <remarks/>
+        public string OnixNamesBeforeKey
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(onixNamesBeforeKey))
+                    DetermineContribFields();
+
+                return onixNamesBeforeKey;
+            }
+        }
+
+        /// <remarks/>
+        public string OnixKeyNames
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(onixKeyNames))
+                    DetermineContribFields();
+
+                return onixKeyNames;
+            }
+        }
+
+        /// <remarks/>
+        public string OnixLettersAndTitles
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(onixLettersAndTitles))
+                    DetermineContribFields();
+
+                return onixLettersAndTitles;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
@@ -73,6 +123,19 @@ namespace OnixData.Version3
             set
             {
                 this.contributorRoleField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string TitlesBeforeNames
+        {
+            get
+            {
+                return this.titlesBeforeNamesField;
+            }
+            set
+            {
+                this.titlesBeforeNamesField = value;
             }
         }
 
@@ -128,6 +191,32 @@ namespace OnixData.Version3
             }
         }
 
+        /// <remarks/>
+        public string LettersAfterNames
+        {
+            get
+            {
+                return this.lettersAfterNamesField;
+            }
+            set
+            {
+                this.lettersAfterNamesField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string TitlesAfterNames
+        {
+            get
+            {
+                return this.titlesAfterNamesField;
+            }
+            set
+            {
+                this.titlesAfterNamesField = value;
+            }
+        }
+
         #endregion
 
         #region Short Tags
@@ -161,6 +250,13 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
+        public string b038
+        {
+            get { return TitlesBeforeNames; }
+            set { TitlesBeforeNames = value; }
+        }
+
+        /// <remarks/>
         public string b039
         {
             get { return NamesBeforeKey; }
@@ -174,6 +270,98 @@ namespace OnixData.Version3
             set { KeyNames = value; }
         }
 
+        /// <remarks/>
+        public string b042
+        {
+            get { return LettersAfterNames; }
+            set { LettersAfterNames = value; }
+        }
+
+        /// <remarks/>
+        public string b043
+        {
+            get { return TitlesAfterNames; }
+            set { TitlesAfterNames = value; }
+        }
+
         #endregion
+
+        #region Support Methods
+
+        public void DetermineContribFields()
+        {
+            StringBuilder KeyNamePrefixBuilder = new StringBuilder();
+            StringBuilder KeyNameBuilder       = new StringBuilder();
+            StringBuilder LettersTitlesBuilder = new StringBuilder();
+
+            if (!String.IsNullOrEmpty(this.PersonName))
+            {
+                string[] NameComponents = this.PersonName.Split(new char[1] { ' ' });
+
+                if (NameComponents.Length == 1)
+                    KeyNameBuilder.Append(NameComponents[NameComponents.Length - 1]);
+                else if (NameComponents.Length > 1)
+                {
+                    KeyNameBuilder.Append(NameComponents[NameComponents.Length - 1]);
+
+                    for (int i = 0; i < (NameComponents.Length - 1); ++i)
+                    {
+                        if (KeyNamePrefixBuilder.Length > 0)
+                            KeyNamePrefixBuilder.Append(" ");
+
+                        KeyNamePrefixBuilder.Append(NameComponents[i]);
+                    }
+                }
+            }
+            else if (!String.IsNullOrEmpty(this.PersonNameInverted))
+            {
+                string[] NameComponents = this.PersonNameInverted.Split(new char[1] { ',' });
+
+                if (NameComponents.Length > 0)
+                {
+                    KeyNameBuilder.Append(NameComponents[0]);
+
+                    if (NameComponents.Length > 1)
+                    {
+                        string sKeynamePrefixBuffer = NameComponents[1];
+
+                        string[] AltNameComponents = sKeynamePrefixBuffer.Split(new char[1] { ' ' });
+
+                        for (int i = 0; i < AltNameComponents.Length; ++i)
+                        {
+                            if (KeyNamePrefixBuilder.Length > 0)
+                                KeyNamePrefixBuilder.Append(" ");
+
+                            KeyNamePrefixBuilder.Append(AltNameComponents[i]);
+                        }
+                    }
+                }
+            }
+            else if (!String.IsNullOrEmpty(this.KeyNames))
+            {
+                KeyNameBuilder.Append(this.KeyNames);
+
+                if (!String.IsNullOrEmpty(this.NamesBeforeKey))
+                    KeyNamePrefixBuilder.Append(this.NamesBeforeKey);
+            }
+
+            if (!String.IsNullOrEmpty(LettersAfterNames))
+                LettersTitlesBuilder.Append(LettersAfterNames);
+
+            if (!String.IsNullOrEmpty(TitlesAfterNames))
+            {
+                if (LettersTitlesBuilder.Length > 0)
+                    LettersTitlesBuilder.Append(" ");
+
+                LettersTitlesBuilder.Append(TitlesAfterNames);
+            }
+
+            onixNamesBeforeKey   = KeyNamePrefixBuilder.ToString();
+            onixKeyNames         = KeyNameBuilder.ToString();
+            onixLettersAndTitles = LettersTitlesBuilder.ToString();
+        }
+
+        #endregion
+
     }
 }
