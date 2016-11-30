@@ -392,11 +392,11 @@ namespace OnixData.Legacy
             }
         }
 
-        public int SeriesNumber
+        public string SeriesNumber
         {
             get
             {
-                int FoundSeriesNum = 0;
+                string FoundSeriesNum = 0;
 
                 OnixLegacySeries[] SeriesList = OnixSeriesList;
                 if ((SeriesList != null) && (SeriesList.Length > 0))
