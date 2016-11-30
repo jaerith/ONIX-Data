@@ -19,12 +19,11 @@ namespace OnixData.Legacy
 
         public OnixLegacySeries()
         {
-            NumberWithinSeries = -1;
-            TitleOfSeries      = "";
+            NumberWithinSeries = TitleOfSeries = "";
             Title              = new OnixLegacyTitle();
         }
 
-        private int    numberWithinSeriesField;
+        private string numberWithinSeriesField;
         private string titleOfSeriesField;
 
         private OnixLegacyTitle titleField;
@@ -32,7 +31,7 @@ namespace OnixData.Legacy
         #region Reference Tags
 
         /// <remarks/>
-        public int NumberWithinSeries
+        public string NumberWithinSeries
         {
             get
             {
@@ -75,7 +74,7 @@ namespace OnixData.Legacy
         #region Short Tags
 
         /// <remarks/>
-        public int b019
+        public string b019
         {
             get { return NumberWithinSeries; }
             set { NumberWithinSeries = value; }
