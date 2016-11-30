@@ -272,7 +272,7 @@ namespace OnixData
         /// <param name="PerformInMemory">Indicates whether or not the encoding replacements are performed entirely in memory.</param>
         /// <returns>N/A</returns>
         /// </summary>
-        public void ReplaceIsoLatinEncodings(bool PerformInMemory)
+        public void ReplaceIsoLatinEncodings(bool PerformInMemory, bool ShouldReplaceTechEncodings = true)
         {
             if ((ParserFileInfo != null) && (ParserFileInfo.Exists))
             {
@@ -469,6 +469,10 @@ namespace OnixData
                     AllFileText.Replace("&zdot;",   "&#x0017C;"); // <!--=small z, dot above -->
                     AllFileText.Replace("&Zdot;",   "&#x0017B;"); // <!--=capital Z, dot above -->
 
+                    // From the "iso-tech.ent" file
+                    if (ShouldReplaceTechEncodings)
+                        ReplaceTechEncodings(AllFileText);
+
                     File.WriteAllText(ParserFileInfo.FullName, AllFileText.ToString());
                 }
                 else
@@ -563,6 +567,264 @@ namespace OnixData
                 bReferenceVersion = false;
 
             return bReferenceVersion;
+        }
+		
+        public void ReplaceTechEncodings(StringBuilder LegacyOnixFileText)
+        {
+            if ((LegacyOnixFileText != null) && (LegacyOnixFileText.Length > 0))
+            {
+                LegacyOnixFileText.Replace("&acd;",      "&#x0223F;"); // <!--ac current -->
+                LegacyOnixFileText.Replace("&aleph;",    "&#x02135;"); // <!--/aleph aleph, Hebrew -->
+                LegacyOnixFileText.Replace("&and;",      "&#x02227;"); // <!--/wedge /land B: logical and -->
+                LegacyOnixFileText.Replace("&And;",      "&#x02A53;"); // <!--dbl logical and -->
+                LegacyOnixFileText.Replace("&andand;",   "&#x02A55;"); // <!--two logical and -->
+                LegacyOnixFileText.Replace("&andd;",     "&#x02A5C;"); // <!--and, horizontal dash -->
+                LegacyOnixFileText.Replace("&andslope;", "&#x02A58;"); // <!--sloping large and -->
+                LegacyOnixFileText.Replace("&andv;",     "&#x02A5A;"); // <!--and with middle stem -->
+                LegacyOnixFileText.Replace("&angrt;",    "&#x0221F;"); // <!--right (90 degree) angle -->
+                LegacyOnixFileText.Replace("&angsph;",   "&#x02222;"); // <!--/sphericalangle angle-spherical -->
+                LegacyOnixFileText.Replace("&angst;",    "&#x0212B;"); // <!--Angstrom capital A, ring -->
+                LegacyOnixFileText.Replace("&ap;",       "&#x02248;"); // <!--/approx R: approximate -->
+                LegacyOnixFileText.Replace("&apacir;",   "&#x02A6F;"); // <!--approximate, circumflex accent -->
+                LegacyOnixFileText.Replace("&awconint;", "&#x02233;"); // <!--contour integral, anti-clockwise -->
+                LegacyOnixFileText.Replace("&awint;",    "&#x02A11;"); // <!--anti clock-wise integration -->
+                LegacyOnixFileText.Replace("&becaus;",   "&#x02235;"); // <!--/because R: because -->
+                LegacyOnixFileText.Replace("&bernou;",   "&#x0212C;"); // <!--Bernoulli function (script capital B)  -->
+                LegacyOnixFileText.Replace("&bne;",      "&#x0003D;&#x020E5;"); // <!--reverse not equal -->
+                LegacyOnixFileText.Replace("&bnequiv;",  "&#x02261;&#x020E5;"); // <!--reverse not equivalent -->
+                LegacyOnixFileText.Replace("&bnot;",     "&#x02310;"); // <!--reverse not -->
+                LegacyOnixFileText.Replace("&bNot;",     "&#x02AED;"); // <!--reverse not with two horizontal strokes -->
+                LegacyOnixFileText.Replace("&bottom;",   "&#x022A5;"); // <!--/bot bottom -->
+                LegacyOnixFileText.Replace("&cap;",      "&#x02229;"); // <!--/cap B: intersection -->
+                LegacyOnixFileText.Replace("&Cconint;",  "&#x02230;"); // <!--triple contour integral operator -->
+                LegacyOnixFileText.Replace("&cirfnint;", "&#x02A10;"); // <!--circulation function -->
+                LegacyOnixFileText.Replace("&compfn;",   "&#x02218;"); // <!--/circ B: composite function (small circle) -->
+                LegacyOnixFileText.Replace("&cong;",     "&#x02245;"); // <!--/cong R: congruent with -->
+                LegacyOnixFileText.Replace("&conint;",   "&#x0222E;"); // <!--/oint L: contour integral operator -->
+                LegacyOnixFileText.Replace("&Conint;",   "&#x0222F;"); // <!--double contour integral operator -->
+                LegacyOnixFileText.Replace("&ctdot;",    "&#x022EF;"); // <!--/cdots, three dots, centered -->
+                LegacyOnixFileText.Replace("&cup;",      "&#x0222A;"); // <!--/cup B: union or logical sum -->
+                LegacyOnixFileText.Replace("&cwconint;", "&#x02232;"); // <!--contour integral, clockwise -->
+                LegacyOnixFileText.Replace("&cwint;",    "&#x02231;"); // <!--clockwise integral -->
+                LegacyOnixFileText.Replace("&cylcty;",   "&#x0232D;"); // <!--cylindricity -->
+                LegacyOnixFileText.Replace("&disin;",    "&#x022F2;"); // <!--set membership, long horizontal stroke -->
+                LegacyOnixFileText.Replace("&Dot;",      "&#x000A8;"); // <!--dieresis or umlaut mark -->
+                LegacyOnixFileText.Replace("&DotDot;",   "&#x020DC;"); // <!--four dots above -->
+                LegacyOnixFileText.Replace("&dsol;",     "&#x029F6;"); // <!--solidus, bar above -->
+                LegacyOnixFileText.Replace("&dtdot;",    "&#x022F1;"); // <!--/ddots, three dots, descending -->
+                LegacyOnixFileText.Replace("&dwangle;",  "&#x029A6;"); // <!--large downward pointing angle -->
+                LegacyOnixFileText.Replace("&epar;",     "&#x022D5;"); // <!--parallel, equal; equal or parallel -->
+                LegacyOnixFileText.Replace("&eparsl;",   "&#x029E3;"); // <!--parallel, slanted, equal; homothetically congruent to -->
+                LegacyOnixFileText.Replace("&equiv;",    "&#x02261;"); // <!--/equiv R: identical with -->
+                LegacyOnixFileText.Replace("&eqvparsl;", "&#x029E5;"); // <!--equivalent, equal; congruent and parallel -->
+                LegacyOnixFileText.Replace("&exist;",    "&#x02203;"); // <!--/exists at least one exists -->
+                LegacyOnixFileText.Replace("&fnof;",     "&#x00192;"); // <!--function of (italic small f) -->
+                LegacyOnixFileText.Replace("&forall;",   "&#x02200;"); // <!--/forall for all -->
+                LegacyOnixFileText.Replace("&fpartint;", "&#x02A0D;"); // <!--finite part integral -->
+                LegacyOnixFileText.Replace("&ge;",       "&#x02265;"); // <!--/geq /ge R: greater-than-or-equal -->
+                LegacyOnixFileText.Replace("&hamilt;",   "&#x0210B;"); // <!--Hamiltonian (script capital H)  -->
+                LegacyOnixFileText.Replace("&iff;",      "&#x021D4;"); // <!--/iff if and only if  -->
+                LegacyOnixFileText.Replace("&iinfin;",   "&#x029DC;"); // <!--infinity sign, incomplete -->
+                LegacyOnixFileText.Replace("&imped;",    "&#x1D543;"); // <!--impedance -->
+                LegacyOnixFileText.Replace("&infin;",    "&#x0221E;"); // <!--/infty infinity -->
+                LegacyOnixFileText.Replace("&int;",      "&#x0222B;"); // <!--/int L: integral operator -->
+                LegacyOnixFileText.Replace("&Int;",      "&#x0222C;"); // <!--double integral operator -->
+                LegacyOnixFileText.Replace("&intlarhk;", "&#x02A17;"); // <!--integral, left arrow with hook -->
+                LegacyOnixFileText.Replace("&isin;",     "&#x02208;"); // <!--/in R: set membership  -->
+                LegacyOnixFileText.Replace("&isindot;",  "&#x022F5;"); // <!--set membership, dot above -->
+                LegacyOnixFileText.Replace("&isinE;",    "&#x022F9;"); // <!--set membership, two horizontal strokes -->
+                LegacyOnixFileText.Replace("&isins;",    "&#x022F4;"); // <!--set membership, vertical bar on horizontal stroke -->
+                LegacyOnixFileText.Replace("&isinsv;",   "&#x022F3;"); // <!--large set membership, vertical bar on horizontal stroke -->
+                LegacyOnixFileText.Replace("&isinv;",    "&#x02208;"); // <!--set membership, variant -->
+                LegacyOnixFileText.Replace("&lagran;",   "&#x02112;"); // <!--Lagrangian (script capital L)  -->
+                LegacyOnixFileText.Replace("&lang;",     "&#x02329;"); // <!--/langle O: left angle bracket -->
+                LegacyOnixFileText.Replace("&Lang;",     "&#x0300A;"); // <!--left angle bracket, double -->
+                LegacyOnixFileText.Replace("&lArr;",     "&#x021D0;"); // <!--/Leftarrow A: is implied by -->
+                LegacyOnixFileText.Replace("&lbbrk;",    "&#x03014;"); // <!--left broken bracket -->
+                LegacyOnixFileText.Replace("&le;",       "&#x02264;"); // <!--/leq /le R: less-than-or-equal -->
+                LegacyOnixFileText.Replace("&loang;",    "&#x0F558;"); // <!--left open angular bracket -->
+                LegacyOnixFileText.Replace("&lobrk;",    "&#x0301A;"); // <!--left open bracket -->
+                LegacyOnixFileText.Replace("&lopar;",    "&#x03018;"); // <!--left open parenthesis -->
+                LegacyOnixFileText.Replace("&lowast;",   "&#x02217;"); // <!--low asterisk -->
+                LegacyOnixFileText.Replace("&minus;",    "&#x02212;"); // <!--B: minus sign -->
+                LegacyOnixFileText.Replace("&mnplus;",   "&#x02213;"); // <!--/mp B: minus-or-plus sign -->
+                LegacyOnixFileText.Replace("&nabla;",    "&#x02207;"); // <!--/nabla del, Hamilton operator -->
+                LegacyOnixFileText.Replace("&ne;",       "&#x02260;"); // <!--/ne /neq R: not equal -->
+                LegacyOnixFileText.Replace("&nedot;",    "&#x02260;&#x0FE00;"); // <!--not equal, dot -->
+                LegacyOnixFileText.Replace("&nhpar;",    "&#x02AF2;"); // <!--not, horizontal, parallel -->
+                LegacyOnixFileText.Replace("&ni;",       "&#x0220B;"); // <!--/ni /owns R: contains -->
+                LegacyOnixFileText.Replace("&nis;",      "&#x022FC;"); // <!--contains, vertical bar on horizontal stroke -->
+                LegacyOnixFileText.Replace("&nisd;",     "&#x022FA;"); // <!--contains, long horizontal stroke -->
+                LegacyOnixFileText.Replace("&niv;",      "&#x0220B;"); // <!--contains, variant -->
+                LegacyOnixFileText.Replace("&Not;",      "&#x02AEC;"); // <!--not with two horizontal strokes -->
+                LegacyOnixFileText.Replace("&notin;",    "&#x02209;"); // <!--/notin N: negated set membership -->
+                LegacyOnixFileText.Replace("&notindot;", "&#x022F6;&#x0FE00;"); // <!--negated set membership, dot above -->
+                LegacyOnixFileText.Replace("&notinva;",  "&#x02209;&#x00338;"); // <!--negated set membership, variant -->
+                LegacyOnixFileText.Replace("&notinvb;",  "&#x022F7;"); // <!--negated set membership, variant -->
+                LegacyOnixFileText.Replace("&notinvc;",  "&#x022F6;"); // <!--negated set membership, variant -->
+                LegacyOnixFileText.Replace("&notni;",    "&#x0220C;"); // <!--negated contains -->
+                LegacyOnixFileText.Replace("&notniva;",  "&#x0220C;"); // <!--negated contains, variant -->
+                LegacyOnixFileText.Replace("&notnivb;",  "&#x022FE;"); // <!--contains, variant -->
+                LegacyOnixFileText.Replace("&notnivc;",  "&#x022FD;"); // <!--contains, variant -->
+                LegacyOnixFileText.Replace("&nparsl;",   "&#x02225;&#x0FE00;&#x020E5;"); // <!--not parallel, slanted -->
+                LegacyOnixFileText.Replace("&npart;",    "&#x02202;&#x00338;"); // <!--not partial differential -->
+                LegacyOnixFileText.Replace("&npolint;",  "&#x02A14;"); // <!--line integration, not including the pole -->
+                LegacyOnixFileText.Replace("&nvinfin;",  "&#x029DE;"); // <!--not, vert, infinity -->
+                LegacyOnixFileText.Replace("&olcross;",  "&#x029BB;"); // <!--circle, cross -->
+                LegacyOnixFileText.Replace("&or;",       "&#x02228;"); // <!--/vee /lor B: logical or -->
+                LegacyOnixFileText.Replace("&Or;",       "&#x02A54;"); // <!--dbl logical or -->
+                LegacyOnixFileText.Replace("&ord;",      "&#x02A5D;"); // <!--or, horizontal dash -->
+                LegacyOnixFileText.Replace("&order;",    "&#x02134;"); // <!--order of (script small o)  -->
+                LegacyOnixFileText.Replace("&oror;",     "&#x02A56;"); // <!--two logical or -->
+                LegacyOnixFileText.Replace("&orslope;",  "&#x02A57;"); // <!--sloping large or -->
+                LegacyOnixFileText.Replace("&orv;",      "&#x02A5B;"); // <!--or with middle stem -->
+                LegacyOnixFileText.Replace("&par;",      "&#x02225;"); // <!--/parallel R: parallel -->
+
+                LegacyOnixFileText.Replace("&parsl;",    "&#x02225;&#x0FE00;"); // <!--parallel, slanted -->
+                LegacyOnixFileText.Replace("&part;",     "&#x02202;"); // <!--/partial partial differential -->
+                LegacyOnixFileText.Replace("&permil;",   "&#x02030;"); // <!--per thousand -->
+                LegacyOnixFileText.Replace("&perp;",     "&#x022A5;"); // <!--/perp R: perpendicular -->
+                LegacyOnixFileText.Replace("&pertenk;",  "&#x02031;"); // <!--per 10 thousand -->
+                LegacyOnixFileText.Replace("&phmmat;",   "&#x02133;"); // <!--physics M-matrix (script capital M)  -->
+                LegacyOnixFileText.Replace("&pointint;", "&#x02A15;"); // <!--integral around a point operator -->
+                LegacyOnixFileText.Replace("&prime;",    "&#x02032;"); // <!--/prime prime or minute -->
+                LegacyOnixFileText.Replace("&Prime;",    "&#x02033;"); // <!--double prime or second -->
+                LegacyOnixFileText.Replace("&profalar;", "&#x0232E;"); // <!--all-around profile -->
+                LegacyOnixFileText.Replace("&profline;", "&#x02312;"); // <!--profile of a line -->
+                LegacyOnixFileText.Replace("&profsurf;", "&#x02313;"); // <!--profile of a surface -->
+                LegacyOnixFileText.Replace("&prop;",     "&#x0221D;"); // <!--/propto R: is proportional to -->
+                LegacyOnixFileText.Replace("&qint;",     "&#x02A0C;"); // <!--/iiiint quadruple integral operator -->
+                LegacyOnixFileText.Replace("&qprime;",   "&#x02057;"); //<!--quadruple prime -->
+                LegacyOnixFileText.Replace("&quatint;",  "&#x02A16;"); //<!--quaternion integral operator -->
+                LegacyOnixFileText.Replace("&radic;",    "&#x0221A;"); //<!--/surd radical -->
+                LegacyOnixFileText.Replace("&rang;",     "&#x0232A;"); //<!--/rangle C: right angle bracket -->
+                LegacyOnixFileText.Replace("&Rang;",     "&#x0300B;"); //<!--right angle bracket, double -->
+                LegacyOnixFileText.Replace("&rArr;",     "&#x021D2;"); //<!--/Rightarrow A: implies -->
+                LegacyOnixFileText.Replace("&rbbrk;",    "&#x03015;"); //<!--right broken bracket -->
+                LegacyOnixFileText.Replace("&roang;",    "&#x0F559;"); //<!--right open angular bracket -->
+                LegacyOnixFileText.Replace("&robrk;",    "&#x0301B;"); //<!--right open bracket -->
+                LegacyOnixFileText.Replace("&ropar;",    "&#x03019;"); //<!--right open parenthesis -->
+                LegacyOnixFileText.Replace("&rppolint;", "&#x02A12;"); //<!--line integration, rectangular path around pole -->
+                LegacyOnixFileText.Replace("&scpolint;", "&#x02A13;"); //<!--line integration, semi-circular path around pole -->
+                LegacyOnixFileText.Replace("&sim;",      "&#x0223C;"); //<!--/sim R: similar -->
+                LegacyOnixFileText.Replace("&simdot;",   "&#x02A6A;"); //<!--similar, dot -->
+                LegacyOnixFileText.Replace("&sime;",     "&#x02243;"); //<!--/simeq R: similar, equals -->
+                LegacyOnixFileText.Replace("&smeparsl;", "&#x029E4;"); //<!--similar, parallel, slanted, equal -->
+                LegacyOnixFileText.Replace("&square;",   "&#x025A1;"); //<!--/square, square -->
+                LegacyOnixFileText.Replace("&squarf;",   "&#x025AA;"); //<!--/blacksquare, square, filled  -->
+                LegacyOnixFileText.Replace("&sub;",      "&#x02282;"); //<!--/subset R: subset or is implied by -->
+                LegacyOnixFileText.Replace("&sube;",     "&#x02286;"); //<!--/subseteq R: subset, equals -->
+                LegacyOnixFileText.Replace("&sup;",      "&#x02283;"); //<!--/supset R: superset or implies -->
+                LegacyOnixFileText.Replace("&supe;",     "&#x02287;"); //<!--/supseteq R: superset, equals -->
+                LegacyOnixFileText.Replace("&tdot;",     "&#x020DB;"); //<!--three dots above -->
+                LegacyOnixFileText.Replace("&there4;",   "&#x02234;"); //<!--/therefore R: therefore -->
+                LegacyOnixFileText.Replace("&tint;",     "&#x0222D;"); //<!--/iiint triple integral operator -->
+                LegacyOnixFileText.Replace("&top;",      "&#x022A4;"); //<!--/top top -->
+                LegacyOnixFileText.Replace("&topbot;",   "&#x02336;"); //<!--top and bottom -->
+                LegacyOnixFileText.Replace("&topcir;",   "&#x02AF1;"); //<!--top, circle below -->
+                LegacyOnixFileText.Replace("&tprime;",   "&#x02034;"); //<!--triple prime -->
+                LegacyOnixFileText.Replace("&utdot ;",   "&#x022F0;"); //<!--three dots, ascending -->
+                LegacyOnixFileText.Replace("&uwangle;",  "&#x029A7;"); //<!--large upward pointing angle -->
+                LegacyOnixFileText.Replace("&vangrt;",   "&#x022BE;"); //<!--right angle, variant -->
+                LegacyOnixFileText.Replace("&veeeq;",    "&#x0225A;"); //<!--logical or, equals -->
+                LegacyOnixFileText.Replace("&Verbar;",   "&#x02016;"); //<!--/Vert dbl vertical bar -->
+                LegacyOnixFileText.Replace("&wedgeq;",   "&#x02259;"); //<!--/wedgeq R: corresponds to (wedge, equals) -->
+                LegacyOnixFileText.Replace("&xnis;",     "&#x022FB;"); // <!--large contains, vertical bar on horizontal stroke -->
+
+                // From the "iso-num.ent" file
+                LegacyOnixFileText.Replace("&amp;",     "&#x00026;"); //<!--=ampersand -->^M
+                LegacyOnixFileText.Replace("&apos;",    "&#x00027;"); //<!--=apostrophe -->^M
+                LegacyOnixFileText.Replace("&ast;",     "&#x0002A;"); //<!--/ast B: =asterisk -->^M
+                LegacyOnixFileText.Replace("&brvbar;",  "&#x000A6;"); //<!--=broken (vertical) bar -->^M
+                LegacyOnixFileText.Replace("&bsol;",    "&#x0005C;"); //<!--/backslash =reverse solidus -->^M
+                LegacyOnixFileText.Replace("&cent;",    "&#x000A2;"); //<!--=cent sign -->^M
+                LegacyOnixFileText.Replace("&colon;",   "&#x0003A;"); //<!--/colon P: -->^M
+                LegacyOnixFileText.Replace("&comma;",   "&#x0002C;"); //<!--P: =comma -->^M
+                LegacyOnixFileText.Replace("&commat;",  "&#x00040;"); //<!--=commercial at -->^M
+                LegacyOnixFileText.Replace("&copy;",    "&#x000A9;"); //<!--=copyright sign -->^M
+                LegacyOnixFileText.Replace("&curren;",  "&#x000A4;"); //<!--=general currency sign -->^M
+                LegacyOnixFileText.Replace("&darr;",    "&#x02193;"); //<!--/downarrow A: =downward arrow -->^M
+                LegacyOnixFileText.Replace("&deg;",     "&#x000B0;"); //<!--=degree sign -->^M
+                LegacyOnixFileText.Replace("&divide;",  "&#x000F7;"); //<!--/div B: =divide sign -->^M
+                LegacyOnixFileText.Replace("&dollar;",  "&#x00024;"); //<!--=dollar sign -->^M
+                LegacyOnixFileText.Replace("&equals;",  "&#x0003D;"); //<!--=equals sign R: -->^M
+                LegacyOnixFileText.Replace("&excl;",    "&#x00021;"); //<!--=exclamation mark -->^M
+                LegacyOnixFileText.Replace("&frac12;",  "&#x000BD;"); //<!--=fraction one-half -->^M
+                LegacyOnixFileText.Replace("&frac14;",  "&#x000BC;"); //<!--=fraction one-quarter -->^M
+                LegacyOnixFileText.Replace("&frac18;",  "&#x0215B;"); //<!--=fraction one-eighth -->^M
+                LegacyOnixFileText.Replace("&frac34;",  "&#x000BE;"); //<!--=fraction three-quarters -->^M
+                LegacyOnixFileText.Replace("&frac38;",  "&#x0215C;"); //<!--=fraction three-eighths -->^M
+                LegacyOnixFileText.Replace("&frac58;",  "&#x0215D;"); //<!--=fraction five-eighths -->^M
+                LegacyOnixFileText.Replace("&frac78;",  "&#x0215E;"); //<!--=fraction seven-eighths -->^M
+                LegacyOnixFileText.Replace("&gt;",      "&#x0003E;"); //<!--=greater-than sign R: -->^M
+                LegacyOnixFileText.Replace("&half;",    "&#x000BD;"); //<!--=fraction one-half -->^M
+                LegacyOnixFileText.Replace("&horbar;",  "&#x02015;"); //<!--=horizontal bar -->^M
+                LegacyOnixFileText.Replace("&hyphen;",  "&#x02010;"); //<!--=hyphen -->^M
+                LegacyOnixFileText.Replace("&iexcl;",   "&#x000A1;"); //<!--=inverted exclamation mark -->^M
+                LegacyOnixFileText.Replace("&iquest;",  "&#x000BF;"); //<!--=inverted question mark -->^M
+                LegacyOnixFileText.Replace("&laquo;",   "&#x000AB;"); //<!--=angle quotation mark, left -->^M
+                LegacyOnixFileText.Replace("&larr;",    "&#x02190;"); //<!--/leftarrow /gets A: =leftward arrow -->^M
+                LegacyOnixFileText.Replace("&lcub;",    "&#x0007B;"); //<!--/lbrace O: =left curly bracket -->^M
+                LegacyOnixFileText.Replace("&ldquo;",   "&#x0201C;"); //<!--=double quotation mark, left -->^M
+                LegacyOnixFileText.Replace("&lowbar;",  "&#x0005F;"); //<!--=low line -->^M
+                LegacyOnixFileText.Replace("&lpar;",    "&#x00028;"); //<!--O: =left parenthesis -->^M
+                LegacyOnixFileText.Replace("&lsqb;",    "&#x0005B;"); //<!--/lbrack O: =left square bracket -->^M
+                LegacyOnixFileText.Replace("&lsquo;",   "&#x02018;"); //<!--=single quotation mark, left -->^M
+                LegacyOnixFileText.Replace("&lt;",      "&#x26;#x0003C;"); //<!--=less-than sign R: -->^M
+                LegacyOnixFileText.Replace("&micro;",   "&#x000B5;"); //<!--=micro sign -->^M
+                LegacyOnixFileText.Replace("&middot;",  "&#x000B7;"); //<!--/centerdot B: =middle dot -->^M
+                LegacyOnixFileText.Replace("&nbsp;",    "&#x000A0;"); //<!--=no break (required) space -->^M
+                LegacyOnixFileText.Replace("&not;",     "&#x000AC;"); //<!--/neg /lnot =not sign -->^M
+                LegacyOnixFileText.Replace("&num;",     "&#x00023;"); //<!--=number sign -->^M
+                LegacyOnixFileText.Replace("&ohm;",     "&#x02126;"); //<!--=ohm sign -->^M
+                LegacyOnixFileText.Replace("&ordf;",    "&#x000AA;"); //<!--=ordinal indicator, feminine -->^M
+                LegacyOnixFileText.Replace("&ordm;",    "&#x000BA;"); //<!--=ordinal indicator, masculine -->^M
+                LegacyOnixFileText.Replace("&para;",    "&#x000B6;"); //<!--=pilcrow (paragraph sign) -->^M
+                LegacyOnixFileText.Replace("&percnt;",  "&#x00025;"); //<!--=percent sign -->^M
+                LegacyOnixFileText.Replace("&period;",  "&#x0002E;"); //<!--=full stop, period -->^M
+                LegacyOnixFileText.Replace("&plus;",    "&#x0002B;"); //<!--=plus sign B: -->^M
+                LegacyOnixFileText.Replace("&plusmn;",  "&#x000B1;"); //<!--/pm B: =plus-or-minus sign -->^M
+                LegacyOnixFileText.Replace("&pound;",   "&#x000A3;"); //<!--=pound sign -->^M
+                LegacyOnixFileText.Replace("&quest;",   "&#x0003F;"); //<!--=question mark -->^M
+                LegacyOnixFileText.Replace("&quot;",    "&#x00022;"); //<!--=quotation mark -->^M
+                LegacyOnixFileText.Replace("&raquo;",   "&#x000BB;"); //<!--=angle quotation mark, right -->^M
+                LegacyOnixFileText.Replace("&rarr;",    "&#x02192;"); //<!--/rightarrow /to A: =rightward arrow -->^M
+                LegacyOnixFileText.Replace("&rcub;",    "&#x0007D;"); //<!--/rbrace C: =right curly bracket -->^M
+                LegacyOnixFileText.Replace("&rdquo;",   "&#x0201D;"); //<!--=double quotation mark, right -->^M
+                LegacyOnixFileText.Replace("&reg;",     "&#x000AE;"); //<!--/circledR =registered sign -->^M
+                LegacyOnixFileText.Replace("&rpar;",    "&#x00029;"); //<!--C: =right parenthesis -->^M
+                LegacyOnixFileText.Replace("&rsqb;",    "&#x0005D;"); //<!--/rbrack C: =right square bracket -->^M
+                LegacyOnixFileText.Replace("&rsquo;",   "&#x02019;"); //<!--=single quotation mark, right -->^M
+                LegacyOnixFileText.Replace("&sect;",    "&#x000A7;"); //<!--=section sign -->^M
+                LegacyOnixFileText.Replace("&semi;",    "&#x0003B;"); //<!--=semicolon P: -->^M
+                LegacyOnixFileText.Replace("&shy;",     "&#x000AD;"); //<!--=soft hyphen -->^M
+                LegacyOnixFileText.Replace("&sol;",     "&#x0002F;"); //<!--=solidus -->^M
+                LegacyOnixFileText.Replace("&sung;",    "&#x0266A;"); //<!--=music note (sung text sign) -->^M
+                LegacyOnixFileText.Replace("&sup1;",    "&#x000B9;"); //<!--=superscript one -->^M
+                LegacyOnixFileText.Replace("&sup2;",    "&#x000B2;"); //<!--=superscript two -->^M
+                LegacyOnixFileText.Replace("&sup3;",    "&#x000B3;"); //<!--=superscript three -->^M
+                LegacyOnixFileText.Replace("&times;",   "&#x000D7;"); //<!--/times B: =multiply sign -->^M
+                LegacyOnixFileText.Replace("&trade;",   "&#x02122;"); //<!--=trade mark sign -->^M
+                LegacyOnixFileText.Replace("&uarr;",    "&#x02191;"); //<!--/uparrow A: =upward arrow -->^M
+                LegacyOnixFileText.Replace("&verbar;",  "&#x0007C;"); //<!--/vert =vertical bar -->^M
+                LegacyOnixFileText.Replace("&yen;",     "&#x000A5;"); //<!--/yen =yen sign -->^M
+				
+                // From the "xhtml-special.ent" file
+                LegacyOnixFileText.Replace("&ndash;",  "&#8211;"); // <!-- en dash, U+2013 ISOpub -->
+                LegacyOnixFileText.Replace("&mdash;",  "&#8212;"); // <!-- em dash, U+2014 ISOpub -->
+                LegacyOnixFileText.Replace("&lsquo;",  "&#8216;"); // <!-- left single quotation mark, U+2018 ISOnum -->
+                LegacyOnixFileText.Replace("&rsquo;",  "&#8217;"); // <!-- right single quotation mark, U+2019 ISOnum -->
+                LegacyOnixFileText.Replace("&sbquo;",  "&#8218;"); // <!-- single low-9 quotation mark, U+201A NEW -->
+                LegacyOnixFileText.Replace("&ldquo;",  "&#8220;"); // <!-- left double quotation mark, U+201C ISOnum -->
+                LegacyOnixFileText.Replace("&rdquo;",  "&#8221;"); // <!-- right double quotation mark, U+201D ISOnum -->
+                LegacyOnixFileText.Replace("&bdquo;",  "&#8222;"); // <!-- double low-9 quotation mark, U+201E NEW -->
+                LegacyOnixFileText.Replace("&dagger;", "&#8224;"); // <!-- dagger, U+2020 ISOpub -->
+                LegacyOnixFileText.Replace("&Dagger;", "&#8225;"); // <!-- double dagger, U+2021 ISOpub -->
+                LegacyOnixFileText.Replace("&permil;", "&#8240;"); // <!-- per mille sign, U+2030 ISOtech -->
+                LegacyOnixFileText.Replace("&lsaquo;", "&#8249;"); // <!-- single left-pointing angle quotation mark, U+2039 ISO proposed -->
+                LegacyOnixFileText.Replace("&rsaquo;", "&#8250;"); // <!-- single right-pointing angle quotation mark, U+203A ISO proposed -->
+                LegacyOnixFileText.Replace("&euro;",   "&#8364;"); // <!--  euro sign, U+20AC NEW -->				
+            }
         }
 
         #endregion
