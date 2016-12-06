@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using OnixData;
+using OnixData.Extensions;
 using OnixData.Legacy;
 using OnixData.Version3;
 using OnixData.Version3.Header;
@@ -52,7 +53,9 @@ namespace OnixTestHarness
 
                             if (TmpProduct.IsValid())
                             {
-                                System.Console.WriteLine("Product [" + (nLegacyShortIdx++) + "] has EAN(" +
+                                string sStatus = TmpProduct.HasValidEAN() ? "valid" : "invalid";
+
+                                System.Console.WriteLine("Product [" + (nLegacyShortIdx++) + "] has " + sStatus + " EAN(" +
                                                          TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
                                                          ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
                             }
