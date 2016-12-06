@@ -33,7 +33,8 @@ namespace OnixData.Extensions
         {
             bool IsValid = false;
 
-            int[] EanWeights = { 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1 };
+            int[] EanWeights = 
+			    { 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1 };
 
             int sum, diff;
             int ZeroCharVal = (int)'0';
