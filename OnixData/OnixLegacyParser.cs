@@ -824,6 +824,79 @@ namespace OnixData
                 LegacyOnixFileText.Replace("&lsaquo;", "&#8249;"); // <!-- single left-pointing angle quotation mark, U+2039 ISO proposed -->
                 LegacyOnixFileText.Replace("&rsaquo;", "&#8250;"); // <!-- single right-pointing angle quotation mark, U+203A ISO proposed -->
                 LegacyOnixFileText.Replace("&euro;",   "&#8364;"); // <!--  euro sign, U+20AC NEW -->				
+				
+				// From the "iso-dia.ent" file
+                LegacyOnixFileText.Replace("&acute;", "&#x000B4;"); // <!-- acute accent -->
+                LegacyOnixFileText.Replace("&breve;", "&#x002D8;"); // <!--=breve -->
+                LegacyOnixFileText.Replace("&caron;", "&#x002C7;"); // <!--=caron -->
+                LegacyOnixFileText.Replace("&cedil;", "&#x000B8;"); // <!--=cedilla -->
+                LegacyOnixFileText.Replace("&circ;",  "&#x0005E;"); // <!--circumflex accent -->
+                LegacyOnixFileText.Replace("&dblac;", "&#x002DD;"); // <!--=double acute accent -->
+                LegacyOnixFileText.Replace("&die;",   "&#x000A8;"); // <!--=dieresis -->
+                LegacyOnixFileText.Replace("&dot;",   "&#x002D9;"); // <!--=dot above -->
+                LegacyOnixFileText.Replace("&grave;", "&#x00060;"); // <!--=grave accent -->
+                LegacyOnixFileText.Replace("&macr;",  "&#x000AF;"); // <!--=macron -->
+                LegacyOnixFileText.Replace("&ogon;",  "&#x002DB;"); // <!--=ogonek -->
+                LegacyOnixFileText.Replace("&ring;",  "&#x002DA;"); // <!--=ring -->
+                LegacyOnixFileText.Replace("&tilde;", "&#x002DC;"); // <!--=tilde -->
+                LegacyOnixFileText.Replace("&uml;",   "&#x000A8;"); // <!--=umlaut mark -->
+
+				// From the "xhtml-symbol.ent" file
+                LegacyOnixFileText.Replace("&fnof;",    "&#402;"); // <!-- latin small f with hook = function
+                LegacyOnixFileText.Replace("&Alpha;",   "&#913;"); // <!-- greek capital letter alpha, U+0391 -->
+                LegacyOnixFileText.Replace("&Beta;",    "&#914;"); // <!-- greek capital letter beta, U+0392 -->
+                LegacyOnixFileText.Replace("&Gamma;",   "&#915;"); // <!-- greek capital letter gamma, U+0393 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&Delta;",   "&#916;"); // <!-- greek capital letter delta, U+0394 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&Epsilon;", "&#917;"); // <!-- greek capital letter epsilon, U+0395 -->
+                LegacyOnixFileText.Replace("&Zeta;",    "&#918;"); // <!-- greek capital letter zeta, U+0396 -->
+                LegacyOnixFileText.Replace("&Eta;",     "&#919;"); // <!-- greek capital letter eta, U+0397 -->
+                LegacyOnixFileText.Replace("&Theta;",   "&#920;"); // <!-- greek capital letter theta, U+0398 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&Iota;",    "&#921;"); // <!-- greek capital letter iota, U+0399 -->
+                LegacyOnixFileText.Replace("&Kappa;",   "&#922;"); // <!-- greek capital letter kappa, U+039A -->
+                LegacyOnixFileText.Replace("&Lambda;",  "&#923;"); // <!-- greek capital letter lambda, U+039B ISOgrk3 -->
+                LegacyOnixFileText.Replace("&Mu;",      "&#924;"); // <!-- greek capital letter mu, U+039C -->
+                LegacyOnixFileText.Replace("&Nu;",      "&#925;"); // <!-- greek capital letter nu, U+039D -->
+                LegacyOnixFileText.Replace("&Xi;",      "&#926;"); // <!-- greek capital letter xi, U+039E ISOgrk3 -->
+                LegacyOnixFileText.Replace("&Omicron;", "&#927;"); // <!-- greek capital letter omicron, U+039F -->
+                LegacyOnixFileText.Replace("&Pi;",      "&#928;"); // <!-- greek capital letter pi, U+03A0 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&Rho;",     "&#929;"); // <!-- greek capital letter rho, U+03A1 -->
+                // <!-- there is no Sigmaf, and no U+03A2 character either -->
+                LegacyOnixFileText.Replace("&Sigma;",   "&#931;"); // <!-- greek capital letter sigma, U+03A3 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&Tau;",     "&#932;"); // <!-- greek capital letter tau, U+03A4 -->
+                LegacyOnixFileText.Replace("&Upsilon;", "&#933;"); // <!-- greek capital letter upsilon, U+03A5 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&Phi;",     "&#934;"); // <!-- greek capital letter phi, U+03A6 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&Chi;",     "&#935;"); // <!-- greek capital letter chi, U+03A7 -->
+                LegacyOnixFileText.Replace("&Psi;",     "&#936;"); // <!-- greek capital letter psi, U+03A8 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&Omega;",   "&#937;"); // <!-- greek capital letter omega, U+03A9 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&alpha;",   "&#945;"); // <!-- greek small letter alpha, U+03B1 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&beta;",    "&#946;"); // <!-- greek small letter beta, U+03B2 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&gamma;",   "&#947;"); // <!-- greek small letter gamma, U+03B3 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&delta;",   "&#948;"); // <!-- greek small letter delta, U+03B4 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&epsilon;", "&#949;"); // <!-- greek small letter epsilon, U+03B5 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&zeta;",    "&#950;"); // <!-- greek small letter zeta, U+03B6 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&eta;",     "&#951;"); // <!-- greek small letter eta, U+03B7 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&theta;",   "&#952;"); // <!-- greek small letter theta, U+03B8 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&iota;",    "&#953;"); // <!-- greek small letter iota, U+03B9 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&kappa;",   "&#954;"); // <!-- greek small letter kappa, U+03BA ISOgrk3 -->
+                LegacyOnixFileText.Replace("&lambda;",  "&#955;"); // <!-- greek small letter lambda, U+03BB ISOgrk3 -->
+                LegacyOnixFileText.Replace("&mu;",      "&#956;"); // <!-- greek small letter mu, U+03BC ISOgrk3 -->
+                LegacyOnixFileText.Replace("&nu;",      "&#957;"); // <!-- greek small letter nu, U+03BD ISOgrk3 -->
+                LegacyOnixFileText.Replace("&xi;",      "&#958;"); // <!-- greek small letter xi, U+03BE ISOgrk3 -->
+                LegacyOnixFileText.Replace("&omicron;", "&#959;"); // <!-- greek small letter omicron, U+03BF NEW -->
+                LegacyOnixFileText.Replace("&pi;",      "&#960;"); // <!-- greek small letter pi, U+03C0 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&rho;",     "&#961;"); // <!-- greek small letter rho, U+03C1 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&sigmaf;",  "&#962;"); // <!-- greek small letter final sigma, U+03C2 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&sigma;",   "&#963;"); // <!-- greek small letter sigma, U+03C3 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&tau;",     "&#964;"); // <!-- greek small letter tau, U+03C4 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&upsilon;", "&#965;"); // <!-- greek small letter upsilon, U+03C5 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&phi;",     "&#966;"); // <!-- greek small letter phi, U+03C6 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&chi;",     "&#967;"); // <!-- greek small letter chi, U+03C7 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&psi;",     "&#968;"); // <!-- greek small letter psi, U+03C8 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&omega;",   "&#969;"); // <!-- greek small letter omega, U+03C9 ISOgrk3 -->
+                LegacyOnixFileText.Replace("&thetasym;", "&#977;"); // <!-- greek small letter theta symbol, U+03D1 NEW -->
+                LegacyOnixFileText.Replace("&upsih;",   "&#978;"); // <!-- greek upsilon with hook symbol, U+03D2 NEW -->
+                LegacyOnixFileText.Replace("&piv;",     "&#982;"); // <!-- greek pi symbol, U+03D6 ISOgrk3 -->
+
             }
         }
 
