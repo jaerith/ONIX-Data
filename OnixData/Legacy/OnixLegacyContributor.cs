@@ -297,7 +297,14 @@ namespace OnixData.Legacy
             StringBuilder KeyNameBuilder       = new StringBuilder();
             StringBuilder LettersTitlesBuilder = new StringBuilder();
 
-            if (!String.IsNullOrEmpty(this.PersonName))
+            if (!String.IsNullOrEmpty(this.KeyNames))
+            {
+                KeyNameBuilder.Append(this.KeyNames);
+
+                if (!String.IsNullOrEmpty(this.NamesBeforeKey))
+                    KeyNamePrefixBuilder.Append(this.NamesBeforeKey);
+            }
+            else if (!String.IsNullOrEmpty(this.PersonName))
             {
                 string[] NameComponents = this.PersonName.Split(new char[1] { ' ' });
 
@@ -305,9 +312,16 @@ namespace OnixData.Legacy
                     KeyNameBuilder.Append(NameComponents[NameComponents.Length - 1]);
                 else if (NameComponents.Length > 1)
                 {
-                    KeyNameBuilder.Append(NameComponents[NameComponents.Length - 1]);
+                    int nKeyNameIndex = (NameComponents.Length - 1);
+                    if (NameComponents[nKeyNameIndex].Contains(".") || (NameComponents[nKeyNameIndex] == NameComponents[nKeyNameIndex].ToUpper()))
+                    {
+                        LettersTitlesBuilder.Append(NameComponents[nKeyNameIndex]);
+                        nKeyNameIndex = (NameComponents.Length - 2);
+                    }
 
-                    for (int i = 0; i < (NameComponents.Length - 1); ++i)
+                    KeyNameBuilder.Append(NameComponents[nKeyNameIndex]);
+
+                    for (int i = 0; i < nKeyNameIndex; ++i)
                     {
                         if (KeyNamePrefixBuilder.Length > 0)
                             KeyNamePrefixBuilder.Append(" ");
@@ -339,13 +353,6 @@ namespace OnixData.Legacy
                         }
                     }
                 }
-            }
-            else if (!String.IsNullOrEmpty(this.KeyNames))
-            {
-                KeyNameBuilder.Append(this.KeyNames);
-
-                if (!String.IsNullOrEmpty(this.NamesBeforeKey))
-                    KeyNamePrefixBuilder.Append(this.NamesBeforeKey);
             }
 
             if (!String.IsNullOrEmpty(LettersAfterNames))
