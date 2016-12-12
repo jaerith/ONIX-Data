@@ -78,5 +78,81 @@ namespace OnixData.Extensions
 
             return IsValid;
         }
+
+        public static bool HasValidISBN(this OnixLegacyProduct TargetProduct)
+        {
+            bool IsValid = false;
+
+            string ISBN = TargetProduct.ISBN;
+            if (!String.IsNullOrEmpty(ISBN))
+                IsValid = ISBN.IsISBNValid();
+
+            return IsValid;
+        }
+
+        static bool IsISBNValid(this string TargetISBN)
+        {
+            bool    IsValid;
+            int     TempVal;
+            int     Counter;
+            int     CheckSum;
+            char    cCurrentCheckDigit;
+
+            // Initialization
+            IsValid             = true;
+            cCurrentCheckDigit  = 'x';
+            CheckSum            = Counter = 0;
+            TempVal             = 0;
+
+            if (TargetISBN.Length != CONST_ISBN_LEN)
+                return false;
+
+            string ISBNPrefix = TargetISBN.Substring(0, (CONST_ISBN_LEN - 1));
+
+            try
+            {
+                long nISBNPrefix = Convert.ToInt64(ISBNPrefix);
+            }
+            catch (Exception ex) { return false; }
+
+            try
+            {
+                cCurrentCheckDigit = TargetISBN.ToCharArray()[CONST_ISBN_LEN - 1];
+
+                if( cCurrentCheckDigit == 'x' )
+                    cCurrentCheckDigit = 'X';
+
+                CheckSum = Counter = 0;
+                foreach (char TempDigit in ISBNPrefix)
+                {
+                    int TempDigitVal = Convert.ToInt32(new String(new char[] { TempDigit }));
+
+                    if (TempDigitVal > 0)
+                        CheckSum += (CONST_ISBN_LEN - Counter) * TempDigitVal;
+
+                    Counter++;
+                }
+
+                CheckSum = 11 - (CheckSum % 11);
+
+                // sprintf(acTemp, "%c", cCurrentCheckDigit);
+
+                TempVal = Convert.ToInt32(new String(new char[] { cCurrentCheckDigit } ));
+                if( ((CheckSum == 10) && (cCurrentCheckDigit == 'X')) ||
+                    ((CheckSum == 11) && (cCurrentCheckDigit == '0')) ||
+                    (CheckSum == TempVal))
+                {
+                    IsValid = true;
+                }
+                else
+                    IsValid = false;
+            }
+            catch(Exception ex)
+            {
+                IsValid = false;
+            }
+
+            return IsValid;
+        }
     }
 }
