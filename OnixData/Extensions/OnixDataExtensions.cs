@@ -18,10 +18,56 @@ namespace OnixData.Extensions
 
         #endregion
 
+        public static string ConvertEANToISBN(this string TargetEAN)
+        {
+            int[] EanWeights =
+                { 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1 };
+
+            int     nCheckSum;
+            int     nSumOfProduct;
+            int     nTemp;
+            string  sEAN;
+            string  sISBN;
+
+            // Initialization
+            nTemp         = 0;
+            nCheckSum     = 0;
+            nSumOfProduct = 0;
+            sEAN          = TargetEAN;
+
+            if (TargetEAN.Length < CONST_EAN_LEN)
+                sEAN = TargetEAN.PadLeft(CONST_EAN_LEN, '0');
+
+            if (!IsValidEAN(sEAN))
+                return "";
+
+            for (int i = 3, j = 10; i < (CONST_EAN_LEN - 1); i++, j--)
+            {
+                char cTempVal = TargetEAN.ToCharArray()[i];
+
+                nTemp = Convert.ToInt32(new String(new char[] { cTempVal }));
+
+                nSumOfProduct += (j * nTemp);
+            }
+
+            sISBN = sEAN.Substring(3, 9);
+
+            nCheckSum = 11 - (nSumOfProduct % 11);
+
+            if (nCheckSum == 10)
+                sISBN += "X";
+            else if (nCheckSum == 11)
+                sISBN += "0";
+            else
+                sISBN += Convert.ToString(nCheckSum);
+
+            return sISBN;
+        }
+
         public static bool HasValidEAN(this OnixLegacyProduct TargetProduct)
         {
-            bool IsValid = false;
-            string EAN = TargetProduct.EAN;
+            bool   IsValid = false;
+            string EAN     = TargetProduct.EAN;
 
             if (!String.IsNullOrEmpty(EAN))
                 IsValid = EAN.IsValidEAN();
@@ -36,14 +82,14 @@ namespace OnixData.Extensions
             int[] EanWeights = 
 			    { 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1 };
 
-            int sum, diff;
-            int ZeroCharVal = (int)'0';
+            int  sum, diff;
+            int  ZeroCharVal = (int)'0';
             long value;
 
             String TempEAN = TargetEAN;
 
             // Initialization
-            sum = 0;
+            sum   = 0;
             value = 0;
 
             if (String.IsNullOrEmpty(TargetEAN))
