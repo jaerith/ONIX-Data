@@ -53,10 +53,17 @@ namespace OnixTestHarness
 
                             if (TmpProduct.IsValid())
                             {
-                                string sStatus = TmpProduct.HasValidEAN() ? "valid" : "invalid";
+                                string sEANStatus  = TmpProduct.HasValidEAN() ? "valid" : "invalid";
+                                string sISBNStatus = TmpProduct.HasValidISBN() ? "valid" : "invalid";
 
-                                System.Console.WriteLine("Product [" + (nLegacyShortIdx++) + "] has " + sStatus + " EAN(" +
-                                                         TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
+                                if (TmpProduct.HasValidEAN())
+                                {
+                                    string sTestISBN = TmpProduct.EAN.ConvertEANToISBN();
+                                }
+
+                                System.Console.WriteLine("Product [" + (nLegacyShortIdx++) + "] has " + sEANStatus + " EAN(" +
+                                                         TmpProduct.EAN + "), " + sISBNStatus + " ISBN(" + TmpProduct.ISBN + 
+                                                         "), and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
                                                          ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
                             }
                             else
