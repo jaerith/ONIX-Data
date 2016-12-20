@@ -16,13 +16,12 @@ namespace OnixData.Extensions
         public const int CONST_ISBN_LEN = 10;
         public const int CONST_EAN_LEN  = 13;
 
+        public static readonly int[] CONST_EAN_WEIGHTS = { 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1 };
+
         #endregion
 
         public static string ConvertEANToISBN(this string TargetEAN)
         {
-            int[] EanWeights =
-                { 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1 };
-
             int     nCheckSum;
             int     nSumOfProduct;
             int     nTemp;
@@ -79,9 +78,6 @@ namespace OnixData.Extensions
         {
             bool IsValid = false;
 
-            int[] EanWeights = 
-			    { 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1 };
-
             int  sum, diff;
             int  ZeroCharVal = (int)'0';
             long value;
@@ -115,7 +111,7 @@ namespace OnixData.Extensions
 
                 diff = (TempCharVal - ZeroCharVal);
 
-                sum += (diff) * EanWeights[i];
+                sum += (diff) * CONST_EAN_WEIGHTS[i];
 
                 value = value * 10 + (diff);
             }
