@@ -15,7 +15,7 @@ namespace OnixData.Legacy
             fromCompanyField = "";
             fromPersonField  = "";
             fromEmailField   = "";
-            sentDateField    = 0;
+            sentDateField    = "";
             messageNoteField = "";
 
             defaultLanguageOfTextField = defaultCurrencyCodeField = "";
@@ -26,7 +26,7 @@ namespace OnixData.Legacy
         private string fromCompanyField;
         private string fromPersonField;
         private string fromEmailField;
-        private uint   sentDateField;
+        private string sentDateField;
         private string messageNoteField;
         private string defaultLanguageOfTextField;
         private string defaultPriceTypeCodeField;
@@ -77,7 +77,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public uint SentDate
+        public string SentDate
         {
             get
             {
@@ -224,7 +224,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public uint m182
+        public string m182
         {
             get
             {
