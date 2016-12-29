@@ -250,7 +250,10 @@ namespace OnixData
         public void Dispose()
         {
             if (this.LegacyOnixReader != null)
+            {
                 this.LegacyOnixReader.Close();
+                this.LegacyOnixReader = null;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -943,7 +946,10 @@ namespace OnixData
         public void Dispose()
         {
             if (this.OnixReader != null)
+            {
                 this.OnixReader.Close();
+                this.OnixReader = null;
+            }
         }
 
         public bool MoveNext()
