@@ -63,6 +63,52 @@ namespace OnixData.Extensions
             return sISBN;
         }
 
+        public static string ConvertISBNToEAN(this string TargetISBN, string ISBNPrefix = "978")
+        {
+            int    nCheckSum;
+            int    nTemp;
+            string EAN;
+            string ISBN;
+
+            // Initialization
+            nTemp     = 0;
+            nCheckSum = 0;
+            EAN       = "";
+
+            if (TargetISBN.Length < CONST_ISBN_LEN)
+                ISBN = TargetISBN.PadLeft(CONST_ISBN_LEN, '0');
+            else
+                ISBN = TargetISBN;
+
+            if (!ISBN.IsISBNValid())
+                return "";
+
+            if (ISBNPrefix.Length != 3)
+                return "";
+
+            EAN = ISBNPrefix + ISBN.Substring(0, (CONST_ISBN_LEN - 1));
+
+            nCheckSum = 0;
+            for (uint nCounter = 0; nCounter < EAN.Length; nCounter++)
+            {
+                nTemp = (int) EAN.ToCharArray()[nCounter];
+
+                if (nTemp > 0)
+                {
+                    if ((nCounter % 2) == 0)
+                        nCheckSum += nTemp;
+                    else
+                        nCheckSum += 3 * nTemp;
+                }
+            }
+
+            nCheckSum = (CONST_ISBN_LEN - (nCheckSum % 10)) % 10;
+
+            EAN += Convert.ToString(nCheckSum);
+
+            return EAN;
+        }
+
         public static bool HasValidEAN(this OnixLegacyProduct TargetProduct)
         {
             bool   IsValid = false;
