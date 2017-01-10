@@ -14,8 +14,8 @@ namespace OnixData.Legacy
 
         public const int CONST_RET_CODE_TYPE_BISAC = 2;
 
-        #endregion	
-	
+        #endregion
+
         public OnixLegacySupplyDetail()
         {
             SupplierName        = "";
@@ -41,6 +41,7 @@ namespace OnixData.Legacy
         private string expectedShipDateField;
         private string onSaleDateField;
         private int    packQuantityField;
+        private string unpricedItemTypeField;
 
         private OnixLegacySupplierId[] supplierIdentifierField;
         private OnixLegacySupplierId[] shortSupplierIdentifierField;
@@ -203,7 +204,20 @@ namespace OnixData.Legacy
                 this.packQuantityField = value;
             }
         }
-       
+
+        /// <remarks/>
+        public string UnpricedItemType
+        {
+            get
+            {
+                return this.unpricedItemTypeField;
+            }
+            set
+            {
+                this.unpricedItemTypeField = value;
+            }
+        }
+
         [System.Xml.Serialization.XmlElementAttribute("SupplierIdentifier")]
         public OnixLegacySupplierId[] SupplierIdentifier
         {
@@ -297,6 +311,13 @@ namespace OnixData.Legacy
         {
             get { return PackQuantity; }
             set { PackQuantity = value; }
+        }
+
+        /// <remarks/>
+        public string j192
+        {
+            get { return UnpricedItemType; }
+            set { UnpricedItemType = value; }
         }
 
         [System.Xml.Serialization.XmlElementAttribute("supplieridentifier")]
