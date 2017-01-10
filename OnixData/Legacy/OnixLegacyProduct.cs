@@ -81,7 +81,7 @@ namespace OnixData.Legacy
 
             PublicationDate = YearFirstPublished = 0;
 
-            SupplyDetail = new OnixLegacySupplyDetail();
+            supplyDetailField = shortSupplyDetailField = new OnixLegacySupplyDetail[0];
             ParsingError = null;
         }
 
@@ -146,7 +146,8 @@ namespace OnixData.Legacy
         private uint   publicationDateField;
         private uint   yearFirstPublishedField;
 
-        private OnixLegacySupplyDetail supplyDetailField;
+        private OnixLegacySupplyDetail[] supplyDetailField;
+        private OnixLegacySupplyDetail[] shortSupplyDetailField;
 
         #region Parsing Error
 
@@ -203,10 +204,19 @@ namespace OnixData.Legacy
         {
             bool bHasFuturePrice = false;
 
-            if ((SupplyDetail != null) && (SupplyDetail.OnixPriceList != null) && (SupplyDetail.OnixPriceList.Length > 0))
+            if (OnixSupplyDetailList != null)
             {
-                bHasFuturePrice =
-                    SupplyDetail.OnixPriceList.Any(x => !String.IsNullOrEmpty(x.PriceEffectiveFrom));
+                foreach (OnixLegacySupplyDetail TmpSupplyDetail in OnixSupplyDetailList)
+                {
+                    if ((TmpSupplyDetail.OnixPriceList != null) && (TmpSupplyDetail.OnixPriceList.Length > 0))
+                    {
+                        bHasFuturePrice =
+                            TmpSupplyDetail.OnixPriceList.Any(x => !String.IsNullOrEmpty(x.PriceEffectiveFrom));
+
+                        if (bHasFuturePrice)
+                            break;
+                    }
+                }
             }
 
             return bHasFuturePrice;
@@ -216,10 +226,19 @@ namespace OnixData.Legacy
         {
             bool bHasUSDPrice = false;
 
-            if ((SupplyDetail != null) && (SupplyDetail.OnixPriceList != null) && (SupplyDetail.OnixPriceList.Length > 0))
+            if (OnixSupplyDetailList != null)
             {
-                bHasUSDPrice =
-                    SupplyDetail.OnixPriceList.Any(x => (x.PriceTypeCode == OnixLegacyPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
+                foreach (OnixLegacySupplyDetail TmpSupplyDetail in OnixSupplyDetailList)
+                {
+                    if ((TmpSupplyDetail.OnixPriceList != null) && (TmpSupplyDetail.OnixPriceList.Length > 0))
+                    {
+                        bHasUSDPrice =
+                            TmpSupplyDetail.OnixPriceList.Any(x => (x.PriceTypeCode == OnixLegacyPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
+
+                        if (bHasUSDPrice)
+                            break;
+                    }
+                }
             }
 
             return bHasUSDPrice;
@@ -382,10 +401,18 @@ namespace OnixData.Legacy
             {
                 List<OnixLegacySupplierId> PropSuppliers = new List<OnixLegacySupplierId>();
 
-                if ((SupplyDetail != null) && (SupplyDetail.OnixSupplierIdList != null) && (SupplyDetail.OnixSupplierIdList.Length > 0))
+                if (OnixSupplyDetailList != null)
                 {
-                    PropSuppliers =
-                        SupplyDetail.OnixSupplierIdList.Where(x => x.SupplierIDType == OnixLegacySupplierId.CONST_SUPPL_ID_TYPE_PROP).ToList();
+                    foreach (OnixLegacySupplyDetail TmpSupplyDetail in OnixSupplyDetailList)
+                    {
+                        if ((TmpSupplyDetail.OnixSupplierIdList != null) && (TmpSupplyDetail.OnixSupplierIdList.Length > 0))
+                        {
+                            List<OnixLegacySupplierId> TmpPropSuppliers =
+                                TmpSupplyDetail.OnixSupplierIdList.Where(x => x.SupplierIDType == OnixLegacySupplierId.CONST_SUPPL_ID_TYPE_PROP).ToList();
+
+                            PropSuppliers.AddRange(TmpPropSuppliers);
+                        }
+                    }
                 }
 
                 return PropSuppliers;
@@ -426,15 +453,64 @@ namespace OnixData.Legacy
             {
                 OnixLegacyPrice USDPrice = new OnixLegacyPrice();
 
-                if ((SupplyDetail != null) && (SupplyDetail.OnixPriceList != null) && (SupplyDetail.OnixPriceList.Length > 0))
+                if (OnixSupplyDetailList != null)
                 {
-                    OnixLegacyPrice[] Prices = SupplyDetail.OnixPriceList;
+                    foreach (OnixLegacySupplyDetail TmpSupplyDetail in OnixSupplyDetailList)
+                    {
+                        if ((TmpSupplyDetail.OnixPriceList != null) && (TmpSupplyDetail.OnixPriceList.Length > 0))
+                        {
+                            OnixLegacyPrice[] Prices = TmpSupplyDetail.OnixPriceList;
 
-                    USDPrice =
-                        Prices.Where(x => (x.PriceTypeCode == OnixLegacyPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD")).FirstOrDefault();
+                            USDPrice =
+                                Prices.Where(x => (x.PriceTypeCode == OnixLegacyPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD")).FirstOrDefault();
+
+                            if ((USDPrice != null) && (USDPrice.PriceAmount > 0))
+                                break;
+                        }
+                    }
                 }
 
                 return USDPrice;
+            }
+        }
+
+        public OnixLegacySupplyDetail USDSupplyDetail
+        {
+            get
+            {
+                bool bFoundDetails = false;
+
+                OnixLegacySupplyDetail FoundSupplyDetail = new OnixLegacySupplyDetail();
+
+                if (OnixSupplyDetailList != null)
+                {
+                    foreach (OnixLegacySupplyDetail TmpSupplyDetail in OnixSupplyDetailList)
+                    {
+                        if ((TmpSupplyDetail.OnixPriceList != null) && (TmpSupplyDetail.OnixPriceList.Length > 0))
+                        {
+                            OnixLegacyPrice[] Prices = TmpSupplyDetail.OnixPriceList;
+
+                            OnixLegacyPrice USDPrice =
+                                Prices.Where(x => (x.PriceTypeCode == OnixLegacyPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD")).FirstOrDefault();
+
+                            if ((USDPrice != null) && (USDPrice.PriceAmount > 0))
+                            {
+                                bFoundDetails     = true;
+                                FoundSupplyDetail = TmpSupplyDetail;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // If we can't find one that mentions a USD price, we'll just accept the first one
+                if (!bFoundDetails)
+                {
+                    if ((OnixSupplyDetailList != null) && (OnixSupplyDetailList.Length > 0))
+                        FoundSupplyDetail = OnixSupplyDetailList[0];
+                }
+
+                return FoundSupplyDetail;
             }
         }
 
@@ -660,6 +736,23 @@ namespace OnixData.Legacy
                     Series = new OnixLegacySeries[0];
 
                 return Series;
+            }
+        }
+
+        public OnixLegacySupplyDetail[] OnixSupplyDetailList
+        {
+            get
+            {
+                OnixLegacySupplyDetail[] SupplyDetails = null;
+
+                if (this.supplyDetailField != null)
+                    SupplyDetails = this.supplyDetailField;
+                else if (this.shortSupplyDetailField != null)
+                    SupplyDetails = this.shortSupplyDetailField;
+                else
+                    SupplyDetails = new OnixLegacySupplyDetail[0];
+
+                return SupplyDetails;
             }
         }
 
@@ -1169,7 +1262,8 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public OnixLegacySupplyDetail SupplyDetail
+        [System.Xml.Serialization.XmlElementAttribute("SupplyDetail")]
+        public OnixLegacySupplyDetail[] SupplyDetail
         {
             get
             {
@@ -1456,10 +1550,11 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public OnixLegacySupplyDetail supplydetail
+        [System.Xml.Serialization.XmlElementAttribute("supplydetail")]
+        public OnixLegacySupplyDetail[] supplydetail
         {
-            get { return SupplyDetail; }
-            set { SupplyDetail = value; }
+            get { return shortSupplyDetailField; }
+            set { shortSupplyDetailField = value; }
         }
 
         #endregion
