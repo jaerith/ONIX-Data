@@ -12,15 +12,32 @@ namespace OnixData.Legacy
     {
         #region CONSTANTS
 
-        public const int CONST_PRICE_TYPE_RRP_EXCL  = 1;
-        public const int CONST_PRICE_TYPE_RRP_INCL  = 2;
-        public const int CONST_PRICE_TYPE_FRP_EXCL  = 3;
-        public const int CONST_PRICE_TYPE_FRP_INCL  = 4;
-        public const int CONST_PRICE_TYPE_SUPP_COST = 5;
-        public const int CONST_PRICE_TYPE_RRP_PREP  = 21;
-		
-		public const int CONST_PUB_DISC_CD_TYPE_PTY   = 2;
+        public const int CONST_PRICE_TYPE_RRP_EXCL         = 1;
+        public const int CONST_PRICE_TYPE_RRP_INCL         = 2;
+        public const int CONST_PRICE_TYPE_FRP_EXCL         = 3;
+        public const int CONST_PRICE_TYPE_FRP_INCL         = 4;
+        public const int CONST_PRICE_TYPE_SUPP_COST        = 5;
+        public const int CONST_PRICE_TYPE_RRP_PREP         = 21;
+        public const int CONST_PRICE_TYPE_FPT_RRP_EXCL_TAX = 31;
+        public const int CONST_PRICE_TYPE_FPT_BIL_EXCL_TAX = 32;
+        public const int CONST_PRICE_TYPE_PROP_MISC_1      = 41;
+        public const int CONST_PRICE_TYPE_PROP_MISC_2      = 99;
+
+        public const int CONST_PUB_DISC_CD_TYPE_PTY   = 2;
         public const int CONST_PUB_DISC_CD_TYPE_PTY_2 = 5;
+
+        public readonly int[] CONST_SOUGHT_RETAIL_PRICE_TYPES
+            = {
+                CONST_PRICE_TYPE_RRP_EXCL, CONST_PRICE_TYPE_RRP_PREP,
+                CONST_PRICE_TYPE_FPT_BIL_EXCL_TAX, CONST_PRICE_TYPE_PROP_MISC_1
+              };
+
+        public readonly int[] CONST_SOUGHT_PRICE_TYPES 
+            = {
+                CONST_PRICE_TYPE_RRP_EXCL, CONST_PRICE_TYPE_SUPP_COST, CONST_PRICE_TYPE_RRP_PREP,
+                CONST_PRICE_TYPE_FPT_RRP_EXCL_TAX, CONST_PRICE_TYPE_FPT_BIL_EXCL_TAX,
+                CONST_PRICE_TYPE_PROP_MISC_1, CONST_PRICE_TYPE_PROP_MISC_2
+              };
 
         #endregion
 
@@ -44,8 +61,18 @@ namespace OnixData.Legacy
         private int                     minimumOrderQuantityField;
         private string                  priceStatusField;
         private string                  countryCodeField;
-		
+
         #region ONIX helpers
+
+        public bool HasSoughtRetailPriceType()
+        {
+            return CONST_SOUGHT_RETAIL_PRICE_TYPES.Contains(this.PriceType);
+        }
+
+        public bool HasSoughtPriceTypeCode()
+        {
+            return CONST_SOUGHT_PRICE_TYPES.Contains(this.PriceType);
+        }
 
         public bool HasViablePubDiscountCode()
         {
@@ -60,7 +87,7 @@ namespace OnixData.Legacy
             return bHasViablePubDiscCd;
         }
 
-        #endregion		
+        #endregion
 
         #region Reference Tags
 
