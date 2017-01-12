@@ -51,7 +51,7 @@ namespace OnixData.Legacy
 
             ContributorStatement = "";
 
-            Language = new OnixLegacyLanguage();
+            Language    = new OnixLegacyLanguage();
 
             ItemNumberWithinSet = -1;
 
@@ -60,6 +60,7 @@ namespace OnixData.Legacy
             Illustrations = new OnixLegacyIllustrations();
 
             BASICMainSubject = "";
+            MainSubject      = new OnixLegacySubject();
             AudienceCode     = "";
 
             audienceField       = shortAudienceField       = new OnixLegacyAudience[0];
@@ -102,6 +103,7 @@ namespace OnixData.Legacy
         private string contributorStatementField;
 
         private OnixLegacyLanguage languageField;
+        private OnixLegacySubject  mainSubjectField;
 
         private int itemNumberWithinSetField;
         private int numberOfPagesField;
@@ -453,7 +455,11 @@ namespace OnixData.Legacy
 
                 OnixLegacySeries[] SeriesList = OnixSeriesList;
                 if ((SeriesList != null) && (SeriesList.Length > 0))
-                    FoundSeriesNum = SeriesList[0].NumberWithinSeries;
+                {
+                    OnixLegacySeries FoundSeries = SeriesList.Where(x => !String.IsNullOrEmpty(x.NumberWithinSeries)).FirstOrDefault();
+                    if (FoundSeries != null)
+                        FoundSeriesNum = FoundSeries.NumberWithinSeries;
+                }
 
                 return FoundSeriesNum;
             }
@@ -1050,6 +1056,19 @@ namespace OnixData.Legacy
             }
         }
 
+        /// <remarks/>
+        public OnixLegacySubject MainSubject
+        {
+            get
+            {
+                return this.mainSubjectField;
+            }
+            set
+            {
+                this.mainSubjectField = value;
+            }
+        }
+
         /// <remarks/> 
         public string AudienceCode
         {
@@ -1472,6 +1491,13 @@ namespace OnixData.Legacy
         {
             get { return BASICMainSubject; }
             set { BASICMainSubject = value; }
+        }
+
+        /// <remarks/>
+        public OnixLegacySubject mainsubject
+        {
+            get { return this.mainSubjectField; }
+            set { this.mainSubjectField = value; }
         }
 
         /// <remarks/> 
