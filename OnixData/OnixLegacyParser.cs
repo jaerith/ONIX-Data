@@ -548,21 +548,21 @@ namespace OnixData
         /// <param name="LegacyOnixFilepath">The path to the ONIX file</param>
         /// <returns>The Boolean that indicates whether or not the ONIX file belongs to the 'Reference' type</returns>
         /// </summary>
-        public bool DetectVersionReference(FileInfo LegacyOnixFilepath)
+        public bool DetectVersionReference(FileInfo LegacyOnixFileInfo)
         {
             bool bReferenceVersion = true;
 
-            if (LegacyOnixFilepath.Length < CONST_MSG_REFERENCE_LENGTH)
+            if (LegacyOnixFileInfo.Length < CONST_MSG_REFERENCE_LENGTH)
                 throw new Exception("ERROR!  ONIX File is smaller than expected!");
 
             byte[] buffer = new byte[CONST_MSG_REFERENCE_LENGTH];
-            using (FileStream fs = new FileStream(LegacyOnixFilepath.FullName, FileMode.Open, FileAccess.Read))
+            using (FileStream fs = new FileStream(LegacyOnixFileInfo.FullName, FileMode.Open, FileAccess.Read))
             {
                 fs.Read(buffer, 0, buffer.Length);
                 fs.Close();
             }
 
-            string sRefMsgTag = "<" + CONST_ONIX_MESSAGE_REFERENCE_TAG + ">";
+            string sRefMsgTag = "<" + CONST_ONIX_MESSAGE_REFERENCE_TAG;
             string sFileHead  = Encoding.Default.GetString(buffer);
             if (sFileHead.Contains(sRefMsgTag))
                 bReferenceVersion = true;
