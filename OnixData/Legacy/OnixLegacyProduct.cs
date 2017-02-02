@@ -356,6 +356,40 @@ namespace OnixData.Legacy
         {
             get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_WIDTH); }
         }
+		
+        public string Keywords
+        {
+            get
+            {
+                string            FoundKeywords = "";
+                OnixLegacySubject FoundSubject  = new OnixLegacySubject();
+
+                OnixLegacySubject[] SubjectList = OnixSubjectList;
+                if ((SubjectList != null) && (SubjectList.Length > 0))
+                {
+                    FoundSubject =
+                        SubjectList.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_KEYWORDS).FirstOrDefault();
+                }
+
+                if ((FoundSubject != null) && !String.IsNullOrEmpty(FoundSubject.SubjectHeadingText))
+                    FoundKeywords = FoundSubject.SubjectHeadingText;
+
+                return FoundKeywords;
+            }
+        }
+
+        public string[] KeywordsList
+        {
+            get
+            {
+                string[] asKeywordsList = new string[0];
+
+                if ((Keywords != null) && !String.IsNullOrEmpty(Keywords) && Keywords.Contains(CONST_KEYWORDS_DELIM))
+                    asKeywordsList = Keywords.Split(CONST_KEYWORDS_DELIM);
+
+                return asKeywordsList;
+            }
+        }
 
         public string OnixAudienceCode
         {
