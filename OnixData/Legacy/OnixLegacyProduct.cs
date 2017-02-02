@@ -22,6 +22,8 @@ namespace OnixData.Legacy
         private const int CONST_PRD_PACK_TUBE_ROLL       = 12;
         private const int CONST_PRD_PACK_BINDER          = 13;
         private const int CONST_PRD_PACK_WALLET          = 14;
+		
+		private const char CONST_KEYWORDS_DELIM = ';';
 
         #endregion
 
