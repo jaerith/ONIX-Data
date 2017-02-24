@@ -14,6 +14,7 @@ namespace OnixData.Legacy
 
         public const int CONST_SUBJ_SCHEME_BISAC_CAT_ID = 10;
         public const int CONST_SUBJ_SCHEME_REGION_ID    = 11;
+        public const int CONST_SUBJ_SCHEME_KEYWORDS     = 20;
 
         #endregion
 
