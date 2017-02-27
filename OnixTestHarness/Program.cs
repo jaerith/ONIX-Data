@@ -61,6 +61,11 @@ namespace OnixTestHarness
                                     string sTestISBN = TmpProduct.EAN.ConvertEANToISBN();
                                 }
 
+                                if (TmpProduct.HasValidISBN())
+                                {
+                                    string sTestEAN = TmpProduct.ISBN.ConvertISBNToEAN();
+                                }
+
                                 System.Console.WriteLine("Product [" + (nLegacyShortIdx++) + "] has " + sEANStatus + " EAN(" +
                                                          TmpProduct.EAN + "), " + sISBNStatus + " ISBN(" + TmpProduct.ISBN + 
                                                          "), and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
