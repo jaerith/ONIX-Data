@@ -63,7 +63,7 @@ namespace OnixData.Extensions
             return sISBN;
         }
 
-        public static string ConvertISBNToEAN(this string TargetISBN, string ISBNPrefix = "978")
+        public static string ConvertISBNToEAN(this string TargetISBN, string EANPrefix = "978")
         {
             int    nCheckSum;
             int    nTemp;
@@ -83,22 +83,27 @@ namespace OnixData.Extensions
             if (!ISBN.IsISBNValid())
                 return "";
 
-            if (ISBNPrefix.Length != 3)
+            if (EANPrefix.Length != 3)
                 return "";
 
-            EAN = ISBNPrefix + ISBN.Substring(0, (CONST_ISBN_LEN - 1));
+            EAN = EANPrefix + ISBN.Substring(0, (CONST_ISBN_LEN - 1));
 
             nCheckSum = 0;
-            for (uint nCounter = 0; nCounter < EAN.Length; nCounter++)
+            for (uint i = 0; i < EAN.Length; i++)
             {
-                nTemp = (int) EAN.ToCharArray()[nCounter];
+                char cTempVal = EAN.ToCharArray()[i];
+
+                // Do not convert the number directly from a char, since we do not want the ASCII value
+                // nTemp = Convert.ToInt32(cTempVal);
+
+                nTemp = Convert.ToInt32(new String(new char[] { cTempVal }));
 
                 if (nTemp > 0)
                 {
-                    if ((nCounter % 2) == 0)
+                    if ((i % 2) == 0)
                         nCheckSum += nTemp;
                     else
-                        nCheckSum += 3 * nTemp;
+                        nCheckSum += (3 * nTemp);
                 }
             }
 
