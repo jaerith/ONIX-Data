@@ -1684,9 +1684,9 @@ namespace OnixData.Legacy
 
         #region Support Methods
 
-        public OnixLegacyMeasure GetMeasurement(int Type)
+		public OnixLegacyMeasure GetMeasurement(int Type)
         {
-            OnixLegacyMeasure FoundMeasurement = new OnixLegacyMeasure();
+            OnixLegacyMeasure FoundMeasurement = null;
 
             OnixLegacyMeasure[] MeasureList = OnixMeasureList;
             if ((MeasureList != null) && (MeasureList.Length > 0))
@@ -1694,6 +1694,9 @@ namespace OnixData.Legacy
                 FoundMeasurement =
                     MeasureList.Where(x => x.MeasureTypeCode == Type).FirstOrDefault();
             }
+			
+			if (FoundMeasurement == null)
+				FoundMeasurement = new OnixLegacyMeasure();
 
             return FoundMeasurement;
         }
