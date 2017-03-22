@@ -293,7 +293,46 @@ namespace OnixData
                 }
                 else
                 {
-                    // NOTE: This section has yet to be implemented
+                    string sTmpFile = ParserFileInfo.FullName + ".tmp";
+
+                    FileInfo fTmpFile = new FileInfo(sTmpFile);
+                    if (!fTmpFile.Exists)
+                    {
+                        using (StreamReader OnixFileReader = new StreamReader(ParserFileInfo.FullName))
+                        {
+                            using (StreamWriter OnixFileWriter = new StreamWriter(sTmpFile))
+                            {
+                                int nLineCount = 0;
+
+                                StringBuilder TempLineBuilder = new StringBuilder(50000000);
+
+                                for (nLineCount = 0; !OnixFileReader.EndOfStream; ++nLineCount)
+                                {
+                                    TempLineBuilder.Append(OnixFileReader.ReadLine());
+
+                                    if ((nLineCount % 1000000) == 0)
+                                    {
+                                        ReplaceIsoLatinEncodings(TempLineBuilder);
+
+                                        // From the "iso-tech.ent" file
+                                        if (ShouldReplaceTechEncodings)
+                                            ReplaceTechEncodings(TempLineBuilder);
+
+                                        OnixFileWriter.WriteLine(TempLineBuilder.ToString());
+                                        TempLineBuilder.Clear();
+                                    }
+                                }
+
+                                OnixFileWriter.WriteLine(TempLineBuilder.ToString());
+                                TempLineBuilder.Clear();
+                            }
+
+                        } // outer using
+                    }
+
+                    File.Delete(ParserFileInfo.FullName);
+
+                    File.Move(sTmpFile, ParserFileInfo.FullName);
                 }
             }
         }
