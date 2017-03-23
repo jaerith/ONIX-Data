@@ -27,7 +27,10 @@ namespace OnixData
     {
         #region CONSTANTS
 
-        private const int    CONST_MSG_REFERENCE_LENGTH = 2048;
+        public const int CONST_MSG_REFERENCE_LENGTH = 2048;
+
+        public const int CONST_BLOCK_CHAR_COUNT = 50000000;
+        public const int CONST_BLOCK_LINE_COUNT = 1000000;
 
         private const string CONST_ONIX_MESSAGE_REFERENCE_TAG = "ONIXMessage";
         private const string CONST_ONIX_MESSAGE_SHORT_TAG     = "ONIXmessage";
@@ -304,13 +307,13 @@ namespace OnixData
                             {
                                 int nLineCount = 0;
 
-                                StringBuilder TempLineBuilder = new StringBuilder(50000000);
+                                StringBuilder TempLineBuilder = new StringBuilder(CONST_BLOCK_CHAR_COUNT);
 
                                 for (nLineCount = 0; !OnixFileReader.EndOfStream; ++nLineCount)
                                 {
                                     TempLineBuilder.Append(OnixFileReader.ReadLine());
 
-                                    if ((nLineCount % 1000000) == 0)
+                                    if ((nLineCount % CONST_BLOCK_LINE_COUNT) == 0)
                                     {
                                         ReplaceIsoLatinEncodings(TempLineBuilder);
 
