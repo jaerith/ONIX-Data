@@ -321,7 +321,17 @@ namespace OnixData
                                         if (ShouldReplaceTechEncodings)
                                             ReplaceTechEncodings(TempLineBuilder);
 
-                                        OnixFileWriter.WriteLine(TempLineBuilder.ToString());
+                                        // NOTE: This section will remove any problematic control characters which are not allowed within XML
+                                        string sControlCharDomain = "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]";
+
+                                        string sFilteredContents = 
+                                             System.Text.RegularExpressions.Regex.Replace(TempLineBuilder.ToString(),
+                                                                                          sControlCharDomain, 
+                                                                                          "", 
+                                                                                          System.Text.RegularExpressions.RegexOptions.Compiled);
+
+                                        // Finally, we write the block
+                                        OnixFileWriter.WriteLine(sFilteredContents);
                                         TempLineBuilder.Clear();
                                     }
                                 }
