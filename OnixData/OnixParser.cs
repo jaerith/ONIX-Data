@@ -278,10 +278,19 @@ namespace OnixData
             {
                 string sInputXml = this.ProductList[CurrentIndex].OuterXml;
 
+                // NOTE: This section will remove any problematic control characters which are not allowed within XML
+                string sControlCharDomain = "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]";
+
+                string sFilteredInputXml =
+                     System.Text.RegularExpressions.Regex.Replace(sInputXml,
+                                                                  sControlCharDomain,
+                                                                  "",
+                                                                  System.Text.RegularExpressions.RegexOptions.Compiled);
+
                 try
                 {
                     CurrentRecord =
-                        this.ProductSerializer.Deserialize(new StringReader(sInputXml)) as OnixProduct;
+                        this.ProductSerializer.Deserialize(new StringReader(sFilteredInputXml)) as OnixProduct;
                 }
                 catch (Exception ex)
                 {
