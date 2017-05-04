@@ -46,11 +46,12 @@ namespace OnixData.Legacy
             PriceTypeCode = -1;
             DiscountCoded = new OnixLegacyDiscountCoded();
             PriceAmount   = 0;
-            CurrencyCode  = ClassOfTrade = "";
+            CurrencyCode  = ClassOfTrade = DiscountPercent = "";
         }
 
         private int                     priceTypeCodeField;
         private string                  classOfTradeField;
+        private string                  discountPercentageField;
         private OnixLegacyDiscountCoded discountCodedField;
         private decimal                 priceAmountField;
         private string                  currencyCodeField;
@@ -139,6 +140,19 @@ namespace OnixData.Legacy
             set
             {
                 this.discountCodedField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string DiscountPercent
+        {
+            get
+            {
+                return this.discountPercentageField;
+            }
+            set
+            {
+                this.discountPercentageField = value;
             }
         }
 
@@ -281,6 +295,13 @@ namespace OnixData.Legacy
         {
             get { return DiscountCoded; }
             set { DiscountCoded = value; }
+        }
+
+        /// <remarks/>
+        public string j267
+        {
+            get { return DiscountPercent; }
+            set { DiscountPercent = value; }
         }
 
         /// <remarks/>
