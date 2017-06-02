@@ -22,8 +22,8 @@ namespace OnixData.Legacy
         private const int CONST_PRD_PACK_TUBE_ROLL       = 12;
         private const int CONST_PRD_PACK_BINDER          = 13;
         private const int CONST_PRD_PACK_WALLET          = 14;
-		
-		private const char CONST_KEYWORDS_DELIM = ';';
+
+        private const char CONST_KEYWORDS_DELIM = ';';
 
         #endregion
 
@@ -96,8 +96,8 @@ namespace OnixData.Legacy
 
         private string[] editionTypeCodeField;
         private string[] shortEditionTypeCodeField;
-        private int[]    editionNumberField;
-        private int[]    shortEditionNumberField;
+        private string[] editionNumberField;
+        private string[] shortEditionNumberField;
         private string   editionStatementField;
 
         private OnixLegacyTitle titleField;
@@ -358,7 +358,7 @@ namespace OnixData.Legacy
         {
             get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_WIDTH); }
         }
-		
+
         public string Keywords
         {
             get
@@ -655,18 +655,18 @@ namespace OnixData.Legacy
             }
         }
 
-        public int[] OnixEditionNumberList
+        public string[] OnixEditionNumberList
         {
             get
             {
-                int[] EditionNumbers = null;
+                string[] EditionNumbers = null;
 
                 if (editionNumberField != null)
                     EditionNumbers = this.editionNumberField;
                 else if (shortEditionNumberField != null)
                     EditionNumbers = this.shortEditionNumberField;
                 else
-                    EditionNumbers = new int[0];
+                    EditionNumbers = new string[0];
 
                 return EditionNumbers;
             }
@@ -922,7 +922,7 @@ namespace OnixData.Legacy
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("EditionNumber")]
-        public int[] EditionNumber
+        public string[] EditionNumber
         {
             get
             {
@@ -1419,7 +1419,7 @@ namespace OnixData.Legacy
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("b057")]
-        public int[] b057
+        public string[] b057
         {
             get { return shortEditionNumberField; }
             set { shortEditionNumberField = value; }
@@ -1684,19 +1684,19 @@ namespace OnixData.Legacy
 
         #region Support Methods
 
-		public OnixLegacyMeasure GetMeasurement(int Type)
+        public OnixLegacyMeasure GetMeasurement(int Type)
         {
-            OnixLegacyMeasure FoundMeasurement = null;
+            OnixLegacyMeasure FoundMeasurement = new OnixLegacyMeasure();
 
             OnixLegacyMeasure[] MeasureList = OnixMeasureList;
             if ((MeasureList != null) && (MeasureList.Length > 0))
             {
                 FoundMeasurement =
                     MeasureList.Where(x => x.MeasureTypeCode == Type).FirstOrDefault();
+
+                if (FoundMeasurement == null)
+                    FoundMeasurement = new OnixLegacyMeasure();
             }
-			
-			if (FoundMeasurement == null)
-				FoundMeasurement = new OnixLegacyMeasure();
 
             return FoundMeasurement;
         }
