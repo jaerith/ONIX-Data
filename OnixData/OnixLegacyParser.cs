@@ -313,7 +313,7 @@ namespace OnixData
                                 {
                                     TempLineBuilder.Append(OnixFileReader.ReadLine());
 
-                                    if ((nLineCount % CONST_BLOCK_LINE_COUNT) == 0)
+                                    if (TempLineBuilder.Length >= CONST_BLOCK_CHAR_COUNT)
                                     {
                                         ReplaceIsoLatinEncodings(TempLineBuilder);
 
