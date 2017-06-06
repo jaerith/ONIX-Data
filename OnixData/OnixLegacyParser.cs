@@ -884,6 +884,14 @@ namespace OnixData
                 LegacyOnixFileText.Replace("&lsaquo;", "&#8249;"); // <!-- single left-pointing angle quotation mark, U+2039 ISO proposed -->
                 LegacyOnixFileText.Replace("&rsaquo;", "&#8250;"); // <!-- single right-pointing angle quotation mark, U+203A ISO proposed -->
                 LegacyOnixFileText.Replace("&euro;",   "&#8364;"); // <!--  euro sign, U+20AC NEW -->				
+                LegacyOnixFileText.Replace("&ensp;",   "&#8194;"); // <!-- en space, U+2002 ISOpub -->
+                LegacyOnixFileText.Replace("&emsp;",   "&#8195;"); // <!-- em space, U+2003 ISOpub -->
+                LegacyOnixFileText.Replace("&thinsp;", "&#8201;"); // <!-- thin space, U+2009 ISOpub -->
+                LegacyOnixFileText.Replace("&zwnj;",   "&#8204;"); // <!-- zero width non-joiner -->
+                LegacyOnixFileText.Replace("&zwj;",    "&#8205;"); // <!-- zero width non-joiner -->
+                LegacyOnixFileText.Replace("&zwj;",    "&#8205;"); // <!-- zero width non-joiner -->
+                LegacyOnixFileText.Replace("&lrm;",    "&#8206;"); // <!-- left-to-right mark, U+200E NEW RFC 2070 -->
+                LegacyOnixFileText.Replace("&rlm;",    "&#8207;"); // <!-- right-to-left mark, U+200F NEW RFC 2070 -->				
 				
 				// From the "iso-dia.ent" file
                 LegacyOnixFileText.Replace("&acute;", "&#x000B4;"); // <!-- acute accent -->
