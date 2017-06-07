@@ -312,6 +312,7 @@ namespace OnixData
                                 for (nLineCount = 0; !OnixFileReader.EndOfStream; ++nLineCount)
                                 {
                                     TempLineBuilder.Append(OnixFileReader.ReadLine());
+									TempLineBuilder.Append("\n");
 
                                     if (TempLineBuilder.Length >= CONST_BLOCK_CHAR_COUNT)
                                     {
