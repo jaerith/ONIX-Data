@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace OnixData
+namespace OnixData.Extensions
 {
     public static class OnixParserExtensions
     {
