@@ -71,7 +71,7 @@
     <Compile Include="OnixLegacyParser.cs" />
     <Compile Include="OnixLegacyPlusParser.cs" />
     <Compile Include="OnixParser.cs" />
-    <Compile Include="OnixParserExtensions.cs" />
+    <Compile Include="Extensions\OnixParserExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Version3\Header\OnixHeader.cs" />
     <Compile Include="Version3\Header\OnixHeaderAddressee.cs" />
