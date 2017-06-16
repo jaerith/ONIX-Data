@@ -11,6 +11,7 @@ using System.Xml.Serialization;
 using System.Xml.Schema;
 
 using OnixData.Legacy;
+using OnixData.Extensions;
 
 namespace OnixData
 {
