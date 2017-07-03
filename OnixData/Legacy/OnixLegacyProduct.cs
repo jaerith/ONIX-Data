@@ -49,8 +49,6 @@ namespace OnixData.Legacy
 
             ProductFormFeature = new OnixLegacyProductFormFeature();
 
-            Title = new OnixLegacyTitle();
-
             ContributorStatement = "";
 
             Language    = new OnixLegacyLanguage();
@@ -64,6 +62,8 @@ namespace OnixData.Legacy
             BASICMainSubject = "";
             MainSubject      = new OnixLegacySubject();
             AudienceCode     = "";
+
+            titleField = shortTitleField = new OnixLegacyTitle[0];
 
             audienceField       = shortAudienceField       = new OnixLegacyAudience[0];
             audienceRangeField  = shortAudienceRangeField  = new OnixLegacyAudRange[0];
@@ -100,7 +100,8 @@ namespace OnixData.Legacy
         private string[] shortEditionNumberField;
         private string   editionStatementField;
 
-        private OnixLegacyTitle titleField;
+        private OnixLegacyTitle[] titleField;
+        private OnixLegacyTitle[] shortTitleField;
 
         private string contributorStatementField;
 
@@ -419,6 +420,38 @@ namespace OnixData.Legacy
                 }
 
                 return sAudCode;
+            }
+        }
+
+        public string OnixTitle
+        {
+            get
+            {
+                StringBuilder TitleBuilder = new StringBuilder();
+
+                if (!String.IsNullOrEmpty(this.DistinctiveTitle))
+                    TitleBuilder.Append(this.DistinctiveTitle);
+                else
+                {
+                    OnixLegacyTitle[] TitleList = titleField;
+                    if ((TitleList == null) || (TitleList.Length <= 0))
+                        TitleList = shortTitleField;
+
+                    if ((TitleList != null) && (TitleList.Length > 0))
+                    {
+                        OnixLegacyTitle FoundTitle =
+                            TitleList.Where(x => 
+                                x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE || x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE).FirstOrDefault();
+
+                        if ((FoundTitle == null) || String.IsNullOrEmpty(FoundTitle.OnixTitle))
+                            FoundTitle = TitleList.Where(x => (x.TitleType < 0)).FirstOrDefault();
+
+                        if ((FoundTitle != null) && !String.IsNullOrEmpty(FoundTitle.OnixTitle))
+                            TitleBuilder.Append(FoundTitle.OnixTitle);
+                    }
+                }
+
+                return TitleBuilder.ToString();
             }
         }
 
@@ -961,7 +994,8 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public OnixLegacyTitle Title
+        [System.Xml.Serialization.XmlElementAttribute("Title")]
+        public OnixLegacyTitle[] Title
         {
             get
             {
@@ -1442,10 +1476,11 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public OnixLegacyTitle title
+        [System.Xml.Serialization.XmlElementAttribute("title")]
+        public OnixLegacyTitle[] title
         {
-            get { return Title; }
-            set { Title = value; }
+            get { return shortTitleField; }
+            set { shortTitleField = value; }
         }
 
         /// <remarks/>
