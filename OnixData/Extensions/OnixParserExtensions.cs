@@ -83,6 +83,11 @@ namespace OnixData.Extensions
                                         }
                                     }
                                 }
+								
+                                // Process any remaining characters
+                                ReplaceIsoLatinEncodings(TempLineBuilder);
+                                if (ShouldReplaceTechEncodings)
+                                    ReplaceTechEncodings(TempLineBuilder);								
 
                                 OnixFileWriter.WriteLine(TempLineBuilder.ToString());
                                 TempLineBuilder.Clear();
