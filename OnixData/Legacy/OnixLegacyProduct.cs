@@ -29,6 +29,9 @@ namespace OnixData.Legacy
 
         public OnixLegacyProduct()
         {
+            SalesRightsInUS   = SalesRightsInNonUSCountry = false;
+            NoSalesRightsInUS = SalesRightsAllWorld = false;
+
             RecordReference  = "";
             NotificationType = NumberOfPieces = TradeCategory = -1;
 
@@ -89,6 +92,11 @@ namespace OnixData.Legacy
             supplyDetailField = shortSupplyDetailField = new OnixLegacySupplyDetail[0];
             ParsingError = null;
         }
+
+        private bool SalesRightsInUS;
+        private bool SalesRightsInNonUSCountry;
+        private bool NoSalesRightsInUS;
+        private bool SalesRightsAllWorld;
 
         private string bookFormDetailField;
         private int    productPackagingField;
@@ -275,69 +283,32 @@ namespace OnixData.Legacy
             return bHasUSDPrice;
         }
 
-        public bool HasNonUSRights()
+        public bool HasOtherCountryRights()
         {
-            bool bHasNonUSRights = false;
+            SetRightsFlags();
 
-            int[] aSalesRightsColl = new int[] { OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
-                                                 OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
+            return SalesRightsInNonUSCountry;
+        }
 
-            OnixLegacySalesRights[] SalesRightsList = OnixSalesRightsList;
-            if ((SalesRightsList != null) && (SalesRightsList.Length > 0))
-            {
-                foreach (OnixLegacySalesRights TempSalesRights in SalesRightsList)
-                {
-                    List<string> TempCountryList = new List<string>(TempSalesRights.RightsCountryList);
-                    TempCountryList.RemoveAll(x => x == "US");
-                    TempCountryList.RemoveAll(x => x == "WORLD");
-                    TempCountryList.RemoveAll(x => x == "ROW");
+        public bool HasNoneUSRights()
+        {
+            SetRightsFlags();
 
-                    if (TempCountryList.Count > 0)
-                    {
-                        bHasNonUSRights = true;
-                        break;
-                    }
-                }
-            }
-
-            return bHasNonUSRights;
+            return NoSalesRightsInUS;
         }
 
         public bool HasUSRights()
         {
-            bool bHasUSRights = false;
+            SetRightsFlags();
 
-            int[] aSalesRightsColl = new int[] { OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
-                                                 OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
-
-            OnixLegacySalesRights[] SalesRightsList = OnixSalesRightsList;
-            if ((SalesRightsList != null) && (SalesRightsList.Length > 0))
-            {
-                bHasUSRights =
-                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsType) &&
-                                              (x.RightsCountryList.Contains("US") ||
-                                               x.RightsTerritoryList.Contains("WORLD") ||
-                                               x.RightsTerritoryList.Contains("ROW")));
-            }
-
-            return bHasUSRights;
+            return SalesRightsInUS;
         }
 
         public bool HasWorldRights()
         {
-            bool bHasWorldRights = false;
+            SetRightsFlags();
 
-            int[] aSalesRightsColl = new int[] { OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
-                                                 OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
-
-            OnixLegacySalesRights[] SalesRightsList = OnixSalesRightsList;
-            if ((SalesRightsList != null) && (SalesRightsList.Length > 0))
-            {
-                bHasWorldRights =
-                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsType) && x.RightsTerritoryList.Contains("WORLD"));
-            }
-
-            return bHasWorldRights;
+            return SalesRightsAllWorld;
         }
 
         public OnixLegacyMeasure Height
@@ -1734,6 +1705,35 @@ namespace OnixData.Legacy
             }
 
             return FoundMeasurement;
+        }
+
+        public void SetRightsFlags()
+        {
+            int[] aSalesRightsColl = new int[] { OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
+                                                 OnixLegacySalesRights.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
+
+            int[] aNonSalesRightsColl = new int[] { OnixLegacySalesRights.CONST_SR_TYPE_NOT_FOR_SALE };
+
+            OnixLegacySalesRights[] SalesRightsList = OnixSalesRightsList;
+            if ((SalesRightsList != null) && (SalesRightsList.Length > 0))
+            {
+                SalesRightsInUS =
+                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsType) && (x.RightsCountryList.Contains("US")));
+
+                SalesRightsInNonUSCountry =
+                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsType) &&
+                                             !x.RightsCountryList.Contains("US")          &&
+                                             !x.RightsTerritoryList.Contains("WORLD")     &&
+                                             !x.RightsTerritoryList.Contains("ROW"));
+
+                NoSalesRightsInUS =
+                    SalesRightsList.Any(x => aNonSalesRightsColl.Contains(x.SalesRightsType) && x.RightsCountryList.Contains("US"));
+
+                SalesRightsAllWorld =
+                    SalesRightsList.Any(x => aNonSalesRightsColl.Contains(x.SalesRightsType) && 
+                                             (x.RightsTerritoryList.Contains("WORLD") || x.RightsTerritoryList.Contains("ROW")));
+            }
+
         }
 
         #endregion
