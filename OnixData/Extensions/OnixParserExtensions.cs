@@ -36,11 +36,7 @@ namespace OnixData.Extensions
                 {
                     StringBuilder AllFileText = new StringBuilder(File.ReadAllText(ParserFileInfo.FullName));
 
-                    ReplaceIsoLatinEncodings(AllFileText);
-
-                    // From the "iso-tech.ent" file
-                    if (ShouldReplaceTechEncodings)
-                        ReplaceTechEncodings(AllFileText);
+                    AllFileText.ReplaceIsoLatinEncodings(ShouldReplaceTechEncodings);
 
                     File.WriteAllText(ParserFileInfo.FullName, AllFileText.ToString());
                 }
@@ -65,11 +61,7 @@ namespace OnixData.Extensions
 
                                     if (TempLineBuilder.Length >= CONST_BLOCK_COUNT_SIZE)
                                     {
-                                        ReplaceIsoLatinEncodings(TempLineBuilder);
-
-                                        // From the "iso-tech.ent" file
-                                        if (ShouldReplaceTechEncodings)
-                                            ReplaceTechEncodings(TempLineBuilder);
+                                        TempLineBuilder.ReplaceIsoLatinEncodings(ShouldReplaceTechEncodings);
 
                                         // NOTE: This section will remove any problematic control characters which are not allowed within XML
                                         string sControlCharDomain = "[\x00-\x08\x0B\x0C\x0E-\x1F]";
@@ -91,11 +83,9 @@ namespace OnixData.Extensions
                                         }
                                     }
                                 }
-								
+
                                 // Process any remaining characters
-                                ReplaceIsoLatinEncodings(TempLineBuilder);
-                                if (ShouldReplaceTechEncodings)
-                                    ReplaceTechEncodings(TempLineBuilder);								
+                                TempLineBuilder.ReplaceIsoLatinEncodings(ShouldReplaceTechEncodings);
 
                                 OnixFileWriter.WriteLine(TempLineBuilder.ToString());
                                 TempLineBuilder.Clear();
@@ -114,6 +104,31 @@ namespace OnixData.Extensions
 
                     File.Move(sTmpFile, ParserFileInfo.FullName);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// Since the .NET XML parser has very limited support for incorporating DTD/XSD/ENT/ELT files, this method will 
+        /// perform the work on behalf of ELT utilization (i.e., by translating any ONIX shorthand codes that map to Unicode encodings).
+        /// In particular, this method places on a focus on ISO Latin encodings.
+        /// 
+        /// <param name="PerformInMemory">Indicates whether or not the encoding replacements are performed entirely in memory.</param>
+        /// <param name="ShouldReplaceTechEncodings">Indicates whether or not tech encodings should be replaced.</param>
+        /// <returns>N/A</returns>
+        /// </summary>
+        public static void ReplaceIsoLatinEncodings(this StringBuilder ParserFileContent, bool ShouldReplaceTechEncodings = true)
+        {
+            if (ParserFileContent.Length > 0)
+            {
+                System.Console.WriteLine("Content is of length [" + ParserFileContent.Length + "]...");
+                System.Console.Out.Flush();
+
+                ReplaceIsoLatinEncodings(ParserFileContent);
+
+                // From the "iso-tech.ent" file
+                if (ShouldReplaceTechEncodings)
+                    ReplaceTechEncodings(ParserFileContent);
             }
         }
 
