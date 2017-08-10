@@ -45,6 +45,7 @@ namespace OnixData
         private bool              ParserRefVerFlag  = false;
         private bool              ParserRVWFlag     = false;
         private bool              PerformValidFlag  = false;
+        private StringBuilder     ParserFileContent = null;
         private FileInfo          ParserFileInfo    = null;
         private XmlReader         LegacyOnixReader  = null;
         private OnixLegacyMessage LegacyOnixMessage = null;
@@ -110,6 +111,67 @@ namespace OnixData
                 LegacyOnixFilepath.ReplaceIsoLatinEncodings(true);
 
             this.LegacyOnixReader = CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag, this.PerformValidFlag);
+
+            if (LoadEntireFileIntoMemory)
+            {
+                this.LegacyOnixMessage =
+                    new XmlSerializer(typeof(OnixLegacyMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
+            }
+            else
+                this.LegacyOnixMessage = null;
+        }
+
+        public OnixLegacyParser(string   LegacyOnixContent, 
+                                    bool ExecuteValidation,
+                                    bool PreprocessOnixFile = true, 
+                                    bool LoadEntireFileIntoMemory = false)
+        {
+            if (String.IsNullOrEmpty(LegacyOnixContent))
+                throw new Exception("ERROR!  ONIX content provided is empty.");
+
+            this.ParserFileContent = new StringBuilder(LegacyOnixContent);
+            this.ParserRVWFlag     = true;
+            this.PerformValidFlag  = ExecuteValidation;
+
+            if (PreprocessOnixFile)
+                ParserFileContent.ReplaceIsoLatinEncodings();
+
+            this.LegacyOnixReader = CreateXmlReader(this.ParserFileContent, this.ParserRVWFlag, this.PerformValidFlag);
+
+            bool   ReferenceVersion = DetectVersionReference(ParserFileContent);
+            string sOnixMsgTag      = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
+
+            this.ParserRefVerFlag = ReferenceVersion;
+
+            if (LoadEntireFileIntoMemory)
+            {
+                this.LegacyOnixMessage =
+                    new XmlSerializer(typeof(OnixLegacyMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
+            }
+            else
+                this.LegacyOnixMessage = null;
+        }
+
+        public OnixLegacyParser(bool ExecuteValidation,
+                              string LegacyOnixContent,
+                                bool ReferenceVersion,
+                                bool PreprocessOnixFile = true,
+                                bool LoadEntireFileIntoMemory = false)
+        {
+            string sOnixMsgTag = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
+
+            if (String.IsNullOrEmpty(LegacyOnixContent))
+                throw new Exception("ERROR!  ONIX content provided is empty.");
+
+            this.ParserRefVerFlag  = ReferenceVersion;
+            this.ParserFileContent = new StringBuilder(LegacyOnixContent);
+            this.ParserRVWFlag     = true;
+            this.PerformValidFlag  = ExecuteValidation;
+
+            if (PreprocessOnixFile)
+                ParserFileContent.ReplaceIsoLatinEncodings();
+
+            this.LegacyOnixReader = CreateXmlReader(this.ParserFileContent, this.ParserRVWFlag, this.PerformValidFlag);
 
             if (LoadEntireFileIntoMemory)
             {
@@ -203,6 +265,33 @@ namespace OnixData
             return OnixXmlReader;
         }
 
+        static public XmlReader CreateXmlReader(StringBuilder LegacyOnixContent, bool ReportValidationWarnings, bool ExecutionValidation)
+        {
+            bool bUseXSD = true;
+
+            StringBuilder InvalidErrMsg = new StringBuilder();
+            XmlReader     OnixXmlReader = null;
+
+            XmlReaderSettings settings = new XmlReaderSettings();
+
+            settings.ValidationType = ValidationType.None;
+            settings.DtdProcessing  = DtdProcessing.Ignore;
+
+            if (ExecutionValidation)
+            {
+                settings.ConformanceLevel = ConformanceLevel.Document;
+
+                if (bUseXSD)
+                { /* NOTE: XSD Validation does not appear to be working correctly yet */ }
+
+                /* NOTE: DTD Validation does not appear that it will ever work correctly on the .NET platform */
+            }
+
+            OnixXmlReader = XmlReader.Create(new StringReader(LegacyOnixContent.ToString()), settings);
+
+            return OnixXmlReader;
+        }
+
         /// <summary>
         /// 
         /// This property will return the header of an ONIX file.  If the file has already been loaded 
@@ -268,16 +357,21 @@ namespace OnixData
 
         public OnixLegacyEnumerator GetEnumerator()
         {
-            return new OnixLegacyEnumerator(this, this.ParserFileInfo);
+            if (this.ParserFileInfo != null)
+                return new OnixLegacyEnumerator(this, this.ParserFileInfo);
+            else if (this.ParserFileContent != null)
+                return new OnixLegacyEnumerator(this, this.ParserFileContent);
+            else
+                return null;
         }
-				
-		/// <summary>
+
+        /// <summary>
         /// 
         /// This method was intended to provide the functionality of validating a legacy ONIX file against its 
-		/// respective DTD/XSD.  Unfortunately, though, the .NET platform does not seem to be compatible with 
-		/// parsing and understanding a complex schema as specified in the ONIX standard.  So, it seems that this
-		/// method will never come into fruition.
-		/// 
+        /// respective DTD/XSD.  Unfortunately, though, the .NET platform does not seem to be compatible with 
+        /// parsing and understanding a complex schema as specified in the ONIX standard.  So, it seems that this
+        /// method will never come into fruition.
+        /// 
         /// <returns>The Boolean that indicates whether or not the ONIX file is valid</returns>
         /// </summary>
         public bool ValidateFile()
@@ -357,6 +451,23 @@ namespace OnixData
 
             return bReferenceVersion;
         }
+
+        public bool DetectVersionReference(StringBuilder LegacyOnixContent)
+        {
+            bool bReferenceVersion = true;
+
+            if (LegacyOnixContent.Length < CONST_MSG_REFERENCE_LENGTH)
+                throw new Exception("ERROR!  ONIX File is smaller than expected!");
+
+            string sRefMsgTag = "<" + CONST_ONIX_MESSAGE_REFERENCE_TAG;
+            string sFileHead  = LegacyOnixContent.ToString().Substring(0, CONST_MSG_REFERENCE_LENGTH);
+            if (sFileHead.Contains(sRefMsgTag))
+                bReferenceVersion = true;
+            else
+                bReferenceVersion = false;
+
+            return bReferenceVersion;
+        }
  
         #endregion
     }
@@ -394,6 +505,16 @@ namespace OnixData
 
             this.OnixParser = ProvidedParser;
             this.OnixReader = OnixLegacyParser.CreateXmlReader(LegacyOnixFilepath, false, ProvidedParser.PerformValidation);
+
+            ProductSerializer = new XmlSerializer(typeof(OnixLegacyProduct), new XmlRootAttribute(this.ProductXmlTag));
+        }
+
+        public OnixLegacyEnumerator(OnixLegacyParser ProvidedParser, StringBuilder LegacyOnixContent)
+        {
+            this.ProductXmlTag = ProvidedParser.ReferenceVersion ? "Product" : "product";
+
+            this.OnixParser = ProvidedParser;
+            this.OnixReader = OnixLegacyParser.CreateXmlReader(LegacyOnixContent, false, ProvidedParser.PerformValidation);
 
             ProductSerializer = new XmlSerializer(typeof(OnixLegacyProduct), new XmlRootAttribute(this.ProductXmlTag));
         }
