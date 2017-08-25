@@ -41,6 +41,9 @@ namespace OnixData.Legacy
             EpubTypeVersion        = "";
             EpubFormatDescription  = "";
 
+            imprintNameField   = "";
+            publisherNameField = "";
+
             ProductFormFeature = new OnixLegacyProductFormFeature();
         }
 
@@ -66,6 +69,9 @@ namespace OnixData.Legacy
         protected string   epubTypeVersionField;
         protected string   epubFormatDescriptionField;
         protected string   productFormDescriptionField;
+
+        protected string imprintNameField;
+        protected string publisherNameField;
 
         protected OnixLegacyProductFormFeature productFormFeatureField;
 
@@ -436,6 +442,32 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
+        public string ImprintName
+        {
+            get
+            {
+                return this.imprintNameField;
+            }
+            set
+            {
+                this.imprintNameField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string PublisherName
+        {
+            get
+            {
+                return this.publisherNameField;
+            }
+            set
+            {
+                this.publisherNameField = value;
+            }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Publisher")]
         public OnixLegacyPublisher[] Publisher
         {
@@ -449,13 +481,15 @@ namespace OnixData.Legacy
             }
         }
 
-        public string PublisherName
+        public string OnixPublisherName
         {
             get
             {
                 string FoundPubName = "";
 
-                if ((OnixPublisherList != null) && (OnixPublisherList.Length > 0))
+                if (!String.IsNullOrEmpty(PublisherName))
+                    FoundPubName = PublisherName;
+                else if ((OnixPublisherList != null) && (OnixPublisherList.Length > 0))
                 {
                     List<int> SoughtPubTypes =
                         new List<int>() { 0, OnixLegacyPublisher.CONST_PUB_ROLE_PUBLISHER, OnixLegacyPublisher.CONST_PUB_ROLE_CO_PUB };
@@ -584,6 +618,20 @@ namespace OnixData.Legacy
         {
             get { return ProductFormDescription; }
             set { ProductFormDescription = value; }
+        }
+
+        /// <remarks/>
+        public string b079
+        {
+            get { return ImprintName; }
+            set { ImprintName = value; }
+        }
+
+        /// <remarks/>
+        public string b081
+        {
+            get { return PublisherName; }
+            set { PublisherName = value; }
         }
 
         /// <remarks/>
