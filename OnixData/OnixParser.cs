@@ -27,7 +27,7 @@ namespace OnixData
     {
         #region CONSTANTS
 
-        private const int CONST_DTD_REFERENCE_LENGTH = 2048;
+        private const int CONST_DTD_REFERENCE_LENGTH = 512;
 
         private const string CONST_ONIX_MESSAGE_REFERENCE_TAG = "ONIXMessage";
         private const string CONST_ONIX_MESSAGE_SHORT_TAG     = "ONIXmessage";
