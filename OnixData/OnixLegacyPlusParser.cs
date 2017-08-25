@@ -19,7 +19,7 @@ namespace OnixData
     {
         #region CONSTANTS
 
-        private const int    CONST_MSG_REFERENCE_LENGTH = 2048;
+        private const int    CONST_MSG_REFERENCE_LENGTH = 512;
         private const int    CONST_BLOCK_COUNT_SIZE     = 50000000;
 
         private const string CONST_ONIX_MESSAGE_REFERENCE_TAG = "ONIXMessage";
