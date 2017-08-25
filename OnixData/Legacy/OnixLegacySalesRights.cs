@@ -151,4 +151,118 @@ namespace OnixData.Legacy
 
         #endregion
     }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public partial class OnixLegacyNotForSale
+    {
+        #region CONSTANTS
+
+        private const char CONST_LIST_DELIM = ' ';
+
+        #endregion
+
+        public OnixLegacyNotForSale()
+        {
+            rightsTerritoryField = rightsCountryField = "";
+            rightsTerritoryList  = rightsCountryList = new List<string>();
+        }
+
+        private string       rightsCountryField;
+        private List<string> rightsCountryList;
+        private string       rightsTerritoryField;
+        private List<string> rightsTerritoryList;
+
+        #region Reference Tags
+
+        /// <remarks/>
+        public string RightsCountry
+        {
+            get
+            {
+                return this.rightsCountryField;
+            }
+            set
+            {
+                this.rightsCountryField = value;
+
+                if (!String.IsNullOrEmpty(this.rightsCountryField))
+                {
+                    if (this.rightsCountryField.Contains(CONST_LIST_DELIM))
+                        this.rightsCountryList = new List<string>(this.rightsCountryField.Split(CONST_LIST_DELIM));
+                    else
+                        this.rightsCountryList = new List<string>() { this.rightsCountryField };
+                }
+            }
+        }
+
+        public List<string> RightsCountryList
+        {
+            get
+            {
+                return this.rightsCountryList;
+            }
+        }
+
+        /// <remarks/>
+        public string RightsTerritory
+        {
+            get
+            {
+                return this.rightsTerritoryField;
+            }
+            set
+            {
+                this.rightsTerritoryField = value;
+
+                if (!String.IsNullOrEmpty(this.rightsTerritoryField))
+                {
+                    if (this.rightsTerritoryField.Contains(CONST_LIST_DELIM))
+                        this.rightsTerritoryList = new List<string>(this.rightsTerritoryField.Split(CONST_LIST_DELIM));
+                    else
+                        this.rightsTerritoryList = new List<string>() { this.rightsTerritoryField };
+                }
+            }
+        }
+
+        public List<string> RightsTerritoryList
+        {
+            get
+            {
+                return this.rightsTerritoryList;
+            }
+        }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public string b090
+        {
+            get
+            {
+                return RightsCountry;
+            }
+            set
+            {
+                RightsCountry = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b388
+        {
+            get
+            {
+                return RightsTerritory;
+            }
+            set
+            {
+                RightsTerritory = value;
+            }
+        }
+
+        #endregion
+    }
 }

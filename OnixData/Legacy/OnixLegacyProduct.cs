@@ -82,6 +82,8 @@ namespace OnixData.Legacy
             relatedProductField = shortRelatedProductField = new OnixLegacyRelatedProduct[0];
             salesRightsField    = shortSalesRightsField    = new OnixLegacySalesRights[0];
 
+            notForSaleRightsField = shortNotForSaleRightsField = new OnixLegacyNotForSale[0];
+
             cityOfPublicationField = countryOfPublicationField  = publishingStatusField = "";
             announcementDateField  = tradeAnnouncementDateField = "";
 
@@ -152,6 +154,8 @@ namespace OnixData.Legacy
         private OnixLegacyOtherText[]      shortOtherTextField;
         private OnixLegacySalesRights[]    salesRightsField;
         private OnixLegacySalesRights[]    shortSalesRightsField;
+        private OnixLegacyNotForSale[]     notForSaleRightsField;
+        private OnixLegacyNotForSale[]     shortNotForSaleRightsField;
 
         private string cityOfPublicationField;
         private string countryOfPublicationField;
@@ -829,6 +833,23 @@ namespace OnixData.Legacy
             }
         }
 
+        public OnixLegacyNotForSale[] OnixNotForSaleRightsList
+        {
+            get
+            {
+                OnixLegacyNotForSale[] NotForSaleRights = null;
+
+                if (this.notForSaleRightsField != null)
+                    NotForSaleRights = this.notForSaleRightsField;
+                else if (this.shortNotForSaleRightsField != null)
+                    NotForSaleRights = this.shortNotForSaleRightsField;
+                else
+                    NotForSaleRights = new OnixLegacyNotForSale[0];
+
+                return NotForSaleRights;
+            }
+        }
+
         public OnixLegacySeries[] OnixSeriesList
         {
             get
@@ -1355,6 +1376,20 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("NotForSale")]
+        public OnixLegacyNotForSale[] NotForSale
+        {
+            get
+            {
+                return this.notForSaleRightsField;
+            }
+            set
+            {
+                this.notForSaleRightsField = value;
+            }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Measure")]
         public OnixLegacyMeasure[] Measure
         {
@@ -1630,6 +1665,14 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("notforsale")]
+        public OnixLegacyNotForSale[] notforsale
+        {
+            get { return shortNotForSaleRightsField; }
+            set { shortNotForSaleRightsField = value; }
+        }
+
+        /// <remarks/>
         public string b209
         {
             get { return CityOfPublication; }
@@ -1714,7 +1757,9 @@ namespace OnixData.Legacy
 
             int[] aNonSalesRightsColl = new int[] { OnixLegacySalesRights.CONST_SR_TYPE_NOT_FOR_SALE };
 
-            OnixLegacySalesRights[] SalesRightsList = OnixSalesRightsList;
+            OnixLegacySalesRights[] SalesRightsList      = OnixSalesRightsList;
+            OnixLegacyNotForSale[]  NotForSaleRightsList = OnixNotForSaleRightsList;
+
             if ((SalesRightsList != null) && (SalesRightsList.Length > 0))
             {
                 SalesRightsInUS =
@@ -1730,10 +1775,18 @@ namespace OnixData.Legacy
                     SalesRightsList.Any(x => aNonSalesRightsColl.Contains(x.SalesRightsType) && x.RightsCountryList.Contains("US"));
 
                 SalesRightsAllWorld =
-                    SalesRightsList.Any(x => aNonSalesRightsColl.Contains(x.SalesRightsType) && 
+                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsType) && 
                                              (x.RightsTerritoryList.Contains("WORLD") || x.RightsTerritoryList.Contains("ROW")));
             }
 
+            if ((NotForSaleRightsList != null) && (NotForSaleRightsList.Length > 0))
+            {
+                if (!NoSalesRightsInUS)
+                {
+                    NoSalesRightsInUS =
+                        NotForSaleRightsList.Any(x => x.RightsCountryList.Contains("US"));
+                }
+            }
         }
 
         #endregion
