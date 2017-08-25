@@ -29,7 +29,7 @@ namespace OnixData
     {
         #region CONSTANTS
 
-        public const int CONST_MSG_REFERENCE_LENGTH = 2048;
+        public const int CONST_MSG_REFERENCE_LENGTH = 512;
 
         public const int CONST_BLOCK_CHAR_COUNT = 50000000;
         public const int CONST_BLOCK_LINE_COUNT = 1000000;
