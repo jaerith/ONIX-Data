@@ -56,9 +56,9 @@ namespace OnixData.Legacy
 
             Language    = new OnixLegacyLanguage();
 
-            ItemNumberWithinSet = -1;
+            ItemNumberWithinSet = NumberOfPages = -1;
 
-            NumberOfPages = PagesRoman = PagesArabic = -1;
+            PagesRoman = PagesArabic = "";
 
             Illustrations = new OnixLegacyIllustrations();
 
@@ -120,8 +120,9 @@ namespace OnixData.Legacy
 
         private int itemNumberWithinSetField;
         private int numberOfPagesField;
-        private int pagesRomanField;
-        private int pagesArabicField;
+
+        private string pagesRomanField;
+        private string pagesArabicField;
 
         private OnixLegacyIllustrations illustrationsField;
 
@@ -1067,7 +1068,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int PagesRoman
+        public string PagesRoman
         {
             get
             {
@@ -1080,7 +1081,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int PagesArabic
+        public string PagesArabic
         {
             get
             {
@@ -1543,14 +1544,14 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int b254
+        public string b254
         {
             get { return PagesRoman; }
             set { PagesRoman = value; }
         }
 
         /// <remarks/>
-        public int b255
+        public string b255
         {
             get { return PagesArabic; }
             set { PagesArabic = value; }
