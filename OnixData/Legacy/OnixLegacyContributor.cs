@@ -40,9 +40,10 @@ namespace OnixData.Legacy
             ContributorRole    = "";
             PersonName         = "";
             PersonNameInverted = "";
-            NamesBeforeKey     = "";
+            NamesBeforeKey     = PrefixToKey;
             KeyNames           = "";
-            TitlesBeforeNames  = TitlesAfterNames = LettersAfterNames = "";
+            TitlesBeforeNames  = SuffixToKey = TitlesAfterNames = LettersAfterNames = "";
+            CorporateName      = "";
 
             onixNamesBeforeKey = onixKeyNames = onixLettersAndTitles = null;
         }
@@ -53,9 +54,12 @@ namespace OnixData.Legacy
         private string personNameField;
         private string personNameInvertedField;
         private string namesBeforeKeyField;
+        private string prefixToKeyNameField;
         private string keyNamesField;
+        private string suffixToKeyNameField;
         private string lettersAfterNamesField;
         private string titlesAfterNamesField;
+        private string corporateNameField;
 
         private string onixNamesBeforeKey;
         private string onixKeyNames;
@@ -220,6 +224,45 @@ namespace OnixData.Legacy
             }
         }
 
+        /// <remarks/>
+        public string CorporateName
+        {
+            get
+            {
+                return this.corporateNameField;
+            }
+            set
+            {
+                this.corporateNameField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string PrefixToKey
+        {
+            get
+            {
+                return this.prefixToKeyNameField;
+            }
+            set
+            {
+                this.prefixToKeyNameField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string SuffixToKey
+        {
+            get
+            {
+                return this.suffixToKeyNameField;
+            }
+            set
+            {
+                this.suffixToKeyNameField = value;
+            }
+        }
+
         #endregion
 
         #region Short Tags
@@ -285,6 +328,27 @@ namespace OnixData.Legacy
         {
             get { return TitlesAfterNames; }
             set { TitlesAfterNames = value; }
+        }
+
+        /// <remarks/>
+        public string b047
+        {
+            get { return CorporateName; }
+            set { CorporateName = value; }
+        }
+
+        /// <remarks/>
+        public string b247
+        {
+            get { return PrefixToKey; }
+            set { PrefixToKey = value; }
+        }
+
+        /// <remarks/>
+        public string b248
+        {
+            get { return SuffixToKey; }
+            set { SuffixToKey = value; }
         }
 
         #endregion
@@ -354,9 +418,16 @@ namespace OnixData.Legacy
                     }
                 }
             }
+            else if (!String.IsNullOrEmpty(this.CorporateName))
+            {
+                KeyNameBuilder.Append(CorporateName);
+            }
 
             if (!String.IsNullOrEmpty(LettersAfterNames))
+            {
+                LettersTitlesBuilder.Clear();
                 LettersTitlesBuilder.Append(LettersAfterNames);
+            }
 
             if (!String.IsNullOrEmpty(TitlesAfterNames))
             {
@@ -366,9 +437,15 @@ namespace OnixData.Legacy
                 LettersTitlesBuilder.Append(TitlesAfterNames);
             }
 
-            onixNamesBeforeKey   = KeyNamePrefixBuilder.ToString();
-            onixKeyNames         = KeyNameBuilder.ToString();
-            onixLettersAndTitles = LettersTitlesBuilder.ToString();
+            if (!String.IsNullOrEmpty(PrefixToKey))
+                KeyNamePrefixBuilder.Append(" " + PrefixToKey);
+
+            if (!String.IsNullOrEmpty(SuffixToKey))
+                LettersTitlesBuilder.Insert(0, SuffixToKey + " ");
+
+            onixNamesBeforeKey   = KeyNamePrefixBuilder.ToString().Trim();
+            onixKeyNames         = KeyNameBuilder.ToString().Trim();
+            onixLettersAndTitles = LettersTitlesBuilder.ToString().Trim();
         }
 
         #endregion
