@@ -369,7 +369,53 @@ namespace OnixData.Legacy
                 return asKeywordsList;
             }
         }
+		
+        public string OnixAudienceAgeFrom
+        {
+            get
+            {
+                string sAudAgeFrom = "";
 
+                OnixLegacyAudRange[] AudRangeList = audienceRangeField;
+                if ((AudRangeList == null) || (AudRangeList.Length <= 0))
+                    AudRangeList = shortAudienceRangeField;
+
+                if ((AudRangeList != null) && (AudRangeList.Length > 0))
+                {
+                    foreach (OnixLegacyAudRange TempAudRange in AudRangeList)
+                    {
+                        if (!String.IsNullOrEmpty(TempAudRange.USAgeFrom))
+                            sAudAgeFrom = TempAudRange.USAgeFrom;
+                    }
+                }
+
+                return sAudAgeFrom;
+            }
+        }
+
+        public string OnixAudienceAgeTo
+        {
+            get
+            {
+                string sAudAgeTo = "";
+
+                OnixLegacyAudRange[] AudRangeList = audienceRangeField;
+                if ((AudRangeList == null) || (AudRangeList.Length <= 0))
+                    AudRangeList = shortAudienceRangeField;
+
+                if ((AudRangeList != null) && (AudRangeList.Length > 0))
+                {
+                    foreach (OnixLegacyAudRange TempAudRange in AudRangeList)
+                    {
+                        if (!String.IsNullOrEmpty(TempAudRange.USAgeTo))
+                            sAudAgeTo = TempAudRange.USAgeTo;
+                    }
+                }
+
+                return sAudAgeTo;
+            }
+        }
+		
         public string OnixAudienceCode
         {
             get
