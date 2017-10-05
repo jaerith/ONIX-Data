@@ -570,7 +570,7 @@ namespace OnixData.Legacy
             }
         }
 
-        public OnixLegacyPrice USDPrice
+        public OnixLegacyPrice USDValidPrice
         {
             get
             {
