@@ -23,6 +23,11 @@ namespace OnixData.Legacy
         public const int CONST_AUD_RANGE_PRCN_FROM  = 3;
         public const int CONST_AUD_RANGE_PRCN_TO    = 4;
 
+        public const string CONST_AUD_GRADE_PRESCHOOL_CD  = "P";
+        public const string CONST_AUD_GRADE_PRESCHOOL_TXT = "PRE-SCHOOL";
+        public const string CONST_AUD_GRADE_KNDGRTN_CD    = "K";
+        public const string CONST_AUD_GRADE_KNDGRTN_TXT   = "KINDERGARTEN";
+
         #endregion
 
         public OnixLegacyAudRange()
@@ -47,7 +52,15 @@ namespace OnixData.Legacy
             {
                 string FoundAgeFrom = FindAudRangeValue(CONST_AUD_RANGE_TYPE_INTEREST_AGE, CONST_AUD_RANGE_PRCN_FROM);
                 if (String.IsNullOrEmpty(FoundAgeFrom))
+                {
                     FoundAgeFrom = FindAudRangeValue(CONST_AUD_RANGE_TYPE_READING_AGE, CONST_AUD_RANGE_PRCN_FROM);
+                    if (String.IsNullOrEmpty(FoundAgeFrom))
+                    {
+                        FoundAgeFrom = FindAudRangeValue(CONST_AUD_RANGE_TYPE_INTEREST_AGE, CONST_AUD_RANGE_PRCN_EXACT);
+                        if (String.IsNullOrEmpty(FoundAgeFrom))
+                            FoundAgeFrom = FindAudRangeValue(CONST_AUD_RANGE_TYPE_READING_AGE, CONST_AUD_RANGE_PRCN_EXACT);
+                    }
+                }
 
                 return FoundAgeFrom;
             }
@@ -59,7 +72,15 @@ namespace OnixData.Legacy
             {
                 string FoundAgeTo = FindAudRangeValue(CONST_AUD_RANGE_TYPE_INTEREST_AGE, CONST_AUD_RANGE_PRCN_TO);
                 if (String.IsNullOrEmpty(FoundAgeTo))
+                {
                     FoundAgeTo = FindAudRangeValue(CONST_AUD_RANGE_TYPE_READING_AGE, CONST_AUD_RANGE_PRCN_TO);
+                    if (String.IsNullOrEmpty(FoundAgeTo))
+                    {
+                        FoundAgeTo = FindAudRangeValue(CONST_AUD_RANGE_TYPE_INTEREST_AGE, CONST_AUD_RANGE_PRCN_EXACT);
+                        if (String.IsNullOrEmpty(FoundAgeTo))
+                            FoundAgeTo = FindAudRangeValue(CONST_AUD_RANGE_TYPE_READING_AGE, CONST_AUD_RANGE_PRCN_EXACT);
+                    }
+                }
 
                 return FoundAgeTo;
             }
