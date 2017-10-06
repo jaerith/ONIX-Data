@@ -369,7 +369,7 @@ namespace OnixData.Legacy
                 return asKeywordsList;
             }
         }
-		
+
         public string OnixAudienceAgeFrom
         {
             get
@@ -388,6 +388,9 @@ namespace OnixData.Legacy
                             sAudAgeFrom = TempAudRange.USAgeFrom;
                     }
                 }
+
+                if (String.IsNullOrEmpty(sAudAgeFrom))
+                    sAudAgeFrom = TranslateAudienceGradeToAge(OnixAudienceGradeFrom);
 
                 return sAudAgeFrom;
             }
@@ -412,10 +415,13 @@ namespace OnixData.Legacy
                     }
                 }
 
+                if (String.IsNullOrEmpty(sAudAgeTo))
+                    sAudAgeTo = TranslateAudienceGradeToAge(OnixAudienceGradeTo);
+
                 return sAudAgeTo;
             }
         }
-		
+
         public string OnixAudienceCode
         {
             get
@@ -442,6 +448,52 @@ namespace OnixData.Legacy
                 }
 
                 return sAudCode;
+            }
+        }
+
+        public string OnixAudienceGradeFrom
+        {
+            get
+            {
+                string sAudGradeFrom = "";
+
+                OnixLegacyAudRange[] AudRangeList = audienceRangeField;
+                if ((AudRangeList == null) || (AudRangeList.Length <= 0))
+                    AudRangeList = shortAudienceRangeField;
+
+                if ((AudRangeList != null) && (AudRangeList.Length > 0))
+                {
+                    foreach (OnixLegacyAudRange TempAudRange in AudRangeList)
+                    {
+                        if (!String.IsNullOrEmpty(TempAudRange.USGradeFrom))
+                            sAudGradeFrom = TempAudRange.USGradeFrom;
+                    }
+                }
+
+                return sAudGradeFrom;
+            }
+        }
+
+        public string OnixAudienceGradeTo
+        {
+            get
+            {
+                string sAudGradeTo = "";
+
+                OnixLegacyAudRange[] AudRangeList = audienceRangeField;
+                if ((AudRangeList == null) || (AudRangeList.Length <= 0))
+                    AudRangeList = shortAudienceRangeField;
+
+                if ((AudRangeList != null) && (AudRangeList.Length > 0))
+                {
+                    foreach (OnixLegacyAudRange TempAudRange in AudRangeList)
+                    {
+                        if (!String.IsNullOrEmpty(TempAudRange.USGradeTo))
+                            sAudGradeTo = TempAudRange.USGradeTo;
+                    }
+                }
+
+                return sAudGradeTo;
             }
         }
 
@@ -1834,6 +1886,27 @@ namespace OnixData.Legacy
                         NotForSaleRightsList.Any(x => x.RightsCountryList.Contains("US"));
                 }
             }
+        }
+
+        public string TranslateAudienceGradeToAge(string psGradeValue)
+        {
+            int    nAgeVal = 0;
+            string sAgeVal = "";
+
+            if (!String.IsNullOrEmpty(psGradeValue))
+            {
+                if ((psGradeValue == OnixLegacyAudRange.CONST_AUD_GRADE_PRESCHOOL_CD) || (psGradeValue == OnixLegacyAudRange.CONST_AUD_GRADE_PRESCHOOL_TXT))
+                    nAgeVal = 4;
+                else if ((psGradeValue == OnixLegacyAudRange.CONST_AUD_GRADE_KNDGRTN_CD) || (psGradeValue == OnixLegacyAudRange.CONST_AUD_GRADE_KNDGRTN_TXT))
+                    nAgeVal = 5;
+                else if (Int32.TryParse(psGradeValue, out nAgeVal))
+                    nAgeVal += 5;
+            }
+
+            if (nAgeVal > 0)
+                sAgeVal = Convert.ToString(nAgeVal);
+
+            return sAgeVal;
         }
 
         #endregion
