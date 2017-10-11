@@ -230,7 +230,11 @@ namespace OnixData.Extensions
 
                 // sprintf(acTemp, "%c", cCurrentCheckDigit);
 
-                TempVal = Convert.ToInt32(new String(new char[] { cCurrentCheckDigit } ));
+                if (cCurrentCheckDigit == 'X')
+                    TempVal = 0;
+                else
+                    TempVal = Convert.ToInt32(new String(new char[] { cCurrentCheckDigit } ));
+
                 if( ((CheckSum == 10) && (cCurrentCheckDigit == 'X')) ||
                     ((CheckSum == 11) && (cCurrentCheckDigit == '0')) ||
                     (CheckSum == TempVal))
