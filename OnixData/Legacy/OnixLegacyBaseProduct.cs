@@ -33,9 +33,9 @@ namespace OnixData.Legacy
             productIdentifierField  = shortProductIdentifierField  = new OnixLegacyProductId[0];
             productContentTypeField = shortProductContentTypeField = new string[0];
             publisherField          = shortPublisherField          = new OnixLegacyPublisher[0];
+            productFormDetailField  = shortProductFormDetailField  = new string[0];
 
             ProductForm = "";
-            ProductFormDetail      = "";
             ProductFormDescription = "";
             EpubType               = "";
             EpubTypeVersion        = "";
@@ -60,15 +60,17 @@ namespace OnixData.Legacy
         protected string[] productContentTypeField;
         protected string[] shortProductContentTypeField;
 
-        protected string   barCodeField;
-        protected string   productFormField;
-        protected string   productFormDetailField;
-        protected int      numberOfPiecesField;
-        protected int      tradeCategoryField;
-        protected string   epubTypeField;
-        protected string   epubTypeVersionField;
-        protected string   epubFormatDescriptionField;
-        protected string   productFormDescriptionField;
+        protected string[] productFormDetailField;
+        protected string[] shortProductFormDetailField;
+
+        protected string    barCodeField;
+        protected string    productFormField;
+        protected int       numberOfPiecesField;
+        protected int       tradeCategoryField;
+        protected string    epubTypeField;
+        protected string    epubTypeVersionField;
+        protected string    epubFormatDescriptionField;
+        protected string    productFormDescriptionField;
 
         protected string imprintNameField;
         protected string publisherNameField;
@@ -242,6 +244,23 @@ namespace OnixData.Legacy
             }
         }
 
+        public string[] OnixProductFormDetailList
+        {
+            get
+            {
+                string[] ProductFormDetailList = null;
+
+                if (this.productFormDetailField != null)
+                    ProductFormDetailList = this.productFormDetailField;
+                else if (this.shortProductFormDetailField != null)
+                    ProductFormDetailList = this.shortProductFormDetailField;
+                else
+                    ProductFormDetailList = new string[0];
+
+                return ProductFormDetailList;
+            }
+        }        
+
         public OnixLegacyPublisher[] OnixPublisherList
         {
             get
@@ -329,7 +348,8 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public string ProductFormDetail
+        [System.Xml.Serialization.XmlElementAttribute("ProductFormDetail")]
+        public string[] ProductFormDetail
         {
             get
             {
@@ -562,10 +582,11 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public string b333
+        [System.Xml.Serialization.XmlElementAttribute("b333")]
+        public string[] b333
         {
-            get { return ProductFormDetail; }
-            set { ProductFormDetail = value; }
+            get { return shortProductFormDetailField; }
+            set { shortProductFormDetailField = value; }
         }
 
         public int b210

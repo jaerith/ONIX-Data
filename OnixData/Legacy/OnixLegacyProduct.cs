@@ -40,7 +40,7 @@ namespace OnixData.Legacy
             BookFormDetail         = "";
             ProductPackaging       = 0;
             ProductForm            = "";
-            ProductFormDetail      = "";
+            ProductFormDetail      = new string[0];
             ProductFormDescription = "";
             ProductContentType     = new string[0];
             EpubType               = "";
