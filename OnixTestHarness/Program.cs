@@ -27,9 +27,14 @@ namespace OnixTestHarness
                 string sOnixXml        = File.ReadAllText(@"C:\tmp\tmp2\onix.sample.v3.xml");
                 string sLegacyShortXml = File.ReadAllText(@"C:\tmp\tmp2\onix.legacy.short.xml");
 
+                string sEan     = "117";
+                bool   bIsValid = sEan.IsValidEAN();
+
                 if (true)
                 {
-                    using (OnixLegacyParser onixLegacyShortParser = new OnixLegacyParser(new FileInfo(sLegShortFile), true))
+                    // using (OnixLegacyParser onixLegacyShortParser = new OnixLegacyParser(new FileInfo(sLegShortFile), true))
+                    // using (OnixLegacyParser onixLegacyShortParser = new OnixLegacyParser(new FileInfo(sLegShortFile), true, false, false))
+                    using (OnixLegacyParser onixLegacyShortParser = new OnixLegacyParser(sLegacyShortXml, true, false, false))
                     {
                         bool ValidFile = onixLegacyShortParser.ValidateFile();
 
@@ -40,6 +45,15 @@ namespace OnixTestHarness
                             int x = 0;
 
                             // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
+
+                            if ((TmpProduct.OnixContributorList != null) && (TmpProduct.OnixContributorList.Length > 0))
+                            {
+                                foreach (OnixLegacyContributor TempContributor in TmpProduct.OnixContributorList)
+                                {
+                                    System.Console.WriteLine("Key Names (" + TempContributor.OnixKeyNames +
+                                                             "), Names before Key (" + TempContributor.OnixNamesBeforeKey + ")");
+                                }
+                            }
 
                             if ((TmpProduct.OnixAudRangeList != null) && (TmpProduct.OnixAudRangeList.Length > 0))
                             {
@@ -162,7 +176,10 @@ namespace OnixTestHarness
 
                             OnixContributor MainAuthor = TmpProduct.PrimaryAuthor;
 
-                            OnixData.Version3.Price.OnixPrice USDPrice = TmpProduct.USDRetailPrice;
+                            if (TmpProduct.HasUSDRetailPrice())
+                            {
+                                OnixData.Version3.Price.OnixPrice USDPrice = TmpProduct.USDRetailPrice;
+                            }
 
                             // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
 
