@@ -32,6 +32,11 @@ namespace OnixData.Legacy
                 CONST_PRICE_TYPE_FPT_BIL_EXCL_TAX, CONST_PRICE_TYPE_PROP_MISC_1
               };
 
+        public readonly int[] CONST_SOUGHT_SUPP_COST_PRICE_TYPES
+            = {
+                CONST_PRICE_TYPE_SUPP_COST
+              };
+
         public readonly int[] CONST_SOUGHT_PRICE_TYPES 
             = {
                 CONST_PRICE_TYPE_RRP_EXCL, CONST_PRICE_TYPE_SUPP_COST, CONST_PRICE_TYPE_RRP_PREP,
@@ -68,6 +73,11 @@ namespace OnixData.Legacy
         public bool HasSoughtRetailPriceType()
         {
             return CONST_SOUGHT_RETAIL_PRICE_TYPES.Contains(this.PriceType);
+        }
+
+        public bool HasSoughtSupplyCostPriceType()
+        {
+            return CONST_SOUGHT_SUPP_COST_PRICE_TYPES.Contains(this.PriceType);
         }
 
         public bool HasSoughtPriceTypeCode()
