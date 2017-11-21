@@ -656,6 +656,33 @@ namespace OnixData.Legacy
                 return USDPrice;
             }
         }
+		
+        public OnixLegacyPrice USDSupplyCostPrice
+        {
+            get
+            {
+                OnixLegacyPrice USDPrice = new OnixLegacyPrice();
+
+                if (OnixSupplyDetailList != null)
+                {
+                    foreach (OnixLegacySupplyDetail TmpSupplyDetail in OnixSupplyDetailList)
+                    {
+                        if ((TmpSupplyDetail.OnixPriceList != null) && (TmpSupplyDetail.OnixPriceList.Length > 0))
+                        {
+                            OnixLegacyPrice[] Prices = TmpSupplyDetail.OnixPriceList;
+
+                            USDPrice =
+                                Prices.Where(x => x.HasSoughtSupplyCostPriceType() && (x.CurrencyCode == "USD")).FirstOrDefault();
+
+                            if ((USDPrice != null) && (USDPrice.PriceAmount > 0))
+                                break;
+                        }
+                    }
+                }
+
+                return USDPrice;
+            }
+        }		
 
         public OnixLegacyPrice USDRetailPrice
         {
