@@ -57,7 +57,7 @@ namespace OnixData
             this.PerformValidFlag = ExecuteValidation;
 
             if (PreprocessOnixFile)
-                LegacyOnixFilepath.ReplaceIsoLatinEncodings(true);
+                LegacyOnixFilepath.ReplaceIsoLatinEncodingsMT(true);
 
             bool   ReferenceVersion = DetectVersionReference(LegacyOnixFilepath);
             string sOnixMsgTag      = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
@@ -81,7 +81,7 @@ namespace OnixData
             this.PerformValidFlag = ExecuteValidation;
 
             if (PreprocessOnixFile)
-                LegacyOnixFilepath.ReplaceIsoLatinEncodings(true);
+                LegacyOnixFilepath.ReplaceIsoLatinEncodingsMT(true);
         }
 
         static public XmlReader CreateXmlReader(FileInfo LegacyOnixFilepath, bool ReportValidationWarnings, bool ExecutionValidation)
