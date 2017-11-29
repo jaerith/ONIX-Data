@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace OnixData.Extensions
 {
@@ -10,6 +13,7 @@ namespace OnixData.Extensions
 
         private const int CONST_MSG_REFERENCE_LENGTH = 2048;
         private const int CONST_BLOCK_COUNT_SIZE     = 50000000;
+        private const int FILTER_THREAD_COUNT        = 3;
 
         private const string CONST_FILENAME_SKIP_REPLACE_MARKER = "SKIPREPLACECHARENC";
 
@@ -74,6 +78,7 @@ namespace OnixData.Extensions
 
                                         // Finally, we write the block
                                         OnixFileWriter.WriteLine(sFilteredContents);
+
                                         TempLineBuilder.Clear();
 
                                         if (DebugFlag)
@@ -113,7 +118,181 @@ namespace OnixData.Extensions
         /// perform the work on behalf of ELT utilization (i.e., by translating any ONIX shorthand codes that map to Unicode encodings).
         /// In particular, this method places on a focus on ISO Latin encodings.
         /// 
+        /// NOTE: This method uses multithreading.
+        /// 
         /// <param name="PerformInMemory">Indicates whether or not the encoding replacements are performed entirely in memory.</param>
+        /// <param name="ShouldReplaceTechEncodings">Indicates whether or not tech encodings should be replaced.</param>
+        /// <returns>N/A</returns>
+        /// </summary>
+        public static void ReplaceIsoLatinEncodingsMT(this FileInfo ParserFileInfo, bool PerformInMemory, bool ShouldReplaceTechEncodings = true)
+        {
+            if ((ParserFileInfo != null) && ParserFileInfo.Exists && !ParserFileInfo.FullName.Contains(CONST_FILENAME_SKIP_REPLACE_MARKER))
+            {
+                System.Console.WriteLine("\nReplaceIsoLatinEncodings in Multithread Mode \n");
+
+                System.Console.WriteLine("File is of length [" + ParserFileInfo.Length + "]...");
+                System.Console.Out.Flush();
+
+                // Only perform in-memory replacement if flag is set and if the file is less than 250 MB
+                if (PerformInMemory && (ParserFileInfo.Length < 300000000))
+                {
+                    StringBuilder AllFileText = new StringBuilder(File.ReadAllText(ParserFileInfo.FullName));
+
+                    AllFileText.ReplaceIsoLatinEncodings(ShouldReplaceTechEncodings);
+
+                    File.WriteAllText(ParserFileInfo.FullName, AllFileText.ToString());
+                }
+                else
+                {
+                    System.Console.WriteLine("\nReplaceIsoLatinEncodings in Multithread Mode - Threads Started \n");
+
+                    int    nThreadCount = FILTER_THREAD_COUNT;
+                    string sTmpFile     = ParserFileInfo.FullName + ".tmp";
+
+                    FileInfo fTmpFile = new FileInfo(sTmpFile);
+                    if (!fTmpFile.Exists)
+                    {
+                        using (StreamReader OnixFileReader = new StreamReader(ParserFileInfo.FullName))
+                        {
+                            using (StreamWriter OnixFileWriter = new StreamWriter(sTmpFile))
+                            {
+                                int nLineCount  = 0;
+                                int nThreadIdx  = 0;
+                                int nBlockCount = 1;
+
+                                StringBuilder[] BlockBuilders     = new StringBuilder[nThreadCount];
+                                Thread[]        FilterTextThreads = new Thread[nThreadCount];
+
+                                for (int nIdx = 0; nIdx < nThreadCount; ++nIdx)
+                                    BlockBuilders[nIdx] = new StringBuilder(CONST_BLOCK_COUNT_SIZE);
+
+                                for (nLineCount = 0; !OnixFileReader.EndOfStream; ++nLineCount)
+                                {
+                                    BlockBuilders[nThreadIdx].Append(OnixFileReader.ReadLine());
+                                    BlockBuilders[nThreadIdx].Append("\n");
+
+                                    if (BlockBuilders[nThreadIdx].Length >= CONST_BLOCK_COUNT_SIZE)
+                                    {
+                                        StringBuilder TargetBlock = BlockBuilders[nThreadIdx];
+
+                                        System.Console.WriteLine("\tReplaceIsoLatinEncodings in Multithread Mode - Starting thread [" + 
+                                                                 nThreadIdx + "] and Content w/ Size(" + TargetBlock.Length + ")");
+                                        System.Console.Out.Flush();
+
+                                        FilterTextThreads[nThreadIdx] = new Thread(() => FilterTextThread(TargetBlock));
+                                        FilterTextThreads[nThreadIdx].Start();
+
+                                        nThreadIdx++;
+                                    }
+
+                                    // For large files (i.e., bigger than CONST_BLOCK_COUNT_SIZE x nThreadCount), we'll let these threads finish
+                                    // before we continue on
+                                    if (nThreadIdx == nThreadCount)
+                                    {
+                                        PersistTextBlocks(FilterTextThreads, BlockBuilders, OnixFileWriter, ref nBlockCount);
+                                        nThreadIdx = 0;
+                                    }
+                                }
+
+                                StringBuilder LastBlock = BlockBuilders[nThreadIdx];
+                                // If there's any remaining text to filter, let's assign it to one additional thread
+                                if (LastBlock.Length > 0)
+                                {
+                                    System.Console.WriteLine("\tReplaceIsoLatinEncodings in Multithread Mode - Starting thread [" + nThreadIdx + "]");
+                                    System.Console.Out.Flush();
+
+                                    FilterTextThreads[nThreadIdx] = new Thread(() => FilterTextThread(LastBlock));
+                                    FilterTextThreads[nThreadIdx].Start();
+
+                                    nThreadIdx++;
+                                }
+
+                                // Now let the remaining threads finish
+                                PersistTextBlocks(FilterTextThreads, BlockBuilders, OnixFileWriter, ref nBlockCount);
+
+                            } // using StreamWriter
+
+                        } // using StreamReader
+                    }
+
+                    System.Console.WriteLine("\nReplaceIsoLatinEncodings in Multithread Mode - Threads Finished \n");
+
+                    File.Delete(ParserFileInfo.FullName);
+
+                    File.Move(sTmpFile, ParserFileInfo.FullName);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// Since the .NET XML parser has very limited support for incorporating DTD/XSD/ENT/ELT files, this method will 
+        /// perform the work on behalf of ELT utilization (i.e., by translating any ONIX shorthand codes that map to Unicode encodings).
+        /// In particular, this method places on a focus on ISO Latin encodings.
+        /// 
+        /// <param name="poParserFileBlock">Text block whose content needs to be filtered (encoding replacement, etc.)</param>
+        /// <returns>N/A</returns>
+        /// </summary>
+        public static void FilterTextThread(StringBuilder poParserFileBlock)
+        {
+            if (poParserFileBlock.Length > 0)
+            {
+                System.Console.WriteLine("Thread -> Content is of length [" + poParserFileBlock.Length + "]...");
+                System.Console.Out.Flush();
+
+                poParserFileBlock.ReplaceIsoLatinEncodings(true);
+
+                string sCurrentBlock = poParserFileBlock.ToString();
+
+                //
+                // NOTE: This section is currently not needed
+                //
+                // string r = "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]";
+                // string ChangedFileContents = 
+                //     System.Text.RegularExpressions.Regex.Replace((AllFileContents, r, "", System.Text.RegularExpressions.RegexOptions.Compiled);
+                //
+
+                if (DebugFlag)
+                {
+                    System.Console.WriteLine("\tThread -> Processed encodings for block of size (" + poParserFileBlock.Length + ")..." + DateTime.Now);
+                    System.Console.Out.Flush();
+                }
+            }
+        }
+
+        /// 
+        /// Since the .NET XML parser has very limited support for incorporating DTD/XSD/ENT/ELT files, this method will 
+        /// perform the work on behalf of ELT utilization (i.e., by translating any ONIX shorthand codes that map to Unicode encodings).
+        /// In particular, this method places on a focus on ISO Latin encodings.
+        /// 
+        /// <param name="poParserFileBlock">Text block whose content needs to be filtered (encoding replacement, etc.)</param>
+        /// <returns>N/A</returns>
+        /// </summary>
+        public static void PersistTextBlocks(Thread[] paFilterThreads, StringBuilder[] paFileBlocks, StreamWriter poOnixFileWriter, ref int pnBlockCount)
+        {
+            for (int nIdx = 0; nIdx < paFilterThreads.GetLength(0); ++nIdx)
+            {
+                StringBuilder CurrentBlock = paFileBlocks[nIdx];
+
+                paFilterThreads[nIdx].Join();
+                System.Console.WriteLine("ReplaceIsoLatinEncodings in Multithread Mode - Finished Block [" + pnBlockCount + "].");
+
+                pnBlockCount++;
+
+                poOnixFileWriter.WriteLine(CurrentBlock);
+                poOnixFileWriter.Flush();
+
+                CurrentBlock.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// Since the .NET XML parser has very limited support for incorporating DTD/XSD/ENT/ELT files, this method will 
+        /// perform the work on behalf of ELT utilization (i.e., by translating any ONIX shorthand codes that map to Unicode encodings).
+        /// In particular, this method places on a focus on ISO Latin encodings.
+        /// 
+        /// <param name="ParserFileContent">Text to be  performed entirely in memory.</param>
         /// <param name="ShouldReplaceTechEncodings">Indicates whether or not tech encodings should be replaced.</param>
         /// <returns>N/A</returns>
         /// </summary>
