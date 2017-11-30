@@ -54,9 +54,9 @@ namespace OnixData.Legacy
 
             ContributorStatement = "";
 
-            Language    = new OnixLegacyLanguage();
+            Language = new OnixLegacyLanguage();
 
-            ItemNumberWithinSet = NumberOfPages = -1;
+            NumberOfPages = -1;
 
             PagesRoman = PagesArabic = "";
 
@@ -73,6 +73,7 @@ namespace OnixData.Legacy
             contributorField    = shortContributorField    = new OnixLegacyContributor[0];
             extentField         = shortExtentField         = new OnixLegacyExtent[0];
             seriesField         = shortSeriesField         = new OnixLegacySeries[0];
+            setField            = shortSetField            = new OnixLegacySet[0];
             subjectField        = shortSubjectField        = new OnixLegacySubject[0];
             complexityField     = shortComplexityField     = new OnixLegacyComplexity[0];            
             imprintField        = shortImprintField        = new OnixLegacyImprint[0];
@@ -118,8 +119,7 @@ namespace OnixData.Legacy
         private OnixLegacyLanguage languageField;
         private OnixLegacySubject  mainSubjectField;
 
-        private int itemNumberWithinSetField;
-        private int numberOfPagesField;
+        private int    numberOfPagesField;
 
         private string pagesRomanField;
         private string pagesArabicField;
@@ -139,6 +139,8 @@ namespace OnixData.Legacy
         private OnixLegacyExtent[]         shortExtentField;
         private OnixLegacySeries[]         seriesField;
         private OnixLegacySeries[]         shortSeriesField;
+        private OnixLegacySet[]            setField;
+        private OnixLegacySet[]            shortSetField;
         private OnixLegacySubject[]        subjectField;
         private OnixLegacySubject[]        shortSubjectField;
         private OnixLegacyComplexity[]     complexityField;
@@ -198,7 +200,7 @@ namespace OnixData.Legacy
                 if ((SubjectList != null) && (SubjectList.Length > 0))
                 {
                     FoundSubject =
-                        SubjectList.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID).FirstOrDefault();
+                        SubjectList.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID).LastOrDefault();
                 }
 
                 return FoundSubject;
@@ -215,7 +217,7 @@ namespace OnixData.Legacy
                 if ((SubjectList != null) && (SubjectList.Length > 0))
                 {
                     FoundSubject =
-                        SubjectList.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_REGION_ID).FirstOrDefault();
+                        SubjectList.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_REGION_ID).LastOrDefault();
                 }
 
                 return FoundSubject;
@@ -347,7 +349,7 @@ namespace OnixData.Legacy
                 if ((SubjectList != null) && (SubjectList.Length > 0))
                 {
                     FoundSubject =
-                        SubjectList.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_KEYWORDS).FirstOrDefault();
+                        SubjectList.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_KEYWORDS).LastOrDefault();
                 }
 
                 if ((FoundSubject != null) && !String.IsNullOrEmpty(FoundSubject.SubjectHeadingText))
@@ -438,8 +440,8 @@ namespace OnixData.Legacy
 
                     if ((AudienceList != null) && (AudienceList.Length > 0))
                     {
-                        OnixLegacyAudience OnixAudCode = 
-                            AudienceList.Where(x => x.AudienceCodeType == OnixLegacyAudience.CONST_AUD_TYPE_ONIX).FirstOrDefault();
+                        OnixLegacyAudience OnixAudCode =
+                            AudienceList.Where(x => x.AudienceCodeType == OnixLegacyAudience.CONST_AUD_TYPE_ONIX).LastOrDefault();
 
                         if ((OnixAudCode != null) && !String.IsNullOrEmpty(OnixAudCode.AudienceCodeValue))
                             sAudCode = OnixAudCode.AudienceCodeValue;
@@ -515,10 +517,10 @@ namespace OnixData.Legacy
                     {
                         OnixLegacyTitle FoundTitle =
                             TitleList.Where(x => 
-                                x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE || x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE).FirstOrDefault();
+                                x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE || x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE).LastOrDefault();
 
                         if ((FoundTitle == null) || String.IsNullOrEmpty(FoundTitle.OnixTitle))
-                            FoundTitle = TitleList.Where(x => (x.TitleType < 0)).FirstOrDefault();
+                            FoundTitle = TitleList.Where(x => (x.TitleType < 0)).LastOrDefault();
 
                         if ((FoundTitle != null) && !String.IsNullOrEmpty(FoundTitle.OnixTitle))
                             TitleBuilder.Append(FoundTitle.OnixTitle);
@@ -556,7 +558,7 @@ namespace OnixData.Legacy
                 if ((ImprintList != null) && (ImprintList.Length > 0))
                 {
                     OnixLegacyImprint FoundImprint =
-                        ImprintList.Where(x => x.NameCodeType == OnixLegacyImprint.CONST_IMPRINT_ROLE_PROP).FirstOrDefault();
+                        ImprintList.Where(x => x.NameCodeType == OnixLegacyImprint.CONST_IMPRINT_ROLE_PROP).LastOrDefault();
 
                     if (FoundImprint != null)
                         FoundImprintName = FoundImprint.ImprintName;
@@ -599,7 +601,7 @@ namespace OnixData.Legacy
                 OnixLegacySeries[] SeriesList = OnixSeriesList;
                 if ((SeriesList != null) && (SeriesList.Length > 0))
                 {
-                    OnixLegacySeries FoundSeries = SeriesList.Where(x => !String.IsNullOrEmpty(x.NumberWithinSeries)).FirstOrDefault();
+                    OnixLegacySeries FoundSeries = SeriesList.Where(x => !String.IsNullOrEmpty(x.NumberWithinSeries)).LastOrDefault();
                     if (FoundSeries != null)
                         FoundSeriesNum = FoundSeries.NumberWithinSeries;
                 }
@@ -656,7 +658,7 @@ namespace OnixData.Legacy
                 return USDPrice;
             }
         }
-		
+
         public OnixLegacyPrice USDSupplyCostPrice
         {
             get
@@ -682,7 +684,7 @@ namespace OnixData.Legacy
 
                 return USDPrice;
             }
-        }		
+        }
 
         public OnixLegacyPrice USDRetailPrice
         {
@@ -993,6 +995,23 @@ namespace OnixData.Legacy
             }
         }
 
+        public OnixLegacySet[] OnixSetList
+        {
+            get
+            {
+                OnixLegacySet[] Set = null;
+
+                if (this.setField != null)
+                    Set = this.setField;
+                else if (this.shortSetField != null)
+                    Set = this.shortSetField;
+                else
+                    Set = new OnixLegacySet[0];
+
+                return Set;
+            }
+        }
+
         public OnixLegacySupplyDetail[] OnixSupplyDetailList
         {
             get
@@ -1034,527 +1053,293 @@ namespace OnixData.Legacy
         /// <remarks/>
         public string BookFormDetail
         {
-            get
-            {
-                return this.bookFormDetailField;
-            }
-            set
-            {
-                this.bookFormDetailField = value;
-            }
+            get { return this.bookFormDetailField; }
+            set { this.bookFormDetailField = value; }
         }
 
         /// <remarks/>
         public int ProductPackaging
         {
-            get
-            {
-                return this.productPackagingField;
-            }
-            set
-            {
-                this.productPackagingField = value;
-            }
+            get { return this.productPackagingField; }
+            set { this.productPackagingField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("EditionTypeCode")]
         public string[] EditionTypeCode
         {
-            get
-            {
-                return this.editionTypeCodeField;
-            }
-            set
-            {
-                this.editionTypeCodeField = value;
-            }
+            get { return this.editionTypeCodeField; }
+            set { this.editionTypeCodeField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("EditionNumber")]
         public string[] EditionNumber
         {
-            get
-            {
-                return this.editionNumberField;
-            }
-            set
-            {
-                this.editionNumberField = value;
-            }
+            get { return this.editionNumberField; }
+            set { this.editionNumberField = value; }
         }
 
         /// <remarks/>
         public string EditionStatement
         {
-            get
-            {
-                return this.editionStatementField;
-            }
-            set
-            {
-                this.editionStatementField = value;
-            }
+            get { return this.editionStatementField; }
+            set { this.editionStatementField = value; }
         }
 
         /// <remarks/>
         public string DistinctiveTitle
         {
-            get
-            {
-                return this.distinctiveTitleField;
-            }
-            set
-            {
-                this.distinctiveTitleField = value;
-            }
+            get { return this.distinctiveTitleField; }
+            set { this.distinctiveTitleField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Title")]
         public OnixLegacyTitle[] Title
         {
-            get
-            {
-                return this.titleField;
-            }
-            set
-            {
-                this.titleField = value;
-            }
+            get { return this.titleField; }
+            set { this.titleField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Contributor")]
         public OnixLegacyContributor[] Contributor
         {
-            get
-            {
-                return this.contributorField;
-            }
-            set
-            {
-                this.contributorField = value;
-            }
+            get { return this.contributorField; }
+            set { this.contributorField = value; }
         }
 
         /// <remarks/>
         public string ContributorStatement
         {
-            get
-            {
-                return this.contributorStatementField;
-            }
-            set
-            {
-                this.contributorStatementField = value;
-            }
+            get { return this.contributorStatementField; }
+            set { this.contributorStatementField = value; }
         }
 
         /// <remarks/>
         public OnixLegacyLanguage Language
         {
-            get
-            {
-                return this.languageField;
-            }
-            set
-            {
-                this.languageField = value;
-            }
-        }
-
-        
-        /// <remarks/>
-        public int ItemNumberWithinSet
-        {
-            get
-            {
-                return this.itemNumberWithinSetField;
-            }
-            set
-            {
-                this.itemNumberWithinSetField = value;
-            }
+            get { return this.languageField; }
+            set { this.languageField = value; }
         }
 
         /// <remarks/>
         public int NumberOfPages
         {
-            get
-            {
-                return this.numberOfPagesField;
-            }
-            set
-            {
-                this.numberOfPagesField = value;
-            }
+            get { return this.numberOfPagesField; }
+            set { this.numberOfPagesField = value; }
         }
 
         /// <remarks/>
         public string PagesRoman
         {
-            get
-            {
-                return this.pagesRomanField;
-            }
-            set
-            {
-                this.pagesRomanField = value;
-            }
+            get { return this.pagesRomanField; }
+            set { this.pagesRomanField = value; }
         }
 
         /// <remarks/>
         public string PagesArabic
         {
-            get
-            {
-                return this.pagesArabicField;
-            }
-            set
-            {
-                this.pagesArabicField = value;
-            }
+            get { return this.pagesArabicField; }
+            set { this.pagesArabicField = value; }
         }
 
         /// <remarks/>
         public OnixLegacyIllustrations Illustrations
         {
-            get
-            {
-                return this.illustrationsField;
-            }
-            set
-            {
-                this.illustrationsField = value;
-            }
+            get { return this.illustrationsField; }
+            set { this.illustrationsField = value; }
         }
 
         /// <remarks/>
         public string BASICMainSubject
         {
-            get
-            {
-                return this.basicMainSubjectField;
-            }
-            set
-            {
-                this.basicMainSubjectField = value;
-            }
+            get { return this.basicMainSubjectField; }
+            set { this.basicMainSubjectField = value; }
         }
 
         /// <remarks/>
         public OnixLegacySubject MainSubject
         {
-            get
-            {
-                return this.mainSubjectField;
-            }
-            set
-            {
-                this.mainSubjectField = value;
-            }
+            get { return this.mainSubjectField; }
+            set { this.mainSubjectField = value; }
         }
 
         /// <remarks/> 
         public string AudienceCode
         {
-            get
-            {
-                return this.audienceCodeField;
-            }
-            set
-            {
-                this.audienceCodeField = value;
-            }
+            get { return this.audienceCodeField; }
+            set { this.audienceCodeField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Extent")]
         public OnixLegacyExtent[] Extent
         {
-            get
-            {
-                return this.extentField;
-            }
-            set
-            {
-                this.extentField = value;
-            }
+            get { return this.extentField; }
+            set { this.extentField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Series")]
         public OnixLegacySeries[] Series
         {
-            get
-            {
-                return this.seriesField;
-            }
-            set
-            {
-                this.seriesField = value;
-            }
+            get { return this.seriesField; }
+            set { this.seriesField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Set")]
+        public OnixLegacySet[] Set
+        {
+            get { return this.setField; }
+            set { this.setField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Subject")]
         public OnixLegacySubject[] Subject
         {
-            get
-            {
-                return this.subjectField;
-            }
-            set
-            {
-                this.subjectField = value;
-            }
+            get { return this.subjectField; }
+            set { this.subjectField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Complexity")]
         public OnixLegacyComplexity[] Complexity
         {
-            get
-            {
-                return this.complexityField;
-            }
-            set
-            {
-                this.complexityField = value;
-            }
+            get { return this.complexityField; }
+            set { this.complexityField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Audience")]
         public OnixLegacyAudience[] Audience
         {
-            get
-            {
-                return this.audienceField;
-            }
-            set
-            {
-                this.audienceField = value;
-            }
+            get { return this.audienceField; }
+            set { this.audienceField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("AudienceRange")]
         public OnixLegacyAudRange[] AudienceRange
         {
-            get
-            {
-                return this.audienceRangeField;
-            }
-            set
-            {
-                this.audienceRangeField = value;
-            }
+            get { return this.audienceRangeField; }
+            set { this.audienceRangeField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("OtherText")]
         public OnixLegacyOtherText[] OtherText
         {
-            get
-            {
-                return this.otherTextField;
-            }
-            set
-            {
-                this.otherTextField = value;
-            }
+            get { return this.otherTextField; }
+            set { this.otherTextField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("MediaFile")]
         public OnixLegacyMediaFile[] MediaFile
         {
-            get
-            {
-                return this.mediaFileField;
-            }
-            set
-            {
-                this.mediaFileField = value;
-            }
+            get { return this.mediaFileField; }
+            set { this.mediaFileField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Imprint")]
         public OnixLegacyImprint[] Imprint
         {
-            get
-            {
-                return this.imprintField;
-            }
-            set
-            {
-                this.imprintField = value;
-            }
+            get { return this.imprintField; }
+            set { this.imprintField = value; }
         }
 
         /// <remarks/>
         public string CityOfPublication
         {
-            get
-            {
-                return this.cityOfPublicationField;
-            }
-            set
-            {
-                this.cityOfPublicationField = value;
-            }
+            get { return this.cityOfPublicationField; }
+            set { this.cityOfPublicationField = value; }
         }
 
         /// <remarks/>
         public string CountryOfPublication
         {
-            get
-            {
-                return this.countryOfPublicationField;
-            }
-            set
-            {
-                this.countryOfPublicationField = value;
-            }
+            get { return this.countryOfPublicationField; }
+            set { this.countryOfPublicationField = value; }
         }
 
         /// <remarks/>
         public string PublishingStatus
         {
-            get
-            {
-                return this.publishingStatusField;
-            }
-            set
-            {
-                this.publishingStatusField = value;
-            }
+            get { return this.publishingStatusField; }
+            set { this.publishingStatusField = value; }
         }
 
         /// <remarks/>
         public string AnnouncementDate
         {
-            get
-            {
-                return this.announcementDateField;
-            }
-            set
-            {
-                this.announcementDateField = value;
-            }
+            get { return this.announcementDateField; }
+            set { this.announcementDateField = value; }
         }
 
         /// <remarks/>
         public string TradeAnnouncementDate
         {
-            get
-            {
-                return this.tradeAnnouncementDateField;
-            }
-            set
-            {
-                this.tradeAnnouncementDateField = value;
-            }
+            get { return this.tradeAnnouncementDateField; }
+            set { this.tradeAnnouncementDateField = value; }
         }
 
         /// <remarks/>
         public uint PublicationDate
         {
-            get
-            {
-                return this.publicationDateField;
-            }
-            set
-            {
-                this.publicationDateField = value;
-            }
+            get { return this.publicationDateField; }
+            set { this.publicationDateField = value; }
         }
 
         /// <remarks/>
         public uint YearFirstPublished
         {
-            get
-            {
-                return this.yearFirstPublishedField;
-            }
-            set
-            {
-                this.yearFirstPublishedField = value;
-            }
+            get { return this.yearFirstPublishedField; }
+            set { this.yearFirstPublishedField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("SalesRights")]
         public OnixLegacySalesRights[] SalesRights
         {
-            get
-            {
-                return this.salesRightsField;
-            }
-            set
-            {
-                this.salesRightsField = value;
-            }
+            get { return this.salesRightsField; }
+            set { this.salesRightsField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("NotForSale")]
         public OnixLegacyNotForSale[] NotForSale
         {
-            get
-            {
-                return this.notForSaleRightsField;
-            }
-            set
-            {
-                this.notForSaleRightsField = value;
-            }
+            get { return this.notForSaleRightsField; }
+            set { this.notForSaleRightsField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Measure")]
         public OnixLegacyMeasure[] Measure
         {
-            get
-            {
-                return this.measureField;
-            }
-            set
-            {
-                this.measureField = value;
-            }
+            get { return this.measureField; }
+            set { this.measureField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("RelatedProduct")]
         public OnixLegacyRelatedProduct[] RelatedProduct
         {
-            get
-            {
-                return this.relatedProductField;
-            }
-            set
-            {
-                this.relatedProductField = value;
-            }
+            get { return this.relatedProductField; }
+            set { this.relatedProductField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("SupplyDetail")]
         public OnixLegacySupplyDetail[] SupplyDetail
         {
-            get
-            {
-                return this.supplyDetailField;
-            }
-            set
-            {
-                this.supplyDetailField = value;
-            }
+            get { return this.supplyDetailField; }
+            set { this.supplyDetailField = value; }
         }
 
         #endregion
@@ -1653,14 +1438,6 @@ namespace OnixData.Legacy
             set { Language = value; }
         }
 
-
-        /// <remarks/>
-        public int b026
-        {
-            get { return ItemNumberWithinSet; }
-            set { ItemNumberWithinSet = value; }
-        }
-
         /// <remarks/>
         public int b061
         {
@@ -1724,6 +1501,14 @@ namespace OnixData.Legacy
         {
             get { return shortSeriesField; }
             set { shortSeriesField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("set")]
+        public OnixLegacySet[] set
+        {
+            get { return shortSetField; }
+            set { shortSetField = value; }
         }
 
         /// <remarks/>
@@ -1867,7 +1652,7 @@ namespace OnixData.Legacy
             if ((MeasureList != null) && (MeasureList.Length > 0))
             {
                 FoundMeasurement =
-                    MeasureList.Where(x => x.MeasureTypeCode == Type).FirstOrDefault();
+                    MeasureList.Where(x => x.MeasureTypeCode == Type).LastOrDefault();
 
                 if (FoundMeasurement == null)
                     FoundMeasurement = new OnixLegacyMeasure();
