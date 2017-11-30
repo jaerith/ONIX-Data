@@ -62,6 +62,7 @@
     <Compile Include="Legacy\OnixLegacyPublisher.cs" />
     <Compile Include="Legacy\OnixLegacyRelatedProduct.cs" />
     <Compile Include="Legacy\OnixLegacySeries.cs" />
+    <Compile Include="Legacy\OnixLegacySet.cs" />
     <Compile Include="Legacy\OnixLegacySubject.cs" />
     <Compile Include="Legacy\OnixLegacySupplierId.cs" />
     <Compile Include="Legacy\OnixLegacySupplyDetail.cs" />
