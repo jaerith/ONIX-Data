@@ -47,6 +47,7 @@ namespace OnixData.Legacy
             EpubTypeVersion        = "";
             EpubFormatDescription  = "";
 
+            audienceCodeField    = shortAudienceCodeField    = null;
             editionTypeCodeField = shortEditionTypeCodeField = null;
             editionNumberField   = shortEditionNumberField   = null;
 
@@ -56,15 +57,14 @@ namespace OnixData.Legacy
 
             Language = new OnixLegacyLanguage();
 
-            NumberOfPages = -1;
+            NumberOfPages = PagesArabic = -1;
 
-            PagesRoman = PagesArabic = "";
+            PagesRoman = "";
 
             Illustrations = new OnixLegacyIllustrations();
 
             BASICMainSubject = "";
             MainSubject      = new OnixLegacySubject();
-            AudienceCode     = "";
 
             titleField = shortTitleField = new OnixLegacyTitle[0];
 
@@ -104,12 +104,14 @@ namespace OnixData.Legacy
         private string bookFormDetailField;
         private int    productPackagingField;
         private string distinctiveTitleField;
+        private string editionStatementField;
 
+        private string[] audienceCodeField;
+        private string[] shortAudienceCodeField;
         private string[] editionTypeCodeField;
         private string[] shortEditionTypeCodeField;
         private string[] editionNumberField;
         private string[] shortEditionNumberField;
-        private string   editionStatementField;
 
         private OnixLegacyTitle[] titleField;
         private OnixLegacyTitle[] shortTitleField;
@@ -119,15 +121,14 @@ namespace OnixData.Legacy
         private OnixLegacyLanguage languageField;
         private OnixLegacySubject  mainSubjectField;
 
-        private int    numberOfPagesField;
+        private int numberOfPagesField;
+        private int pagesArabicField;
 
         private string pagesRomanField;
-        private string pagesArabicField;
 
         private OnixLegacyIllustrations illustrationsField;
 
         private string basicMainSubjectField;
-        private string audienceCodeField;
 
         private OnixLegacyAudience[]       audienceField;
         private OnixLegacyAudience[]       shortAudienceField;
@@ -430,8 +431,10 @@ namespace OnixData.Legacy
             {
                 string sAudCode = "";
 
-                if (!String.IsNullOrEmpty(AudienceCode))
-                    sAudCode = AudienceCode;
+                if ((this.shortAudienceCodeField != null) && (this.shortAudienceCodeField.Length > 0))
+                    sAudCode = this.shortAudienceCodeField.Last();
+                else if ((this.audienceCodeField != null) && (this.audienceCodeField.Length > 0))
+                    sAudCode = this.audienceCodeField.Last();
                 else
                 {
                     OnixLegacyAudience[] AudienceList = audienceField;
@@ -445,7 +448,6 @@ namespace OnixData.Legacy
 
                         if ((OnixAudCode != null) && !String.IsNullOrEmpty(OnixAudCode.AudienceCodeValue))
                             sAudCode = OnixAudCode.AudienceCodeValue;
-
                     }
                 }
 
@@ -496,6 +498,21 @@ namespace OnixData.Legacy
                 }
 
                 return sAudGradeTo;
+            }
+        }
+
+        public int OnixNumberOfPages
+        {
+            get
+            {
+                int nNumberOfPages = -1;
+
+                if (this.NumberOfPages >= 0)
+                    nNumberOfPages = this.NumberOfPages;
+                else if (this.PagesArabic >= 0)
+                    nNumberOfPages = this.PagesArabic;
+
+                return nNumberOfPages;
             }
         }
 
@@ -1139,7 +1156,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public string PagesArabic
+        public int PagesArabic
         {
             get { return this.pagesArabicField; }
             set { this.pagesArabicField = value; }
@@ -1166,8 +1183,9 @@ namespace OnixData.Legacy
             set { this.mainSubjectField = value; }
         }
 
-        /// <remarks/> 
-        public string AudienceCode
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("AudienceCode")]
+        public string[] AudienceCode
         {
             get { return this.audienceCodeField; }
             set { this.audienceCodeField = value; }
@@ -1453,7 +1471,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public string b255
+        public int b255
         {
             get { return PagesArabic; }
             set { PagesArabic = value; }
@@ -1480,11 +1498,12 @@ namespace OnixData.Legacy
             set { this.mainSubjectField = value; }
         }
 
-        /// <remarks/> 
-        public string b073
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("b073")]
+        public string[] b073
         {
-            get { return AudienceCode; }
-            set { AudienceCode = value; }
+            get { return shortAudienceCodeField; }
+            set { shortAudienceCodeField = value; }
         }
 
         /// <remarks/>
