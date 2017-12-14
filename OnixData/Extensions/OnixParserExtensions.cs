@@ -838,6 +838,38 @@ namespace OnixData.Extensions
                 LegacyOnixFileText.Replace("&thetasym;", "&#977;"); // <!-- greek small letter theta symbol, U+03D1 NEW -->
                 LegacyOnixFileText.Replace("&upsih;", "&#978;"); // <!-- greek upsilon with hook symbol, U+03D2 NEW -->
                 LegacyOnixFileText.Replace("&piv;", "&#982;"); // <!-- greek pi symbol, U+03D6 ISOgrk3 -->
+                // < !--Mathematical Operators-- >
+                LegacyOnixFileText.Replace("&forall;", "&#8704;"); // < !-- for all, U + 2200 ISOtech-- >
+                LegacyOnixFileText.Replace("&part;",   "&#8706;"); // < !--partial differential, U + 2202 ISOtech-- >
+                LegacyOnixFileText.Replace("&exist;",  "&#8707;"); // < !--there exists, U + 2203 ISOtech-- >
+                LegacyOnixFileText.Replace("&empty;",  "&#8709;"); // < !--empty set = null set = diameter, U + 2205 ISOamso-- >
+                LegacyOnixFileText.Replace("&nabla;",  "&#8711;"); // < !--nabla = backward difference, U + 2207 ISOtech-- >
+                LegacyOnixFileText.Replace("&isin;",   "&#8712;"); // < !--element of, U + 2208 ISOtech-- >
+                LegacyOnixFileText.Replace("&notin;",  "&#8713;"); // < !--not an element of, U + 2209 ISOtech-- >
+                LegacyOnixFileText.Replace("&ni;",     "&#8715;"); // < !--contains as member, U + 220B ISOtech-- >               
+                LegacyOnixFileText.Replace("&prod;",   "&#8719;"); // < !--n - ary product = product sign, U + 220F ISOamsb-- >
+                LegacyOnixFileText.Replace("&sum;",    "&#8721;"); // < !--n - ary sumation, U + 2211 ISOamsb-- >, NOT the same character as U + 03A3 'greek capital letter sigma'
+                LegacyOnixFileText.Replace("&minus;",  "&#8722;"); // < !--minus sign, U + 2212 ISOtech-- >
+                LegacyOnixFileText.Replace("&lowast;", "&#8727;"); // < !--asterisk operator, U + 2217 ISOtech-- >
+                LegacyOnixFileText.Replace("&radic;",  "&#8730;"); // < !--square root = radical sign, U + 221A ISOtech-- >
+                LegacyOnixFileText.Replace("&prop;",   "&#8733;"); // < !--proportional to, U + 221D ISOtech-- >
+                LegacyOnixFileText.Replace("&infin;",  "&#8734;"); // < !--infinity, U + 221E ISOtech-- >
+                LegacyOnixFileText.Replace("&ang;",    "&#8736;"); // < !--angle, U + 2220 ISOamso-- >
+                LegacyOnixFileText.Replace("&and;",    "&#8743;"); // < !--logical and = wedge, U + 2227 ISOtech-- >
+                LegacyOnixFileText.Replace("&or;",     "&#8744;"); // < !--logical or = vee, U + 2228 ISOtech-- >
+                LegacyOnixFileText.Replace("&cap;",    "&#8745;"); // < !--intersection = cap, U + 2229 ISOtech-- >
+                LegacyOnixFileText.Replace("&cup;",    "&#8746;"); // < !--union = cup, U + 222A ISOtech-- >
+                LegacyOnixFileText.Replace("&int;",    "&#8747;"); // < !--integral, U + 222B ISOtech-- >
+                LegacyOnixFileText.Replace("&there4;", "&#8756;"); // < !--therefore, U + 2234 ISOtech-- >
+                LegacyOnixFileText.Replace("&sim;",    "&#8764;"); // < !--tilde operator = varies with = similar to, U + 223C ISOtech-- >
+                LegacyOnixFileText.Replace("&cong;",   "&#8773;"); // < !--approximately equal to, U + 2245 ISOtech-- >
+                LegacyOnixFileText.Replace("&asymp;",  "&#8776;"); // < !--almost equal to = asymptotic to, U + 2248 ISOamsr-- >
+                LegacyOnixFileText.Replace("&ne;",     "&#8800;"); // < !--not equal to, U + 2260 ISOtech-- >
+                LegacyOnixFileText.Replace("&equiv;",  "&#8801;"); // < !--identical to, U + 2261 ISOtech-- >
+                LegacyOnixFileText.Replace("&le;",     "&#8804;"); // < !--less - than or equal to, U + 2264 ISOtech-- >
+                LegacyOnixFileText.Replace("&ge;",     "&#8805;"); // < !--greater - than or equal to, U + 2265 ISOtech-- >
+                LegacyOnixFileText.Replace("&sub;",    "&#8834;"); // < !--subset of, U + 2282 ISOtech-- >
+                LegacyOnixFileText.Replace("&sup;",    "&#8835;"); // < !--superset of, U + 2283 ISOtech-- >				
 
             }
         }
