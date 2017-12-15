@@ -38,14 +38,11 @@ namespace OnixData.Legacy
             ProductIdentifier = new OnixLegacyProductId[0];
 
             BookFormDetail         = "";
-            ProductPackaging       = 0;
-            ProductForm            = "";
+            ProductPackaging       = ProductForm = "";
             ProductFormDetail      = new string[0];
             ProductFormDescription = "";
             ProductContentType     = new string[0];
-            EpubType               = "";
-            EpubTypeVersion        = "";
-            EpubFormatDescription  = "";
+            EpubType               = EpubTypeVersion = EpubFormatDescription  = "";
 
             audienceCodeField    = shortAudienceCodeField    = null;
             editionTypeCodeField = shortEditionTypeCodeField = null;
@@ -57,9 +54,7 @@ namespace OnixData.Legacy
 
             Language = new OnixLegacyLanguage();
 
-            NumberOfPages = PagesArabic = -1;
-
-            PagesRoman = "";
+            NumberOfPages = PagesArabic = PagesRoman = "";
 
             Illustrations = new OnixLegacyIllustrations();
 
@@ -102,7 +97,7 @@ namespace OnixData.Legacy
         private bool SalesRightsAllWorld;
 
         private string bookFormDetailField;
-        private int    productPackagingField;
+        private string productPackagingField;
         private string distinctiveTitleField;
         private string editionStatementField;
 
@@ -121,9 +116,8 @@ namespace OnixData.Legacy
         private OnixLegacyLanguage languageField;
         private OnixLegacySubject  mainSubjectField;
 
-        private int numberOfPagesField;
-        private int pagesArabicField;
-
+        private string numberOfPagesField;
+        private string pagesArabicField;
         private string pagesRomanField;
 
         private OnixLegacyIllustrations illustrationsField;
@@ -501,18 +495,42 @@ namespace OnixData.Legacy
             }
         }
 
-        public int OnixNumberOfPages
+        public string OnixNumberOfPages
         {
             get
             {
-                int nNumberOfPages = -1;
+                int    nNumberOfPages = -1;
+                string sTmpNumOfPages = "";
 
-                if (this.NumberOfPages >= 0)
-                    nNumberOfPages = this.NumberOfPages;
-                else if (this.PagesArabic >= 0)
-                    nNumberOfPages = this.PagesArabic;
+                if (!String.IsNullOrEmpty(this.NumberOfPages))
+                {
+                    try
+                    {
+                        nNumberOfPages = Convert.ToInt32(this.NumberOfPages);
+                        sTmpNumOfPages = (nNumberOfPages >= 0) ? this.NumberOfPages : "";
+                    }
+                    catch (Exception ex) { }
+                }
 
-                return nNumberOfPages;
+                if (!String.IsNullOrEmpty(this.PagesArabic) && (nNumberOfPages < 0))
+                {
+                    try
+                    {
+                        nNumberOfPages = Convert.ToInt32(this.PagesArabic);
+                        sTmpNumOfPages = (nNumberOfPages >= 0) ? this.PagesArabic : "";
+                    }
+                    catch (Exception ex) { }
+                }
+
+                if (String.IsNullOrEmpty(sTmpNumOfPages))
+                {
+                    if (!String.IsNullOrEmpty(this.NumberOfPages))
+                        sTmpNumOfPages = this.NumberOfPages;
+                    else if (!String.IsNullOrEmpty(this.PagesArabic))
+                        sTmpNumOfPages = this.PagesArabic;
+                }
+
+                return sTmpNumOfPages;
             }
         }
 
@@ -1075,7 +1093,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int ProductPackaging
+        public string ProductPackaging
         {
             get { return this.productPackagingField; }
             set { this.productPackagingField = value; }
@@ -1142,7 +1160,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int NumberOfPages
+        public string NumberOfPages
         {
             get { return this.numberOfPagesField; }
             set { this.numberOfPagesField = value; }
@@ -1156,7 +1174,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int PagesArabic
+        public string PagesArabic
         {
             get { return this.pagesArabicField; }
             set { this.pagesArabicField = value; }
@@ -1372,7 +1390,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int b225
+        public string b225
         {
             get { return ProductPackaging; }
             set { ProductPackaging = value; }
@@ -1457,7 +1475,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int b061
+        public string b061
         {
             get { return NumberOfPages; }
             set { NumberOfPages = value; }
@@ -1471,7 +1489,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int b255
+        public string b255
         {
             get { return PagesArabic; }
             set { PagesArabic = value; }
