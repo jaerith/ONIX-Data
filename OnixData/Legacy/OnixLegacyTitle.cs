@@ -38,27 +38,22 @@ namespace OnixData.Legacy
             {
                 StringBuilder TitleBuilder = new StringBuilder();
 
-                if (this.Title != null)
+                if (!String.IsNullOrEmpty(this.TitleWithoutPrefix))
                 {
-                    if (!String.IsNullOrEmpty(this.Title))
-                        TitleBuilder.Append(this.Title);
-                    else if (!String.IsNullOrEmpty(this.TitleWithoutPrefix))
-                    {
-                        if (!String.IsNullOrEmpty(this.TitlePrefix))
-                            TitleBuilder.Append(this.TitlePrefix).Append(" ");
+                    if (!String.IsNullOrEmpty(this.TitlePrefix))
+                        TitleBuilder.Append(this.TitlePrefix.Trim()).Append(" ");
 
-                        TitleBuilder.Append(this.TitleWithoutPrefix);
-                    }
-                    else if ((this.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE) &&
-                             (this.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE))
-                    {
-                        if (!String.IsNullOrEmpty(this.TitleText))
-                            TitleBuilder.Append(this.TitleText);
-                    }
-
-                    if (!String.IsNullOrEmpty(this.Subtitle))
-                        TitleBuilder.Append(": ").Append(this.Subtitle);
+                    TitleBuilder.Append(this.TitleWithoutPrefix.Trim());
                 }
+                else if ((this.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE) ||
+                         (this.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE))
+                {
+                    if (!String.IsNullOrEmpty(this.TitleText))
+                        TitleBuilder.Append(this.TitleText.Trim());
+                }
+
+                if (!String.IsNullOrEmpty(this.Subtitle))
+                    TitleBuilder.Append(": ").Append(this.Subtitle.Trim());
 
                 return TitleBuilder.ToString();
             }
@@ -67,21 +62,6 @@ namespace OnixData.Legacy
         #endregion
 
         #region Reference Tags
-
-        public string Title
-        {
-            get
-            {
-                string sTitle = "";
-
-                if (!String.IsNullOrEmpty(TitleText))
-                    sTitle = TitleText;
-                else if (!String.IsNullOrEmpty(TitleWithoutPrefix))
-                    sTitle = TitlePrefix + " " + TitleWithoutPrefix;
-
-                return sTitle;
-            }
-        }
 
         /// <remarks/>
         public int TitleType
