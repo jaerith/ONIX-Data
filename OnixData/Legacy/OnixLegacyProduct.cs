@@ -98,7 +98,6 @@ namespace OnixData.Legacy
 
         private string bookFormDetailField;
         private string productPackagingField;
-        private string distinctiveTitleField;
         private string editionStatementField;
 
         private string[] audienceCodeField;
@@ -541,7 +540,22 @@ namespace OnixData.Legacy
                 StringBuilder TitleBuilder = new StringBuilder();
 
                 if (!String.IsNullOrEmpty(this.DistinctiveTitle))
+                {
                     TitleBuilder.Append(this.DistinctiveTitle);
+
+                    if (!String.IsNullOrEmpty(this.Subtitle))
+                        TitleBuilder.Append(": ").Append(this.Subtitle);
+                }
+                else if (!String.IsNullOrEmpty(this.TitleWithoutPrefix))
+                {
+                    if (!String.IsNullOrEmpty(this.TitlePrefix))
+                        TitleBuilder.Append(this.TitlePrefix).Append(" ");
+
+                    TitleBuilder.Append(this.TitleWithoutPrefix);
+
+                    if (!String.IsNullOrEmpty(this.Subtitle))
+                        TitleBuilder.Append(": ").Append(this.Subtitle);
+                }
                 else
                 {
                     OnixLegacyTitle[] TitleList = titleField;
@@ -551,7 +565,7 @@ namespace OnixData.Legacy
                     if ((TitleList != null) && (TitleList.Length > 0))
                     {
                         OnixLegacyTitle FoundTitle =
-                            TitleList.Where(x => 
+                            TitleList.Where(x =>
                                 x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE || x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE).LastOrDefault();
 
                         if ((FoundTitle == null) || String.IsNullOrEmpty(FoundTitle.OnixTitle))
@@ -1123,13 +1137,6 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public string DistinctiveTitle
-        {
-            get { return this.distinctiveTitleField; }
-            set { this.distinctiveTitleField = value; }
-        }
-
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Title")]
         public OnixLegacyTitle[] Title
         {
@@ -1420,13 +1427,6 @@ namespace OnixData.Legacy
         }
 
         // EditionStatement
-
-        /// <remarks/>
-        public string b028
-        {
-            get { return DistinctiveTitle; }
-            set { DistinctiveTitle = value; }
-        }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("title")]
