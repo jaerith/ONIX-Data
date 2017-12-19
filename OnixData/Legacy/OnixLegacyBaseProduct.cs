@@ -30,6 +30,8 @@ namespace OnixData.Legacy
             RecordReference  = Barcode = "";
             NotificationType = NumberOfPieces = TradeCategory = -1;
 
+            DistinctiveTitle = TitlePrefix = TitleWithoutPrefix = Subtitle = "";
+
             productIdentifierField  = shortProductIdentifierField  = new OnixLegacyProductId[0];
             productContentTypeField = shortProductContentTypeField = new string[0];
             publisherField          = shortPublisherField          = new OnixLegacyPublisher[0];
@@ -53,6 +55,11 @@ namespace OnixData.Legacy
         protected string isbnField;
         protected string eanField;
         protected string upcField;
+
+        private string distinctiveTitleField;
+        private string titlePrefixField;
+        private string titleWithoutPrefixField;
+        private string subtitleField;
 
         protected OnixLegacyProductId[] productIdentifierField;
         protected OnixLegacyProductId[] shortProductIdentifierField;
@@ -322,6 +329,52 @@ namespace OnixData.Legacy
             }
         }
 
+        /// <remarks/>
+        public string DistinctiveTitle
+        {
+            get { return this.distinctiveTitleField; }
+            set { this.distinctiveTitleField = value; }
+        }
+
+        /// <remarks/>
+        public string TitlePrefix
+        {
+            get
+            {
+                return this.titlePrefixField;
+            }
+            set
+            {
+                this.titlePrefixField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string TitleWithoutPrefix
+        {
+            get
+            {
+                return this.titleWithoutPrefixField;
+            }
+            set
+            {
+                this.titleWithoutPrefixField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string Subtitle
+        {
+            get
+            {
+                return this.subtitleField;
+            }
+            set
+            {
+                this.subtitleField = value;
+            }
+        }
+
         public string Barcode
         {
             get
@@ -566,6 +619,34 @@ namespace OnixData.Legacy
         {
             get { return shortProductIdentifierField; }
             set { shortProductIdentifierField = value; }
+        }
+
+        /// <remarks/>
+        public string b028
+        {
+            get { return DistinctiveTitle; }
+            set { DistinctiveTitle = value; }
+        }
+
+        /// <remarks/>
+        public string b030
+        {
+            get { return TitlePrefix; }
+            set { TitlePrefix = value; }
+        }
+
+        /// <remarks/>
+        public string b031
+        {
+            get { return TitleWithoutPrefix; }
+            set { TitleWithoutPrefix = value; }
+        }
+
+        /// <remarks/>
+        public string b029
+        {
+            get { return Subtitle; }
+            set { Subtitle = value; }
         }
 
         public string b246
