@@ -539,22 +539,42 @@ namespace OnixData.Legacy
             {
                 StringBuilder TitleBuilder = new StringBuilder();
 
+                if (String.IsNullOrEmpty(this.Subtitle))
+                {
+                    OnixLegacyTitle[] TitleList = titleField;
+                    if ((TitleList == null) || (TitleList.Length <= 0))
+                        TitleList = shortTitleField;
+
+                    if ((TitleList != null) && (TitleList.Length > 0))
+                    {
+                        OnixLegacyTitle FoundTitle =
+                            TitleList.Where(x =>
+                                x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE || x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE).LastOrDefault();
+
+                        if ((FoundTitle == null) || String.IsNullOrEmpty(FoundTitle.OnixTitle))
+                            FoundTitle = TitleList.Where(x => (x.TitleType < 0)).LastOrDefault();
+
+                        if ((FoundTitle != null) && !String.IsNullOrEmpty(FoundTitle.Subtitle))
+                            this.Subtitle = FoundTitle.Subtitle;
+                    }
+                }
+
                 if (!String.IsNullOrEmpty(this.DistinctiveTitle))
                 {
-                    TitleBuilder.Append(this.DistinctiveTitle);
+                    TitleBuilder.Append(this.DistinctiveTitle.Trim());
 
                     if (!String.IsNullOrEmpty(this.Subtitle))
-                        TitleBuilder.Append(": ").Append(this.Subtitle);
+                        TitleBuilder.Append(": ").Append(this.Subtitle.Trim());
                 }
                 else if (!String.IsNullOrEmpty(this.TitleWithoutPrefix))
                 {
                     if (!String.IsNullOrEmpty(this.TitlePrefix))
-                        TitleBuilder.Append(this.TitlePrefix).Append(" ");
+                        TitleBuilder.Append(this.TitlePrefix.Trim()).Append(" ");
 
-                    TitleBuilder.Append(this.TitleWithoutPrefix);
+                    TitleBuilder.Append(this.TitleWithoutPrefix.Trim());
 
                     if (!String.IsNullOrEmpty(this.Subtitle))
-                        TitleBuilder.Append(": ").Append(this.Subtitle);
+                        TitleBuilder.Append(": ").Append(this.Subtitle.Trim());
                 }
                 else
                 {
@@ -572,13 +592,14 @@ namespace OnixData.Legacy
                             FoundTitle = TitleList.Where(x => (x.TitleType < 0)).LastOrDefault();
 
                         if ((FoundTitle != null) && !String.IsNullOrEmpty(FoundTitle.OnixTitle))
-                            TitleBuilder.Append(FoundTitle.OnixTitle);
+                            TitleBuilder.Append(FoundTitle.OnixTitle.Trim());
                     }
                 }
 
                 return TitleBuilder.ToString();
             }
         }
+
 
         public OnixLegacyContributor PrimaryAuthor
         {
