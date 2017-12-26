@@ -18,6 +18,20 @@ namespace OnixData.Legacy
         public const int CONST_MEASURE_TYPE_WEIGHT = 8;
         public const int CONST_MEASURE_TYPE_DIAMTR = 9;
 
+        public const string CONST_MEASURE_UNIT_US_WEIGHT_LB  = "lb";
+        public const string CONST_MEASURE_UNIT_US_WEIGHT_OZ  = "oz";
+        public const string CONST_MEASURE_UNIT_METRIC_WEIGHT = "gr";
+
+        public const string CONST_MEASURE_UNIT_US_LENGTH_IN  = "in";
+        public const string CONST_MEASURE_UNIT_METRIC_LENGTH = "mm";
+
+        public static readonly int[] MEASURE_TYPES_DIM = 
+            new int[] { CONST_MEASURE_TYPE_HEIGHT, CONST_MEASURE_TYPE_WIDTH, CONST_MEASURE_TYPE_THICK, CONST_MEASURE_TYPE_DIAMTR };
+
+        public static readonly int[] MEASURE_TYPES_WEIGHT = new int[] { CONST_MEASURE_TYPE_WEIGHT };
+
+        public static readonly string[] MEASURE_WEIGHTS_US = new string[] { CONST_MEASURE_UNIT_US_WEIGHT_LB, CONST_MEASURE_UNIT_US_WEIGHT_OZ };
+
         #endregion
 
         public OnixLegacyMeasure()
