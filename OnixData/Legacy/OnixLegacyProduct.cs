@@ -1702,18 +1702,37 @@ namespace OnixData.Legacy
 
         #region Support Methods
 
-        public OnixLegacyMeasure GetMeasurement(int Type)
+        public OnixLegacyMeasure GetMeasurement(int Type, bool PreferUSMeasurement = true)
         {
             OnixLegacyMeasure FoundMeasurement = new OnixLegacyMeasure();
 
             OnixLegacyMeasure[] MeasureList = OnixMeasureList;
             if ((MeasureList != null) && (MeasureList.Length > 0))
             {
-                FoundMeasurement =
-                    MeasureList.Where(x => x.MeasureTypeCode == Type).LastOrDefault();
+                if (PreferUSMeasurement)
+                {
+                    if (OnixLegacyMeasure.MEASURE_TYPES_DIM.Contains(Type))
+                    {
+                        FoundMeasurement =
+                            MeasureList.Where(x => (x.MeasureTypeCode == Type) &&
+                                                   (x.MeasureUnitCode.ToLower() == OnixLegacyMeasure.CONST_MEASURE_UNIT_US_LENGTH_IN)).LastOrDefault();
+                    }
+                    else if (OnixLegacyMeasure.MEASURE_TYPES_WEIGHT.Contains(Type))
+                    {
+                        FoundMeasurement =
+                            MeasureList.Where(x => (x.MeasureTypeCode == Type) &&
+                                                   (OnixLegacyMeasure.MEASURE_WEIGHTS_US.Contains(x.MeasureUnitCode.ToLower()))).LastOrDefault();
+                    }
+                }
 
                 if (FoundMeasurement == null)
-                    FoundMeasurement = new OnixLegacyMeasure();
+                {
+                    FoundMeasurement =
+                        MeasureList.Where(x => x.MeasureTypeCode == Type).LastOrDefault();
+
+                    if (FoundMeasurement == null)
+                        FoundMeasurement = new OnixLegacyMeasure();
+                }
             }
 
             return FoundMeasurement;
