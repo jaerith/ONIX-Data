@@ -22,10 +22,11 @@ namespace OnixData.Legacy
         public OnixLegacyOtherText()
         {
             TextTypeCode = -1;
-            Text         = "";
+            Text         = TextFormat = "";
         }
 
         private int    textTypeCodeField;
+        private string textFormatField;
         private string textField;
 
         #region Reference Tags
@@ -44,6 +45,20 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
+        public string TextFormat
+        {
+            get
+            {
+                return this.textFormatField;
+            }
+            set
+            {
+                this.textFormatField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnore]
         public string Text
         {
             get
@@ -67,7 +82,14 @@ namespace OnixData.Legacy
             set { TextTypeCode = value; }
         }
 
+        public string d103
+        {
+            get { return TextFormat; }
+            set { TextFormat = value; }
+        }
+
         /// <remarks/>
+        [System.Xml.Serialization.XmlIgnore]
         public string d104
         {
             get { return Text; }
