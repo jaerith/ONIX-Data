@@ -10,9 +10,8 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Xml.Schema;
 
-using OnixData.Legacy;
-
 using OnixData.Extensions;
+using OnixData.Legacy;
 
 namespace OnixData
 {
@@ -29,10 +28,8 @@ namespace OnixData
     {
         #region CONSTANTS
 
-        public const int CONST_MSG_REFERENCE_LENGTH = 512;
-
-        public const int CONST_BLOCK_CHAR_COUNT = 50000000;
-        public const int CONST_BLOCK_LINE_COUNT = 1000000;
+        private const int    CONST_MSG_REFERENCE_LENGTH = 500;
+        private const int    CONST_BLOCK_COUNT_SIZE     = 50000000;
 
         private const string CONST_ONIX_MESSAGE_REFERENCE_TAG = "ONIXMessage";
         private const string CONST_ONIX_MESSAGE_SHORT_TAG     = "ONIXmessage";
@@ -42,6 +39,7 @@ namespace OnixData
 
         #endregion
 
+        private bool              DebugFlag         = true;
         private bool              ParserRefVerFlag  = false;
         private bool              ParserRVWFlag     = false;
         private bool              PerformValidFlag  = false;
@@ -84,8 +82,8 @@ namespace OnixData
 
             if (LoadEntireFileIntoMemory)
             {
-                this.LegacyOnixMessage =
-                    new XmlSerializer(typeof(OnixLegacyMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
+                this.LegacyOnixMessage = 
+                    CreateOnixXmlMsgSerializer(sOnixMsgTag).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
             }
             else
                 this.LegacyOnixMessage = null;
@@ -115,7 +113,7 @@ namespace OnixData
             if (LoadEntireFileIntoMemory)
             {
                 this.LegacyOnixMessage =
-                    new XmlSerializer(typeof(OnixLegacyMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
+                    CreateOnixXmlMsgSerializer(sOnixMsgTag).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
             }
             else
                 this.LegacyOnixMessage = null;
@@ -146,7 +144,7 @@ namespace OnixData
             if (LoadEntireFileIntoMemory)
             {
                 this.LegacyOnixMessage =
-                    new XmlSerializer(typeof(OnixLegacyMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
+                    CreateOnixXmlMsgSerializer(sOnixMsgTag).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
             }
             else
                 this.LegacyOnixMessage = null;
@@ -176,7 +174,7 @@ namespace OnixData
             if (LoadEntireFileIntoMemory)
             {
                 this.LegacyOnixMessage =
-                    new XmlSerializer(typeof(OnixLegacyMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
+                    CreateOnixXmlMsgSerializer(sOnixMsgTag).Deserialize(this.LegacyOnixReader) as OnixLegacyMessage;
             }
             else
                 this.LegacyOnixMessage = null;
@@ -210,8 +208,7 @@ namespace OnixData
                 if (bUseXSD)
                 {
                     /*
-                     * NOTE: XSD Validation does not appear to be working correctly yet,
-					 *       especially in that it always qualifies all ONIX files as valid
+                     * NOTE: XSD Validation does not appear to be working correctly yet
                      * 
                     XmlSchemaSet schemas = new XmlSchemaSet();
 
@@ -238,7 +235,6 @@ namespace OnixData
 
                 /*
                  * NOTE: DTD Validation does not appear that it will ever work correctly on the .NET platform
-				 *       , especially in that it never qualifies an ONIX file as valid
                  * 
                 if (bUseDTD)
                 {
@@ -290,6 +286,13 @@ namespace OnixData
             OnixXmlReader = XmlReader.Create(new StringReader(LegacyOnixContent.ToString()), settings);
 
             return OnixXmlReader;
+        }
+
+        static public XmlSerializer CreateOnixXmlMsgSerializer(string psOnixMsgTag)
+        {
+            var OnixXmlSerializer = new XmlSerializer(typeof(OnixLegacyMessage), new XmlRootAttribute(psOnixMsgTag));
+
+            return OnixXmlSerializer;
         }
 
         /// <summary>
@@ -352,7 +355,7 @@ namespace OnixData
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (IEnumerator)GetEnumerator();
+            return (IEnumerator) GetEnumerator();
         }
 
         public OnixLegacyEnumerator GetEnumerator()
@@ -468,24 +471,24 @@ namespace OnixData
 
             return bReferenceVersion;
         }
- 
+
         #endregion
     }
 
     /// <summary>
     ///
     /// This class can be useful in the case that one wants to iterate through an ONIX file, even if it has a bad record due to:
-	/// 
-	/// a.) incorrect XML syntax
-	/// b.) invalid text within a XML document (like certain hexadecimal Unicode)
-	/// d.) improper tag placement
-	/// d.) invalid data types
-	/// 
+    /// 
+    /// a.) incorrect XML syntax
+    /// b.) invalid text within a XML document (like certain hexadecimal Unicode)
+    /// d.) improper tag placement
+    /// d.) invalid data types
+    /// 
     /// In that way, the user of the class can investigate each record on a case-by-case basis, and the file can be processed
-	/// without a sole record preventing the rest of the file from being handled.
-	/// 
+    /// without a sole record preventing the rest of the file from being handled.
+    /// 
     /// NOTE: It is still recommended that the files be validated through an alternate process before using this class.
-	/// 
+    /// 
     /// </summary> 
     public class OnixLegacyEnumerator : IDisposable, IEnumerator
     {
@@ -494,6 +497,7 @@ namespace OnixData
         
         private int                CurrentIndex      = -1;
         private string             ProductXmlTag     = null;
+        private List<string>       OtherTextList     = new List<string>();
         private XmlDocument        OnixDoc           = null;
         private XmlNodeList        ProductList       = null;
         private OnixLegacyProduct  CurrentRecord     = null;
@@ -507,6 +511,15 @@ namespace OnixData
             this.OnixReader = OnixLegacyParser.CreateXmlReader(LegacyOnixFilepath, false, ProvidedParser.PerformValidation);
 
             ProductSerializer = new XmlSerializer(typeof(OnixLegacyProduct), new XmlRootAttribute(this.ProductXmlTag));
+
+            ProductSerializer.UnknownElement += (s, e) =>
+            {
+                if (((e.Element.LocalName == "Text") || (e.Element.LocalName == "d104")) && 
+                    e.ObjectBeingDeserialized is OnixLegacyOtherText)
+                {
+                    OtherTextList.Add(e.Element.InnerText);
+                }
+            };
         }
 
         public OnixLegacyEnumerator(OnixLegacyParser ProvidedParser, StringBuilder LegacyOnixContent)
@@ -548,6 +561,24 @@ namespace OnixData
                 {
                     CurrentRecord =
                         this.ProductSerializer.Deserialize(new StringReader(sInputXml)) as OnixLegacyProduct;
+
+                    if ((CurrentRecord != null) && 
+                        (CurrentRecord.OnixOtherTextList != null) && 
+                        (CurrentRecord.OnixOtherTextList.Length > 0))
+                    {
+                        int nOTCount = CurrentRecord.OnixOtherTextList.Length;
+
+                        for (int nIdx = 0; nIdx < OtherTextList.Count; ++nIdx)
+                        {
+                            if (nIdx < nOTCount)
+                            {
+                                OnixLegacyOtherText TempText = CurrentRecord.OnixOtherTextList[nIdx];
+                                TempText.Text = OtherTextList[nIdx];
+                            }
+                        }
+                    }
+
+                    OtherTextList.Clear();
                 }
                 catch (Exception ex)
                 {
