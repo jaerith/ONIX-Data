@@ -464,6 +464,8 @@ namespace OnixData.Legacy
                     {
                         if (!String.IsNullOrEmpty(TempAudRange.USGradeFrom))
                             sAudGradeFrom = TempAudRange.USGradeFrom;
+                        else if (!String.IsNullOrEmpty(TempAudRange.USGradeExact))
+                            sAudGradeFrom = TempAudRange.USGradeExact;
                     }
                 }
 
@@ -487,12 +489,15 @@ namespace OnixData.Legacy
                     {
                         if (!String.IsNullOrEmpty(TempAudRange.USGradeTo))
                             sAudGradeTo = TempAudRange.USGradeTo;
+                        else if (!String.IsNullOrEmpty(TempAudRange.USGradeExact))
+                            sAudGradeTo = TempAudRange.USGradeExact;
                     }
                 }
 
                 return sAudGradeTo;
             }
         }
+
 
         public string OnixNumberOfPages
         {
