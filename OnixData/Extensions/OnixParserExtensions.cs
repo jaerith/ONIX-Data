@@ -89,6 +89,17 @@ namespace OnixData.Extensions
             return sResult;
         }
 
+        public static void FilterIncompleteEncodings(this StringBuilder FileContentBuilder)
+        {
+            var sAllFileText = FileContentBuilder.ToString();
+
+            if (FilterBadEncodings)
+                sAllFileText = Regex.Replace(sAllFileText, @"&#?x?[A-Za-z0-9]*;?", EncodingMatcher, RegexOptions.Compiled);
+
+            FileContentBuilder.Clear();
+            FileContentBuilder.Append(sAllFileText);
+        }
+
         /// <summary>
         /// 
         /// Since the .NET XML parser has very limited support for incorporating DTD/XSD/ENT/ELT files, this method will 

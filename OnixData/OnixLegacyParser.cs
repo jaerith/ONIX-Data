@@ -132,7 +132,10 @@ namespace OnixData
             this.PerformValidFlag  = ExecuteValidation;
 
             if (PreprocessOnixFile)
+            {
                 ParserFileContent.ReplaceIsoLatinEncodings();
+                ParserFileContent.FilterIncompleteEncodings();
+            }
 
             this.LegacyOnixReader = CreateXmlReader(this.ParserFileContent, this.ParserRVWFlag, this.PerformValidFlag);
 
@@ -167,7 +170,10 @@ namespace OnixData
             this.PerformValidFlag  = ExecuteValidation;
 
             if (PreprocessOnixFile)
+            {
                 ParserFileContent.ReplaceIsoLatinEncodings();
+                ParserFileContent.FilterIncompleteEncodings();
+            }
 
             this.LegacyOnixReader = CreateXmlReader(this.ParserFileContent, this.ParserRVWFlag, this.PerformValidFlag);
 
