@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace OnixData.Extensions
@@ -11,15 +12,82 @@ namespace OnixData.Extensions
     {
         #region CONSTANTS
 
-        private const int CONST_MSG_REFERENCE_LENGTH = 2048;
-        private const int CONST_BLOCK_COUNT_SIZE     = 50000000;
-        private const int FILTER_THREAD_COUNT        = 3;
+        private const int  CONST_MSG_REFERENCE_LENGTH = 2048;
+        private const int  CONST_BLOCK_COUNT_SIZE     = 50000000;
+        private const long CONST_LARGE_FILE_MINIMUM   = 250000000;
+        private const int  FILTER_THREAD_COUNT        = 3;
 
         private const string CONST_FILENAME_SKIP_REPLACE_MARKER = "SKIPREPLACECHARENC";
 
         #endregion
 
-        static public bool DebugFlag = true;
+        static public bool DebugFlag          = true;
+        static public bool FilterBadEncodings = true;
+
+        /// <summary>
+        /// 
+        /// This callback will examine and then process any matches to our regular expression.  Basically, we will use this function
+        /// to remove any unwanted encodings that are incomplete, causing our XML parser to fail.  For example, this function will 
+        /// remove the following examples:
+        /// 
+        /// &#9996
+        /// &#
+        /// &#x000
+        /// &#Xae
+        /// 
+        /// However, it will not touch and keep valid encodings/entities, like the following:
+        /// 
+        /// &#9996;
+        /// &#xff40;
+        /// &#Xae
+        /// &gt;
+        /// 
+        /// <param name="Match">A string that fits the specs defined by a regular expression.</param>
+        /// <returns>Either the string provided by 'm' (if it's considered valid) or a blank string (if it's invalid).</returns>
+        /// </summary>
+        static public string EncodingMatcher(Match m)
+        {
+            string sResult = "";
+
+            try
+            {
+                if (m.Value == "&#")
+                    sResult = "";
+                else if (m.Value.StartsWith("&#") && (m.Value.Length > 2))
+                {
+                    int nEncodingVal = 0;
+                    string sInsideEncoding = m.Value.Substring(2);
+
+                    if (m.Value.EndsWith(";"))
+                        sResult = m.Value;
+                    else if (!Int32.TryParse(sInsideEncoding, out nEncodingVal))
+                    {
+                        int nIdx;
+                        for (nIdx = 0; nIdx < sInsideEncoding.ToCharArray().Length; ++nIdx)
+                        {
+                            char cTemp = sInsideEncoding.ToCharArray()[nIdx];
+                            if (!(cTemp == 'x') && !Char.IsDigit(cTemp))
+                                break;
+                        }
+
+                        if (nIdx == sInsideEncoding.ToCharArray().Length)
+                            sResult = m.Value;
+                        else
+                            sResult = m.Value.Substring(nIdx + 2);
+                    }
+                    else
+                        sResult = "";
+                }
+                else if (m.Value.StartsWith("&"))
+                    sResult = m.Value;
+            }
+            catch (Exception ex)
+            {
+                sResult = m.Value;
+            }
+
+            return sResult;
+        }
 
         /// <summary>
         /// 
@@ -35,14 +103,30 @@ namespace OnixData.Extensions
         {
             if ((ParserFileInfo != null) && ParserFileInfo.Exists && !ParserFileInfo.FullName.Contains(CONST_FILENAME_SKIP_REPLACE_MARKER))
             {
+                string sControlCharDomain = "[\x00-\x08\x0B\x0C\x0E-\x1F]";
+
+                System.Console.WriteLine("File is of length [" + ParserFileInfo.Length + "]...");
+                System.Console.Out.Flush();
+
+                if (DebugFlag && FilterBadEncodings)
+                {
+                    System.Console.WriteLine("\nDEBUG: Flag set to filter out bad encodings...\n" + DateTime.Now);
+                    System.Console.Out.Flush();
+                }
+
                 // Only perform in-memory replacement if flag is set and if the file is less than 250 MB
-                if (PerformInMemory && (ParserFileInfo.Length < 250000000))
+                if (PerformInMemory && (ParserFileInfo.Length < CONST_LARGE_FILE_MINIMUM))
                 {
                     StringBuilder AllFileText = new StringBuilder(File.ReadAllText(ParserFileInfo.FullName));
 
                     AllFileText.ReplaceIsoLatinEncodings(ShouldReplaceTechEncodings);
 
-                    File.WriteAllText(ParserFileInfo.FullName, AllFileText.ToString());
+                    var sAllFileText = AllFileText.ToString();
+
+                    if (FilterBadEncodings)
+                        sAllFileText = Regex.Replace(sAllFileText, @"&#?x?[A-Za-z0-9]*;?", EncodingMatcher, RegexOptions.Compiled);
+
+                    File.WriteAllText(ParserFileInfo.FullName, sAllFileText);
                 }
                 else
                 {
@@ -60,7 +144,12 @@ namespace OnixData.Extensions
 
                                 for (nLineCount = 0; !OnixFileReader.EndOfStream; ++nLineCount)
                                 {
-                                    TempLineBuilder.Append(OnixFileReader.ReadLine());
+                                    var sTempLine = OnixFileReader.ReadLine();
+
+                                    if (FilterBadEncodings)
+                                        sTempLine = Regex.Replace(sTempLine, @"&#?x?[A-Za-z0-9]*;?", EncodingMatcher, RegexOptions.Compiled);
+
+                                    TempLineBuilder.Append(sTempLine);
                                     TempLineBuilder.Append("\n");
 
                                     if (TempLineBuilder.Length >= CONST_BLOCK_COUNT_SIZE)
@@ -68,13 +157,12 @@ namespace OnixData.Extensions
                                         TempLineBuilder.ReplaceIsoLatinEncodings(ShouldReplaceTechEncodings);
 
                                         // NOTE: This section will remove any problematic control characters which are not allowed within XML
-                                        string sControlCharDomain = "[\x00-\x08\x0B\x0C\x0E-\x1F]";
-
                                         string sFilteredContents =
                                              System.Text.RegularExpressions.Regex.Replace(TempLineBuilder.ToString(),
                                                                                           sControlCharDomain,
                                                                                           "",
                                                                                           System.Text.RegularExpressions.RegexOptions.Compiled);
+
 
                                         // Finally, we write the block
                                         OnixFileWriter.WriteLine(sFilteredContents);
@@ -134,13 +222,18 @@ namespace OnixData.Extensions
                 System.Console.Out.Flush();
 
                 // Only perform in-memory replacement if flag is set and if the file is less than 250 MB
-                if (PerformInMemory && (ParserFileInfo.Length < 300000000))
+                if (PerformInMemory && (ParserFileInfo.Length < CONST_LARGE_FILE_MINIMUM))
                 {
                     StringBuilder AllFileText = new StringBuilder(File.ReadAllText(ParserFileInfo.FullName));
 
                     AllFileText.ReplaceIsoLatinEncodings(ShouldReplaceTechEncodings);
 
-                    File.WriteAllText(ParserFileInfo.FullName, AllFileText.ToString());
+                    var sAllFileText = AllFileText.ToString();
+
+                    if (FilterBadEncodings)
+                        sAllFileText = Regex.Replace(sAllFileText, @"&#?x?[A-Za-z0-9]*;?", EncodingMatcher, RegexOptions.Compiled);
+
+                    File.WriteAllText(ParserFileInfo.FullName, sAllFileText);
                 }
                 else
                 {
@@ -148,6 +241,12 @@ namespace OnixData.Extensions
 
                     int    nThreadCount = FILTER_THREAD_COUNT;
                     string sTmpFile     = ParserFileInfo.FullName + ".tmp";
+
+                    if (DebugFlag && FilterBadEncodings)
+                    {
+                        System.Console.WriteLine("\nDEBUG: Flag set to filter out bad encodings...\n" + DateTime.Now);
+                        System.Console.Out.Flush();
+                    }
 
                     FileInfo fTmpFile = new FileInfo(sTmpFile);
                     if (!fTmpFile.Exists)
@@ -168,7 +267,12 @@ namespace OnixData.Extensions
 
                                 for (nLineCount = 0; !OnixFileReader.EndOfStream; ++nLineCount)
                                 {
-                                    BlockBuilders[nThreadIdx].Append(OnixFileReader.ReadLine());
+                                    var sTempLine = OnixFileReader.ReadLine();
+
+                                    if (FilterBadEncodings)
+                                        sTempLine = Regex.Replace(sTempLine, @"&#?x?[A-Za-z0-9]*;?", EncodingMatcher, RegexOptions.Compiled);
+
+                                    BlockBuilders[nThreadIdx].Append(sTempLine);
                                     BlockBuilders[nThreadIdx].Append("\n");
 
                                     if (BlockBuilders[nThreadIdx].Length >= CONST_BLOCK_COUNT_SIZE)
@@ -869,8 +973,7 @@ namespace OnixData.Extensions
                 LegacyOnixFileText.Replace("&le;",     "&#8804;"); // < !--less - than or equal to, U + 2264 ISOtech-- >
                 LegacyOnixFileText.Replace("&ge;",     "&#8805;"); // < !--greater - than or equal to, U + 2265 ISOtech-- >
                 LegacyOnixFileText.Replace("&sub;",    "&#8834;"); // < !--subset of, U + 2282 ISOtech-- >
-                LegacyOnixFileText.Replace("&sup;",    "&#8835;"); // < !--superset of, U + 2283 ISOtech-- >				
-
+                LegacyOnixFileText.Replace("&sup;",    "&#8835;"); // < !--superset of, U + 2283 ISOtech-- >
             }
         }
     }
