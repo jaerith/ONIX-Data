@@ -58,6 +58,8 @@ namespace OnixData
             get { return this.ParserRefVerFlag; }
         }
 
+        public bool AlwaysReturnInputXml { get; set; }
+
         public OnixLegacyParser(FileInfo LegacyOnixFilepath, 
                                     bool ExecuteValidation,
                                     bool PreprocessOnixFile = true, 
@@ -65,6 +67,8 @@ namespace OnixData
         {
             if (!File.Exists(LegacyOnixFilepath.FullName))
                 throw new Exception("ERROR!  File(" + LegacyOnixFilepath + ") does not exist.");
+
+            AlwaysReturnInputXml = false;
 
             this.ParserFileInfo   = LegacyOnixFilepath;
             this.ParserRVWFlag    = true;
@@ -97,6 +101,8 @@ namespace OnixData
         {
             string sOnixMsgTag = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
 
+            AlwaysReturnInputXml = false;
+
             if (!File.Exists(LegacyOnixFilepath.FullName))
                 throw new Exception("ERROR!  File(" + LegacyOnixFilepath + ") does not exist.");
 
@@ -126,6 +132,8 @@ namespace OnixData
         {
             if (String.IsNullOrEmpty(LegacyOnixContent))
                 throw new Exception("ERROR!  ONIX content provided is empty.");
+
+            AlwaysReturnInputXml = false;
 
             this.ParserFileContent = new StringBuilder(LegacyOnixContent);
             this.ParserRVWFlag     = true;
@@ -160,6 +168,8 @@ namespace OnixData
                                 bool LoadEntireFileIntoMemory = false)
         {
             string sOnixMsgTag = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
+
+            AlwaysReturnInputXml = false;
 
             if (String.IsNullOrEmpty(LegacyOnixContent))
                 throw new Exception("ERROR!  ONIX content provided is empty.");
@@ -562,6 +572,9 @@ namespace OnixData
             if (++CurrentIndex < this.ProductList.Count)
             {
                 string sInputXml = this.ProductList[CurrentIndex].OuterXml;
+
+                if (OnixParser.AlwaysReturnInputXml)
+                    CurrentRecord.SetInputXml(sInputXml);
 
                 try
                 {
