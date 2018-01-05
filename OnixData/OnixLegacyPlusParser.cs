@@ -15,6 +15,13 @@ using OnixData.Extensions;
 
 namespace OnixData
 {
+    /// <summary>
+    /// 
+    /// This class serves as a way to parse files of the ONIX 2.1 standard (and earlier).
+    /// It is intended to be used when parsing very large ONIX files, in the attempt to balance 
+    /// performance with memory use.
+    ///     
+    /// </summary>
     public class OnixLegacyPlusParser : IDisposable, IEnumerable
     {
         #region CONSTANTS
