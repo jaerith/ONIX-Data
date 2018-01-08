@@ -570,7 +570,8 @@ namespace OnixData.Legacy
                     OnixLegacyPublisher FoundPublisher =
                         OnixPublisherList.Where(x => SoughtPubTypes.Contains(x.PublishingRole)).FirstOrDefault();
 
-                    FoundPubName = FoundPublisher.PublisherName;
+                    if ((FoundPublisher != null) && !String.IsNullOrEmpty(FoundPublisher.PublisherName))
+                        FoundPubName = FoundPublisher.PublisherName;
                 }
 
                 return FoundPubName;
