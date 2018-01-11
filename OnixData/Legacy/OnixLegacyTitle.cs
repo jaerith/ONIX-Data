@@ -32,28 +32,28 @@ namespace OnixData.Legacy
 
         #region ONIX Helpers
 
-        public string OnixTitle
+        public string OnixDistinctiveTitle
         {
             get
             {
                 StringBuilder TitleBuilder = new StringBuilder();
 
-                if (!String.IsNullOrEmpty(this.TitleWithoutPrefix))
-                {
-                    if (!String.IsNullOrEmpty(this.TitlePrefix))
-                        TitleBuilder.Append(this.TitlePrefix.Trim()).Append(" ");
-
-                    TitleBuilder.Append(this.TitleWithoutPrefix.Trim());
-                }
-                else if ((this.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE) ||
-                         (this.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE))
+                if ((this.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE) ||
+                    (this.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE))
                 {
                     if (!String.IsNullOrEmpty(this.TitleText))
                         TitleBuilder.Append(this.TitleText.Trim());
-                }
+                    else if (!String.IsNullOrEmpty(this.TitleWithoutPrefix))
+                    {
+                        if (!String.IsNullOrEmpty(this.TitlePrefix))
+                            TitleBuilder.Append(this.TitlePrefix.Trim()).Append(" ");
 
-                if (!String.IsNullOrEmpty(this.Subtitle))
-                    TitleBuilder.Append(": ").Append(this.Subtitle.Trim());
+                        TitleBuilder.Append(this.TitleWithoutPrefix.Trim());
+                    }
+
+                    if ((TitleBuilder.Length > 0) && !String.IsNullOrEmpty(this.Subtitle))
+                        TitleBuilder.Append(": ").Append(this.Subtitle.Trim());
+                }
 
                 return TitleBuilder.ToString();
             }
