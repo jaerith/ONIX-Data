@@ -312,6 +312,23 @@ namespace OnixData.Legacy
             return SalesRightsAllWorld;
         }
 
+        public string DimensionUnitCode
+        {
+            get
+            {
+                string sUnitCode = "";
+
+                if ((this.Thick != null) && (this.Thick.Measurement > 0))
+                    sUnitCode = this.Thick.MeasureUnitCode;
+                else if ((this.Height != null) && (this.Height.Measurement > 0))
+                    sUnitCode = this.Height.MeasureUnitCode;
+                else if ((this.Width != null) && (this.Width.Measurement > 0))
+                    sUnitCode = this.Width.MeasureUnitCode;
+
+                return sUnitCode;
+            }
+        }
+
         public OnixLegacyMeasure Height
         {
             get { return GetMeasurement(OnixLegacyMeasure.CONST_MEASURE_TYPE_HEIGHT); }
@@ -556,7 +573,7 @@ namespace OnixData.Legacy
                             TitleList.Where(x =>
                                 x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE || x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE).LastOrDefault();
 
-                        if ((FoundTitle == null) || String.IsNullOrEmpty(FoundTitle.OnixTitle))
+                        if ((FoundTitle == null) || String.IsNullOrEmpty(FoundTitle.OnixDistinctiveTitle))
                             FoundTitle = TitleList.Where(x => (x.TitleType < 0)).LastOrDefault();
 
                         if ((FoundTitle != null) && !String.IsNullOrEmpty(FoundTitle.Subtitle))
@@ -593,11 +610,11 @@ namespace OnixData.Legacy
                             TitleList.Where(x =>
                                 x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE || x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE).LastOrDefault();
 
-                        if ((FoundTitle == null) || String.IsNullOrEmpty(FoundTitle.OnixTitle))
+                        if ((FoundTitle == null) || String.IsNullOrEmpty(FoundTitle.OnixDistinctiveTitle))
                             FoundTitle = TitleList.Where(x => (x.TitleType < 0)).LastOrDefault();
 
-                        if ((FoundTitle != null) && !String.IsNullOrEmpty(FoundTitle.OnixTitle))
-                            TitleBuilder.Append(FoundTitle.OnixTitle.Trim());
+                        if ((FoundTitle != null) && !String.IsNullOrEmpty(FoundTitle.OnixDistinctiveTitle))
+                            TitleBuilder.Append(FoundTitle.OnixDistinctiveTitle.Trim());
                     }
                 }
 
