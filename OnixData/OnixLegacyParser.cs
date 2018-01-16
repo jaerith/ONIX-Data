@@ -45,7 +45,8 @@ namespace OnixData
         private bool              PerformValidFlag  = false;
         private StringBuilder     ParserFileContent = null;
         private FileInfo          ParserFileInfo    = null;
-        private XmlReader         LegacyOnixReader  = null;
+        // private XmlReader         LegacyOnixReader  = null;
+        private XmlTextReader     LegacyOnixReader  = null;
         private OnixLegacyMessage LegacyOnixMessage = null;
 
         public bool PerformValidation
@@ -77,7 +78,8 @@ namespace OnixData
             if (PreprocessOnixFile)
                 LegacyOnixFilepath.ReplaceIsoLatinEncodings(true);
 
-            this.LegacyOnixReader = CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag, this.PerformValidFlag);
+            // this.LegacyOnixReader = CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag, this.PerformValidFlag);
+            this.LegacyOnixReader = CreateXmlTextReader(this.ParserFileInfo);
 
             bool   ReferenceVersion = DetectVersionReference(LegacyOnixFilepath);
             string sOnixMsgTag      = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
@@ -114,7 +116,8 @@ namespace OnixData
             if (PreprocessOnixFile)
                 LegacyOnixFilepath.ReplaceIsoLatinEncodings(true);
 
-            this.LegacyOnixReader = CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag, this.PerformValidFlag);
+            // this.LegacyOnixReader = CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag, this.PerformValidFlag);
+            this.LegacyOnixReader = CreateXmlTextReader(this.ParserFileInfo);
 
             if (LoadEntireFileIntoMemory)
             {
@@ -145,7 +148,8 @@ namespace OnixData
                 ParserFileContent.FilterIncompleteEncodings();
             }
 
-            this.LegacyOnixReader = CreateXmlReader(this.ParserFileContent, this.ParserRVWFlag, this.PerformValidFlag);
+            // this.LegacyOnixReader = CreateXmlReader(this.ParserFileContent, this.ParserRVWFlag, this.PerformValidFlag);
+            this.LegacyOnixReader = CreateXmlTextReader(this.ParserFileContent);
 
             bool   ReferenceVersion = DetectVersionReference(ParserFileContent);
             string sOnixMsgTag      = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
@@ -185,7 +189,8 @@ namespace OnixData
                 ParserFileContent.FilterIncompleteEncodings();
             }
 
-            this.LegacyOnixReader = CreateXmlReader(this.ParserFileContent, this.ParserRVWFlag, this.PerformValidFlag);
+            // this.LegacyOnixReader = CreateXmlReader(this.ParserFileContent, this.ParserRVWFlag, this.PerformValidFlag);
+            this.LegacyOnixReader = CreateXmlTextReader(this.ParserFileContent);
 
             if (LoadEntireFileIntoMemory)
             {
@@ -300,6 +305,26 @@ namespace OnixData
             }
 
             OnixXmlReader = XmlReader.Create(new StringReader(LegacyOnixContent.ToString()), settings);
+
+            return OnixXmlReader;
+        }
+
+        static public XmlTextReader CreateXmlTextReader(FileInfo LegacyOnixFilepath)
+        {
+            XmlTextReader OnixXmlReader = new XmlTextReader(LegacyOnixFilepath.FullName);
+            OnixXmlReader.XmlResolver   = null;
+            OnixXmlReader.DtdProcessing = DtdProcessing.Ignore;
+            OnixXmlReader.Namespaces    = false;
+
+            return OnixXmlReader;
+        }
+
+        static public XmlTextReader CreateXmlTextReader(StringBuilder LegacyOnixContent)
+        {
+            XmlTextReader OnixXmlReader = new XmlTextReader(new StringReader(LegacyOnixContent.ToString()));
+            OnixXmlReader.XmlResolver   = null;
+            OnixXmlReader.DtdProcessing = DtdProcessing.Ignore;
+            OnixXmlReader.Namespaces    = false;
 
             return OnixXmlReader;
         }
@@ -509,7 +534,7 @@ namespace OnixData
     public class OnixLegacyEnumerator : IDisposable, IEnumerator
     {
         private OnixLegacyParser OnixParser = null;
-        private XmlReader        OnixReader = null;
+        private XmlTextReader    OnixReader = null;
         
         private int                CurrentIndex      = -1;
         private string             ProductXmlTag     = null;
@@ -524,7 +549,9 @@ namespace OnixData
             this.ProductXmlTag = ProvidedParser.ReferenceVersion ? "Product" : "product";
 
             this.OnixParser = ProvidedParser;
-            this.OnixReader = OnixLegacyParser.CreateXmlReader(LegacyOnixFilepath, false, ProvidedParser.PerformValidation);
+
+            // this.OnixReader = OnixLegacyParser.CreateXmlReader(LegacyOnixFilepath, false, ProvidedParser.PerformValidation);
+            this.OnixReader = OnixLegacyParser.CreateXmlTextReader(LegacyOnixFilepath);
 
             ProductSerializer = new XmlSerializer(typeof(OnixLegacyProduct), new XmlRootAttribute(this.ProductXmlTag));
 
@@ -543,7 +570,9 @@ namespace OnixData
             this.ProductXmlTag = ProvidedParser.ReferenceVersion ? "Product" : "product";
 
             this.OnixParser = ProvidedParser;
-            this.OnixReader = OnixLegacyParser.CreateXmlReader(LegacyOnixContent, false, ProvidedParser.PerformValidation);
+
+            // this.OnixReader = OnixLegacyParser.CreateXmlReader(LegacyOnixContent, false, ProvidedParser.PerformValidation);
+            this.OnixReader = OnixLegacyParser.CreateXmlTextReader(LegacyOnixContent);
 
             ProductSerializer = new XmlSerializer(typeof(OnixLegacyProduct), new XmlRootAttribute(this.ProductXmlTag));
         }
