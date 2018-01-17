@@ -602,13 +602,13 @@ namespace OnixData
             {
                 string sInputXml = this.ProductList[CurrentIndex].OuterXml;
 
-                if (OnixParser.AlwaysReturnInputXml)
-                    CurrentRecord.SetInputXml(sInputXml);
-
                 try
                 {
                     CurrentRecord =
                         this.ProductSerializer.Deserialize(new StringReader(sInputXml)) as OnixLegacyProduct;
+
+                    if ((CurrentRecord != null) && OnixParser.AlwaysReturnInputXml)
+                        CurrentRecord.SetInputXml(sInputXml);
 
                     if ((CurrentRecord != null) && 
                         (CurrentRecord.OnixOtherTextList != null) && 
