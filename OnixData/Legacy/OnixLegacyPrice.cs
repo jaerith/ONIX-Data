@@ -49,24 +49,27 @@ namespace OnixData.Legacy
         public OnixLegacyPrice()
         {
             PriceTypeCode = -1;
-            DiscountCoded = new OnixLegacyDiscountCoded();
             PriceAmount   = 0;
             CurrencyCode  = ClassOfTrade = DiscountPercent = "";
+
+            discountCodedField = shortDiscountCodedField = new OnixLegacyDiscountCoded[0];
         }
 
-        private int                     priceTypeCodeField;
-        private string                  classOfTradeField;
-        private string                  discountPercentageField;
-        private OnixLegacyDiscountCoded discountCodedField;
-        private decimal                 priceAmountField;
-        private string                  currencyCodeField;
-        private string                  priceEffectiveFromField;
-        private string                  priceEffectiveUntilField;
-        private string                  priceTypeDescriptionField;
-        private string                  pricePerField;
-        private int                     minimumOrderQuantityField;
-        private string                  priceStatusField;
-        private string                  countryCodeField;
+        private int     priceTypeCodeField;
+        private string  classOfTradeField;
+        private string  discountPercentageField;
+        private decimal priceAmountField;
+        private string  currencyCodeField;
+        private string  priceEffectiveFromField;
+        private string  priceEffectiveUntilField;
+        private string  priceTypeDescriptionField;
+        private string  pricePerField;
+        private int     minimumOrderQuantityField;
+        private string  priceStatusField;
+        private string  countryCodeField;
+
+        private OnixLegacyDiscountCoded[] discountCodedField;
+        private OnixLegacyDiscountCoded[] shortDiscountCodedField;
 
         #region ONIX helpers
 
@@ -87,15 +90,43 @@ namespace OnixData.Legacy
 
         public bool HasViablePubDiscountCode()
         {
-            bool bHasViablePubDiscCd = false;
+            return (OnixFirstViableDiscountCoded != null);
+        }
 
-            if ((discountCodedField != null))
+        public OnixLegacyDiscountCoded OnixFirstViableDiscountCoded
+        {
+            get
             {
-                bHasViablePubDiscCd =
-                    (discountCodedField.DiscountCodeType == CONST_PUB_DISC_CD_TYPE_PTY) || (discountCodedField.DiscountCodeType == CONST_PUB_DISC_CD_TYPE_PTY_2);
-            }
+                OnixLegacyDiscountCoded ViableDiscountCoded = null;
 
-            return bHasViablePubDiscCd;
+                if ((this.OnixDiscountCodedList != null) && (this.OnixDiscountCodedList.Length > 0))
+                {
+                    OnixLegacyDiscountCoded DiscountCodedCandidate =
+                        OnixDiscountCodedList.Where(x => (x.DiscountCodeType == CONST_PUB_DISC_CD_TYPE_PTY) || (x.DiscountCodeType == CONST_PUB_DISC_CD_TYPE_PTY_2)).FirstOrDefault();
+
+                    if ((DiscountCodedCandidate != null) && !String.IsNullOrEmpty(DiscountCodedCandidate.DiscountCode))
+                        ViableDiscountCoded = DiscountCodedCandidate;
+                }
+
+                return ViableDiscountCoded;
+            }
+        }
+
+        public OnixLegacyDiscountCoded[] OnixDiscountCodedList
+        {
+            get
+            {
+                OnixLegacyDiscountCoded[] DiscountCodedList = null;
+
+                if (discountCodedField != null)
+                    DiscountCodedList = this.discountCodedField;
+                else if (shortDiscountCodedField != null)
+                    DiscountCodedList = this.shortDiscountCodedField;
+                else
+                    DiscountCodedList = new OnixLegacyDiscountCoded[0];
+
+                return DiscountCodedList;
+            }
         }
 
         #endregion
@@ -138,10 +169,11 @@ namespace OnixData.Legacy
             {
                 this.classOfTradeField = value;
             }
-        }        
+        }
 
         /// <remarks/>
-        public OnixLegacyDiscountCoded DiscountCoded
+        [System.Xml.Serialization.XmlElementAttribute("DiscountCoded")]
+        public OnixLegacyDiscountCoded[] DiscountCoded
         {
             get
             {
@@ -301,10 +333,11 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public OnixLegacyDiscountCoded discountcoded
+        [System.Xml.Serialization.XmlElementAttribute("discountcoded")]
+        public OnixLegacyDiscountCoded[] discountcoded
         {
-            get { return DiscountCoded; }
-            set { DiscountCoded = value; }
+            get { return shortDiscountCodedField; }
+            set { shortDiscountCodedField = value; }
         }
 
         /// <remarks/>
