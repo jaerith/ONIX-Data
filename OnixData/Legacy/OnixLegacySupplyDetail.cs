@@ -19,28 +19,28 @@ namespace OnixData.Legacy
         public OnixLegacySupplyDetail()
         {
             SupplierName        = "";
-            ReturnsCodeType     = -1;
+            ReturnsCodeType     = "";
             ReturnsCode         = "";
             LastDateForReturns  = "";
             AvailabilityCode    = "";
-            ProductAvailability = -1;
+            ProductAvailability = "";
             ExpectedShipDate    = "";
             OnSaleDate          = "";
-            PackQuantity        = -1;
+            PackQuantity        = "";
 
             supplierIdentifierField = shortSupplierIdentifierField = new OnixLegacySupplierId[0];
             priceField              = shortPriceField              = new OnixLegacyPrice[0];
         }
 
         private string supplierNameField;
-        private int    returnsCodeTypeField;
+        private string returnsCodeTypeField;
         private string returnsCodeField;
         private string lastDateForReturnsField;
         private string availabilityCodeField;
-        private int    productAvailabilityField;
+        private string productAvailabilityField;
         private string expectedShipDateField;
         private string onSaleDateField;
-        private int    packQuantityField;
+        private string packQuantityField;
         private string unpricedItemTypeField;
 
         private OnixLegacySupplierId[] supplierIdentifierField;
@@ -102,7 +102,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int ReturnsCodeType
+        public string ReturnsCodeType
         {
             get
             {
@@ -111,6 +111,18 @@ namespace OnixData.Legacy
             set
             {
                 this.returnsCodeTypeField = value;
+            }
+        }
+
+        public int ReturnsCodeTypeNum
+        {
+            get
+            {
+                int nReturnsCodeTypeVal = -1;
+                if (!String.IsNullOrEmpty(ReturnsCodeType))
+                    Int32.TryParse(ReturnsCodeType, out nReturnsCodeTypeVal);
+
+                return nReturnsCodeTypeVal;
             }
         }
 
@@ -154,7 +166,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int ProductAvailability
+        public string ProductAvailability
         {
             get
             {
@@ -163,6 +175,18 @@ namespace OnixData.Legacy
             set
             {
                 this.productAvailabilityField = value;
+            }
+        }
+
+        public int ProductAvailabilityNum
+        {
+            get
+            {
+                int nProductAvailabilityVal = -1;
+                if (!String.IsNullOrEmpty(ProductAvailability))
+                    Int32.TryParse(ProductAvailability, out nProductAvailabilityVal);
+
+                return nProductAvailabilityVal;
             }
         }
 
@@ -193,7 +217,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int PackQuantity
+        public string PackQuantity
         {
             get
             {
@@ -202,6 +226,18 @@ namespace OnixData.Legacy
             set
             {
                 this.packQuantityField = value;
+            }
+        }
+
+        public int PackQuantityNum
+        {
+            get
+            {
+                int nPackQuantityVal = -1;
+                if (!String.IsNullOrEmpty(PackQuantity))
+                    Int32.TryParse(PackQuantity, out nPackQuantityVal);
+
+                return nPackQuantityVal;
             }
         }
 
@@ -257,7 +293,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int j268
+        public string j268
         {
             get
             { return ReturnsCodeType; }
@@ -286,7 +322,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int j396
+        public string j396
         {
             get { return ProductAvailability; }
             set { ProductAvailability = value; }
@@ -307,7 +343,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int j145
+        public string j145
         {
             get { return PackQuantity; }
             set { PackQuantity = value; }
