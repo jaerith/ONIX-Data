@@ -83,7 +83,7 @@ namespace OnixData.Legacy
             cityOfPublicationField = countryOfPublicationField  = publishingStatusField = "";
             announcementDateField  = tradeAnnouncementDateField = "";
 
-            PublicationDate = YearFirstPublished = 0;
+            PublicationDate = YearFirstPublished = "";
 
             usdPriceField = null;
 
@@ -159,8 +159,8 @@ namespace OnixData.Legacy
         private string publishingStatusField;
         private string announcementDateField;
         private string tradeAnnouncementDateField;
-        private uint   publicationDateField;
-        private uint   yearFirstPublishedField;
+        private string publicationDateField;
+        private string yearFirstPublishedField;
 
         private OnixLegacySupplyDetail[] supplyDetailField;
         private OnixLegacySupplyDetail[] shortSupplyDetailField;
@@ -318,11 +318,11 @@ namespace OnixData.Legacy
             {
                 string sUnitCode = "";
 
-                if ((this.Thick != null) && (this.Thick.Measurement > 0))
+                if ((this.Thick != null) && !String.IsNullOrEmpty(this.Thick.Measurement))
                     sUnitCode = this.Thick.MeasureUnitCode;
-                else if ((this.Height != null) && (this.Height.Measurement > 0))
+                else if ((this.Height != null) && !String.IsNullOrEmpty(this.Height.Measurement))
                     sUnitCode = this.Height.MeasureUnitCode;
-                else if ((this.Width != null) && (this.Width.Measurement > 0))
+                else if ((this.Width != null) && !String.IsNullOrEmpty(this.Width.Measurement))
                     sUnitCode = this.Width.MeasureUnitCode;
 
                 return sUnitCode;
@@ -515,7 +515,6 @@ namespace OnixData.Legacy
             }
         }
 
-
         public string OnixNumberOfPages
         {
             get
@@ -621,7 +620,6 @@ namespace OnixData.Legacy
                 return TitleBuilder.ToString();
             }
         }
-
 
         public OnixLegacyContributor PrimaryAuthor
         {
@@ -1375,17 +1373,43 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public uint PublicationDate
+        public string PublicationDate
         {
             get { return this.publicationDateField; }
             set { this.publicationDateField = value; }
         }
 
+        public uint PublicationDateNum
+        {
+            get
+            {
+                uint nPubDateVal = 0;
+
+                if (!String.IsNullOrEmpty(PublicationDate))
+                    UInt32.TryParse(PublicationDate, out nPubDateVal);
+
+                return nPubDateVal;
+            }
+        }
+
         /// <remarks/>
-        public uint YearFirstPublished
+        public string YearFirstPublished
         {
             get { return this.yearFirstPublishedField; }
             set { this.yearFirstPublishedField = value; }
+        }
+
+        public uint YearFirstPublishedNum
+        {
+            get
+            {
+                uint nYearFirstPubVal = 0;
+
+                if (!String.IsNullOrEmpty(YearFirstPublished))
+                    UInt32.TryParse(YearFirstPublished, out nYearFirstPubVal);
+
+                return nYearFirstPubVal;
+            }
         }
 
         /// <remarks/>
@@ -1699,14 +1723,14 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public uint b003
+        public string b003
         {
             get { return PublicationDate; }
             set { PublicationDate = value; }
         }
 
         /// <remarks/>
-        public uint b088
+        public string b088
         {
             get { return YearFirstPublished; }
             set { YearFirstPublished = value; }
@@ -1742,7 +1766,7 @@ namespace OnixData.Legacy
                     else if (OnixLegacyMeasure.MEASURE_TYPES_WEIGHT.Contains(Type))
                     {
                         FoundMeasurement =
-                            MeasureList.Where(x => (x.MeasureTypeCode == Type) &&
+                            MeasureList.Where(x => (x.MeasureTypeCode == Type) && 
                                                    (OnixLegacyMeasure.MEASURE_WEIGHTS_US.Contains(x.MeasureUnitCode.ToLower()))).LastOrDefault();
                     }
                 }
