@@ -37,12 +37,12 @@ namespace OnixData.Legacy
         public OnixLegacyMeasure()
         {
             MeasureTypeCode = -1;
-            Measurement     = 0;
+            Measurement     = "";
             MeasureUnitCode = "";
         }
 
         private int     measureTypeCodeField;
-        private decimal measurementField;
+        private string  measurementField;
         private string  measureUnitCodeField;
 
         #region Reference Tags
@@ -61,7 +61,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public decimal Measurement
+        public string Measurement
         {
             get
             {
@@ -70,6 +70,19 @@ namespace OnixData.Legacy
             set
             {
                 this.measurementField = value;
+            }
+        }
+
+        public decimal MeasurementNum
+        {
+            get
+            {
+                decimal nMeasurementVal = 0;
+
+                if (!String.IsNullOrEmpty(Measurement))
+                    Decimal.TryParse(Measurement, out nMeasurementVal);
+
+                return nMeasurementVal;
             }
         }
 
@@ -98,7 +111,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public decimal c094
+        public string c094
         {
             get { return Measurement; }
             set { Measurement = value; }
