@@ -86,6 +86,27 @@ namespace OnixData.Legacy
 
         #endregion
 
+        #region ONIX Helpers
+
+        public bool HasUSDPrice()
+        {
+            bool bHasUSDPrice = false;
+
+            if ((this.OnixPriceList != null) && (this.OnixPriceList.Length > 0))
+            {
+                OnixLegacyPrice[] Prices = this.OnixPriceList;
+
+                OnixLegacyPrice USDPrice =
+                    Prices.Where(x => x.HasSoughtRetailPriceType() && (x.CurrencyCode == "USD")).FirstOrDefault();
+
+                bHasUSDPrice = (USDPrice != null) && (USDPrice.PriceAmount > 0);
+            }
+
+            return bHasUSDPrice;
+        }
+
+        #endregion
+
         #region Reference Tags
 
         /// <remarks/>
