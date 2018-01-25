@@ -194,7 +194,7 @@ namespace OnixData.Legacy
                 if ((SubjectList != null) && (SubjectList.Length > 0))
                 {
                     FoundSubject =
-                        SubjectList.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID).LastOrDefault();
+                        SubjectList.Where(x => x.SubjectSchemeIdentifierNum == OnixLegacySubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID).LastOrDefault();
                 }
 
                 return FoundSubject;
@@ -211,7 +211,7 @@ namespace OnixData.Legacy
                 if ((SubjectList != null) && (SubjectList.Length > 0))
                 {
                     FoundSubject =
-                        SubjectList.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_REGION_ID).LastOrDefault();
+                        SubjectList.Where(x => x.SubjectSchemeIdentifierNum == OnixLegacySubject.CONST_SUBJ_SCHEME_REGION_ID).LastOrDefault();
                 }
 
                 return FoundSubject;
@@ -360,7 +360,7 @@ namespace OnixData.Legacy
                 if ((SubjectList != null) && (SubjectList.Length > 0))
                 {
                     FoundSubject =
-                        SubjectList.Where(x => x.SubjectSchemeIdentifier == OnixLegacySubject.CONST_SUBJ_SCHEME_KEYWORDS).LastOrDefault();
+                        SubjectList.Where(x => x.SubjectSchemeIdentifierNum == OnixLegacySubject.CONST_SUBJ_SCHEME_KEYWORDS).LastOrDefault();
                 }
 
                 if ((FoundSubject != null) && !String.IsNullOrEmpty(FoundSubject.SubjectHeadingText))
@@ -554,6 +554,37 @@ namespace OnixData.Legacy
             }
         }
 
+        private OnixLegacyTitle OnixChosenTitleFromList
+        {
+            get
+            {
+                OnixLegacyTitle FoundTitle = null;
+
+                OnixLegacyTitle[] TitleList = titleField;
+                if ((TitleList == null) || (TitleList.Length <= 0))
+                    TitleList = shortTitleField;
+
+                if ((TitleList != null) && (TitleList.Length > 0))
+                {
+                    FoundTitle =
+                        TitleList.Where(x =>
+                            x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE || !String.IsNullOrEmpty(x.OnixDistinctiveTitle)).LastOrDefault();
+
+                    if ((FoundTitle == null) || String.IsNullOrEmpty(FoundTitle.OnixDistinctiveTitle))
+                    {
+                        FoundTitle =
+                            TitleList.Where(x =>
+                                x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE || !String.IsNullOrEmpty(x.OnixDistinctiveTitle)).LastOrDefault();
+
+                        if ((FoundTitle == null) || String.IsNullOrEmpty(FoundTitle.OnixDistinctiveTitle))
+                            FoundTitle = TitleList.Where(x => (x.TitleType < 0)).LastOrDefault();
+                    }
+                }
+
+                return FoundTitle;
+            }
+        }
+
         public string OnixTitle
         {
             get
@@ -562,22 +593,10 @@ namespace OnixData.Legacy
 
                 if (String.IsNullOrEmpty(this.Subtitle))
                 {
-                    OnixLegacyTitle[] TitleList = titleField;
-                    if ((TitleList == null) || (TitleList.Length <= 0))
-                        TitleList = shortTitleField;
+                    OnixLegacyTitle FoundTitle = this.OnixChosenTitleFromList;
 
-                    if ((TitleList != null) && (TitleList.Length > 0))
-                    {
-                        OnixLegacyTitle FoundTitle =
-                            TitleList.Where(x =>
-                                x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE || x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE).LastOrDefault();
-
-                        if ((FoundTitle == null) || String.IsNullOrEmpty(FoundTitle.OnixDistinctiveTitle))
-                            FoundTitle = TitleList.Where(x => (x.TitleType < 0)).LastOrDefault();
-
-                        if ((FoundTitle != null) && !String.IsNullOrEmpty(FoundTitle.Subtitle))
-                            this.Subtitle = FoundTitle.Subtitle;
-                    }
+                    if ((FoundTitle != null) && !String.IsNullOrEmpty(FoundTitle.Subtitle))
+                        this.Subtitle = FoundTitle.Subtitle;
                 }
 
                 if (!String.IsNullOrEmpty(this.DistinctiveTitle))
@@ -599,22 +618,10 @@ namespace OnixData.Legacy
                 }
                 else
                 {
-                    OnixLegacyTitle[] TitleList = titleField;
-                    if ((TitleList == null) || (TitleList.Length <= 0))
-                        TitleList = shortTitleField;
+                    OnixLegacyTitle FoundTitle = this.OnixChosenTitleFromList;
 
-                    if ((TitleList != null) && (TitleList.Length > 0))
-                    {
-                        OnixLegacyTitle FoundTitle =
-                            TitleList.Where(x =>
-                                x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_DIST_TITLE || x.TitleType == OnixLegacyTitle.CONST_TITLE_TYPE_UN_TITLE).LastOrDefault();
-
-                        if ((FoundTitle == null) || String.IsNullOrEmpty(FoundTitle.OnixDistinctiveTitle))
-                            FoundTitle = TitleList.Where(x => (x.TitleType < 0)).LastOrDefault();
-
-                        if ((FoundTitle != null) && !String.IsNullOrEmpty(FoundTitle.OnixDistinctiveTitle))
-                            TitleBuilder.Append(FoundTitle.OnixDistinctiveTitle.Trim());
-                    }
+                    if ((FoundTitle != null) && !String.IsNullOrEmpty(FoundTitle.OnixDistinctiveTitle))
+                        TitleBuilder.Append(FoundTitle.OnixDistinctiveTitle.Trim());
                 }
 
                 return TitleBuilder.ToString();
@@ -815,19 +822,11 @@ namespace OnixData.Legacy
                 {
                     foreach (OnixLegacySupplyDetail TmpSupplyDetail in OnixSupplyDetailList)
                     {
-                        if ((TmpSupplyDetail.OnixPriceList != null) && (TmpSupplyDetail.OnixPriceList.Length > 0))
+                        if (TmpSupplyDetail.HasUSDPrice())
                         {
-                            OnixLegacyPrice[] Prices = TmpSupplyDetail.OnixPriceList;
-
-                            OnixLegacyPrice USDPrice =
-                                Prices.Where(x => x.HasSoughtRetailPriceType() && (x.CurrencyCode == "USD")).FirstOrDefault();
-
-                            if ((USDPrice != null) && (USDPrice.PriceAmount > 0))
-                            {
-                                bFoundDetails     = true;
-                                FoundSupplyDetail = TmpSupplyDetail;
-                                break;
-                            }
+                            bFoundDetails     = true;
+                            FoundSupplyDetail = TmpSupplyDetail;
+                            break;
                         }
                     }
                 }
