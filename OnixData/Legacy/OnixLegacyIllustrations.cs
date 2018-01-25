@@ -12,17 +12,17 @@ namespace OnixData.Legacy
     {
         public OnixLegacyIllustrations()
         {
-            IllustrationType            = -1;
+            IllustrationType            = "";
             IllustrationTypeDescription = "";
         }
 
-        private int    illustrationTypeField;
+        private string illustrationTypeField;
         private string illustrationTypeDescriptionField;
 
         #region Reference Tags
 
         /// <remarks/>
-        public int IllustrationType
+        public string IllustrationType
         {
             get
             {
@@ -31,6 +31,19 @@ namespace OnixData.Legacy
             set
             {
                 this.illustrationTypeField = value;
+            }
+        }
+
+        public uint IllustrationTypeNum
+        {
+            get
+            {
+                uint nIllTypeNum = 0;
+
+                if (!String.IsNullOrEmpty(IllustrationType))
+                    UInt32.TryParse(IllustrationType, out nIllTypeNum);
+
+                return nIllTypeNum;
             }
         }
 
@@ -52,7 +65,7 @@ namespace OnixData.Legacy
         #region Short Tags
 
         /// <remarks/>
-        public int b256
+        public string b256
         {
             get { return IllustrationType; }
             set { IllustrationType = value; }
