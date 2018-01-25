@@ -20,18 +20,18 @@ namespace OnixData.Legacy
 
         public OnixLegacySubject()
         {
-            SubjectSchemeIdentifier = -1;
+            SubjectSchemeIdentifier = "";
             SubjectCode             = SubjectHeadingText = "";
         }
 
-        private int    subjectSchemeIdentifierField;
+        private string subjectSchemeIdentifierField;
         private string subjectCodeField;
         private string subjectHeadingTextField;
 
         #region Reference Tags
         
         /// <remarks/>
-        public int MainSubjectSchemeIdentifier
+        public string MainSubjectSchemeIdentifier
         {
             get
             {
@@ -44,7 +44,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int SubjectSchemeIdentifier
+        public string SubjectSchemeIdentifier
         {
             get
             {
@@ -53,6 +53,19 @@ namespace OnixData.Legacy
             set
             {
                 this.subjectSchemeIdentifierField = value;
+            }
+        }
+
+        public uint SubjectSchemeIdentifierNum
+        {
+            get
+            {
+                uint nSubjSchemeIdNum = 0;
+
+                if (!String.IsNullOrEmpty(SubjectSchemeIdentifier))
+                    UInt32.TryParse(SubjectSchemeIdentifier, out nSubjSchemeIdNum);
+
+                return nSubjSchemeIdNum;
             }
         }
 
@@ -86,7 +99,7 @@ namespace OnixData.Legacy
         #region Short Tags
 
         /// <remarks/>
-        public int b067
+        public string b067
         {
             get { return SubjectSchemeIdentifier; }
             set { SubjectSchemeIdentifier = value; }
@@ -100,7 +113,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public int b191
+        public string b191
         {
             get { return SubjectSchemeIdentifier; }
             set { SubjectSchemeIdentifier = value; }
