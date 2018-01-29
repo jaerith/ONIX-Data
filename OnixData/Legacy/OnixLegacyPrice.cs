@@ -49,7 +49,7 @@ namespace OnixData.Legacy
         public OnixLegacyPrice()
         {
             PriceTypeCode = -1;
-            PriceAmount   = 0;
+            PriceAmount   = -1;
             CurrencyCode  = ClassOfTrade = DiscountPercent = "";
 
             discountCodedField = shortDiscountCodedField = new OnixLegacyDiscountCoded[0];
