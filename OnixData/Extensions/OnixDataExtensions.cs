@@ -20,6 +20,59 @@ namespace OnixData.Extensions
 
         #endregion
 
+        /// <summary>
+        /// 
+        /// Calculates the checksum for a provided EAN (or the main segment of an EAN)
+        /// 
+        /// </summary>
+        public static int CalculateEANChecksum(this string TargetEAN, StringBuilder EANWithChecksum)
+        {
+            int    nCheckSum;
+            int    nTemp;
+            string sMainFragmentEAN;
+
+            // Initialization
+            nTemp            = 0;
+            nCheckSum        = -1;
+            sMainFragmentEAN = TargetEAN;
+
+            EANWithChecksum.Clear();
+
+            if (TargetEAN.Length == CONST_EAN_LEN)
+            {
+                if (!IsValidEAN(TargetEAN))
+                    return nCheckSum;
+
+                sMainFragmentEAN = TargetEAN.Substring(0, CONST_EAN_LEN - 1);
+            }
+            else if (TargetEAN.Length == (CONST_EAN_LEN - 1))
+                sMainFragmentEAN = TargetEAN;
+            else
+                return -1;
+
+            nCheckSum = 0;
+            for (uint i = 0; i < sMainFragmentEAN.Length; i++)
+            {
+                char cTempVal = sMainFragmentEAN.ToCharArray()[i];
+
+                nTemp = Convert.ToInt32(new String(new char[] { cTempVal }));
+
+                if (nTemp > 0)
+                {
+                    if ((i % 2) == 0)
+                        nCheckSum += nTemp;
+                    else
+                        nCheckSum += (3 * nTemp);
+                }
+            }
+
+            nCheckSum = (CONST_ISBN_LEN - (nCheckSum % 10)) % 10;
+
+            EANWithChecksum.Clear().Append(sMainFragmentEAN).Append(nCheckSum);
+
+            return nCheckSum;
+        }
+
         public static string ConvertEANToISBN(this string TargetEAN)
         {
             int     nCheckSum;
@@ -183,7 +236,7 @@ namespace OnixData.Extensions
             return IsValid;
         }
 
-        static bool IsISBNValid(this string TargetISBN)
+        public static bool IsISBNValid(this string TargetISBN)
         {
             bool    IsValid;
             int     TempVal;
