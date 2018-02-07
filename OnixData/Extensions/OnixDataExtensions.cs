@@ -47,6 +47,8 @@ namespace OnixData.Extensions
             }
             else if (TargetEAN.Length == (CONST_EAN_LEN - 1))
                 sMainFragmentEAN = TargetEAN;
+            else if (TargetEAN.Length < (CONST_EAN_LEN - 1))
+                sMainFragmentEAN = sMainFragmentEAN.PadLeft((CONST_EAN_LEN - 1), '0');
             else
                 return -1;
 
