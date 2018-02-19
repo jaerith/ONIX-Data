@@ -772,7 +772,7 @@ namespace OnixData.Extensions
                 LegacyOnixFileText.Replace("&topbot;", "&#x02336;"); //<!--top and bottom -->
                 LegacyOnixFileText.Replace("&topcir;", "&#x02AF1;"); //<!--top, circle below -->
                 LegacyOnixFileText.Replace("&tprime;", "&#x02034;"); //<!--triple prime -->
-                LegacyOnixFileText.Replace("&utdot ;", "&#x022F0;"); //<!--three dots, ascending -->
+                LegacyOnixFileText.Replace("&utdot;", "&#x022F0;"); //<!--three dots, ascending -->
                 LegacyOnixFileText.Replace("&uwangle;", "&#x029A7;"); //<!--large upward pointing angle -->
                 LegacyOnixFileText.Replace("&vangrt;", "&#x022BE;"); //<!--right angle, variant -->
                 LegacyOnixFileText.Replace("&veeeq;", "&#x0225A;"); //<!--logical or, equals -->
@@ -985,6 +985,154 @@ namespace OnixData.Extensions
                 LegacyOnixFileText.Replace("&ge;",     "&#8805;"); // < !--greater - than or equal to, U + 2265 ISOtech-- >
                 LegacyOnixFileText.Replace("&sub;",    "&#8834;"); // < !--subset of, U + 2282 ISOtech-- >
                 LegacyOnixFileText.Replace("&sup;",    "&#8835;"); // < !--superset of, U + 2283 ISOtech-- >
+
+                // From the "iso-amsa.ent" file
+                LegacyOnixFileText.Replace("&angzarr;",  "&#x0237C;"); // <!--angle with down zig-zag arrow -->
+                LegacyOnixFileText.Replace("&cirmid;",   "&#x02AEF;"); //<!--circle, mid below -->
+                LegacyOnixFileText.Replace("&cudarrl;",  "&#x02938;"); //<!--left, curved, down arrow -->
+                LegacyOnixFileText.Replace("&cudarrr;",  "&#x02935;"); //<!--right, curved, down arrow -->
+                LegacyOnixFileText.Replace("&cularr;",   "&#x021B6;"); //<!--/curvearrowleft A: left curved arrow -->
+                LegacyOnixFileText.Replace("&cularrp;",  "&#x0293D;"); //<!--curved left arrow with plus -->
+                LegacyOnixFileText.Replace("&curarr;",   "&#x021B7;"); //<!--/curvearrowright A: rt curved arrow -->
+                LegacyOnixFileText.Replace("&curarrm;",  "&#x0293C;"); //<!--curved right arrow with minus -->
+                LegacyOnixFileText.Replace("&dArr;",     "&#x021D3;"); //<!--/Downarrow A: down dbl arrow -->
+                LegacyOnixFileText.Replace("&Darr;",     "&#x021A1;"); //<!--down two-headed arrow -->
+                LegacyOnixFileText.Replace("&ddarr;",    "&#x021CA;"); //<!--/downdownarrows A: two down arrows -->
+                LegacyOnixFileText.Replace("&DDotrahd;", "&#x02911;"); //<!--right arrow with dotted stem -->
+                LegacyOnixFileText.Replace("&dfisht;",   "&#x0297F;"); //<!--down fish tail -->
+                LegacyOnixFileText.Replace("&dHar;",     "&#x02965;"); //<!--down harpoon-left, down harpoon-right -->
+                LegacyOnixFileText.Replace("&dharl;",    "&#x021C3;"); //<!--/downharpoonleft A: dn harpoon-left -->
+                LegacyOnixFileText.Replace("&dharr;",    "&#x021C2;"); //<!--/downharpoonright A: down harpoon-rt -->
+                LegacyOnixFileText.Replace("&duarr;",    "&#x021F5;"); //<!--down arrow, up arrow -->
+                LegacyOnixFileText.Replace("&duhar;",    "&#x0296F;"); //<!--down harp, up harp -->
+                LegacyOnixFileText.Replace("&dzigrarr;", "&#x0F5A2;"); //<!--right long zig-zag arrow -->
+                LegacyOnixFileText.Replace("&erarr;",    "&#x02971;"); //<!--equal, right arrow below -->
+                LegacyOnixFileText.Replace("&harr;",     "&#x02194;"); //<!--/leftrightarrow A: l&r arrow -->
+                LegacyOnixFileText.Replace("&hArr;",     "&#x021D4;"); //<!--/Leftrightarrow A: l&r dbl arrow -->
+                LegacyOnixFileText.Replace("&harrcir;",  "&#x02948;"); //<!--left and right arrow with a circle -->
+                LegacyOnixFileText.Replace("&harrw;",    "&#x021AD;"); //<!--/leftrightsquigarrow A: l&r arr-wavy -->
+                LegacyOnixFileText.Replace("&hoarr;",    "&#x021FF;"); //<!--horizontal open arrow -->
+                LegacyOnixFileText.Replace("&imof;",     "&#x022B7;"); //<!--image of -->
+                LegacyOnixFileText.Replace("&lAarr;",    "&#x021DA;"); //<!--/Lleftarrow A: left triple arrow -->
+                LegacyOnixFileText.Replace("&Larr;",     "&#x0219E;"); //<!--/twoheadleftarrow A: -->
+                LegacyOnixFileText.Replace("&larrbfs;",  "&#x0291F;"); //<!--left arrow-bar, filled square -->
+                LegacyOnixFileText.Replace("&larrfs;",   "&#x0291D;"); //<!--left arrow, filled square -->
+                LegacyOnixFileText.Replace("&larrhk;",   "&#x021A9;"); //<!--/hookleftarrow A: left arrow-hooked -->
+                LegacyOnixFileText.Replace("&larrlp;",   "&#x021AB;"); //<!--/looparrowleft A: left arrow-looped -->
+                LegacyOnixFileText.Replace("&larrpl;",   "&#x02939;"); //<!--left arrow, plus -->
+                LegacyOnixFileText.Replace("&larrsim;",  "&#x02973;"); //<!--left arrow, similar -->
+                LegacyOnixFileText.Replace("&larrtl;",   "&#x021A2;"); //<!--/leftarrowtail A: left arrow-tailed -->
+                LegacyOnixFileText.Replace("&latail;",   "&#x02919;"); //<!--left arrow-tail -->
+                LegacyOnixFileText.Replace("&lAtail;",   "&#x0291B;"); //<!--left double arrow-tail -->
+                LegacyOnixFileText.Replace("&lbarr;",    "&#x0290C;"); //<!--left broken arrow -->
+                LegacyOnixFileText.Replace("&lBarr;",    "&#x0290E;"); //<!--left doubly broken arrow -->
+                LegacyOnixFileText.Replace("&ldca;",     "&#x02936;"); //<!--left down curved arrow -->
+                LegacyOnixFileText.Replace("&ldrdhar;",  "&#x02967;"); //<!--left harpoon-down over right harpoon-down -->
+                LegacyOnixFileText.Replace("&ldrushar;", "&#x0294B;"); //<!--left-down-right-up harpoon -->
+                LegacyOnixFileText.Replace("&ldsh;",     "&#x021B2;"); //<!--left down angled arrow -->
+                LegacyOnixFileText.Replace("&lfisht;",   "&#x0297C;"); //<!--left fish tail -->
+                LegacyOnixFileText.Replace("&lHar;",     "&#x02962;"); //<!--left harpoon-up over left harpoon-down -->
+                LegacyOnixFileText.Replace("&lhard;",    "&#x021BD;"); //<!--/leftharpoondown A: l harpoon-down -->
+                LegacyOnixFileText.Replace("&lharu;",    "&#x021BC;"); //<!--/leftharpoonup A: left harpoon-up -->
+                LegacyOnixFileText.Replace("&lharul;",   "&#x0296A;"); //<!--left harpoon-up over long dash -->
+                LegacyOnixFileText.Replace("&llarr;",    "&#x021C7;"); //<!--/leftleftarrows A: two left arrows -->
+                LegacyOnixFileText.Replace("&llhard;",   "&#x0296B;"); //<!--left harpoon-down below long dash -->
+                LegacyOnixFileText.Replace("&loarr;",    "&#x021FD;"); //<!--left open arrow -->
+                LegacyOnixFileText.Replace("&lrarr;",    "&#x021C6;"); //<!--/leftrightarrows A: l arr over r arr -->
+                LegacyOnixFileText.Replace("&lrhar;",    "&#x021CB;"); //<!--/leftrightharpoons A: l harp over r -->
+                LegacyOnixFileText.Replace("&lrhard;",   "&#x0296D;"); //<!--right harpoon-down below long dash -->
+                LegacyOnixFileText.Replace("&lsh;",      "&#x021B0;"); //<!--/Lsh A: -->
+                LegacyOnixFileText.Replace("&lurdshar;", "&#x0294A;"); //<!--left-up-right-down harpoon -->
+                LegacyOnixFileText.Replace("&luruhar;",  "&#x02966;"); //<!--left harpoon-up over right harpoon-up -->
+                LegacyOnixFileText.Replace("&map;",      "&#x021A6;"); //<!--/mapsto A: -->
+                LegacyOnixFileText.Replace("&Map;",      "&#x02905;"); //<!--twoheaded mapsto -->
+                LegacyOnixFileText.Replace("&midcir;",   "&#x02AF0;"); //<!--mid, circle below  -->
+                LegacyOnixFileText.Replace("&mumap;",    "&#x022B8;"); //<!--/multimap A: -->
+                LegacyOnixFileText.Replace("&nearhk;",   "&#x02924;"); //<!--NE arrow-hooked -->
+                LegacyOnixFileText.Replace("&nearr;",    "&#x02197;"); //<!--/nearrow A: NE pointing arrow -->
+                LegacyOnixFileText.Replace("&neArr;",    "&#x021D7;"); //<!--NE pointing dbl arrow -->
+                LegacyOnixFileText.Replace("&nesear;",   "&#x02928;"); //<!--/toea A: NE & SE arrows -->
+                LegacyOnixFileText.Replace("&nharr;",    "&#x021AE;"); //<!--/nleftrightarrow A: not l&r arrow -->
+                LegacyOnixFileText.Replace("&nhArr;",    "&#x021CE;"); //<!--/nLeftrightarrow A: not l&r dbl arr -->
+                LegacyOnixFileText.Replace("&nlarr;",    "&#x0219A;"); //<!--/nleftarrow A: not left arrow -->
+                LegacyOnixFileText.Replace("&nlArr;",    "&#x021CD;"); //<!--/nLeftarrow A: not implied by -->
+                LegacyOnixFileText.Replace("&nrarr;",    "&#x0219B;"); //<!--/nrightarrow A: not right arrow -->
+                LegacyOnixFileText.Replace("&nrArr;",    "&#x021CF;"); //<!--/nRightarrow A: not implies -->
+                LegacyOnixFileText.Replace("&nrarrc;",   "&#x02933;&#x00338;"); //<!--not right arrow-curved -->
+                LegacyOnixFileText.Replace("&nrarrw;",   "&#x0219D;&#x00338;"); //<!--not right arrow-wavy -->
+                LegacyOnixFileText.Replace("&nvHarr;",   "&#x021CE;"); //<!--not, vert, left and right double arrow  -->
+                LegacyOnixFileText.Replace("&nvlArr;",   "&#x021CD;"); //<!--not, vert, left double arrow -->
+                LegacyOnixFileText.Replace("&nvrArr;",   "&#x021CF;"); //<!--not, vert, right double arrow -->
+                LegacyOnixFileText.Replace("&nwarhk;",   "&#x02923;"); //<!--NW arrow-hooked -->
+                LegacyOnixFileText.Replace("&nwarr;",    "&#x02196;"); //<!--/nwarrow A: NW pointing arrow -->
+                LegacyOnixFileText.Replace("&nwArr;",    "&#x021D6;"); //<!--NW pointing dbl arrow -->
+                LegacyOnixFileText.Replace("&nwnear;",   "&#x02927;"); //<!--NW & NE arrows -->
+                LegacyOnixFileText.Replace("&olarr;",    "&#x021BA;"); //<!--/circlearrowleft A: l arr in circle -->
+                LegacyOnixFileText.Replace("&orarr;",    "&#x021BB;"); //<!--/circlearrowright A: r arr in circle -->
+                LegacyOnixFileText.Replace("&origof;",   "&#x022B6;"); //<!--original of -->
+                LegacyOnixFileText.Replace("&rAarr;",    "&#x021DB;"); //<!--/Rrightarrow A: right triple arrow -->
+                LegacyOnixFileText.Replace("&Rarr;",     "&#x021A0;"); //<!--/twoheadrightarrow A: -->
+                LegacyOnixFileText.Replace("&rarrap;",   "&#x02975;"); //<!--approximate, right arrow above -->
+                LegacyOnixFileText.Replace("&rarrbfs;",  "&#x02920;"); //<!--right arrow-bar, filled square -->
+                LegacyOnixFileText.Replace("&rarrc;",    "&#x02933;"); //<!--right arrow-curved -->
+                LegacyOnixFileText.Replace("&rarrfs;",   "&#x0291E;"); //<!--right arrow, filled square -->
+                LegacyOnixFileText.Replace("&rarrhk;",   "&#x021AA;"); //<!--/hookrightarrow A: rt arrow-hooked -->
+                LegacyOnixFileText.Replace("&rarrlp;",   "&#x021AC;"); //<!--/looparrowright A: rt arrow-looped -->
+                LegacyOnixFileText.Replace("&rarrpl;",   "&#x02945;"); //<!--right arrow, plus -->
+                LegacyOnixFileText.Replace("&rarrsim;",  "&#x02974;"); //<!--right arrow, similar -->
+                LegacyOnixFileText.Replace("&rarrtl;",   "&#x021A3;"); //<!--/rightarrowtail A: rt arrow-tailed -->
+                LegacyOnixFileText.Replace("&Rarrtl;",   "&#x02916;"); //<!--right two-headed arrow with tail -->
+                LegacyOnixFileText.Replace("&rarrw;",    "&#x0219D;"); //<!--/rightsquigarrow A: rt arrow-wavy -->
+                LegacyOnixFileText.Replace("&ratail;",   "&#x021A3;"); //<!--right arrow-tail -->
+                LegacyOnixFileText.Replace("&rAtail;",   "&#x0291C;"); //<!--right double arrow-tail -->
+                LegacyOnixFileText.Replace("&rbarr;",    "&#x0290D;"); //<!--/bkarow A: right broken arrow -->
+                LegacyOnixFileText.Replace("&rBarr;",    "&#x0290F;"); //<!--/dbkarow A: right doubly broken arrow -->
+                LegacyOnixFileText.Replace("&RBarr;",    "&#x02910;"); //<!--/drbkarow A: twoheaded right broken arrow -->
+                LegacyOnixFileText.Replace("&rdca;",     "&#x02937;"); //<!--right down curved arrow -->
+                LegacyOnixFileText.Replace("&rdldhar;",  "&#x02969;"); //<!--right harpoon-down over left harpoon-down -->
+                LegacyOnixFileText.Replace("&rdsh;",     "&#x021B3;"); //<!--right down angled arrow -->
+                LegacyOnixFileText.Replace("&rfisht;",   "&#x0297D;"); //<!--right fish tail -->
+                LegacyOnixFileText.Replace("&rHar;",     "&#x02964;"); //<!--right harpoon-up over right harpoon-down -->
+                LegacyOnixFileText.Replace("&rhard;",    "&#x021C1;"); //<!--/rightharpoondown A: rt harpoon-down -->
+                LegacyOnixFileText.Replace("&rharu;",    "&#x021C0;"); //<!--/rightharpoonup A: rt harpoon-up -->
+                LegacyOnixFileText.Replace("&rharul;",   "&#x0296C;"); //<!--right harpoon-up over long dash -->
+                LegacyOnixFileText.Replace("&rlarr;",    "&#x021C4;"); //<!--/rightleftarrows A: r arr over l arr -->
+                LegacyOnixFileText.Replace("&rlhar;",    "&#x021CC;"); //<!--/rightleftharpoons A: r harp over l -->
+                LegacyOnixFileText.Replace("&roarr;",    "&#x021FE;"); //<!--right open arrow -->
+                LegacyOnixFileText.Replace("&rrarr;",    "&#x021C9;"); //<!--/rightrightarrows A: two rt arrows -->
+                LegacyOnixFileText.Replace("&rsh;",      "&#x021B1;"); //<!--/Rsh A: -->
+                LegacyOnixFileText.Replace("&ruluhar;",  "&#x02968;"); //<!--right harpoon-up over left harpoon-up -->
+                LegacyOnixFileText.Replace("&searhk;",   "&#x02925;"); //<!--/hksearow A: SE arrow-hooken -->
+                LegacyOnixFileText.Replace("&searr;",    "&#x02198;"); //<!--/searrow A: SE pointing arrow -->
+                LegacyOnixFileText.Replace("&seArr;",    "&#x021D8;"); //<!--SE pointing dbl arrow -->
+                LegacyOnixFileText.Replace("&seswar;",   "&#x02929;"); //<!--/tosa A: SE & SW arrows -->
+                LegacyOnixFileText.Replace("&simrarr;",  "&#x02972;"); //<!--similar, right arrow below -->
+                LegacyOnixFileText.Replace("&slarr;",    "&#x02190;&#x0FE00;"); //<!--short left arrow -->
+                LegacyOnixFileText.Replace("&srarr;",    "&#x02192;&#x0FE00;"); //<!--short right arrow -->
+                LegacyOnixFileText.Replace("&swarhk;",   "&#x02926;"); //<!--/hkswarow A: SW arrow-hooked -->
+                LegacyOnixFileText.Replace("&swarr;",    "&#x02199;"); //<!--/swarrow A: SW pointing arrow -->
+                LegacyOnixFileText.Replace("&swArr;",    "&#x021D9;"); //<!--SW pointing dbl arrow -->
+                LegacyOnixFileText.Replace("&swnwar;",   "&#x0292A;"); //<!--SW & NW arrows -->
+                LegacyOnixFileText.Replace("&uArr;",     "&#x021D1;"); //<!--/Uparrow A: up dbl arrow -->
+                LegacyOnixFileText.Replace("&Uarr;",     "&#x0219F;"); //<!--up two-headed arrow -->
+                LegacyOnixFileText.Replace("&Uarrocir;", "&#x02949;"); //<!--up two-headed arrow above circle -->
+                LegacyOnixFileText.Replace("&udarr;",    "&#x021C5;"); //<!--up arrow, down arrow -->
+                LegacyOnixFileText.Replace("&udhar;",    "&#x0296E;"); //<!--up harp, down harp -->
+                LegacyOnixFileText.Replace("&ufisht;",   "&#x0297E;"); //<!--up fish tail -->
+                LegacyOnixFileText.Replace("&uHar;",     "&#x02963;"); //<!--up harpoon-left, up harpoon-right -->
+                LegacyOnixFileText.Replace("&uharl;",    "&#x021BF;"); //<!--/upharpoonleft A: up harpoon-left -->
+                LegacyOnixFileText.Replace("&uharr;",    "&#x021BE;"); //<!--/upharpoonright /restriction A: up harp-r -->
+                LegacyOnixFileText.Replace("&uuarr;",    "&#x021C8;"); //<!--/upuparrows A: two up arrows -->
+                LegacyOnixFileText.Replace("&varr;",     "&#x02195;"); //<!--/updownarrow A: up&down arrow -->
+                LegacyOnixFileText.Replace("&vArr;",     "&#x021D5;"); //<!--/Updownarrow A: up&down dbl arrow -->
+                LegacyOnixFileText.Replace("&xharr;",    "&#x0F578;"); //<!--/longleftrightarrow A: long l&r arr -->
+                LegacyOnixFileText.Replace("&xhArr;",    "&#x0F57B;"); //<!--/Longleftrightarrow A: long l&r dbl arr -->
+                LegacyOnixFileText.Replace("&xlarr;",    "&#x0F576;"); //<!--/longleftarrow A: long left arrow -->
+                LegacyOnixFileText.Replace("&xlArr;",    "&#x0F579;"); //<!--/Longleftarrow A: long l dbl arrow -->
+                LegacyOnixFileText.Replace("&xmap;",     "&#x0F57D;"); //<!--/longmapsto A: -->
+                LegacyOnixFileText.Replace("&xrarr;",    "&#x0F577;"); //<!--/longrightarrow A: long right arrow -->
+                LegacyOnixFileText.Replace("&xrArr;",    "&#x0F57A;"); //<!--/Longrightarrow A: long rt dbl arr -->
+                LegacyOnixFileText.Replace("&zigrarr;",  "&#x021DD;"); //<!--right zig-zag arrow -->
             }
         }
     }
