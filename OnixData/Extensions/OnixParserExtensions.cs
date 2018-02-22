@@ -135,7 +135,10 @@ namespace OnixData.Extensions
                     var sAllFileText = AllFileText.ToString();
 
                     if (FilterBadEncodings)
+                    {
                         sAllFileText = Regex.Replace(sAllFileText, @"&#?x?[A-Za-z0-9]*;?", EncodingMatcher, RegexOptions.Compiled);
+                        sAllFileText = Regex.Replace(sAllFileText, sControlCharDomain, "", RegexOptions.Compiled);
+                    }
 
                     File.WriteAllText(ParserFileInfo.FullName, sAllFileText);
                 }
