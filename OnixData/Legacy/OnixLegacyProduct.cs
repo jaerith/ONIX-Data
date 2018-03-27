@@ -59,7 +59,7 @@ namespace OnixData.Legacy
             Illustrations = new OnixLegacyIllustrations();
 
             BASICMainSubject = "";
-            MainSubject      = new OnixLegacySubject();
+            mainSubjectField = shortMainSubjectField = new OnixLegacySubject[0];
 
             titleField = shortTitleField = new OnixLegacyTitle[0];
 
@@ -113,7 +113,9 @@ namespace OnixData.Legacy
         private string contributorStatementField;
 
         private OnixLegacyLanguage languageField;
-        private OnixLegacySubject  mainSubjectField;
+
+        private OnixLegacySubject[] mainSubjectField;
+        private OnixLegacySubject[] shortMainSubjectField;
 
         private string numberOfPagesField;
         private string pagesArabicField;
@@ -965,6 +967,23 @@ namespace OnixData.Legacy
             }
         }
 
+        public OnixLegacySubject[] OnixMainSubjectList
+        {
+            get
+            {
+                OnixLegacySubject[] MainSubjects = null;
+
+                if (this.mainSubjectField != null)
+                    MainSubjects = this.mainSubjectField;
+                else if (this.shortMainSubjectField != null)
+                    MainSubjects = this.shortMainSubjectField;
+                else
+                    MainSubjects = new OnixLegacySubject[0];
+
+                return MainSubjects;
+            }
+        }
+
         public OnixLegacyMediaFile[] OnixMediaFileList
         {
             get
@@ -1242,7 +1261,8 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public OnixLegacySubject MainSubject
+        [System.Xml.Serialization.XmlElementAttribute("MainSubject")]
+        public OnixLegacySubject[] MainSubject
         {
             get { return this.mainSubjectField; }
             set { this.mainSubjectField = value; }
@@ -1576,10 +1596,11 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public OnixLegacySubject mainsubject
+        [System.Xml.Serialization.XmlElementAttribute("mainsubject")]
+        public OnixLegacySubject[] mainsubject
         {
-            get { return this.mainSubjectField; }
-            set { this.mainSubjectField = value; }
+            get { return this.shortMainSubjectField; }
+            set { this.shortMainSubjectField = value; }
         }
 
         /// <remarks/>
