@@ -1136,6 +1136,91 @@ namespace OnixData.Extensions
                 LegacyOnixFileText.Replace("&xrarr;",    "&#x0F577;"); //<!--/longrightarrow A: long right arrow -->
                 LegacyOnixFileText.Replace("&xrArr;",    "&#x0F57A;"); //<!--/Longrightarrow A: long rt dbl arr -->
                 LegacyOnixFileText.Replace("&zigrarr;",  "&#x021DD;"); //<!--right zig-zag arrow -->
+
+                // From the "iso-pub.ent" file
+                LegacyOnixFileText.Replace("&blank;",    "&#x02423;"); //<!--=significant blank symbol -->
+                LegacyOnixFileText.Replace("&blk12;",    "&#x02592;"); //<!--=50% shaded block -->
+                LegacyOnixFileText.Replace("&blk14;",    "&#x02591;"); //<!--=25% shaded block -->
+                LegacyOnixFileText.Replace("&blk34;",    "&#x02593;"); //<!--=75% shaded block -->
+                LegacyOnixFileText.Replace("&block;",    "&#x02588;"); //<!--=full block -->
+                LegacyOnixFileText.Replace("&bull;",     "&#x02022;"); //<!--/bullet B: =round bullet, filled -->
+                LegacyOnixFileText.Replace("&caret;",    "&#x02041;"); //<!--=caret (insertion mark) -->
+                LegacyOnixFileText.Replace("&check;",    "&#x02713;"); //<!--/checkmark =tick, check mark -->
+                LegacyOnixFileText.Replace("&cir;",      "&#x025CB;"); //<!--/circ B: =circle, open -->
+                LegacyOnixFileText.Replace("&clubs;",    "&#x02663;"); //<!--/clubsuit =club suit symbol  -->
+                LegacyOnixFileText.Replace("&copysr;",   "&#x02117;"); //<!--=sound recording copyright sign -->
+                LegacyOnixFileText.Replace("&cross;",    "&#x02717;"); //<!--=ballot cross -->
+                LegacyOnixFileText.Replace("&dagger;",   "&#x02020;"); //<!--/dagger B: =dagger -->
+                LegacyOnixFileText.Replace("&Dagger;",   "&#x02021;"); //<!--/ddagger B: =double dagger -->
+                LegacyOnixFileText.Replace("&dash;",     "&#x02010;"); //<!--=hyphen (true graphic) -->
+                LegacyOnixFileText.Replace("&diams;",    "&#x02666;"); //<!--/diamondsuit =diamond suit symbol  -->
+                LegacyOnixFileText.Replace("&dlcrop;",   "&#x0230D;"); //<!--downward left crop mark  -->
+                LegacyOnixFileText.Replace("&drcrop;",   "&#x0230C;"); //<!--downward right crop mark  -->
+                LegacyOnixFileText.Replace("&dtri;",     "&#x025BF;"); //<!--/triangledown =down triangle, open -->
+                LegacyOnixFileText.Replace("&dtrif;",    "&#x025BE;"); //<!--/blacktriangledown =dn tri, filled -->
+                LegacyOnixFileText.Replace("&emsp;",     "&#x02003;"); //<!--=em space -->
+                LegacyOnixFileText.Replace("&emsp13;",   "&#x02004;"); //<!--=1/3-em space -->
+                LegacyOnixFileText.Replace("&emsp14;",   "&#x02005;"); //<!--=1/4-em space -->
+                LegacyOnixFileText.Replace("&ensp;",     "&#x02002;"); //<!--=en space (1/2-em) -->
+                LegacyOnixFileText.Replace("&female;",   "&#x02640;"); //<!--=female symbol -->
+                LegacyOnixFileText.Replace("&ffilig;",   "&#x0FB03;"); //<!--small ffi ligature -->
+                LegacyOnixFileText.Replace("&fflig;",    "&#x0FB00;"); //<!--small ff ligature -->
+                LegacyOnixFileText.Replace("&ffllig;",   "&#x0FB04;"); //<!--small ffl ligature -->
+                LegacyOnixFileText.Replace("&filig;",    "&#x0FB01;"); //<!--small fi ligature -->
+                LegacyOnixFileText.Replace("&flat;",     "&#x0266D;"); //<!--/flat =musical flat -->
+                LegacyOnixFileText.Replace("&fllig;",    "&#x0FB02;"); //<!--small fl ligature -->
+                LegacyOnixFileText.Replace("&frac13;",   "&#x02153;"); //<!--=fraction one-third -->
+                LegacyOnixFileText.Replace("&frac15;",   "&#x02155;"); //<!--=fraction one-fifth -->
+                LegacyOnixFileText.Replace("&frac16;",   "&#x02159;"); //<!--=fraction one-sixth -->
+                LegacyOnixFileText.Replace("&frac23;",   "&#x02154;"); //<!--=fraction two-thirds -->
+                LegacyOnixFileText.Replace("&frac25;",   "&#x02156;"); //<!--=fraction two-fifths -->
+                LegacyOnixFileText.Replace("&frac35;",   "&#x02157;"); //<!--=fraction three-fifths -->
+                LegacyOnixFileText.Replace("&frac45;",   "&#x02158;"); //<!--=fraction four-fifths -->
+                LegacyOnixFileText.Replace("&frac56;",   "&#x0215A;"); //<!--=fraction five-sixths -->
+                LegacyOnixFileText.Replace("&hairsp;",   "&#x0200A;"); //<!--=hair space -->
+                LegacyOnixFileText.Replace("&hellip;",   "&#x02026;"); //<!--=ellipsis (horizontal) -->
+                LegacyOnixFileText.Replace("&hybull;",   "&#x02043;"); //<!--rectangle, filled (hyphen bullet) -->
+                LegacyOnixFileText.Replace("&incare;",   "&#x02105;"); //<!--=in-care-of symbol -->
+                LegacyOnixFileText.Replace("&ldquor;",   "&#x0201E;"); //<!--=rising dbl quote, left (low) -->
+                LegacyOnixFileText.Replace("&lhblk;",    "&#x02584;"); //<!--=lower half block -->
+                LegacyOnixFileText.Replace("&loz;",      "&#x025CA;"); //<!--/lozenge - lozenge or total mark -->
+                LegacyOnixFileText.Replace("&lozf;",     "&#x029EB;"); //<!--/blacklozenge - lozenge, filled -->
+                LegacyOnixFileText.Replace("&lsquor;",   "&#x0201A;"); //<!--=rising single quote, left (low) -->
+                LegacyOnixFileText.Replace("&ltri;",     "&#x025C3;"); //<!--/triangleleft B: l triangle, open -->
+                LegacyOnixFileText.Replace("&ltrif;",    "&#x025C2;"); //<!--/blacktriangleleft R: =l tri, filled -->
+                LegacyOnixFileText.Replace("&male;",     "&#x02642;"); //<!--=male symbol -->
+                LegacyOnixFileText.Replace("&malt;",     "&#x02720;"); //<!--/maltese =maltese cross -->
+                LegacyOnixFileText.Replace("&marker;",   "&#x025AE;"); //<!--=histogram marker -->
+                LegacyOnixFileText.Replace("&mdash;",    "&#x02014;"); //<!--=em dash  -->
+                LegacyOnixFileText.Replace("&mldr;",     "&#x02026;"); //<!--em leader -->
+                LegacyOnixFileText.Replace("&natur;",    "&#x0266E;"); //<!--/natural - music natural -->
+                LegacyOnixFileText.Replace("&ndash;",    "&#x02013;"); //<!--=en dash -->
+                LegacyOnixFileText.Replace("&nldr;",     "&#x02025;"); //<!--=double baseline dot (en leader) -->
+                LegacyOnixFileText.Replace("&numsp;",    "&#x02007;"); //<!--=digit space (width of a number) -->
+                LegacyOnixFileText.Replace("&phone;",    "&#x0260E;"); //<!--=telephone symbol  -->
+                LegacyOnixFileText.Replace("&puncsp;",   "&#x02008;"); //<!--=punctuation space (width of comma) -->
+                LegacyOnixFileText.Replace("&rdquor;",   "&#x0201D;"); //<!--rising dbl quote, right (high) -->
+                LegacyOnixFileText.Replace("&rect;",     "&#x025AD;"); //<!--=rectangle, open -->
+                LegacyOnixFileText.Replace("&rsquor;",   "&#x02019;"); //<!--rising single quote, right (high) -->
+                LegacyOnixFileText.Replace("&rtri;",     "&#x025B9;"); //<!--/triangleright B: r triangle, open -->
+                LegacyOnixFileText.Replace("&rtrif;",    "&#x025B8;"); //<!--/blacktriangleright R: =r tri, filled -->
+                LegacyOnixFileText.Replace("&rx;",       "&#x0211E;"); //<!--pharmaceutical prescription (Rx) -->
+                LegacyOnixFileText.Replace("&sext;",     "&#x02736;"); //<!--sextile (6-pointed star) -->
+                LegacyOnixFileText.Replace("&sharp;",    "&#x0266F;"); //<!--/sharp =musical sharp -->
+                LegacyOnixFileText.Replace("&spades;",   "&#x02660;"); //<!--/spadesuit =spades suit symbol  -->
+                LegacyOnixFileText.Replace("&squ;",      "&#x025A1;"); //<!--=square, open -->
+                LegacyOnixFileText.Replace("&squf;",     "&#x025AA;"); //<!--/blacksquare =sq bullet, filled -->
+                LegacyOnixFileText.Replace("&star;",     "&#x022C6;"); //<!--=star, open -->
+                LegacyOnixFileText.Replace("&starf;",    "&#x02605;"); //<!--/bigstar - star, filled  -->
+                LegacyOnixFileText.Replace("&target;",   "&#x02316;"); //<!--register mark or target -->
+                LegacyOnixFileText.Replace("&telrec;",   "&#x02315;"); //<!--=telephone recorder symbol -->
+                LegacyOnixFileText.Replace("&thinsp;",   "&#x02009;"); //<!--=thin space (1/6-em) -->
+                LegacyOnixFileText.Replace("&uhblk;",    "&#x02580;"); //<!--=upper half block -->
+                LegacyOnixFileText.Replace("&ulcrop;",   "&#x0230F;"); //<!--upward left crop mark  -->
+                LegacyOnixFileText.Replace("&urcrop;",   "&#x0230E;"); //<!--upward right crop mark  -->
+                LegacyOnixFileText.Replace("&utri;",     "&#x025B5;"); //<!--/triangle =up triangle, open -->
+                LegacyOnixFileText.Replace("&utrif;",    "&#x025B4;"); //<!--/blacktriangle =up tri, filled -->
+                LegacyOnixFileText.Replace("&vellip;",   "&#x022EE;"); //<!--vertical ellipsis -->
             }
         }
     }
