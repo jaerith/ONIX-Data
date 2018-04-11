@@ -848,6 +848,23 @@ namespace OnixData.Legacy
 
         #region ONIX Lists
 
+        public string[] OnixAudCodeList
+        {
+            get
+            {
+                string[] AudCodes = null;
+
+                if (audienceCodeField != null)
+                    AudCodes = this.audienceCodeField;
+                else if (shortAudienceCodeField != null)
+                    AudCodes = this.shortAudienceCodeField;
+                else
+                    AudCodes = new string[0];
+
+                return AudCodes;
+            }
+        }
+
         public OnixLegacyAudRange[] OnixAudRangeList
         {
             get
