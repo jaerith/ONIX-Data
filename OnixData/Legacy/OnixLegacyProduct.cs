@@ -859,7 +859,31 @@ namespace OnixData.Legacy
                 else if (shortAudienceCodeField != null)
                     AudCodes = this.shortAudienceCodeField;
                 else
-                    AudCodes = new string[0];
+                {
+                    OnixLegacyAudience[] AudienceList = audienceField;
+                    if ((AudienceList == null) || (AudienceList.Length <= 0))
+                        AudienceList = shortAudienceField;
+
+                    if ((AudienceList != null) && (AudienceList.Length > 0))
+                    {
+                        OnixLegacyAudience[] OnixAudCodeList =
+                            AudienceList.Where(x => x.AudienceCodeType == OnixLegacyAudience.CONST_AUD_TYPE_ONIX).ToArray();
+
+                        if ((OnixAudCodeList != null) && (OnixAudCodeList.Length > 0))
+                        {
+                            AudCodes = new string[OnixAudCodeList.Length];
+
+                            for (int i = 0; i < OnixAudCodeList.Length; ++i)
+                            {
+                                OnixLegacyAudience TmpAud = OnixAudCodeList[i];
+
+                                AudCodes[i] = (!String.IsNullOrEmpty(TmpAud.AudienceCodeValue)) ? TmpAud.AudienceCodeValue : "";
+                            }
+                        }
+                    }
+                    else
+                        AudCodes = new string[0];
+                }
 
                 return AudCodes;
             }
