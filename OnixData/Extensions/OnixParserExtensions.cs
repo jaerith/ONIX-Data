@@ -989,6 +989,21 @@ namespace OnixData.Extensions
                 LegacyOnixFileText.Replace("&sub;",    "&#8834;"); // < !--subset of, U + 2282 ISOtech-- >
                 LegacyOnixFileText.Replace("&sup;",    "&#8835;"); // < !--superset of, U + 2283 ISOtech-- >
 
+                LegacyOnixFileText.Replace("&nsub;",   "&#8836;"); // < !--not a subset of, U + 2284 ISOamsn-- >
+                LegacyOnixFileText.Replace("&sube;",   "&#8838;"); // < !--subset of or equal to, U + 2286 ISOtech-- >
+                LegacyOnixFileText.Replace("&supe;",   "&#8839;"); // < !--superset of or equal to, U + 2287 ISOtech-- >
+                LegacyOnixFileText.Replace("&oplus;",  "&#8853;"); // < !--circled plus = direct sum, U + 2295 ISOamsb-- >
+                LegacyOnixFileText.Replace("&otimes;", "&#8855;"); // < !--circled times = vector product, U + 2297 ISOamsb-- >
+                LegacyOnixFileText.Replace("&sdot;",   "&#8901;"); // < !--dot operator, U + 22C5 ISOamsb-- >
+                // < !--dot operator is NOT the same character as U + 00B7 middle dot-- >
+                // < !--Miscellaneous Technical-- >
+                LegacyOnixFileText.Replace("&lceil;",  "&#8968;"); // < !--left ceiling = apl upstile, U + 2308 ISOamsc-- >
+                LegacyOnixFileText.Replace("&rceil;",  "&#8969;"); // < !--right ceiling, U + 2309 ISOamsc-- >
+                LegacyOnixFileText.Replace("&lfloor;", "&#8970;"); // < !--left floor = apl downstile, U + 230A ISOamsc-- >
+                LegacyOnixFileText.Replace("&rfloor;", "&#8971;"); // < !--right floor, U + 230B ISOamsc-- >
+                // < !--black here seems to mean filled as opposed to hollow-- >
+                LegacyOnixFileText.Replace("&hearts;", "&#9829;"); // < !--black heart suit = valentine, U + 2665 ISOpub-- >
+
                 // From the "iso-amsa.ent" file
                 LegacyOnixFileText.Replace("&angzarr;",  "&#x0237C;"); // <!--angle with down zig-zag arrow -->
                 LegacyOnixFileText.Replace("&cirmid;",   "&#x02AEF;"); //<!--circle, mid below -->
