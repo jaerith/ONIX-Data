@@ -49,24 +49,23 @@ namespace OnixData.Legacy
         public OnixLegacyPrice()
         {
             PriceTypeCode = -1;
-            PriceAmount   = -1;
-            CurrencyCode  = ClassOfTrade = DiscountPercent = "";
+            CurrencyCode  = PriceAmount = ClassOfTrade = DiscountPercent = "";
 
             discountCodedField = shortDiscountCodedField = new OnixLegacyDiscountCoded[0];
         }
 
-        private int     priceTypeCodeField;
-        private string  classOfTradeField;
-        private string  discountPercentageField;
-        private decimal priceAmountField;
-        private string  currencyCodeField;
-        private string  priceEffectiveFromField;
-        private string  priceEffectiveUntilField;
-        private string  priceTypeDescriptionField;
-        private string  pricePerField;
-        private int     minimumOrderQuantityField;
-        private string  priceStatusField;
-        private string  countryCodeField;
+        private int      priceTypeCodeField;
+        private string   classOfTradeField;
+        private string   discountPercentageField;
+        private string   priceAmountField;
+        private string   currencyCodeField;
+        private string   priceEffectiveFromField;
+        private string   priceEffectiveUntilField;
+        private string   priceTypeDescriptionField;
+        private string   pricePerField;
+        private int      minimumOrderQuantityField;
+        private string   priceStatusField;
+        private string   countryCodeField;
 
         private OnixLegacyDiscountCoded[] discountCodedField;
         private OnixLegacyDiscountCoded[] shortDiscountCodedField;
@@ -199,7 +198,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public decimal PriceAmount
+        public string PriceAmount
         {
             get
             {
@@ -208,6 +207,20 @@ namespace OnixData.Legacy
             set
             {
                 this.priceAmountField = value;
+            }
+        }
+
+        /// <remarks/>
+        public decimal PriceAmountNum
+        {
+            get
+            {
+                decimal dPriceAmountNum = -1;
+
+                if (!String.IsNullOrEmpty(this.priceAmountField))
+                    Decimal.TryParse(this.priceAmountField, out dPriceAmountNum);
+
+                return dPriceAmountNum;
             }
         }
 
@@ -348,7 +361,7 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        public decimal j151
+        public string j151
         {
             get { return this.priceAmountField; }
             set { this.priceAmountField = value; }
