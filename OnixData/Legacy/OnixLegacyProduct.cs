@@ -114,8 +114,8 @@ namespace OnixData.Legacy
 
         private OnixLegacyLanguage languageField;
 
-        private OnixLegacySubject[] mainSubjectField;
-        private OnixLegacySubject[] shortMainSubjectField;
+        private OnixLegacySubject[]  mainSubjectField;
+        private OnixLegacySubject[]  shortMainSubjectField;
 
         private string numberOfPagesField;
         private string pagesArabicField;
@@ -732,7 +732,7 @@ namespace OnixData.Legacy
 
                 OnixLegacyPrice USDPrice = USDRetailPrice;
 
-                if ((USDRetailPrice == null) || (USDRetailPrice.PriceAmount < 0))
+                if ((USDRetailPrice == null) || (USDRetailPrice.PriceAmountNum < 0))
                 {
                     if (OnixSupplyDetailList != null)
                     {
@@ -745,7 +745,7 @@ namespace OnixData.Legacy
                                 USDPrice =
                                     Prices.Where(x => x.HasSoughtPriceTypeCode() && (x.CurrencyCode == "USD")).FirstOrDefault();
 
-                                if ((USDPrice != null) && (USDPrice.PriceAmount >= 0))
+                                if ((USDPrice != null) && (USDPrice.PriceAmountNum >= 0))
                                     break;
                             }
                         }
@@ -775,7 +775,7 @@ namespace OnixData.Legacy
                             USDPrice =
                                 Prices.Where(x => x.HasSoughtSupplyCostPriceType() && (x.CurrencyCode == "USD")).FirstOrDefault();
 
-                            if ((USDPrice != null) && (USDPrice.PriceAmount >= 0))
+                            if ((USDPrice != null) && (USDPrice.PriceAmountNum >= 0))
                                 break;
                         }
                     }
@@ -802,7 +802,7 @@ namespace OnixData.Legacy
                             USDPrice =
                                 Prices.Where(x => x.HasSoughtRetailPriceType() && (x.CurrencyCode == "USD")).FirstOrDefault();
 
-                            if ((USDPrice != null) && (USDPrice.PriceAmount >= 0))
+                            if ((USDPrice != null) && (USDPrice.PriceAmountNum >= 0))
                                 break;
                         }
                     }

@@ -99,7 +99,7 @@ namespace OnixData.Legacy
                 OnixLegacyPrice USDPrice =
                     Prices.Where(x => x.HasSoughtRetailPriceType() && (x.CurrencyCode == "USD")).FirstOrDefault();
 
-                bHasUSDPrice = (USDPrice != null) && (USDPrice.PriceAmount > 0);
+                bHasUSDPrice = (USDPrice != null) && (USDPrice.PriceAmountNum >= 0);
             }
 
             return bHasUSDPrice;
