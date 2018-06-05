@@ -135,10 +135,9 @@ namespace OnixData.Extensions
                     var sAllFileText = AllFileText.ToString();
 
                     if (FilterBadEncodings)
-                    {
                         sAllFileText = Regex.Replace(sAllFileText, @"&#?x?[A-Za-z0-9]*;?", EncodingMatcher, RegexOptions.Compiled);
-                        sAllFileText = Regex.Replace(sAllFileText, sControlCharDomain, "", RegexOptions.Compiled);
-                    }
+
+                    sAllFileText = Regex.Replace(sAllFileText, sControlCharDomain, "", RegexOptions.Compiled);
 
                     File.WriteAllText(ParserFileInfo.FullName, sAllFileText);
                 }
@@ -162,6 +161,8 @@ namespace OnixData.Extensions
 
                                     if (FilterBadEncodings)
                                         sTempLine = Regex.Replace(sTempLine, @"&#?x?[A-Za-z0-9]*;?", EncodingMatcher, RegexOptions.Compiled);
+
+                                    sTempLine = Regex.Replace(sTempLine, sControlCharDomain, "", RegexOptions.Compiled);
 
                                     TempLineBuilder.Append(sTempLine);
                                     TempLineBuilder.Append("\n");
@@ -230,6 +231,8 @@ namespace OnixData.Extensions
         {
             if ((ParserFileInfo != null) && ParserFileInfo.Exists && !ParserFileInfo.FullName.Contains(CONST_FILENAME_SKIP_REPLACE_MARKER))
             {
+                string sControlCharDomain = "[\x00-\x08\x0B\x0C\x0E-\x1F]";
+
                 System.Console.WriteLine("\nReplaceIsoLatinEncodings in Multithread Mode \n");
 
                 System.Console.WriteLine("File is of length [" + ParserFileInfo.Length + "]...");
@@ -246,6 +249,8 @@ namespace OnixData.Extensions
 
                     if (FilterBadEncodings)
                         sAllFileText = Regex.Replace(sAllFileText, @"&#?x?[A-Za-z0-9]*;?", EncodingMatcher, RegexOptions.Compiled);
+
+                    sAllFileText = Regex.Replace(sAllFileText, sControlCharDomain, "", RegexOptions.Compiled);
 
                     File.WriteAllText(ParserFileInfo.FullName, sAllFileText);
                 }
@@ -285,6 +290,8 @@ namespace OnixData.Extensions
 
                                     if (FilterBadEncodings)
                                         sTempLine = Regex.Replace(sTempLine, @"&#?x?[A-Za-z0-9]*;?", EncodingMatcher, RegexOptions.Compiled);
+
+                                    sTempLine = Regex.Replace(sTempLine, sControlCharDomain, "", RegexOptions.Compiled);
 
                                     BlockBuilders[nThreadIdx].Append(sTempLine);
                                     BlockBuilders[nThreadIdx].Append("\n");
