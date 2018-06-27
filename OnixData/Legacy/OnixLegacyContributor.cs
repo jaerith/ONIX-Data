@@ -32,6 +32,20 @@ namespace OnixData.Legacy
         public const string CONST_CONTRIB_ROLE_FILMED_BY     = "F01";
         public const string CONST_CONTRIB_ROLE_OTHER         = "Z99";
 
+        private static readonly HashSet<string> CONST_ALL_ALLOWED_SUFFIX_LIST =
+            new HashSet<string>()
+{
+  "Esq", "Jr", "LPN", "MA", "MBA", "MBE", "MD", "MP", "OBE", "OC", "OD", "PhD",
+  "RCN", "Ret", "RN", "Sr", "USA", "USAF", "USCG", "USMC", "USN"
+};
+
+        private static readonly HashSet<string> CONST_ALL_ALLOWED_FILTERED_SUFFIX_LIST =
+            new HashSet<string>()
+{
+  "ESQ", "JR", "LPN", "MA", "MBA", "MBE", "MD", "MP", "OBE", "OC", "OD", "PHD",
+  "RCN", "RET", "RN", "SR", "USA", "USAF", "USCG", "USMC", "USN"
+};
+
         #endregion
 
         public OnixLegacyContributor()
@@ -368,32 +382,6 @@ namespace OnixData.Legacy
                 if (!String.IsNullOrEmpty(this.NamesBeforeKey))
                     KeyNamePrefixBuilder.Append(this.NamesBeforeKey);
             }
-            else if (!String.IsNullOrEmpty(this.PersonName))
-            {
-                string[] NameComponents = this.PersonName.Split(new char[1] { ' ' });
-
-                if (NameComponents.Length == 1)
-                    KeyNameBuilder.Append(NameComponents[NameComponents.Length - 1]);
-                else if (NameComponents.Length > 1)
-                {
-                    int nKeyNameIndex = (NameComponents.Length - 1);
-                    if (NameComponents[nKeyNameIndex].Contains(".") || (NameComponents[nKeyNameIndex] == NameComponents[nKeyNameIndex].ToUpper()))
-                    {
-                        LettersTitlesBuilder.Append(NameComponents[nKeyNameIndex]);
-                        nKeyNameIndex = (NameComponents.Length - 2);
-                    }
-
-                    KeyNameBuilder.Append(NameComponents[nKeyNameIndex]);
-
-                    for (int i = 0; i < nKeyNameIndex; ++i)
-                    {
-                        if (KeyNamePrefixBuilder.Length > 0)
-                            KeyNamePrefixBuilder.Append(" ");
-
-                        KeyNamePrefixBuilder.Append(NameComponents[i]);
-                    }
-                }
-            }
             else if (!String.IsNullOrEmpty(this.PersonNameInverted))
             {
                 string[] NameComponents = this.PersonNameInverted.Split(new char[1] { ',' });
@@ -415,6 +403,58 @@ namespace OnixData.Legacy
 
                             KeyNamePrefixBuilder.Append(AltNameComponents[i]);
                         }
+                    }
+                }
+            }
+            else if (!String.IsNullOrEmpty(this.PersonName))
+            {
+                string[] NameComponents = this.PersonName.Split(new char[1] { ' ' });
+
+                if (NameComponents.Length == 1)
+                    KeyNameBuilder.Append(NameComponents[NameComponents.Length - 1]);
+                else if (NameComponents.Length > 1)
+                {
+                    bool   bLongSuffix      = false;
+                    bool   bExtraLongSuffix = false;
+                    string sPossibleSuffix  = "";
+
+                    if (NameComponents.Length > 4)
+                    {
+                        sPossibleSuffix  = NameComponents[NameComponents.Length - 3] + " " + NameComponents[NameComponents.Length - 2] + " " + NameComponents[NameComponents.Length - 1];
+                        bExtraLongSuffix = true;
+                    }
+                    else if (NameComponents.Length > 3)
+                    {
+                        sPossibleSuffix = NameComponents[NameComponents.Length-2] + " " + NameComponents[NameComponents.Length-1];
+                        bLongSuffix     = true;
+                    }
+                    else
+                    {
+                        sPossibleSuffix = NameComponents[NameComponents.Length-1];
+                        bLongSuffix     = bExtraLongSuffix = false;
+                    }
+
+                    int nKeyNameIndex = (NameComponents.Length - 1);
+                    if (WithinAllowedSuffixDomain(sPossibleSuffix))
+                    {
+                        LettersTitlesBuilder.Append(sPossibleSuffix);
+
+                        if (bExtraLongSuffix)
+                            nKeyNameIndex = (NameComponents.Length - 4);
+                        else if (bLongSuffix)
+                            nKeyNameIndex = (NameComponents.Length - 3);
+                        else
+                            nKeyNameIndex = (NameComponents.Length - 2);
+                    }
+
+                    KeyNameBuilder.Append(NameComponents[nKeyNameIndex]);
+
+                    for (int i = 0; i < nKeyNameIndex; ++i)
+                    {
+                        if (KeyNamePrefixBuilder.Length > 0)
+                            KeyNamePrefixBuilder.Append(" ");
+
+                        KeyNamePrefixBuilder.Append(NameComponents[i]);
                     }
                 }
             }
@@ -446,6 +486,25 @@ namespace OnixData.Legacy
             onixNamesBeforeKey   = KeyNamePrefixBuilder.ToString().Trim();
             onixKeyNames         = KeyNameBuilder.ToString().Trim();
             onixLettersAndTitles = LettersTitlesBuilder.ToString().Trim();
+        }
+
+        public static bool WithinAllowedSuffixDomain(string psTestSuffix, bool pbTryFilteredVersion = true)
+        {
+            bool bSuffixMatch = false;
+
+            if (!String.IsNullOrEmpty(psTestSuffix))
+            {
+                bSuffixMatch = CONST_ALL_ALLOWED_SUFFIX_LIST.Contains(psTestSuffix);
+
+                if (!bSuffixMatch && pbTryFilteredVersion)
+                {
+                    string psFilteredSuffix = psTestSuffix.Replace(".", "").Replace(" ", "").ToUpper();
+
+                    bSuffixMatch = CONST_ALL_ALLOWED_FILTERED_SUFFIX_LIST.Contains(psFilteredSuffix);
+                }
+            }
+
+            return bSuffixMatch;
         }
 
         #endregion
