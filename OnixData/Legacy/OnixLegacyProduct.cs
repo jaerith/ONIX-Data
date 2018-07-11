@@ -88,6 +88,9 @@ namespace OnixData.Legacy
             usdPriceField = null;
 
             supplyDetailField = shortSupplyDetailField = new OnixLegacySupplyDetail[0];
+
+            classificationField = shortClassificationField = new OnixLegacyProductClassification[0];
+
             ParsingError = null;
         }
 
@@ -166,6 +169,9 @@ namespace OnixData.Legacy
 
         private OnixLegacySupplyDetail[] supplyDetailField;
         private OnixLegacySupplyDetail[] shortSupplyDetailField;
+
+        private OnixLegacyProductClassification[] classificationField;
+        private OnixLegacyProductClassification[] shortClassificationField;
 
         private OnixLegacyPrice usdPriceField;
 
@@ -1076,6 +1082,23 @@ namespace OnixData.Legacy
             }
         }
 
+        public OnixLegacyProductClassification[] OnixProductClassificationList
+        {
+            get
+            {
+                OnixLegacyProductClassification[] ProductClassifications = null;
+
+                if (this.classificationField != null)
+                    ProductClassifications = this.classificationField;
+                else if (this.shortClassificationField != null)
+                    ProductClassifications = this.shortClassificationField;
+                else
+                    ProductClassifications = new OnixLegacyProductClassification[0];
+
+                return ProductClassifications;
+            }
+        }
+
         public OnixLegacyRelatedProduct[] OnixRelatedProductList
         {
             get
@@ -1497,6 +1520,14 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("ProductClassification")]
+        public OnixLegacyProductClassification[] ProductClassification
+        {
+            get { return this.classificationField; }
+            set { this.classificationField = value; }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("RelatedProduct")]
         public OnixLegacyRelatedProduct[] RelatedProduct
         {
@@ -1722,6 +1753,14 @@ namespace OnixData.Legacy
         {
             get { return shortMediaFileField; }
             set { shortMediaFileField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("productclassification")]
+        public OnixLegacyProductClassification[] productclassification
+        {
+            get { return shortClassificationField; }
+            set { shortClassificationField = value; }
         }
 
         /// <remarks/>

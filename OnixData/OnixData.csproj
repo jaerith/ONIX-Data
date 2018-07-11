@@ -57,6 +57,7 @@
     <Compile Include="Legacy\OnixLegacyOtherText.cs" />
     <Compile Include="Legacy\OnixLegacyProduct.cs" />
     <Compile Include="Legacy\OnixLegacyContributor.cs" />
+    <Compile Include="Legacy\OnixLegacyProductClassification.cs" />
     <Compile Include="Legacy\OnixLegacyProductFormFeature.cs" />
     <Compile Include="Legacy\OnixLegacyProductId.cs" />
     <Compile Include="Legacy\OnixLegacyPublisher.cs" />
