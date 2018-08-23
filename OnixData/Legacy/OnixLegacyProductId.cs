@@ -12,17 +12,33 @@ namespace OnixData.Legacy
     {
         public OnixLegacyProductId()
         {
-            ProductIDType = -1;
-            IDValue       = "";
+            ProductIDType = IDValue = "";
         }
 
-        private int    productIDTypeField;
+        private string productIDTypeField;
         private string iDValueField;
+
+        #region Helpers
+
+        public int ProductIDTypeNum
+        {
+            get
+            {
+                int nPidTypeNum = -1;
+
+                if (!String.IsNullOrEmpty(this.productIDTypeField))
+                    Int32.TryParse(this.productIDTypeField, out nPidTypeNum);
+
+                return nPidTypeNum;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
         /// <remarks/>
-        public int ProductIDType
+        public string ProductIDType
         {
             get
             {
@@ -52,7 +68,7 @@ namespace OnixData.Legacy
         #region Short Tags
 
         /// <remarks/>
-        public int b221
+        public string b221
         {
             get
             {

@@ -22,21 +22,38 @@ namespace OnixData.Legacy
 
         public OnixLegacySalesRights()
         {
-            salesRightsTypeField = -1;
+            salesRightsTypeField = "";
             rightsTerritoryField = rightsCountryField = "";
             rightsTerritoryList  = rightsCountryList  = new List<string>();
         }
 
-        private int          salesRightsTypeField;
+        private string       salesRightsTypeField;
         private string       rightsCountryField;
         private List<string> rightsCountryList;
         private string       rightsTerritoryField;
         private List<string> rightsTerritoryList;
 
+        #region Helpers
+
+        public int SalesRightsTypeNum
+        {
+            get
+            {
+                int nSRTypeNum = -1;
+
+                if (!String.IsNullOrEmpty(this.salesRightsTypeField))
+                    Int32.TryParse(this.salesRightsTypeField, out nSRTypeNum);
+
+                return nSRTypeNum;
+            }
+        }
+
+        #endregion
+
         #region Reference Tags
 
         /// <remarks/>
-        public int SalesRightsType
+        public string SalesRightsType
         {
             get
             {
@@ -111,7 +128,7 @@ namespace OnixData.Legacy
         #region Short Tags
 
         /// <remarks/>
-        public int b089
+        public string b089
         {
             get
             {

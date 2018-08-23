@@ -1897,19 +1897,19 @@ namespace OnixData.Legacy
             if ((SalesRightsList != null) && (SalesRightsList.Length > 0))
             {
                 SalesRightsInUS =
-                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsType) && (x.RightsCountryList.Contains("US")));
+                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsTypeNum) && (x.RightsCountryList.Contains("US")));
 
                 SalesRightsInNonUSCountry =
-                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsType) &&
+                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsTypeNum) &&
                                              !x.RightsCountryList.Contains("US")          &&
                                              !x.RightsTerritoryList.Contains("WORLD")     &&
                                              !x.RightsTerritoryList.Contains("ROW"));
 
                 NoSalesRightsInUS =
-                    SalesRightsList.Any(x => aNonSalesRightsColl.Contains(x.SalesRightsType) && x.RightsCountryList.Contains("US"));
+                    SalesRightsList.Any(x => aNonSalesRightsColl.Contains(x.SalesRightsTypeNum) && x.RightsCountryList.Contains("US"));
 
                 SalesRightsAllWorld =
-                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsType) && 
+                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightsTypeNum) && 
                                              (x.RightsTerritoryList.Contains("WORLD") || x.RightsTerritoryList.Contains("ROW")));
             }
 

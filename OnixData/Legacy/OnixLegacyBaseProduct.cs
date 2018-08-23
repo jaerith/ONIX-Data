@@ -101,7 +101,7 @@ namespace OnixData.Legacy
                     if ((ProductIdList != null) && (ProductIdList.Length > 0))
                     {
                         OnixLegacyProductId IsbnProductId =
-                            ProductIdList.Where(x => x.ProductIDType == CONST_PRODUCT_TYPE_ISBN).FirstOrDefault();
+                            ProductIdList.Where(x => x.ProductIDTypeNum == CONST_PRODUCT_TYPE_ISBN).FirstOrDefault();
 
                         if ((IsbnProductId != null) && !String.IsNullOrEmpty(IsbnProductId.IDValue))
                             TempISBN = this.isbnField = IsbnProductId.IDValue;
@@ -128,8 +128,8 @@ namespace OnixData.Legacy
                     if ((ProductIdList != null) && (ProductIdList.Length > 0))
                     {
                         OnixLegacyProductId EanProductId =
-                            ProductIdList.Where(x => (x.ProductIDType == CONST_PRODUCT_TYPE_EAN) ||
-                                                     (x.ProductIDType == CONST_PRODUCT_TYPE_ISBN13)).FirstOrDefault();
+                            ProductIdList.Where(x => (x.ProductIDTypeNum == CONST_PRODUCT_TYPE_EAN) ||
+                                                     (x.ProductIDTypeNum == CONST_PRODUCT_TYPE_ISBN13)).FirstOrDefault();
 
                         if ((EanProductId != null) && !String.IsNullOrEmpty(EanProductId.IDValue))
                             TempEAN = this.eanField = EanProductId.IDValue;
@@ -155,7 +155,7 @@ namespace OnixData.Legacy
                 if ((ProductIdList != null) && (ProductIdList.Length > 0))
                 {
                     OnixLegacyProductId LccnProductId =
-                        ProductIdList.Where(x => (x.ProductIDType == CONST_PRODUCT_TYPE_LCCN)).FirstOrDefault();
+                        ProductIdList.Where(x => (x.ProductIDTypeNum == CONST_PRODUCT_TYPE_LCCN)).FirstOrDefault();
 
                     if ((LccnProductId != null) && !String.IsNullOrEmpty(LccnProductId.IDValue))
                         sLibCongressNum = LccnProductId.IDValue;
@@ -176,7 +176,7 @@ namespace OnixData.Legacy
                 if ((ProductIdList != null) && (ProductIdList.Length > 0))
                 {
                     OnixLegacyProductId PropProductId =
-                        ProductIdList.Where(x => (x.ProductIDType == CONST_PRODUCT_TYPE_PROP)).FirstOrDefault();
+                        ProductIdList.Where(x => (x.ProductIDTypeNum == CONST_PRODUCT_TYPE_PROP)).FirstOrDefault();
 
                     if ((PropProductId != null) && !String.IsNullOrEmpty(PropProductId.IDValue))
                         sPropId = PropProductId.IDValue;
@@ -198,7 +198,7 @@ namespace OnixData.Legacy
                     if ((ProductIdList != null) && (ProductIdList.Length > 0))
                     {
                         OnixLegacyProductId UpcProductId =
-                            ProductIdList.Where(x => x.ProductIDType == CONST_PRODUCT_TYPE_UPC).FirstOrDefault();
+                            ProductIdList.Where(x => x.ProductIDTypeNum == CONST_PRODUCT_TYPE_UPC).FirstOrDefault();
 
                         if ((UpcProductId != null) && !String.IsNullOrEmpty(UpcProductId.IDValue))
                             TempUPC = this.upcField = UpcProductId.IDValue;
