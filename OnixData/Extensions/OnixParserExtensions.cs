@@ -829,7 +829,7 @@ namespace OnixData.Extensions
                 LegacyOnixFileText.Replace("&lpar;", "&#x00028;"); //<!--O: =left parenthesis -->^M
                 LegacyOnixFileText.Replace("&lsqb;", "&#x0005B;"); //<!--/lbrack O: =left square bracket -->^M
                 LegacyOnixFileText.Replace("&lsquo;", "&#x02018;"); //<!--=single quotation mark, left -->^M
-                LegacyOnixFileText.Replace("&lt;", "&#x26;#x0003C;"); //<!--=less-than sign R: -->^M
+                LegacyOnixFileText.Replace("&lt;", "&#x0003C;"); //<!--=less-than sign R: -->^M
                 LegacyOnixFileText.Replace("&micro;", "&#x000B5;"); //<!--=micro sign -->^M
                 LegacyOnixFileText.Replace("&middot;", "&#x000B7;"); //<!--/centerdot B: =middle dot -->^M
                 LegacyOnixFileText.Replace("&nbsp;", "&#x000A0;"); //<!--=no break (required) space -->^M
