@@ -39,9 +39,7 @@ namespace OnixData.Legacy
 
             ProductForm = "";
             ProductFormDescription = "";
-            EpubType               = "";
-            EpubTypeVersion        = "";
-            EpubFormatDescription  = "";
+            EpubType               = EpubTypeVersion = EpubFormatDescription = EpubTypeNote = "";
 
             imprintNameField   = "";
             publisherNameField = "";
@@ -77,6 +75,7 @@ namespace OnixData.Legacy
         protected string    epubTypeField;
         protected string    epubTypeVersionField;
         protected string    epubFormatDescriptionField;
+        protected string    epubTypeNoteField;
         protected string    productFormDescriptionField;
 
         protected string imprintNameField;
@@ -488,6 +487,18 @@ namespace OnixData.Legacy
             }
         }
 
+        public string EpubTypeNote
+        {
+            get
+            {
+                return this.epubTypeNoteField;
+            }
+            set
+            {
+                this.epubTypeNoteField = value;
+            }
+        }
+
         /// <remarks/>
         public OnixLegacyProductFormFeature ProductFormFeature
         {
@@ -707,6 +718,12 @@ namespace OnixData.Legacy
         {
             get { return EpubFormatDescription; }
             set { EpubFormatDescription = value; }
+        }
+
+        public string b277
+        {
+            get { return EpubTypeNote; }
+            set { EpubTypeNote = value; }
         }
 
         /// <remarks/>
