@@ -815,8 +815,9 @@ namespace OnixData.Extensions
                 LegacyOnixFileText.Replace("&frac38;", "&#x0215C;"); //<!--=fraction three-eighths -->^M
                 LegacyOnixFileText.Replace("&frac58;", "&#x0215D;"); //<!--=fraction five-eighths -->^M
                 LegacyOnixFileText.Replace("&frac78;", "&#x0215E;"); //<!--=fraction seven-eighths -->^M
-                LegacyOnixFileText.Replace("&gt;", "&#x0003E;"); //<!--=greater-than sign R: -->^M
-                LegacyOnixFileText.Replace("&half;", "&#x000BD;"); //<!--=fraction one-half -->^M
+                LegacyOnixFileText.Replace("&frasl;",  "&#8260;");   //< !--fraction slash, U + 2044 NEW-- >
+                LegacyOnixFileText.Replace("&gt;",     "&#x0003E;"); //<!--=greater-than sign R: -->^M
+                LegacyOnixFileText.Replace("&half;",   "&#x000BD;"); //<!--=fraction one-half -->^M
                 LegacyOnixFileText.Replace("&horbar;", "&#x02015;"); //<!--=horizontal bar -->^M
                 LegacyOnixFileText.Replace("&hyphen;", "&#x02010;"); //<!--=hyphen -->^M
                 LegacyOnixFileText.Replace("&iexcl;", "&#x000A1;"); //<!--=inverted exclamation mark -->^M
@@ -833,9 +834,10 @@ namespace OnixData.Extensions
                 LegacyOnixFileText.Replace("&micro;", "&#x000B5;"); //<!--=micro sign -->^M
                 LegacyOnixFileText.Replace("&middot;", "&#x000B7;"); //<!--/centerdot B: =middle dot -->^M
                 LegacyOnixFileText.Replace("&nbsp;", "&#x000A0;"); //<!--=no break (required) space -->^M
-                LegacyOnixFileText.Replace("&not;", "&#x000AC;"); //<!--/neg /lnot =not sign -->^M
-                LegacyOnixFileText.Replace("&num;", "&#x00023;"); //<!--=number sign -->^M
-                LegacyOnixFileText.Replace("&ohm;", "&#x02126;"); //<!--=ohm sign -->^M
+                LegacyOnixFileText.Replace("&not;",   "&#x000AC;"); //<!--/neg /lnot =not sign -->^M
+                LegacyOnixFileText.Replace("&num;",   "&#x00023;"); //<!--=number sign -->^M
+                LegacyOnixFileText.Replace("&ohm;",   "&#x02126;"); //<!--=ohm sign -->^M
+                LegacyOnixFileText.Replace("&oline;", "&#8254;"); // < !--overline = spacing overscore, U + 203E NEW-- >
                 LegacyOnixFileText.Replace("&ordf;", "&#x000AA;"); //<!--=ordinal indicator, feminine -->^M
                 LegacyOnixFileText.Replace("&ordm;", "&#x000BA;"); //<!--=ordinal indicator, masculine -->^M
                 LegacyOnixFileText.Replace("&para;", "&#x000B6;"); //<!--=pilcrow (paragraph sign) -->^M
@@ -963,6 +965,14 @@ namespace OnixData.Extensions
                 LegacyOnixFileText.Replace("&thetasym;", "&#977;"); // <!-- greek small letter theta symbol, U+03D1 NEW -->
                 LegacyOnixFileText.Replace("&upsih;", "&#978;"); // <!-- greek upsilon with hook symbol, U+03D2 NEW -->
                 LegacyOnixFileText.Replace("&piv;", "&#982;"); // <!-- greek pi symbol, U+03D6 ISOgrk3 -->
+
+                // < !--Letterlike Symbols-- >
+                LegacyOnixFileText.Replace("&weierp;",  "&#8472;"); // < !--script capital P = power set = Weierstrass p, U + 2118 ISOamso-- >
+                LegacyOnixFileText.Replace("&image;",   "&#8465;"); // < !--blackletter capital I = imaginary part, U + 2111 ISOamso-- >
+                LegacyOnixFileText.Replace("&real;",    "&#8476;"); // < !--blackletter capital R = real part symbol, U + 211C ISOamso -->
+                LegacyOnixFileText.Replace("&trade;",   "&#8482;"); // < !--trade mark sign, U+2122 ISOnum-- >
+                LegacyOnixFileText.Replace("&alefsym;", "&#8501;"); // < !--alef symbol = first transfinite cardinal, U + 2135 NEW-- >
+
                 // < !--Mathematical Operators-- >
                 LegacyOnixFileText.Replace("&forall;", "&#8704;"); // < !-- for all, U + 2200 ISOtech-- >
                 LegacyOnixFileText.Replace("&part;",   "&#8706;"); // < !--partial differential, U + 2202 ISOtech-- >
@@ -996,23 +1006,8 @@ namespace OnixData.Extensions
                 LegacyOnixFileText.Replace("&sub;",    "&#8834;"); // < !--subset of, U + 2282 ISOtech-- >
                 LegacyOnixFileText.Replace("&sup;",    "&#8835;"); // < !--superset of, U + 2283 ISOtech-- >
 
-                LegacyOnixFileText.Replace("&nsub;",   "&#8836;"); // < !--not a subset of, U + 2284 ISOamsn-- >
-                LegacyOnixFileText.Replace("&sube;",   "&#8838;"); // < !--subset of or equal to, U + 2286 ISOtech-- >
-                LegacyOnixFileText.Replace("&supe;",   "&#8839;"); // < !--superset of or equal to, U + 2287 ISOtech-- >
-                LegacyOnixFileText.Replace("&oplus;",  "&#8853;"); // < !--circled plus = direct sum, U + 2295 ISOamsb-- >
-                LegacyOnixFileText.Replace("&otimes;", "&#8855;"); // < !--circled times = vector product, U + 2297 ISOamsb-- >
-                LegacyOnixFileText.Replace("&sdot;",   "&#8901;"); // < !--dot operator, U + 22C5 ISOamsb-- >
-                // < !--dot operator is NOT the same character as U + 00B7 middle dot-- >
-                // < !--Miscellaneous Technical-- >
-                LegacyOnixFileText.Replace("&lceil;",  "&#8968;"); // < !--left ceiling = apl upstile, U + 2308 ISOamsc-- >
-                LegacyOnixFileText.Replace("&rceil;",  "&#8969;"); // < !--right ceiling, U + 2309 ISOamsc-- >
-                LegacyOnixFileText.Replace("&lfloor;", "&#8970;"); // < !--left floor = apl downstile, U + 230A ISOamsc-- >
-                LegacyOnixFileText.Replace("&rfloor;", "&#8971;"); // < !--right floor, U + 230B ISOamsc-- >
-                // < !--black here seems to mean filled as opposed to hollow-- >
-                LegacyOnixFileText.Replace("&hearts;", "&#9829;"); // < !--black heart suit = valentine, U + 2665 ISOpub-- >
-
-                // From the "iso-amsa.ent" file
                 LegacyOnixFileText.Replace("&angzarr;",  "&#x0237C;"); // <!--angle with down zig-zag arrow -->
+                LegacyOnixFileText.Replace("&crarr;",    "&#8629;");   // < !--downwards arrow with corner leftwards = carriage return, U + 21B5 NEW -->
                 LegacyOnixFileText.Replace("&cirmid;",   "&#x02AEF;"); //<!--circle, mid below -->
                 LegacyOnixFileText.Replace("&cudarrl;",  "&#x02938;"); //<!--left, curved, down arrow -->
                 LegacyOnixFileText.Replace("&cudarrr;",  "&#x02935;"); //<!--right, curved, down arrow -->
@@ -1158,6 +1153,21 @@ namespace OnixData.Extensions
                 LegacyOnixFileText.Replace("&xrarr;",    "&#x0F577;"); //<!--/longrightarrow A: long right arrow -->
                 LegacyOnixFileText.Replace("&xrArr;",    "&#x0F57A;"); //<!--/Longrightarrow A: long rt dbl arr -->
                 LegacyOnixFileText.Replace("&zigrarr;",  "&#x021DD;"); //<!--right zig-zag arrow -->
+
+                LegacyOnixFileText.Replace("&nsub;", "&#8836;"); // < !--not a subset of, U + 2284 ISOamsn-- >
+                LegacyOnixFileText.Replace("&sube;", "&#8838;"); // < !--subset of or equal to, U + 2286 ISOtech-- >
+                LegacyOnixFileText.Replace("&supe;", "&#8839;"); // < !--superset of or equal to, U + 2287 ISOtech-- >
+                LegacyOnixFileText.Replace("&oplus;", "&#8853;"); // < !--circled plus = direct sum, U + 2295 ISOamsb-- >
+                LegacyOnixFileText.Replace("&otimes;", "&#8855;"); // < !--circled times = vector product, U + 2297 ISOamsb-- >
+                LegacyOnixFileText.Replace("&sdot;", "&#8901;"); // < !--dot operator, U + 22C5 ISOamsb-- >
+                // < !--dot operator is NOT the same character as U + 00B7 middle dot-- >
+                // < !--Miscellaneous Technical-- >
+                LegacyOnixFileText.Replace("&lceil;", "&#8968;"); // < !--left ceiling = apl upstile, U + 2308 ISOamsc-- >
+                LegacyOnixFileText.Replace("&rceil;", "&#8969;"); // < !--right ceiling, U + 2309 ISOamsc-- >
+                LegacyOnixFileText.Replace("&lfloor;", "&#8970;"); // < !--left floor = apl downstile, U + 230A ISOamsc-- >
+                LegacyOnixFileText.Replace("&rfloor;", "&#8971;"); // < !--right floor, U + 230B ISOamsc-- >
+                // < !--black here seems to mean filled as opposed to hollow-- >
+                LegacyOnixFileText.Replace("&hearts;", "&#9829;"); // < !--black heart suit = valentine, U + 2665 ISOpub-- >
 
                 // From the "iso-pub.ent" file
                 LegacyOnixFileText.Replace("&blank;",    "&#x02423;"); //<!--=significant blank symbol -->
