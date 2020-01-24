@@ -14,20 +14,11 @@ using OnixData.Version3.Header;
 
 namespace OnixData
 {
-    /// <summary>
-    /// 
-    /// This class serves as a way to parse files of the ONIX 3.0 standard.
-    /// You can use this class to either:
-    /// 
-    /// a.) Deserialize and load the entire file into memory
-    /// b.) Enumerate through the file record by record, loading each into memory one at a time
-    ///     
-    /// </summary>
     public class OnixParser : IDisposable, IEnumerable
     {
         #region CONSTANTS
 
-        private const int CONST_DTD_REFERENCE_LENGTH = 512;
+        private const int CONST_DTD_REFERENCE_LENGTH = 500;
 
         private const string CONST_ONIX_MESSAGE_REFERENCE_TAG = "ONIXMessage";
         private const string CONST_ONIX_MESSAGE_SHORT_TAG     = "ONIXmessage";
@@ -73,6 +64,29 @@ namespace OnixData
                 this.CurrOnixMessage = null;
         }
 
+        public OnixParser(string OnixContent, bool ReportValidationWarnings, bool LoadEntireFileIntoMemory = false)
+        {
+            if (!String.IsNullOrEmpty(OnixContent))
+                throw new Exception("ERROR!  Provided ONIX content is empty.");
+
+            this.ParserFileInfo = null;
+            this.ParserRVWFlag  = ReportValidationWarnings;
+            this.CurrOnixReader = CreateXmlReader(new StringBuilder(OnixContent), this.ParserRVWFlag);
+
+            bool   ReferenceVersion = DetectDtdVersionReference(OnixContent);
+            string sOnixMsgTag      = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
+
+            this.ParserRefVerFlag = ReferenceVersion;
+
+            if (LoadEntireFileIntoMemory)
+            {
+                this.CurrOnixMessage =
+                    new XmlSerializer(typeof(OnixMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.CurrOnixReader) as OnixMessage;
+            }
+            else
+                this.CurrOnixMessage = null;
+        }
+
         public OnixParser(bool ReportValidationWarnings,
                       FileInfo OnixFilepath,
                           bool ReferenceVersion,
@@ -84,8 +98,8 @@ namespace OnixData
                 throw new Exception("ERROR!  File(" + OnixFilepath + ") does not exist.");
 
             this.ParserRefVerFlag = ReferenceVersion;
-            this.ParserFileInfo = OnixFilepath;
-            this.ParserRVWFlag = ReportValidationWarnings;
+            this.ParserFileInfo   = OnixFilepath;
+            this.ParserRVWFlag    = ReportValidationWarnings;
 
             this.CurrOnixReader = CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag);
 
@@ -96,16 +110,10 @@ namespace OnixData
             }
         }
 
-        /// <summary>
-        /// 
-        /// This method will prepare the XmlReader that we will use to read the ONIX XML file.
-        /// 
-        /// <param name="CurrOnixFilepath">The path to the ONIX file</param>
-        /// <param name="ReportValidationWarnings">The indicator for whether we should report validation warnings to the caller</param>
-        /// <returns>The XmlReader that will be used to read the ONIX file</returns>
-        /// </summary>
         static public XmlReader CreateXmlReader(FileInfo CurrOnixFilepath, bool ReportValidationWarnings)
         {
+            /*
+             * OLD WAY
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.ConformanceLevel  = ConformanceLevel.Document;
             settings.ValidationType    = ValidationType.Schema;
@@ -118,16 +126,26 @@ namespace OnixData
                 settings.ValidationFlags &= ~(XmlSchemaValidationFlags.ReportValidationWarnings);
 
             return XmlReader.Create(CurrOnixFilepath.FullName, settings);
+            */
+
+            XmlTextReader OnixXmlReader = new XmlTextReader(CurrOnixFilepath.FullName);
+            OnixXmlReader.XmlResolver   = null;
+            OnixXmlReader.DtdProcessing = DtdProcessing.Ignore;
+            OnixXmlReader.Namespaces    = false;
+
+            return OnixXmlReader;
         }
 
-        /// <summary>
-        /// 
-        /// This property will return the header of an ONIX file.  If the file has already been loaded 
-        /// into memory, it will extract the header from the internal member reader.  If not, it will 
-        /// open the file temporarily and extract it from there.
-        /// 
-        /// <returns>The header of the ONIX file</returns>
-        /// </summary>
+        static public XmlTextReader CreateXmlReader(StringBuilder LegacyOnixContent, bool ReportValidationWarnings)
+        {
+            XmlTextReader OnixXmlReader = new XmlTextReader(new StringReader(LegacyOnixContent.ToString()));
+            OnixXmlReader.XmlResolver   = null;
+            OnixXmlReader.DtdProcessing = DtdProcessing.Ignore;
+            OnixXmlReader.Namespaces    = false;
+
+            return OnixXmlReader;
+        }
+
         public OnixHeader MessageHeader
         {
             get
@@ -185,18 +203,8 @@ namespace OnixData
             return new OnixEnumerator(this, this.ParserFileInfo);
         }
 
-        /// <summary>
-        /// 
-        /// This method will help determine whether the XML structure of an ONIX file belongs to the 'Reference' type 
-        /// of ONIX (i.e., verbose tags) or the 'Short' type of ONIX (i.e., alphanumeric tags).
-        /// 
-        /// <param name="LegacyOnixFilepath">The path to the ONIX file</param>
-        /// <returns>The Boolean that indicates whether or not the ONIX file belongs to the 'Reference' type</returns>
-        /// </summary>
         public bool DetectDtdVersionReference(FileInfo LegacyOnixFilepath)
         {
-            bool bReferenceVersion = true;
-
             if (LegacyOnixFilepath.Length < CONST_DTD_REFERENCE_LENGTH)
                 throw new Exception("ERROR!  ONIX File is smaller than expected!");
 
@@ -207,9 +215,18 @@ namespace OnixData
                 fs.Close();
             }
 
+            string sOnixMsgTop = Encoding.Default.GetString(buffer);
+
+            return DetectDtdVersionReference(sOnixMsgTop);
+        }
+
+        public bool DetectDtdVersionReference(string psOnixMsg)
+        {
+            bool bReferenceVersion = true;
+
             string sRefMsgTag = "<" + CONST_ONIX_MESSAGE_REFERENCE_TAG + ">";
-            string sFileHead  = Encoding.Default.GetString(buffer);
-            if (sFileHead.Contains(sRefMsgTag))
+
+            if (psOnixMsg.Contains(sRefMsgTag))
                 bReferenceVersion = true;
             else
                 bReferenceVersion = false;
@@ -219,21 +236,6 @@ namespace OnixData
 
     }
 
-    /// <summary>
-    ///
-    /// This class can be useful in the case that one wants to iterate through an ONIX file, even if it has a bad record due to:
-	/// 
-	/// a.) incorrect XML syntax
-	/// b.) invalid text within a XML document (like certain hexadecimal Unicode)
-	/// d.) improper tag placement
-	/// d.) invalid data types
-	/// 
-    /// In that way, the user of the class can investigate each record on a case-by-case basis, and the file can be processed
-	/// without a sole record preventing the rest of the file from being handled.
-	/// 
-    /// NOTE: It is still recommended that the files be validated through an alternate process before using this class.
-	/// 
-    /// </summary> 
     public class OnixEnumerator : IDisposable, IEnumerator
     {
         private OnixParser OnixParser = null;
@@ -278,19 +280,10 @@ namespace OnixData
             {
                 string sInputXml = this.ProductList[CurrentIndex].OuterXml;
 
-                // NOTE: This section will remove any problematic control characters which are not allowed within XML
-                string sControlCharDomain = "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]";
-
-                string sFilteredInputXml =
-                     System.Text.RegularExpressions.Regex.Replace(sInputXml,
-                                                                  sControlCharDomain,
-                                                                  "",
-                                                                  System.Text.RegularExpressions.RegexOptions.Compiled);
-
                 try
                 {
                     CurrentRecord =
-                        this.ProductSerializer.Deserialize(new StringReader(sFilteredInputXml)) as OnixProduct;
+                        this.ProductSerializer.Deserialize(new StringReader(sInputXml)) as OnixProduct;
                 }
                 catch (Exception ex)
                 {

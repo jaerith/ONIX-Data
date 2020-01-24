@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using OnixData.Version3.Language;
 using OnixData.Version3.Title;
 
 namespace OnixData.Version3
@@ -21,6 +22,7 @@ namespace OnixData.Version3
 
             productContentTypeField = shortProductContentTypeField = new string[0];
             editionTypeField        = shortEditionTypeField = new string[0];
+            languageField           = shortLanguageField = new OnixLanguage[0];
 
             EditionNumber = -1;
             Measure       = new OnixMeasure[0];
@@ -53,6 +55,8 @@ namespace OnixData.Version3
         private OnixContributor[]   shortContributorField;
         private OnixExtent[]        extentField;
         private OnixExtent[]        shortExtentField;
+        private OnixLanguage[]      languageField;
+        private OnixLanguage[]      shortLanguageField;
         private OnixMeasure[]       measureField;
         private OnixMeasure[]       shortMeasureField;
         private OnixSubject[]       subjectField;
@@ -162,6 +166,23 @@ namespace OnixData.Version3
             }
         }
 
+        public OnixLanguage[] OnixLanguageList
+        {
+            get
+            {
+                OnixLanguage[] Languages = null;
+
+                if (this.languageField != null)
+                    Languages = this.languageField;
+                else if (this.shortLanguageField != null)
+                    Languages = this.shortLanguageField;
+                else
+                    Languages = new OnixLanguage[0];
+
+                return Languages;
+            }
+        }
+
         public OnixMeasure[] OnixMeasureList
         {
             get
@@ -193,6 +214,31 @@ namespace OnixData.Version3
                     Subjects = new OnixSubject[0];
 
                 return Subjects;
+            }
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        public string LanguageOfText
+        {
+            get
+            {
+                OnixLanguage[] LangList = OnixLanguageList;
+
+                string sLangOfText = "";
+
+                if ((LangList != null) && (LangList.Length > 0))
+                {
+                    OnixLanguage LangOfText =
+                        LangList.Where(x => x.LanguageRole == OnixLanguage.CONST_ROLE_LANG_OF_TEXT).LastOrDefault();
+
+                    if ((LangOfText != null) && !String.IsNullOrEmpty(LangOfText.LanguageCode))
+                        sLangOfText = LangOfText.LanguageCode;
+                }
+
+                return sLangOfText;
             }
         }
 
@@ -365,6 +411,20 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Language")]
+        public OnixLanguage[] Language
+        {
+            get
+            {
+                return this.languageField;
+            }
+            set
+            {
+                this.languageField = value;
+            }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Subject")]
         public OnixSubject[] Subject
         {
@@ -496,6 +556,14 @@ namespace OnixData.Version3
         {
             get { return shortExtentField; }
             set { shortExtentField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("language")]
+        public OnixLanguage[] language
+        {
+            get { return shortLanguageField; }
+            set { shortLanguageField = value; }
         }
 
         /// <remarks/>
