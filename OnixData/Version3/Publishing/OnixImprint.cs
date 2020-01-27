@@ -10,10 +10,6 @@ namespace OnixData.Version3.Publishing
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixImprint
     {
-        #region CONSTANTS
-        public const int CONST_IMPRINT_ROLE_PROP = 1;
-        #endregion
-
         public OnixImprint()
         {
             ImprintName = "";
@@ -21,7 +17,61 @@ namespace OnixData.Version3.Publishing
 
         private string imprintNameField;
 
+        private OnixImprintIdentifier[] imprintIdentifierField;
+        private OnixImprintIdentifier[] shortImprintIdentifierField;
+
+        #region ONIX Lists
+
+        public OnixImprintIdentifier[] OnixImprintIdentifierList
+        {
+            get
+            {
+                OnixImprintIdentifier[] ImprintIdList = null;
+
+                if (this.imprintIdentifierField != null)
+                    ImprintIdList = this.imprintIdentifierField;
+                else if (this.shortImprintIdentifierField != null)
+                    ImprintIdList = this.shortImprintIdentifierField;
+                else
+                    ImprintIdList = new OnixImprintIdentifier[0];
+
+                return ImprintIdList;
+            }
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        public bool IsProprietaryName()
+        {
+            OnixImprintIdentifier[] ImprintIdList = this.OnixImprintIdentifierList;
+
+            bool bIsProprietary = false;
+
+            if ((ImprintIdList != null) && (ImprintIdList.Length > 0))
+            {
+                OnixImprintIdentifier FoundImprint =
+                    ImprintIdList.Where(x => x.GetImprintIDTypeNum() == OnixImprintIdentifier.CONST_IMPRINT_ROLE_PROP).LastOrDefault();
+
+                if ((FoundImprint != null) && !String.IsNullOrEmpty(FoundImprint.ImprintIDType))
+                    bIsProprietary = true;
+            }
+
+            return bIsProprietary;
+        }
+
+        #endregion
+
         #region Reference Tags
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("ImprintIdentifier")]
+        public OnixImprintIdentifier[] ImprintIdentifier
+        {
+            get { return this.imprintIdentifierField; }
+            set { this.imprintIdentifierField = value; }
+        }
 
         /// <remarks/>
         public string ImprintName
@@ -39,6 +89,14 @@ namespace OnixData.Version3.Publishing
         #endregion
 
         #region Short Tags
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("imprintidentifier")]
+        public OnixImprintIdentifier[] imprintidentifier
+        {
+            get { return this.shortImprintIdentifierField; }
+            set { this.shortImprintIdentifierField = value; }
+        }
 
         /// <remarks/>
         public string b079

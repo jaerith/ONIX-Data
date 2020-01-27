@@ -106,7 +106,7 @@ namespace OnixData.Version3
                     (DescriptiveDetail.OnixSubjectList.Length > 0))
                 {
                     FoundSubject =
-                        DescriptiveDetail.OnixSubjectList.Where(x => x.SubjectSchemeIdentifier == OnixSubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID).LastOrDefault();
+                        DescriptiveDetail.OnixSubjectList.Where(x => x.SubjectSchemeIdentifierNum == OnixSubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID).LastOrDefault();
                 }
 
                 return FoundSubject;
@@ -124,7 +124,7 @@ namespace OnixData.Version3
                     (DescriptiveDetail.OnixSubjectList.Length > 0))
                 {
                     FoundSubject =
-                        DescriptiveDetail.OnixSubjectList.Where(x => x.SubjectSchemeIdentifier == OnixSubject.CONST_SUBJ_SCHEME_REGION_ID).LastOrDefault();
+                        DescriptiveDetail.OnixSubjectList.Where(x => x.SubjectSchemeIdentifierNum == OnixSubject.CONST_SUBJ_SCHEME_REGION_ID).LastOrDefault();
                 }
 
                 return FoundSubject;
@@ -256,6 +256,28 @@ namespace OnixData.Version3
 
                 return PrimaryContentItem.NumberOfPages;
             } 
+        }
+
+        public string ProprietaryImprintName
+        {
+            get
+            {
+                string FoundImprintName = "";
+
+                if (this.PublishingDetail != null)
+                {
+                    OnixImprint[] ImprintList = this.PublishingDetail.OnixImprintList;
+                    if ((ImprintList != null) && (ImprintList.Length > 0))
+                    {
+                        OnixImprint FoundImprint = ImprintList.Where(x => x.IsProprietaryName()).LastOrDefault();
+
+                        if (FoundImprint != null)
+                            FoundImprintName = FoundImprint.ImprintName;
+                    }
+                }
+
+                return FoundImprintName;
+            }
         }
 
         public string PublisherName

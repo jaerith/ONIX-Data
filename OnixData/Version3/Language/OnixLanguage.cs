@@ -12,7 +12,7 @@ namespace OnixData.Version3.Language
     {
         #region CONSTANTS
 
-        public const string CONST_ROLE_LANG_OF_TEXT = "01";
+        public const int CONST_ROLE_LANG_OF_TEXT = 1;
 
         #endregion
 
@@ -24,6 +24,27 @@ namespace OnixData.Version3.Language
 
         private string langRole;
         private string langCode;
+
+        #region Helper Methods
+
+        public int GetLanguageRoleNum()
+        {
+            int nLangRole = -1;
+
+            if (!String.IsNullOrEmpty(this.LanguageRole))
+            {
+                Int32.TryParse(this.LanguageRole, out nLangRole);
+            }
+
+            return nLangRole;
+        }
+
+        public bool IsLanguageOfText()
+        {
+            return (GetLanguageRoleNum() == CONST_ROLE_LANG_OF_TEXT);
+        }
+
+        #endregion
 
         #region Reference Tags
 

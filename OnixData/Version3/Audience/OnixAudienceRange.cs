@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnixData.Version3
+namespace OnixData.Version3.Audience
 {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
@@ -22,6 +22,11 @@ namespace OnixData.Version3
         public const int CONST_AUD_RANGE_PRCN_EXACT = 1;
         public const int CONST_AUD_RANGE_PRCN_FROM  = 3;
         public const int CONST_AUD_RANGE_PRCN_TO    = 4;
+
+        public const string CONST_AUD_GRADE_PRESCHOOL_CD  = "P";
+        public const string CONST_AUD_GRADE_PRESCHOOL_TXT = "PRE-SCHOOL";
+        public const string CONST_AUD_GRADE_KNDGRTN_CD    = "K";
+        public const string CONST_AUD_GRADE_KNDGRTN_TXT   = "KINDERGARTEN";
 
         #endregion
 

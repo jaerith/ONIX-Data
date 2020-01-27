@@ -12,6 +12,8 @@ namespace OnixData.Version3
     {
         #region CONSTANTS
 
+        public const string CONST_MAIN_SUBJ_INDICATOR = "MAIN";
+
         public const int CONST_SUBJ_SCHEME_BISAC_CAT_ID = 10;
         public const int CONST_SUBJ_SCHEME_REGION_ID    = 11;
 
@@ -19,15 +21,38 @@ namespace OnixData.Version3
 
         public OnixSubject()
         {
-            MainSubject = SubjectCode = "";
+            MainSubject = SubjectCode = SubjectSchemeIdentifier = "";
 
-            SubjectSchemeIdentifier = SubjectSchemeVersion = -1;
+            SubjectSchemeVersion = -1;
         }
 
         private string mainSubjectField;
-        private int    subjectSchemeIdentifierField;
+        private string subjectSchemeIdentifierField;
         private int    subjectSchemeVersionField;
         private string subjectCodeField;
+
+
+        #region Helper Methods
+
+        public bool IsMainSubject()
+        {
+            return (!String.IsNullOrEmpty(MainSubject) && (MainSubject == CONST_MAIN_SUBJ_INDICATOR));
+        }
+
+        public int SubjectSchemeIdentifierNum
+        {
+            get
+            {
+                int nSubjSchemeIdNum = 0;
+
+                if (!String.IsNullOrEmpty(SubjectSchemeIdentifier))
+                    Int32.TryParse(SubjectSchemeIdentifier, out nSubjSchemeIdNum);
+
+                return nSubjSchemeIdNum;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
@@ -45,7 +70,7 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        public int SubjectSchemeIdentifier
+        public string SubjectSchemeIdentifier
         {
             get
             {
@@ -91,11 +116,18 @@ namespace OnixData.Version3
         public string x425
         {
             get { return MainSubject; }
-            set { MainSubject = value; }
+
+            set
+            {
+                if (String.IsNullOrEmpty(value))
+                    MainSubject = CONST_MAIN_SUBJ_INDICATOR;
+                else
+                    MainSubject = value;
+            }
         }
 
         /// <remarks/>
-        public int b067
+        public string b067
         {
             get { return SubjectSchemeIdentifier; }
             set { SubjectSchemeIdentifier = value; }

@@ -12,12 +12,18 @@ namespace OnixData.Version3.Publishing
     {
         public OnixPublishingDetail()
         {
-            Imprint   = new OnixImprint[0];
-            Publisher = new OnixPublisher[0];
+            Imprint        = new OnixImprint[0];
+            Publisher      = new OnixPublisher[0];
+            PublishingDate = new OnixPubDate[0];
         }
+
 
         private OnixImprint[]   imprintField;
         private OnixImprint[]   shortImprintField;
+
+        private OnixPubDate[]   pubDateField;
+        private OnixPubDate[]   shortPubDateField;
+
         private OnixPublisher[] publisherField;
         private OnixPublisher[] shortPublisherField;
 
@@ -57,6 +63,48 @@ namespace OnixData.Version3.Publishing
             }
         }
 
+        public OnixPubDate[] OnixPublishingDateList
+        {
+            get
+            {
+                OnixPubDate[] PubDates = null;
+
+                if (this.pubDateField != null)
+                    PubDates = this.pubDateField;
+                else if (this.shortPubDateField != null)
+                    PubDates = this.shortPubDateField;
+                else
+                    PubDates = new OnixPubDate[0];
+
+                return PubDates;
+            }
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        public string PublicationDate
+        {
+            get
+            {
+                OnixPubDate[] PubDtList = this.OnixPublishingDateList;
+
+                string sPubDate = "";
+
+                if ((PubDtList != null) && (PubDtList.Length > 0))
+                {                    
+                    OnixPubDate FoundPubDate =
+                        PubDtList.Where(x => x.PublishingDateRole == OnixPubDate.CONST_PUB_DT_ROLE_NORMAL).LastOrDefault();
+
+                    if ((FoundPubDate != null) && !String.IsNullOrEmpty(FoundPubDate.Date))
+                        sPubDate = FoundPubDate.Date;
+                }
+
+                return sPubDate;
+            }
+        }
+
         #endregion
 
         #region Reference Tags
@@ -65,28 +113,24 @@ namespace OnixData.Version3.Publishing
         [System.Xml.Serialization.XmlElementAttribute("Imprint")]
         public OnixImprint[] Imprint
         {
-            get
-            {
-                return this.imprintField;
-            }
-            set
-            {
-                this.imprintField = value;
-            }
+            get { return this.imprintField; }
+            set { this.imprintField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Publisher")]
         public OnixPublisher[] Publisher
         {
-            get
-            {
-                return this.publisherField;
-            }
-            set
-            {
-                this.publisherField = value;
-            }
+            get { return this.publisherField; }
+            set { this.publisherField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("PublishingDate")]
+        public OnixPubDate[] PublishingDate
+        {
+            get { return this.pubDateField; }
+            set { this.pubDateField = value; }
         }
 
         #endregion
@@ -107,6 +151,14 @@ namespace OnixData.Version3.Publishing
         {
             get { return shortPublisherField; }
             set { shortPublisherField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("publishingdate")]
+        public OnixPubDate[] publishingdate
+        {
+            get { return this.shortPubDateField; }
+            set { this.shortPubDateField = value; }
         }
 
         #endregion

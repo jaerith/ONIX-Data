@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using OnixData.Version3.Audience;
 using OnixData.Version3.Language;
 using OnixData.Version3.Title;
 
@@ -21,8 +22,9 @@ namespace OnixData.Version3
             ProductFormDescription = "";
 
             productContentTypeField = shortProductContentTypeField = new string[0];
-            editionTypeField        = shortEditionTypeField = new string[0];
-            languageField           = shortLanguageField = new OnixLanguage[0];
+            editionTypeField        = shortEditionTypeField        = new string[0];
+            audienceField           = shortAudienceField           = new OnixAudience[0];
+            languageField           = shortLanguageField           = new OnixLanguage[0];
 
             EditionNumber = -1;
             Measure       = new OnixMeasure[0];
@@ -47,6 +49,8 @@ namespace OnixData.Version3
 
         private OnixTitleDetail     titleDetailField;
 
+        private OnixAudience[]      audienceField;
+        private OnixAudience[]      shortAudienceField;
         private OnixAudienceRange[] audienceRangeField;
         private OnixAudienceRange[] shortAudienceRangeField;
         private OnixCollection[]    collectionField;
@@ -95,6 +99,40 @@ namespace OnixData.Version3
                     EditionTypes = new string[0];
 
                 return EditionTypes;
+            }
+        }
+
+        public string[] OnixAudCodeList
+        {
+            get
+            {
+                string[] AudCodes = null;
+
+                OnixAudience[] AudienceList = audienceField;
+                if ((AudienceList == null) || (AudienceList.Length <= 0))
+                    AudienceList = shortAudienceField;
+
+                if ((AudienceList != null) && (AudienceList.Length > 0))
+                {
+                    OnixAudience[] OnixAudCodeList =
+                        AudienceList.Where(x => x.AudienceCodeType == OnixAudience.CONST_AUD_TYPE_ONIX).ToArray();
+
+                    if ((OnixAudCodeList != null) && (OnixAudCodeList.Length > 0))
+                    {
+                        AudCodes = new string[OnixAudCodeList.Length];
+
+                        for (int i = 0; i < OnixAudCodeList.Length; ++i)
+                        {
+                            OnixAudience TmpAud = OnixAudCodeList[i];
+
+                            AudCodes[i] = (!String.IsNullOrEmpty(TmpAud.AudienceCodeValue)) ? TmpAud.AudienceCodeValue : "";
+                        }
+                    }
+                }
+                else
+                    AudCodes = new string[0];
+
+                return AudCodes;
             }
         }
 
@@ -183,6 +221,25 @@ namespace OnixData.Version3
             }
         }
 
+        public OnixSubject[] OnixMainSubjectList
+        {
+            get
+            {
+                OnixSubject[] MainSubjects = new OnixSubject[0];
+
+                if ((OnixSubjectList != null) && (OnixSubjectList.Length > 0))
+                {
+                    var MainSubjList =
+                        OnixSubjectList.Where(x => x.IsMainSubject()).ToList();
+
+                    if (MainSubjList != null)
+                        MainSubjects = MainSubjList.ToArray();
+                }
+
+                return MainSubjects;
+            }
+        }
+
         public OnixMeasure[] OnixMeasureList
         {
             get
@@ -221,6 +278,108 @@ namespace OnixData.Version3
 
         #region Helper Methods
 
+        public string AudienceAgeFrom
+        {
+            get
+            {
+                string sAudAgeFrom = "";
+
+                OnixAudienceRange[] AudRangeList = this.OnixAudRangeList;
+                if ((AudRangeList == null) || (AudRangeList.Length <= 0))
+                    AudRangeList = shortAudienceRangeField;
+
+                if ((AudRangeList != null) && (AudRangeList.Length > 0))
+                {
+                    foreach (OnixAudienceRange TempAudRange in AudRangeList)
+                    {
+                        if (!String.IsNullOrEmpty(TempAudRange.USAgeFrom))
+                            sAudAgeFrom = TempAudRange.USAgeFrom;
+                    }
+                }
+
+                if (String.IsNullOrEmpty(sAudAgeFrom))
+                    sAudAgeFrom = TranslateAudienceGradeToAge(AudienceGradeFrom);
+
+                return sAudAgeFrom;
+            }
+        }
+
+        public string AudienceAgeTo
+        {
+            get
+            {
+                string sAudAgeTo = "";
+
+                OnixAudienceRange[] AudRangeList = this.OnixAudRangeList;
+                if ((AudRangeList == null) || (AudRangeList.Length <= 0))
+                    AudRangeList = shortAudienceRangeField;
+
+                if ((AudRangeList != null) && (AudRangeList.Length > 0))
+                {
+                    foreach (OnixAudienceRange TempAudRange in AudRangeList)
+                    {
+                        if (!String.IsNullOrEmpty(TempAudRange.USAgeTo))
+                            sAudAgeTo = TempAudRange.USAgeTo;
+                    }
+                }
+
+                if (String.IsNullOrEmpty(sAudAgeTo))
+                    sAudAgeTo = TranslateAudienceGradeToAge(AudienceGradeTo);
+
+                return sAudAgeTo;
+            }
+        }
+
+        public string AudienceGradeFrom
+        {
+            get
+            {
+                string sAudGradeFrom = "";
+
+                OnixAudienceRange[] AudRangeList = this.OnixAudRangeList;
+                if ((AudRangeList == null) || (AudRangeList.Length <= 0))
+                    AudRangeList = shortAudienceRangeField;
+
+                if ((AudRangeList != null) && (AudRangeList.Length > 0))
+                {
+                    foreach (OnixAudienceRange TempAudRange in AudRangeList)
+                    {
+                        if (!String.IsNullOrEmpty(TempAudRange.USGradeFrom))
+                            sAudGradeFrom = TempAudRange.USGradeFrom;
+                        else if (!String.IsNullOrEmpty(TempAudRange.USGradeExact))
+                            sAudGradeFrom = TempAudRange.USGradeExact;
+                    }
+                }
+
+                return sAudGradeFrom;
+            }
+        }
+
+        public string AudienceGradeTo
+        {
+            get
+            {
+                string sAudGradeTo = "";
+
+                OnixAudienceRange[] AudRangeList = this.OnixAudRangeList;
+                if ((AudRangeList == null) || (AudRangeList.Length <= 0))
+                    AudRangeList = shortAudienceRangeField;
+
+                if ((AudRangeList != null) && (AudRangeList.Length > 0))
+                {
+                    foreach (OnixAudienceRange TempAudRange in AudRangeList)
+                    {
+                        if (!String.IsNullOrEmpty(TempAudRange.USGradeTo))
+                            sAudGradeTo = TempAudRange.USGradeTo;
+                        else if (!String.IsNullOrEmpty(TempAudRange.USGradeExact))
+                            sAudGradeTo = TempAudRange.USGradeExact;
+                    }
+                }
+
+                return sAudGradeTo;
+            }
+        }
+
         public string LanguageOfText
         {
             get
@@ -232,7 +391,7 @@ namespace OnixData.Version3
                 if ((LangList != null) && (LangList.Length > 0))
                 {
                     OnixLanguage LangOfText =
-                        LangList.Where(x => x.LanguageRole == OnixLanguage.CONST_ROLE_LANG_OF_TEXT).LastOrDefault();
+                        LangList.Where(x => x.IsLanguageOfText()).LastOrDefault();
 
                     if ((LangOfText != null) && !String.IsNullOrEmpty(LangOfText.LanguageCode))
                         sLangOfText = LangOfText.LanguageCode;
@@ -452,6 +611,14 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Audience")]
+        public OnixAudience[] Audience
+        {
+            get { return this.audienceField; }
+            set { this.audienceField = value; }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("AudienceRange")]
         public OnixAudienceRange[] AudienceRange
         {
@@ -520,6 +687,14 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("audience")]
+        public OnixAudience[] audience
+        {
+            get { return this.shortAudienceField; }
+            set { this.shortAudienceField = value; }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("audiencerange")]
         public OnixAudienceRange[] audiencerange
         {
@@ -583,5 +758,30 @@ namespace OnixData.Version3
         }
 
         #endregion
+
+        #region Support Methods
+
+        public string TranslateAudienceGradeToAge(string psGradeValue)
+        {
+            int nAgeVal = 0;
+            string sAgeVal = "";
+
+            if (!String.IsNullOrEmpty(psGradeValue))
+            {
+                if ((psGradeValue == OnixAudienceRange.CONST_AUD_GRADE_PRESCHOOL_CD) || (psGradeValue == OnixAudienceRange.CONST_AUD_GRADE_PRESCHOOL_TXT))
+                    nAgeVal = 4;
+                else if ((psGradeValue == OnixAudienceRange.CONST_AUD_GRADE_KNDGRTN_CD) || (psGradeValue == OnixAudienceRange.CONST_AUD_GRADE_KNDGRTN_TXT))
+                    nAgeVal = 5;
+                else if (Int32.TryParse(psGradeValue, out nAgeVal))
+                    nAgeVal += 5;
+            }
+
+            if (nAgeVal > 0)
+                sAgeVal = Convert.ToString(nAgeVal);
+
+            return sAgeVal;
+        }
+
+        #endregion 
     }
 }

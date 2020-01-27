@@ -79,8 +79,11 @@
     <Compile Include="Version3\Header\OnixHeaderAddressee.cs" />
     <Compile Include="Version3\Header\OnixHeaderSender.cs" />
     <Compile Include="Version3\Language\OnixLanguage.cs" />
-    <Compile Include="Version3\OnixAudienceRange.cs" />
+    <Compile Include="Version3\Audience\OnixAudience.cs" />
+    <Compile Include="Version3\Audience\OnixAudienceRange.cs" />
     <Compile Include="Version3\Content\OnixContentDetail.cs" />
+    <Compile Include="Version3\Publishing\OnixImprintIdentifier.cs" />
+    <Compile Include="Version3\Publishing\OnixPubDate.cs" />
     <Compile Include="Version3\Text\OnixCollateralDetail.cs" />
     <Compile Include="Version3\Related\OnixRelatedMaterial.cs" />
     <Compile Include="Version3\Related\OnixRelatedProduct.cs" />
