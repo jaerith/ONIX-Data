@@ -46,13 +46,13 @@ namespace OnixData.Version3
 
             productIdentifierField = shortProductIdentifierField = new OnixProductId[0];
             languageField          = shortLanguageField          = new OnixLanguage[0];
+            productSupplyField     = shortProductSupplyField     = new OnixProductSupply[0];
 
             ContentDetail     = new OnixContentDetail();
             DescriptiveDetail = new OnixDescriptiveDetail();
             CollateralDetail  = new OnixCollateralDetail();
             PublishingDetail  = new OnixPublishingDetail();
-            RelatedMaterial   = new OnixRelatedMaterial();
-            ProductSupply     = new OnixProductSupply();
+            RelatedMaterial   = new OnixRelatedMaterial();            
 
             ParsingError = null;
         }
@@ -71,12 +71,14 @@ namespace OnixData.Version3
         private OnixLanguage[]        languageField;
         private OnixLanguage[]        shortLanguageField;
 
+        private OnixProductSupply[]     productSupplyField;
+        private OnixProductSupply[]     shortProductSupplyField;
+
         private OnixCollateralDetail  collateralDetailField;
         private OnixContentDetail     contentDetailField;
         private OnixDescriptiveDetail descriptiveDetailField;
         private OnixPublishingDetail  publishingDetailField;
         private OnixRelatedMaterial   relatedMaterialField;
-        private OnixProductSupply     productSupplyField;
 
         #region Parsing Error
 
@@ -224,6 +226,39 @@ namespace OnixData.Version3
             }
         }
 
+        public string NumberOfPages
+        {
+            get
+            {
+                OnixContentItem PrimaryContentItem = new OnixContentItem();
+
+                if ((this.ContentDetail != null) && (this.ContentDetail.PrimaryContentItem != null))
+                    PrimaryContentItem = this.ContentDetail.PrimaryContentItem;
+
+                return PrimaryContentItem.NumberOfPages;
+            }
+        }
+
+        public string ProductForm
+        {
+            get { return (this.DescriptiveDetail != null ? this.DescriptiveDetail.ProductForm : ""); }
+        }
+
+        public string ProductFormDetail
+        {
+            get { return (this.DescriptiveDetail != null ? this.DescriptiveDetail.ProductForm : ""); }
+        }
+
+        public string[] ProductFormDetailList
+        {
+            get { return (this.DescriptiveDetail != null ? this.DescriptiveDetail.OnixProductFormDetailList : new string[0]); }
+        }
+
+        public string[] ProductContentTypeList
+        {
+            get { return (this.DescriptiveDetail != null ? this.DescriptiveDetail.OnixProductContentTypeList : new string[0]); }
+        }
+
         public string PROPRIETARY_ID
         {
             get
@@ -243,19 +278,6 @@ namespace OnixData.Version3
 
                 return sPropId;
             }
-        }
-
-        public string NumberOfPages
-        {
-            get
-            {
-                OnixContentItem PrimaryContentItem = new OnixContentItem();
-
-                if ((this.ContentDetail != null) && (this.ContentDetail.PrimaryContentItem != null))
-                    PrimaryContentItem = this.ContentDetail.PrimaryContentItem;
-
-                return PrimaryContentItem.NumberOfPages;
-            } 
         }
 
         public string ProprietaryImprintName
@@ -364,14 +386,21 @@ namespace OnixData.Version3
         {
             bool bHasUSDPrice = false;
 
-            if ((ProductSupply != null) &&
-                (ProductSupply.SupplyDetail != null) &&
-                (ProductSupply.SupplyDetail.OnixPriceList != null))
+            if (this.OnixProductSupplyList != null)
             {
-                OnixPrice[] Prices = ProductSupply.SupplyDetail.OnixPriceList;
+                foreach (OnixProductSupply TmpProductSupply in this.OnixProductSupplyList)
+                {
+                    if (TmpProductSupply.SupplyDetail != null)
+                    {
+                        OnixPrice[] Prices = TmpProductSupply.SupplyDetail.OnixPriceList;
 
-                bHasUSDPrice =
-                    Prices.Any(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
+                        bHasUSDPrice =
+                            Prices.Any(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
+
+                        if (bHasUSDPrice)
+                            break;
+                    }
+                }
             }
 
             return bHasUSDPrice;
@@ -381,13 +410,12 @@ namespace OnixData.Version3
         {
             get
             {
-                OnixPrice USDPrice = new OnixPrice();
+                OnixPrice        USDPrice           = new OnixPrice();
+                OnixSupplyDetail TargetSupplyDetail = USDRetailSupplyDetail;
 
-                if ((ProductSupply != null) &&
-                    (ProductSupply.SupplyDetail != null) &&
-                    (ProductSupply.SupplyDetail.OnixPriceList != null))
+                if ((TargetSupplyDetail != null) && (TargetSupplyDetail.OnixPriceList != null) && (TargetSupplyDetail.OnixPriceList.Length > 0))
                 {
-                    OnixPrice[] Prices = ProductSupply.SupplyDetail.OnixPriceList;
+                    OnixPrice[] Prices = TargetSupplyDetail.OnixPriceList;
 
                     USDPrice =
                         Prices.Where(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD")).FirstOrDefault();
@@ -397,6 +425,36 @@ namespace OnixData.Version3
                 }
 
                 return USDPrice;
+            }
+        }
+
+        public OnixSupplyDetail USDRetailSupplyDetail
+        {
+            get
+            {
+                OnixSupplyDetail SupplyDetail = new OnixSupplyDetail();
+
+                if (this.OnixProductSupplyList != null)
+                {
+                    foreach (OnixProductSupply TmpPrdSupply in this.OnixProductSupplyList)
+                    {
+                        if (TmpPrdSupply.SupplyDetail != null)
+                        {
+                            OnixPrice[] Prices = TmpPrdSupply.SupplyDetail.OnixPriceList;
+
+                            OnixPrice USDPrice =
+                                Prices.Where(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD")).FirstOrDefault();
+
+                            if ((USDPrice != null) && (USDPrice.PriceAmount > 0))
+                            {
+                                SupplyDetail = TmpPrdSupply.SupplyDetail;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                return SupplyDetail;
             }
         }
 
@@ -434,13 +492,22 @@ namespace OnixData.Version3
             int[] aSalesRightsColl = new int[] { OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
                                                  OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
 
-            if ((ProductSupply != null) &&
-                (ProductSupply.Market != null) &&
-                (ProductSupply.Market.Territory != null))
+            if (this.OnixProductSupplyList != null)
             {
-                List<string> TempCountriesIncluded = ProductSupply.Market.Territory.CountriesIncludedList;
+                foreach (OnixProductSupply TmpProductSupply in this.OnixProductSupplyList)
+                {
+                    if ((TmpProductSupply != null) &&
+                        (TmpProductSupply.Market != null) &&
+                        (TmpProductSupply.Market.Territory != null))
+                    {
+                        List<string> TempCountriesIncluded = TmpProductSupply.Market.Territory.CountriesIncludedList;
 
-                bHasUSRights = TempCountriesIncluded.Contains("US");
+                        bHasUSRights = TempCountriesIncluded.Contains("US");
+
+                        if (bHasUSRights)
+                            break;
+                    }
+                }
             }
 
             return bHasUSRights;
@@ -481,6 +548,23 @@ namespace OnixData.Version3
                     LangList = new OnixLanguage[0];
 
                 return LangList;
+            }
+        }
+
+        public OnixProductSupply[] OnixProductSupplyList
+        {
+            get
+            {
+                OnixProductSupply[] ProductSupplyList = null;
+
+                if (this.productSupplyField != null)
+                    ProductSupplyList = this.productSupplyField;
+                else if (this.shortProductSupplyField != null)
+                    ProductSupplyList = this.shortProductSupplyField;
+                else
+                    ProductSupplyList = new OnixProductSupply[0];
+
+                return ProductSupplyList;
             }
         }
 
@@ -626,7 +710,8 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        public OnixProductSupply ProductSupply
+        [System.Xml.Serialization.XmlElementAttribute("ProductSupply")]
+        public OnixProductSupply[] ProductSupply
         {
             get
             {
@@ -707,10 +792,11 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        public OnixProductSupply productsupply
+        [System.Xml.Serialization.XmlElementAttribute("productsupply")]
+        public OnixProductSupply[] productsupply
         {
-            get { return ProductSupply; }
-            set { ProductSupply = value; }
+            get { return shortProductSupplyField; }
+            set { shortProductSupplyField = value; }
         }
 
         #endregion

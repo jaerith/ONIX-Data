@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using OnixData.Version3.Audience;
 using OnixData.Version3.Language;
+using OnixData.Version3.ProductPart;
 using OnixData.Version3.Title;
 
 namespace OnixData.Version3
@@ -18,15 +19,20 @@ namespace OnixData.Version3
         {
             ProductComposition = AudienceCode = -1;
 
-            ProductForm            = "";
+            ProductForm            = ProductPackaging = "";
             ProductFormDescription = "";
+            EpubType               = EpubTypeVersion = EpubFormatDescription = EpubTypeNote = "";
 
             productContentTypeField = shortProductContentTypeField = new string[0];
             editionTypeField        = shortEditionTypeField        = new string[0];
+            productFormDetailField  = shortProductFormDetailField  = new string[0];
             audienceField           = shortAudienceField           = new OnixAudience[0];
             languageField           = shortLanguageField           = new OnixLanguage[0];
+            prodPartField           = shortProdPartField           = new OnixProductPart[0];
 
-            EditionNumber = -1;
+            EditionNumber    = -1;
+            EditionStatement = "";
+
             Measure       = new OnixMeasure[0];
             Collection    = new OnixCollection[0];
             TitleDetail   = new OnixTitleDetail();
@@ -39,13 +45,22 @@ namespace OnixData.Version3
         private int      productCompositionField;
         private string   productFormField;
         private string   productFormDescriptionField;
+        private string   productPackagingField;
         private int      editionNumberField;
+        private string   editionStatementField;
         private int      audienceCodeField;
 
-        private string[] productContentTypeField;
-        private string[] shortProductContentTypeField;
-        private string[] editionTypeField;
-        private string[] shortEditionTypeField;
+        protected string epubTypeField;
+        protected string epubTypeVersionField;
+        protected string epubFormatDescriptionField;
+        protected string epubTypeNoteField;
+
+        private string[]   productContentTypeField;
+        private string[]   shortProductContentTypeField;
+        private string[]   editionTypeField;
+        private string[]   shortEditionTypeField;
+        protected string[] productFormDetailField;
+        protected string[] shortProductFormDetailField;
 
         private OnixTitleDetail     titleDetailField;
 
@@ -63,6 +78,8 @@ namespace OnixData.Version3
         private OnixLanguage[]      shortLanguageField;
         private OnixMeasure[]       measureField;
         private OnixMeasure[]       shortMeasureField;
+        private OnixProductPart[]   prodPartField;
+        private OnixProductPart[]   shortProdPartField;
         private OnixSubject[]       subjectField;
         private OnixSubject[]       shortSubjectField;
 
@@ -257,6 +274,40 @@ namespace OnixData.Version3
             }
         }
 
+        public string[] OnixProductFormDetailList
+        {
+            get
+            {
+                string[] ProductFormDetailList = null;
+
+                if (this.productFormDetailField != null)
+                    ProductFormDetailList = this.productFormDetailField;
+                else if (this.shortProductFormDetailField != null)
+                    ProductFormDetailList = this.shortProductFormDetailField;
+                else
+                    ProductFormDetailList = new string[0];
+
+                return ProductFormDetailList;
+            }
+        }
+
+        public OnixProductPart[] OnixProductPartList
+        {
+            get
+            {
+                OnixProductPart[] ProductParts = null;
+
+                if (this.prodPartField != null)
+                    ProductParts = this.prodPartField;
+                else if (this.shortProdPartField != null)
+                    ProductParts = this.shortProdPartField;
+                else
+                    ProductParts = new OnixProductPart[0];
+
+                return ProductParts;
+            }
+        }
+
         public OnixSubject[] OnixSubjectList
         {
             get
@@ -408,109 +459,129 @@ namespace OnixData.Version3
         /// <remarks/>
         public int ProductComposition
         {
-            get
-            {
-                return this.productCompositionField;
-            }
-            set
-            {
-                this.productCompositionField = value;
-            }
+            get { return this.productCompositionField; }
+            set { this.productCompositionField = value; }
         }
 
         /// <remarks/>
         public string ProductForm
         {
-            get
-            {
-                return this.productFormField;
-            }
-            set
-            {
-                this.productFormField = value;
-            }
+            get { return this.productFormField; }
+            set { this.productFormField = value; }
         }
 
         /// <remarks/>
         public string ProductFormDescription
         {
-            get
-            {
-                return this.productFormDescriptionField;
-            }
-            set
-            {
-                this.productFormDescriptionField = value;
-            }
+            get { return this.productFormDescriptionField; }
+            set { this.productFormDescriptionField = value; }
+        }
+
+        [System.Xml.Serialization.XmlElementAttribute("ProductFormDetail")]
+        public string[] ProductFormDetail
+        {
+            get { return this.productFormDetailField; }
+            set { this.productFormDetailField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("ProductContentType")]
         public string[] ProductContentType
         {
-            get
-            {
-                return this.productContentTypeField;
-            }
-            set
-            {
-                this.productContentTypeField = value;
-            }
+            get { return this.productContentTypeField; }
+            set { this.productContentTypeField = value; }
+        }
+
+        /// <remarks/>
+        public string ProductPackaging
+        {
+            get { return this.productPackagingField; }
+            set { this.productPackagingField = value; }
+        }
+
+        /// <remarks/>
+        public int AudienceCode
+        {
+            get { return this.audienceCodeField; }
+            set { this.audienceCodeField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Audience")]
+        public OnixAudience[] Audience
+        {
+            get { return this.audienceField; }
+            set { this.audienceField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("AudienceRange")]
+        public OnixAudienceRange[] AudienceRange
+        {
+            get { return this.audienceRangeField; }
+            set { this.audienceRangeField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("EditionType")]
         public string[] EditionType
         {
-            get
-            {
-                return this.editionTypeField;
-            }
-            set
-            {
-                this.editionTypeField = value;
-            }
+            get { return this.editionTypeField; }
+            set { this.editionTypeField = value; }
         }
 
         /// <remarks/>
         public int EditionNumber
         {
-            get
-            {
-                return this.editionNumberField;
-            }
-            set
-            {
-                this.editionNumberField = value;
-            }
+            get { return this.editionNumberField; }
+            set { this.editionNumberField = value; }
+        }
+
+        /// <remarks/>
+        public string EditionStatement
+        {
+            get { return this.editionStatementField; }
+            set { this.editionStatementField = value; }
+        }
+
+        public string EpubType
+        {
+            get { return this.epubTypeField; }
+            set { this.epubTypeField = value; }
+        }
+
+        public string EpubTypeVersion
+        {
+            get { return this.epubTypeVersionField; }
+            set { this.epubTypeVersionField = value; }
+        }
+
+        public string EpubFormatDescription
+        {
+            get { return this.epubFormatDescriptionField; }
+            set { this.epubFormatDescriptionField = value; }
+        }
+
+        public string EpubTypeNote
+        {
+            get { return this.epubTypeNoteField; }
+            set { this.epubTypeNoteField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Measure")]
         public OnixMeasure[] Measure
         {
-            get
-            {
-                return this.measureField;
-            }
-            set
-            {
-                this.measureField = value;
-            }
+            get { return this.measureField; }
+            set { this.measureField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Collection")]
         public OnixCollection[] Collection
         {
-            get
-            {
-                return this.collectionField;
-            }
-            set
-            {
-                this.collectionField = value;
-            }
+            get { return this.collectionField; }
+            set { this.collectionField = value; }
         }
 
         /*
@@ -531,105 +602,48 @@ namespace OnixData.Version3
         /// <remarks/>
         public OnixTitleDetail TitleDetail
         {
-            get
-            {
-                return this.titleDetailField;
-            }
-            set
-            {
-                this.titleDetailField = value;
-            }
+            get { return this.titleDetailField; }
+            set { this.titleDetailField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Contributor")]
         public OnixContributor[] Contributor
         {
-            get
-            {
-                return this.contributorField;
-            }
-            set
-            {
-                this.contributorField = value;
-            }
+            get { return this.contributorField; }
+            set { this.contributorField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Extent")]
         public OnixExtent[] Extent
         {
-            get
-            {
-                return this.extentField;
-            }
-            set
-            {
-                this.extentField = value;
-            }
+            get { return this.extentField; }
+            set { this.extentField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Language")]
         public OnixLanguage[] Language
         {
-            get
-            {
-                return this.languageField;
-            }
-            set
-            {
-                this.languageField = value;
-            }
+            get { return this.languageField; }
+            set { this.languageField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("ProductPart")]
+        public OnixProductPart[] ProductPart
+        {
+            get { return this.prodPartField; }
+            set { this.prodPartField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Subject")]
         public OnixSubject[] Subject
         {
-            get
-            {
-                return this.subjectField;
-            }
-            set
-            {
-                this.subjectField = value;
-            }
-        }
-
-        /// <remarks/>
-        public int AudienceCode
-        {
-            get
-            {
-                return this.audienceCodeField;
-            }
-            set
-            {
-                this.audienceCodeField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Audience")]
-        public OnixAudience[] Audience
-        {
-            get { return this.audienceField; }
-            set { this.audienceField = value; }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("AudienceRange")]
-        public OnixAudienceRange[] AudienceRange
-        {
-            get
-            {
-                return this.audienceRangeField;
-            }
-            set
-            {
-                this.audienceRangeField = value;
-            }
+            get { return this.subjectField; }
+            set { this.subjectField = value; }
         }
 
         #endregion
@@ -651,6 +665,14 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("b333")]
+        public string[] b333
+        {
+            get { return shortProductFormDetailField; }
+            set { shortProductFormDetailField = value; }
+        }
+
+        /// <remarks/>
         public string b014
         {
             get { return ProductFormDescription; }
@@ -666,6 +688,37 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
+        public string b225
+        {
+            get { return ProductPackaging; }
+            set { ProductPackaging = value; }
+        }
+
+        public string b211
+        {
+            get { return EpubType; }
+            set { EpubType = value; }
+        }
+
+        public string b212
+        {
+            get { return EpubTypeVersion; }
+            set { EpubTypeVersion = value; }
+        }
+
+        public string b216
+        {
+            get { return EpubFormatDescription; }
+            set { EpubFormatDescription = value; }
+        }
+
+        public string b277
+        {
+            get { return EpubTypeNote; }
+            set { EpubTypeNote = value; }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("x419")]
         public string[] x419
         {
@@ -677,6 +730,13 @@ namespace OnixData.Version3
         {
             get { return EditionNumber; }
             set { EditionNumber = value; }
+        }
+
+        /// <remarks/>
+        public string b058
+        {
+            get { return EditionStatement; }
+            set { EditionStatement = value; }
         }
 
         /// <remarks/>
@@ -747,6 +807,14 @@ namespace OnixData.Version3
         {
             get { return shortMeasureField; }
             set { shortMeasureField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("productpart")]
+        public OnixProductPart[] productpart
+        {
+            get { return this.shortProdPartField; }
+            set { this.shortProdPartField = value; }
         }
 
         /// <remarks/>
