@@ -12,11 +12,18 @@ namespace OnixData.Version3.Publishing
     {
         public OnixPublishingDetail()
         {
+            PublishingStatus = "";
+
             Imprint        = new OnixImprint[0];
             Publisher      = new OnixPublisher[0];
             PublishingDate = new OnixPubDate[0];
+            SalesRights    = new OnixSalesRights[0];
+
+            salesRightsList = null;
+            notForSaleList  = null;
         }
 
+        private string pubStatusField;
 
         private OnixImprint[]   imprintField;
         private OnixImprint[]   shortImprintField;
@@ -26,6 +33,12 @@ namespace OnixData.Version3.Publishing
 
         private OnixPublisher[] publisherField;
         private OnixPublisher[] shortPublisherField;
+
+        private OnixSalesRights[] salesRightsField;
+        private OnixSalesRights[] shortSalesRightsField;
+
+        private List<string> salesRightsList;
+        private List<string> notForSaleList;
 
         #region ONIX Lists
 
@@ -80,9 +93,75 @@ namespace OnixData.Version3.Publishing
             }
         }
 
+        public OnixSalesRights[] OnixSalesRightsList
+        {
+            get
+            {
+                OnixSalesRights[] SalesRights = null;
+
+                if (this.salesRightsField != null)
+                    SalesRights = this.salesRightsField;
+                else if (this.shortSalesRightsField != null)
+                    SalesRights = this.shortSalesRightsField;
+                else
+                    SalesRights = new OnixSalesRights[0];
+
+                if (SalesRights != null)
+                {
+                    if (salesRightsList == null)
+                    {
+                        salesRightsList = new List<string>();
+
+                        SalesRights.Where(x => x.SalesRightsType == OnixSalesRights.CONST_SALES_WITH_EXCL_RIGHTS ||
+                                               x.SalesRightsType == OnixSalesRights.CONST_SALES_WITH_NON_EXCL_RIGHTS)
+                                   .ToList()
+                                   .Where(x => !String.IsNullOrEmpty(x.Territory.CountriesIncluded))
+                                   .ToList()
+                                   .ForEach(x => salesRightsList.AddRange(x.Territory.CountriesIncluded.Split(' ').ToList()));
+
+                        SalesRights.Where(x => x.SalesRightsType == OnixSalesRights.CONST_SALES_WITH_EXCL_RIGHTS ||
+                                               x.SalesRightsType == OnixSalesRights.CONST_SALES_WITH_NON_EXCL_RIGHTS)
+                                   .ToList()
+                                   .Where(x => !String.IsNullOrEmpty(x.Territory.RegionsIncluded))
+                                   .ToList()
+                                   .ForEach(x => salesRightsList.AddRange(x.Territory.RegionsExcluded.Split(' ').ToList()));
+                    }
+
+                    if (notForSaleList == null)
+                    {
+                        notForSaleList = new List<string>();
+
+                        SalesRights.Where(x => x.SalesRightsType == OnixSalesRights.CONST_NOT_FOR_SALE)
+                                   .ToList()
+                                   .Where(x => !String.IsNullOrEmpty(x.Territory.CountriesIncluded))
+                                   .ToList()
+                                   .ForEach(x => notForSaleList.AddRange(x.Territory.CountriesIncluded.Split(' ').ToList()));
+
+                        SalesRights.Where(x => x.SalesRightsType == OnixSalesRights.CONST_NOT_FOR_SALE)
+                                   .ToList()
+                                   .Where(x => !String.IsNullOrEmpty(x.Territory.RegionsIncluded))
+                                   .ToList()
+                                   .ForEach(x => notForSaleList.AddRange(x.Territory.RegionsExcluded.Split(' ').ToList()));
+                    }
+                }
+
+                return SalesRights;
+            }
+        }
+
         #endregion
 
         #region Helper Methods
+
+        public List<string> ForSaleRightsList
+        {
+            get { return salesRightsList; }
+        }
+
+        public List<string> NotForSaleRightsList
+        {
+            get { return notForSaleList; }
+        }
 
         public string PublicationDate
         {
@@ -108,6 +187,13 @@ namespace OnixData.Version3.Publishing
         #endregion
 
         #region Reference Tags
+        
+        /// <remarks/>
+        public string PublishingStatus
+        {
+            get { return this.pubStatusField; }
+            set { this.pubStatusField = value; }
+        }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Imprint")]
@@ -133,24 +219,39 @@ namespace OnixData.Version3.Publishing
             set { this.pubDateField = value; }
         }
 
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("SalesRights")]
+        public OnixSalesRights[] SalesRights
+        {
+            get { return this.salesRightsField; }
+            set { this.salesRightsField = value; }
+        }
+
         #endregion
 
         #region Short Tags
 
         /// <remarks/>
+        public string b394
+        {
+            get { return this.PublishingStatus; }
+            set { this.PublishingStatus = value; }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("imprint")]
         public OnixImprint[] imprint
         {
-            get { return shortImprintField; }
-            set { shortImprintField = value; }
+            get { return this.shortImprintField; }
+            set { this.shortImprintField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("publisher")]
         public OnixPublisher[] publisher
         {
-            get { return shortPublisherField; }
-            set { shortPublisherField = value; }
+            get { return this.shortPublisherField; }
+            set { this.shortPublisherField = value; }
         }
 
         /// <remarks/>
@@ -159,6 +260,14 @@ namespace OnixData.Version3.Publishing
         {
             get { return this.shortPubDateField; }
             set { this.shortPubDateField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("salesrights")]
+        public OnixSalesRights[] salesrights
+        {
+            get { return this.shortSalesRightsField; }
+            set { this.shortSalesRightsField = value; }
         }
 
         #endregion

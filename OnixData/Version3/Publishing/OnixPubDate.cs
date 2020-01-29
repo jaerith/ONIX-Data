@@ -34,27 +34,15 @@ namespace OnixData.Version3.Publishing
 
         public string Date
         {
-            get
-            {
-                return this.dateField;
-            }
-            set
-            {
-                this.dateField = value;
-            }
+            get { return this.dateField; }
+            set { this.dateField = value; }
         }
 
         /// <remarks/>
         public string PublishingDateRole
         {
-            get
-            {
-                return this.pubDateRoleField;
-            }
-            set
-            {
-                this.pubDateRoleField = value;
-            }
+            get { return this.pubDateRoleField; }
+            set { this.pubDateRoleField = value; }
         }
 
         #endregion

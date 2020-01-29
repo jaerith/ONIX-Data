@@ -22,6 +22,51 @@ namespace OnixData.Version3.Related
         private OnixProductId[] productIdentifierField;
         private OnixProductId[] shortProductIdentifierField;
 
+        #region Helper Methods
+
+        public string EAN
+        {
+            get
+            {
+                OnixProductId[] ProductIdList = OnixProductIdList;
+
+                string sEAN = "";
+                if ((ProductIdList != null) && (ProductIdList.Length > 0))
+                {
+                    OnixProductId EanProductId =
+                        ProductIdList.Where(x => (x.ProductIDType == OnixProductId.CONST_PRODUCT_TYPE_EAN) ||
+                                                 (x.ProductIDType == OnixProductId.CONST_PRODUCT_TYPE_ISBN13)).FirstOrDefault();
+
+                    if ((EanProductId != null) && !String.IsNullOrEmpty(EanProductId.IDValue))
+                        sEAN = EanProductId.IDValue;
+                }
+
+                return sEAN;
+            }
+        }
+
+        public string ISBN
+        {
+            get
+            {
+                OnixProductId[] ProductIdList = OnixProductIdList;
+
+                string sISBN = "";
+                if ((ProductIdList != null) && (ProductIdList.Length > 0))
+                {
+                    OnixProductId EanProductId =
+                        ProductIdList.Where(x => (x.ProductIDType == OnixProductId.CONST_PRODUCT_TYPE_ISBN)).FirstOrDefault();
+
+                    if ((EanProductId != null) && !String.IsNullOrEmpty(EanProductId.IDValue))
+                        sISBN = EanProductId.IDValue;
+                }
+
+                return sISBN;
+            }
+        }
+
+        #endregion
+
         #region ONIX Lists
 
         public OnixProductId[] OnixProductIdList

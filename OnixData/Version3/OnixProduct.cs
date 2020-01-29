@@ -45,6 +45,7 @@ namespace OnixData.Version3
             eanField = -1;
 
             productIdentifierField = shortProductIdentifierField = new OnixProductId[0];
+            barcodeField           = shortBarcodeField           = new OnixBarcode[0];
             languageField          = shortLanguageField          = new OnixLanguage[0];
             productSupplyField     = shortProductSupplyField     = new OnixProductSupply[0];
 
@@ -67,6 +68,9 @@ namespace OnixData.Version3
 
         private OnixProductId[]       productIdentifierField;
         private OnixProductId[]       shortProductIdentifierField;
+
+        private OnixBarcode[]         barcodeField;
+        private OnixBarcode[]         shortBarcodeField;
 
         private OnixLanguage[]        languageField;
         private OnixLanguage[]        shortLanguageField;
@@ -325,6 +329,11 @@ namespace OnixData.Version3
             }
         }
 
+        public string PublishingStatus
+        {
+            get { return (PublishingDetail != null) ? PublishingDetail.PublishingStatus : ""; }
+        }
+
         public OnixContributor PrimaryAuthor
         {
             get
@@ -382,6 +391,31 @@ namespace OnixData.Version3
             get { return GetMeasurement(OnixMeasure.CONST_MEASURE_TYPE_WIDTH); }
         }
 
+        public bool HasSalesRights()
+        {
+            bool bSalesRights = false;
+
+            if ((this.PublishingDetail != null) && (this.PublishingDetail.OnixSalesRightsList != null) && (this.PublishingDetail.OnixSalesRightsList.Count() > 0))
+            {
+                bSalesRights = this.PublishingDetail.OnixSalesRightsList.Any(x => x.SalesRightsType == OnixSalesRights.CONST_SALES_WITH_EXCL_RIGHTS ||
+                                                                          x.SalesRightsType == OnixSalesRights.CONST_SALES_WITH_NON_EXCL_RIGHTS);
+            }
+
+            return bSalesRights;
+        }
+
+        public bool HasNotForSaleRights()
+        {
+            bool bNotForSalesRights = false;
+
+            if ((this.PublishingDetail != null) && (this.PublishingDetail.OnixSalesRightsList != null) && (this.PublishingDetail.OnixSalesRightsList.Count() > 0))
+            {
+                bNotForSalesRights = this.PublishingDetail.OnixSalesRightsList.Any(x => x.SalesRightsType == OnixSalesRights.CONST_NOT_FOR_SALE);
+            }
+
+            return bNotForSalesRights;
+        }
+
         public bool HasUSDRetailPrice()
         {
             bool bHasUSDPrice = false;
@@ -404,6 +438,43 @@ namespace OnixData.Version3
             }
 
             return bHasUSDPrice;
+        }
+
+        public bool HasUSRights()
+        {
+            bool bHasUSRights = false;
+
+            /**
+             ** NOTE: Should Marketing data be part of the consideration for rights?
+             **
+            int[] aSalesRightsColl = new int[] { OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
+                                                 OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
+
+            if (this.OnixProductSupplyList != null)
+            {
+                foreach (OnixProductSupply TmpProductSupply in this.OnixProductSupplyList)
+                {
+                    if ((TmpProductSupply != null) &&
+                        (TmpProductSupply.Market != null) &&
+                        (TmpProductSupply.Market.Territory != null))
+                    {
+                        List<string> TempCountriesIncluded = TmpProductSupply.Market.Territory.CountriesIncludedList;
+
+                        bHasUSRights = TempCountriesIncluded.Contains("US");
+
+                        if (bHasUSRights)
+                            break;
+                    }
+                }
+            }
+             **/
+
+            if ((this.PublishingDetail != null) && (this.PublishingDetail.OnixSalesRightsList != null) && (this.PublishingDetail.OnixSalesRightsList.Count() > 0))
+            {
+                bHasUSRights = this.PublishingDetail.ForSaleRightsList.Contains("US");
+            }
+
+            return bHasUSRights;
         }
 
         public OnixPrice USDRetailPrice
@@ -485,34 +556,6 @@ namespace OnixData.Version3
             }
         }
 
-        public bool HasUSRights()
-        {
-            bool bHasUSRights = false;
-
-            int[] aSalesRightsColl = new int[] { OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
-                                                 OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
-
-            if (this.OnixProductSupplyList != null)
-            {
-                foreach (OnixProductSupply TmpProductSupply in this.OnixProductSupplyList)
-                {
-                    if ((TmpProductSupply != null) &&
-                        (TmpProductSupply.Market != null) &&
-                        (TmpProductSupply.Market.Territory != null))
-                    {
-                        List<string> TempCountriesIncluded = TmpProductSupply.Market.Territory.CountriesIncludedList;
-
-                        bHasUSRights = TempCountriesIncluded.Contains("US");
-
-                        if (bHasUSRights)
-                            break;
-                    }
-                }
-            }
-
-            return bHasUSRights;
-        }
-
         #endregion
 
         #region ONIX Lists
@@ -531,6 +574,23 @@ namespace OnixData.Version3
                     ProductIdList = new OnixProductId[0];
 
                 return ProductIdList;
+            }
+        }
+
+        public OnixBarcode[] OnixBarcodeList
+        {
+            get
+            {
+                OnixBarcode[] BarcodeList = null;
+
+                if (this.barcodeField != null)
+                    BarcodeList = this.barcodeField;
+                else if (this.shortBarcodeField != null)
+                    BarcodeList = this.shortBarcodeField;
+                else
+                    BarcodeList = new OnixBarcode[0];
+
+                return BarcodeList;
             }
         }
 
@@ -575,92 +635,58 @@ namespace OnixData.Version3
         /// <remarks/>
         public string RecordReference
         {
-            get
-            {
-                return this.recordReferenceField;
-            }
-            set
-            {
-                this.recordReferenceField = value;
-            }
+            get { return this.recordReferenceField; }
+            set { this.recordReferenceField = value; }
         }
 
         /// <remarks/>
         public int NotificationType
         {
-            get
-            {
-                return this.notificationTypeField;
-            }
-            set
-            {
-                this.notificationTypeField = value;
-            }
+            get { return this.notificationTypeField; }
+            set { this.notificationTypeField = value; }
         }
 
         /// <remarks/>
         public int RecordSourceType
         {
-            get
-            {
-                return this.recordSourceTypeField;
-            }
-            set
-            {
-                this.recordSourceTypeField = value;
-            }
+            get { return this.recordSourceTypeField; }
+            set { this.recordSourceTypeField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("ProductIdentifier", IsNullable = false)]
         public OnixProductId[] ProductIdentifier
         {
-            get
-            {
-                return this.productIdentifierField;
-            }
-            set
-            {
-                this.productIdentifierField = value;
-            }
+            get { return this.productIdentifierField; }
+            set { this.productIdentifierField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Barcode")]
+        public OnixBarcode[] Barcode
+        {
+            get { return this.barcodeField; }
+            set { this.barcodeField = value; }
         }
 
         public OnixCollateralDetail CollateralDetail
         {
-            get
-            {
-                return this.collateralDetailField;
-            }
-            set
-            {
-                this.collateralDetailField = value;
-            }
+            get { return this.collateralDetailField; }
+            set { this.collateralDetailField = value; }
         }
 
         /// <remarks/>
         public OnixContentDetail ContentDetail
         {
-            get
-            {
-                return this.contentDetailField;
-            }
-            set
-            {
-                this.contentDetailField = value;
-            }
+            get { return this.contentDetailField; }
+            set { this.contentDetailField = value; }
         }
 
         /// <remarks/>
         public OnixDescriptiveDetail DescriptiveDetail
         {
-            get
-            {
-                return this.descriptiveDetailField;
-            }
-            set
-            {
-                this.descriptiveDetailField = value;
-            }
+            get { return this.descriptiveDetailField; }
+            set { this.descriptiveDetailField = value; }
         }
 
         public string Title
@@ -686,41 +712,23 @@ namespace OnixData.Version3
         /// <remarks/>
         public OnixPublishingDetail PublishingDetail
         {
-            get
-            {
-                return this.publishingDetailField;
-            }
-            set
-            {
-                this.publishingDetailField = value;
-            }
+            get { return this.publishingDetailField; }
+            set { this.publishingDetailField = value; }
         }
 
         /// <remarks/>
         public OnixRelatedMaterial RelatedMaterial
         {
-            get
-            {
-                return this.relatedMaterialField;
-            }
-            set
-            {
-                this.relatedMaterialField = value;
-            }
+            get { return this.relatedMaterialField; }
+            set { this.relatedMaterialField = value; }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("ProductSupply")]
         public OnixProductSupply[] ProductSupply
         {
-            get
-            {
-                return this.productSupplyField;
-            }
-            set
-            {
-                this.productSupplyField = value;
-            }
+            get { return this.productSupplyField; }
+            set { this.productSupplyField = value; }
         }
 
         #endregion
@@ -754,6 +762,14 @@ namespace OnixData.Version3
         {
             get { return this.shortProductIdentifierField; }
             set { this.shortProductIdentifierField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("barcode")]
+        public OnixBarcode[] barcode
+        {
+            get { return this.shortBarcodeField; }
+            set { this.shortBarcodeField = value; }
         }
 
         /// <remarks/>
