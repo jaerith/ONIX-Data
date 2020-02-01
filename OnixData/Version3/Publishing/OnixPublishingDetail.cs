@@ -21,7 +21,17 @@ namespace OnixData.Version3.Publishing
 
             salesRightsList = null;
             notForSaleList  = null;
+
+            MissingSalesRightsDataFlag = false;
+            SalesRightsInUSFlag        = SalesRightsInNonUSCountryFlag = false;
+            NoSalesRightsInUSFlag      = SalesRightsAllWorldFlag       = false;
         }
+
+        public bool MissingSalesRightsDataFlag { get; set; }
+        public bool SalesRightsInUSFlag { get; set; }
+        public bool SalesRightsInNonUSCountryFlag { get; set; }
+        public bool NoSalesRightsInUSFlag { get; set; }
+        public bool SalesRightsAllWorldFlag { get; set; }
 
         private string pubStatusField;
 
@@ -183,6 +193,52 @@ namespace OnixData.Version3.Publishing
                 return sPubDate;
             }
         }
+
+        public void SetRightsFlags()
+        {
+            int[] aSalesRightsColl = new int[] { Convert.ToInt32(OnixSalesRights.CONST_SALES_WITH_EXCL_RIGHTS),
+                                                 Convert.ToInt32(OnixSalesRights.CONST_SALES_WITH_NON_EXCL_RIGHTS) };
+
+            int[] aNonSalesRightsColl = new int[] { Convert.ToInt32(OnixSalesRights.CONST_NOT_FOR_SALE) };
+
+            OnixSalesRights[] SalesRightsList = 
+                this.OnixSalesRightsList.Where(x => aSalesRightsColl.Contains(x.SalesRightTypeNum)).ToArray();
+
+            OnixSalesRights[] NotForSaleRightsList = 
+                this.OnixSalesRightsList.Where(x => aNonSalesRightsColl.Contains(x.SalesRightTypeNum)).ToArray();
+
+            if ((SalesRightsList != null) && (SalesRightsList.Length > 0))
+            {
+                MissingSalesRightsDataFlag =
+                    this.OnixSalesRightsList.Any(x => x.SalesRightTypeNum == OnixSalesRights.CONST_MISSING_NUM_VALUE);
+
+                SalesRightsInUSFlag =
+                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightTypeNum) && (x.RightsIncludedCountryList.Contains("US")));
+
+                SalesRightsInNonUSCountryFlag =
+                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightTypeNum) &&
+                                             !x.RightsIncludedCountryList.Contains("US")    &&
+                                             !x.RightsIncludedRegionList.Contains("WORLD")  &&
+                                             !x.RightsIncludedRegionList.Contains("ROW"));
+
+                NoSalesRightsInUSFlag =
+                    SalesRightsList.Any(x => aNonSalesRightsColl.Contains(x.SalesRightTypeNum) && x.RightsIncludedCountryList.Contains("US"));
+
+                SalesRightsAllWorldFlag =
+                    SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightTypeNum) && 
+                                             (x.RightsIncludedRegionList.Contains("WORLD") || x.RightsIncludedRegionList.Contains("ROW")));
+            }
+
+            if ((NotForSaleRightsList != null) && (NotForSaleRightsList.Length > 0))
+            {
+                if (!NoSalesRightsInUSFlag)
+                {
+                    NoSalesRightsInUSFlag =
+                        NotForSaleRightsList.Any(x => x.RightsIncludedCountryList.Contains("US"));
+                }
+            }
+        }
+
 
         #endregion
 

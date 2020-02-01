@@ -306,6 +306,31 @@ namespace OnixData.Version3
             }
         }
 
+        public List<OnixSupplierId> ProprietarySupplierIds
+        {
+            get
+            {
+                List<OnixSupplierId> PropSupplierIds = new List<OnixSupplierId>();
+
+                if (this.OnixProductSupplyList != null)
+                {
+                    foreach (OnixProductSupply TmpSupply in this.OnixProductSupplyList)
+                    {
+                        if ((TmpSupply.SupplyDetail != null) && (TmpSupply.SupplyDetail.OnixSupplierList != null))
+                        {
+                            TmpSupply.SupplyDetail.OnixSupplierList
+                                                  .Where(x => x.OnixSupplierIdList != null &&
+                                                              x.OnixSupplierIdList.Any(y => y.SupplierIDType == OnixSupplierId.CONST_SUPPL_ID_TYPE_PROP))
+                                                  .ToList()
+                                                  .ForEach(x => PropSupplierIds.AddRange(x.OnixSupplierIdList));
+                        }
+                    }
+                }
+
+                return PropSupplierIds;
+            }
+        }
+
         public string PublisherName
         {
             get
@@ -391,17 +416,14 @@ namespace OnixData.Version3
             get { return GetMeasurement(OnixMeasure.CONST_MEASURE_TYPE_WIDTH); }
         }
 
-        public bool HasSalesRights()
+        public bool HasMissingSalesRightsData()
         {
-            bool bSalesRights = false;
+            return (this.PublishingDetail != null) ? this.PublishingDetail.MissingSalesRightsDataFlag : false;
+        }
 
-            if ((this.PublishingDetail != null) && (this.PublishingDetail.OnixSalesRightsList != null) && (this.PublishingDetail.OnixSalesRightsList.Count() > 0))
-            {
-                bSalesRights = this.PublishingDetail.OnixSalesRightsList.Any(x => x.SalesRightsType == OnixSalesRights.CONST_SALES_WITH_EXCL_RIGHTS ||
-                                                                          x.SalesRightsType == OnixSalesRights.CONST_SALES_WITH_NON_EXCL_RIGHTS);
-            }
-
-            return bSalesRights;
+        public bool HasNoSalesRightsinUS()
+        {
+            return (this.PublishingDetail != null) ? this.PublishingDetail.NoSalesRightsInUSFlag : false;
         }
 
         public bool HasNotForSaleRights()
@@ -410,10 +432,28 @@ namespace OnixData.Version3
 
             if ((this.PublishingDetail != null) && (this.PublishingDetail.OnixSalesRightsList != null) && (this.PublishingDetail.OnixSalesRightsList.Count() > 0))
             {
-                bNotForSalesRights = this.PublishingDetail.OnixSalesRightsList.Any(x => x.SalesRightsType == OnixSalesRights.CONST_NOT_FOR_SALE);
+                bNotForSalesRights = this.PublishingDetail.OnixSalesRightsList.Any(x => x.SalesRightTypeNum == Convert.ToInt32(OnixSalesRights.CONST_NOT_FOR_SALE));
             }
 
             return bNotForSalesRights;
+        }
+
+        public bool HasOutsideUSCountrySalesRights()
+        {
+            return (this.PublishingDetail != null) ? this.PublishingDetail.SalesRightsInNonUSCountryFlag : false;
+        }
+
+        public bool HasSalesRights()
+        {
+            bool bSalesRights = false;
+
+            if ((this.PublishingDetail != null) && (this.PublishingDetail.OnixSalesRightsList != null) && (this.PublishingDetail.OnixSalesRightsList.Count() > 0))
+            {
+                bSalesRights = this.PublishingDetail.OnixSalesRightsList.Any(x => x.SalesRightTypeNum == Convert.ToInt32(OnixSalesRights.CONST_SALES_WITH_EXCL_RIGHTS) ||
+                                                                                  x.SalesRightTypeNum == Convert.ToInt32(OnixSalesRights.CONST_SALES_WITH_NON_EXCL_RIGHTS));
+            }
+
+            return bSalesRights;
         }
 
         public bool HasUSDRetailPrice()
@@ -467,14 +507,22 @@ namespace OnixData.Version3
                     }
                 }
             }
-             **/
 
+            // Viable usage?
             if ((this.PublishingDetail != null) && (this.PublishingDetail.OnixSalesRightsList != null) && (this.PublishingDetail.OnixSalesRightsList.Count() > 0))
             {
                 bHasUSRights = this.PublishingDetail.ForSaleRightsList.Contains("US");
-            }
+            }              
+              **/
+
+            bHasUSRights = (this.PublishingDetail != null) ? this.PublishingDetail.SalesRightsInUSFlag : false;
 
             return bHasUSRights;
+        }
+
+        public bool HasWorldSalesRights()
+        {
+            return (this.PublishingDetail != null) ? this.PublishingDetail.SalesRightsAllWorldFlag : false;
         }
 
         public OnixPrice USDRetailPrice

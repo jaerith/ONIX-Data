@@ -17,23 +17,40 @@ namespace OnixData.Version3.Supply
         public const int CONST_RET_COND_BISAC = 2;
         public const int CONST_RET_COND_BIC   = 3;
 
+        public const int CONST_RET_CODE_TYPE_BISAC = 2;
+
         #endregion
 
         public OnixReturnsConditions()
         {
-            ReturnsCodeType = -1;
-
-            ReturnsCodeTypeName = ReturnsCode = "";
+            ReturnsCodeType = ReturnsCodeTypeName = ReturnsCode = "";
         }
 
-        private int    returnsCodeTypeField;
+        private string returnsCodeTypeField;
         private string returnsCodeTypeNameField;
         private string returnsCodeField;
+
+        #region Helper Methods
+
+        public int ReturnsCodeTypeNum
+        {
+            get
+            {
+                int nRetCodeTypeNum = 0;
+
+                if (!String.IsNullOrEmpty(ReturnsCodeType))
+                    Int32.TryParse(ReturnsCodeType, out nRetCodeTypeNum);
+
+                return nRetCodeTypeNum;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
         /// <remarks/>
-        public int ReturnsCodeType
+        public string ReturnsCodeType
         {
             get
             {
@@ -76,7 +93,7 @@ namespace OnixData.Version3.Supply
         #region Short Tags
 
         /// <remarks/>
-        public int j268
+        public string j268
         {
             get { return ReturnsCodeType; }
             set { ReturnsCodeType = value; }

@@ -12,12 +12,6 @@ namespace OnixData.Version3.Supply
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixSupplyDetail
     {
-        #region CONSTANTS
-
-        public const int CONST_RET_CODE_TYPE_BISAC = 2;
-
-        #endregion	
-	
         public OnixSupplyDetail()
         {
             ProductAvailability = "";
@@ -88,6 +82,56 @@ namespace OnixData.Version3.Supply
                     Suppliers = new OnixSupplier[0];
 
                 return Suppliers;
+            }
+        }
+
+        #endregion
+
+        #region
+
+        public bool HasUSDPrice()
+        {
+            bool bHasUSDPrice = false;
+
+            if ((this.OnixPriceList != null) && (this.OnixPriceList.Length > 0))
+            {
+                bHasUSDPrice = 
+                    this.OnixPriceList.Any(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
+            }
+
+            return bHasUSDPrice;
+        }
+
+        public bool HasReturnCodeTypeBisac()
+        {
+            bool bHasRetCodeBisac = false;
+
+            if ((this.OnixReturnsConditionsList != null) && (this.OnixReturnsConditionsList.Length > 0))
+            {
+                bHasRetCodeBisac =
+                    this.OnixReturnsConditionsList.Any(x => (x.ReturnsCodeTypeNum == OnixReturnsConditions.CONST_RET_CODE_TYPE_BISAC));
+            }
+
+            return bHasRetCodeBisac;
+        }
+
+        public string ReturnCodeBisac
+        {
+            get
+            {
+                string sRetCodeBisac = "";
+
+                if ((this.OnixReturnsConditionsList != null) && (this.OnixReturnsConditionsList.Length > 0))
+                {
+                    var RetConditions =
+                        this.OnixReturnsConditionsList.Where(x => (x.ReturnsCodeTypeNum == OnixReturnsConditions.CONST_RET_CODE_TYPE_BISAC))
+                                                      .FirstOrDefault();
+
+                    if (RetConditions != null)
+                        sRetCodeBisac = RetConditions.ReturnsCode;
+                }
+
+                return sRetCodeBisac;
             }
         }
 

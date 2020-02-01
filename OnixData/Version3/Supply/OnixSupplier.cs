@@ -10,19 +10,68 @@ namespace OnixData.Version3.Supply
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixSupplier
     {
+        #region CONSTANTS
+
+        public const int CONST_SUPPL_ID_TYPE_PROP   = 2;
+        public const int CONST_SUPPL_ID_TYPE_BV     = 4;
+        public const int CONST_SUPPL_ID_TYPE_GER_PI = 5;
+        public const int CONST_SUPPL_ID_TYPE_GLN    = 6;
+        public const int CONST_SUPPL_ID_TYPE_SAN    = 7;
+        
+        #endregion
+
         public OnixSupplier()
         {
-            SupplierRole = -1;
-            SupplierName = "";
+            SupplierRole = SupplierName = "";
+
+            supplierIdField      = null;
+            shortSupplierIdField = null;
         }
 
-        private int    supplierRoleField;
+        private string supplierRoleField;
         private string supplierNameField;
+
+        private OnixSupplierId[] supplierIdField;
+        private OnixSupplierId[] shortSupplierIdField;
+
+        #region Helper Methods
+
+        public OnixSupplierId[] OnixSupplierIdList
+        {
+            get
+            {
+                OnixSupplierId[] SupplierIdList = null;
+
+                if (this.supplierIdField != null)
+                    SupplierIdList = this.supplierIdField;
+                else if (this.shortSupplierIdField != null)
+                    SupplierIdList = this.shortSupplierIdField;
+                else
+                    SupplierIdList = new OnixSupplierId[0];
+
+                return SupplierIdList;
+            }
+        }
+
+        public int SupplierRoleNum
+        {
+            get
+            {
+                int nRoleNum = 0;
+
+                if (!String.IsNullOrEmpty(SupplierRole))
+                    Int32.TryParse(SupplierRole, out nRoleNum);
+
+                return nRoleNum;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
         /// <remarks/>
-        public int SupplierRole
+        public string SupplierRole
         {
             get
             {
@@ -47,12 +96,26 @@ namespace OnixData.Version3.Supply
             }
         }
 
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("SupplierId")]
+        public OnixSupplierId[] SupplierId
+        {
+            get
+            {
+                return this.supplierIdField;
+            }
+            set
+            {
+                this.supplierIdField = value;
+            }
+        }
+
         #endregion
 
         #region Short Tags
 
         /// <remarks/>
-        public int j292
+        public string j292
         {
             get { return SupplierRole; }
             set { SupplierRole = value; }
@@ -63,6 +126,20 @@ namespace OnixData.Version3.Supply
         {
             get { return SupplierName; }
             set { SupplierName = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("supplierid")]
+        public OnixSupplierId[] supplierid
+        {
+            get
+            {
+                return this.shortSupplierIdField;
+            }
+            set
+            {
+                this.shortSupplierIdField = value;
+            }
         }
 
         #endregion
