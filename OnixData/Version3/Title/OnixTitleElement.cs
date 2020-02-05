@@ -30,7 +30,7 @@ namespace OnixData.Version3.Title
         private string titlePrefixField;
         private string titleWithoutPrefixField;
 
-        #region Reference Tags
+        #region Helper Methods
 
         public string Title
         {
@@ -43,9 +43,15 @@ namespace OnixData.Version3.Title
                 else if (!String.IsNullOrEmpty(TitleWithoutPrefix))
                     sTitle = TitlePrefix + " " + TitleWithoutPrefix;
 
+                sTitle = sTitle.Trim();
+
                 return sTitle;
             }
         }
+
+        #endregion
+
+        #region Reference Tags
 
         /// <remarks/>
         public int TitleElementLevel

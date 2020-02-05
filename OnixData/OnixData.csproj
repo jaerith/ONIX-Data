@@ -119,6 +119,7 @@
     <Compile Include="Version3\Supply\OnixSupplier.cs" />
     <Compile Include="Version3\Supply\OnixSupplyDetail.cs" />
     <Compile Include="Version3\Text\OnixTextContent.cs" />
+    <Compile Include="Version3\Title\OnixCollectionSequence.cs" />
     <Compile Include="Version3\Title\OnixTitleDetail.cs" />
     <Compile Include="Version3\Title\OnixTitleElement.cs" />
   </ItemGroup>

@@ -375,19 +375,6 @@ namespace OnixData.Version3
             }
         }
 
-        public string SeriesTitle
-        {
-            get
-            {
-                string FoundSeriesTitle = "";
-
-                if (DescriptiveDetail != null)
-                    FoundSeriesTitle = DescriptiveDetail.SeriesTitle;
-
-                return FoundSeriesTitle;
-            }
-        }
-
         public OnixMeasure Height
         {
             get { return GetMeasurement(OnixMeasure.CONST_MEASURE_TYPE_HEIGHT); }
@@ -515,6 +502,32 @@ namespace OnixData.Version3
         public bool HasWorldSalesRights()
         {
             return (this.PublishingDetail != null) ? this.PublishingDetail.SalesRightsAllWorldFlag : false;
+        }
+
+        public string SeriesNumber
+        {
+            get
+            {
+                string FoundSeriesNum = "";
+
+                if (DescriptiveDetail != null)
+                    FoundSeriesNum = DescriptiveDetail.SeriesNumber;
+
+                return FoundSeriesNum;
+            }
+        }
+
+        public string SeriesTitle
+        {
+            get
+            {
+                string FoundSeriesTitle = "";
+
+                if (DescriptiveDetail != null)
+                    FoundSeriesTitle = DescriptiveDetail.SeriesTitle;
+
+                return FoundSeriesTitle;
+            }
         }
 
         public OnixPrice USDRetailPrice

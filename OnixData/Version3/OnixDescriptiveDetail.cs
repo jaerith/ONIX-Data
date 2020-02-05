@@ -452,6 +452,27 @@ namespace OnixData.Version3
             }
         }
 
+        public string SeriesNumber
+        {
+            get
+            {
+                OnixCollection[] CollList = this.OnixCollectionList;
+
+                string sSeriesNum = "";
+
+                if ((CollList != null) && (CollList.Length > 0))
+                {
+                    OnixCollection SeriesCollection =
+                        CollList.Where(x => x.IsSeriesType()).LastOrDefault();
+
+                    if (SeriesCollection != null)
+                        sSeriesNum = SeriesCollection.TitleSequence;
+                }
+
+                return sSeriesNum;
+            }
+        }
+
         public string SeriesTitle
         {
             get

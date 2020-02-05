@@ -1,0 +1,155 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace OnixData.Version3.Title
+{
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public partial class OnixCollectionSequence
+    {
+        #region CONSTANTS
+
+        public const int CONST_COLL_SEQ_TYPE_PROP       = 1;
+        public const int CONST_COLL_SEQ_TYPE_TTL_ORDER  = 2;
+        public const int CONST_COLL_SEQ_TYPE_PUB_ORDER  = 3;
+        public const int CONST_COLL_SEQ_TYPE_NAR_ORDER  = 4;
+        public const int CONST_COLL_SEQ_TYPE_ORIG_ORDER = 5;
+        public const int CONST_COLL_SEQ_TYPE_SGR_ORDER  = 6;
+        public const int CONST_COLL_SEQ_TYPE_SGD_ORDER  = 7;
+
+        #endregion
+
+        public OnixCollectionSequence()
+        {
+            CollectionSequenceType = CollectionSequenceTypeName = CollectionSequence = "";
+        }
+      
+        private string collSeqTypeField;
+        private string collSeqTypeNameField;
+        private string collSeqField;
+
+        #region Helper Methods
+
+        public int CollectionSequenceTypeNum
+        {
+            get
+            {
+                int nCollSeqType = -1;
+
+                if (!String.IsNullOrEmpty(CollectionSequenceType))
+                    Int32.TryParse(CollectionSequenceType, out nCollSeqType);
+
+                return nCollSeqType;
+            }
+        }
+
+        public int CollectionSequenceNum
+        {
+            get
+            {
+                int nCollSeq = -1;
+
+                if (!String.IsNullOrEmpty(CollectionSequence))
+                    Int32.TryParse(CollectionSequence, out nCollSeq);
+
+                return nCollSeq;
+            }
+        }
+
+        public bool IsTitleSeq()
+        {
+            return ((CollectionSequenceTypeNum == CONST_COLL_SEQ_TYPE_PROP) || (CollectionSequenceTypeNum == CONST_COLL_SEQ_TYPE_TTL_ORDER));
+        }
+
+        #endregion
+
+        #region Reference Tags
+
+        /// <remarks/>
+        public string CollectionSequenceType
+        {
+            get
+            {
+                return this.collSeqTypeField;
+            }
+            set
+            {
+                this.collSeqTypeField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string CollectionSequenceTypeName
+        {
+            get
+            {
+                return this.collSeqTypeNameField;
+            }
+            set
+            {
+                this.collSeqTypeNameField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string CollectionSequence
+        {
+            get
+            {
+                return this.collSeqField;
+            }
+            set
+            {
+                this.collSeqField = value;
+            }
+        }
+
+        #endregion
+
+        #region Short Tags
+
+        /// <remarks/>
+        public string x479
+        {
+            get
+            {
+                return CollectionSequenceType;
+            }
+            set
+            {
+                CollectionSequenceType = value;
+            }
+        }
+
+        /// <remarks/>
+        public string x480
+        {
+            get
+            {
+                return CollectionSequenceTypeName;
+            }
+            set
+            {
+                CollectionSequenceTypeName = value;
+            }
+        }
+
+        /// <remarks/>
+        public string x481
+        {
+            get
+            {
+                return CollectionSequence;
+            }
+            set
+            {
+                CollectionSequence = value;
+            }
+        }
+
+        #endregion
+    }
+}

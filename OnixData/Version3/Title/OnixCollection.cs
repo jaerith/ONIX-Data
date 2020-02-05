@@ -20,15 +20,36 @@ namespace OnixData.Version3.Title
         public OnixCollection()
         {
             CollectionType   = "";
+            collSeqField     = shortCollSeqField     = new OnixCollectionSequence[0];
             titleDetailField = shortTitleDetailField = new OnixTitleDetail[0];
         }
 
-        private string            collTypeField;
+        private string collTypeField;
+
+        private OnixCollectionSequence[] collSeqField;
+        private OnixCollectionSequence[] shortCollSeqField;
 
         private OnixTitleDetail[] titleDetailField;
         private OnixTitleDetail[] shortTitleDetailField;
 
         #region ONIX Lists
+
+        public OnixCollectionSequence[] OnixCollectionSequenceList
+        {
+            get
+            {
+                OnixCollectionSequence[] CollSeqList = null;
+
+                if (this.collSeqField != null)
+                    CollSeqList = this.collSeqField;
+                else if (this.shortCollSeqField != null)
+                    CollSeqList = this.shortCollSeqField;
+                else
+                    CollSeqList = new OnixCollectionSequence[0];
+
+                return CollSeqList;
+            }
+        }
 
         public OnixTitleDetail[] OnixTitleDetailList
         {
@@ -116,6 +137,25 @@ namespace OnixData.Version3.Title
             return (CollectionTypeNum == CONST_COLL_TYPE_SERIES);
         }
 
+        public string TitleSequence
+        {
+            get
+            {
+                string sSeqNum = "";
+
+                if ((this.OnixCollectionSequenceList != null) && (this.OnixCollectionSequenceList.Length > 0))
+                {
+                    OnixCollectionSequence TitleCollSeq =
+                        this.OnixCollectionSequenceList.Where(x => x.IsTitleSeq()).LastOrDefault();
+
+                    if ((TitleCollSeq != null) && (TitleCollSeq.CollectionSequenceNum > 0))
+                        sSeqNum = TitleCollSeq.CollectionSequence;
+                }
+
+                return sSeqNum;
+            }
+        }
+
         #endregion
 
         #region Reference Tags
@@ -125,6 +165,14 @@ namespace OnixData.Version3.Title
         {
             get { return this.collTypeField; }
             set { this.collTypeField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("CollectionSequence")]
+        public OnixCollectionSequence[] CollectionSequence
+        {
+            get { return this.collSeqField; }
+            set { this.collSeqField = value; }
         }
 
         /// <remarks/>
@@ -144,6 +192,14 @@ namespace OnixData.Version3.Title
         {
             get { return CollectionType; }
             set { CollectionType = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("collectionsequence")]
+        public OnixCollectionSequence[] collectionsequence
+        {
+            get { return this.shortCollSeqField; }
+            set { this.shortCollSeqField = value; }
         }
 
         /// <remarks/>
