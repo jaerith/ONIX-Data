@@ -381,16 +381,8 @@ namespace OnixData.Version3
             {
                 string FoundSeriesTitle = "";
 
-                if ((DescriptiveDetail != null) &&
-                    (DescriptiveDetail.OnixCollectionList != null) &&
-                    (DescriptiveDetail.OnixCollectionList.Length > 0))
-                {
-                    OnixCollection seriesCollection =
-                        DescriptiveDetail.OnixCollectionList.Where(x => x.CollectionType == OnixCollection.CONST_COLL_TYPE_SERIES).LastOrDefault();
-
-                    if ((seriesCollection.TitleDetail != null) && (seriesCollection.TitleDetail.TitleElement != null))
-                        FoundSeriesTitle = seriesCollection.TitleDetail.TitleElement.Title;
-                }
+                if (DescriptiveDetail != null)
+                    FoundSeriesTitle = DescriptiveDetail.SeriesTitle;
 
                 return FoundSeriesTitle;
             }
@@ -745,7 +737,7 @@ namespace OnixData.Version3
 
                 if ((DescriptiveDetail != null)             &&
                     (DescriptiveDetail.TitleDetail != null) &&
-                    (DescriptiveDetail.TitleDetail.TitleType == OnixTitleElement.CONST_TITLE_TYPE_PRODUCT))
+                    (DescriptiveDetail.TitleDetail.TitleTypeNum == OnixTitleElement.CONST_TITLE_TYPE_PRODUCT))
                 {
                     OnixTitleDetail ProductTitleDetail = DescriptiveDetail.TitleDetail;
 

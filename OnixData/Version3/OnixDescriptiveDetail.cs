@@ -452,6 +452,27 @@ namespace OnixData.Version3
             }
         }
 
+        public string SeriesTitle
+        {
+            get
+            {
+                OnixCollection[] CollList = this.OnixCollectionList;
+
+                string sSeriesTitle = "";
+
+                if ((CollList != null) && (CollList.Length > 0))
+                {
+                    OnixCollection SeriesCollection =
+                        CollList.Where(x => x.IsSeriesType()).LastOrDefault();
+
+                    if (SeriesCollection != null)
+                        sSeriesTitle = SeriesCollection.CollectionName;
+                }
+
+                return sSeriesTitle;
+            }
+        }
+
         #endregion
 
         #region Reference Tags

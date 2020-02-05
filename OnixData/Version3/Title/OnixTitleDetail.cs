@@ -15,21 +15,130 @@ namespace OnixData.Version3.Title
         public const int CONST_TITLE_TYPE_UN_TITLE   = 0;
         public const int CONST_TITLE_TYPE_DIST_TITLE = 1;
 
-        #endregion	
-	
+        #endregion
+
         public OnixTitleDetail()
         {
-            TitleType    = -1;
+            TitleType    = "";
             TitleElement = new OnixTitleElement();
         }
 
-        private int              titleTypeField;
+        private string              titleTypeField;
         private OnixTitleElement titleElementField;
+
+        #region Helper Methods
+
+        public string FullName
+        {
+            get
+            {
+                string sFullName = "";
+
+                if ((TitleElement != null) && !String.IsNullOrEmpty(TitleElement.Title))
+                    sFullName = TitleElement.Title;
+
+                return sFullName;
+            }
+        }
+
+        public bool HasQualifiedTitle()
+        {
+            bool bHasQualifiedTitle = false;
+
+            if (TitleTypeNum > 0)
+            {
+                if ((TitleTypeNum == CONST_TITLE_TYPE_UN_TITLE) || (TitleTypeNum == CONST_TITLE_TYPE_DIST_TITLE))
+                    bHasQualifiedTitle = true;
+            }
+
+            return bHasQualifiedTitle;
+        }
+
+        public bool IsCollectionName()
+        {
+            bool bIsCollName = false;
+
+            if (TitleElement != null)
+                bIsCollName = (TitleElement.TitleElementLevel == OnixTitleElement.CONST_TITLE_TYPE_COLLECTION);
+
+            return bIsCollName;
+        }
+
+        public bool IsProductName()
+        {
+            bool bIsProdName = false;
+
+            if (TitleElement != null)
+                bIsProdName = (TitleElement.TitleElementLevel == OnixTitleElement.CONST_TITLE_TYPE_PRODUCT);
+
+            return bIsProdName;
+        }
+
+        public bool IsSubCollectionName()
+        {
+            bool bIsSubCollName = false;
+
+            if (TitleElement != null)
+                bIsSubCollName = (TitleElement.TitleElementLevel == OnixTitleElement.CONST_TITLE_TYPE_SUB_COLL);
+
+            return bIsSubCollName;
+        }
+
+        public bool IsSubItemName()
+        {
+            bool bIsSubItemName = false;
+
+            if (TitleElement != null)
+                bIsSubItemName = (TitleElement.TitleElementLevel == OnixTitleElement.CONST_TITLE_TYPE_SUB_ITEM);
+
+            return bIsSubItemName;
+        }
+
+        public string Prefix
+        {
+            get
+            {
+                string sPrefix = "";
+
+                if ((TitleElement != null) && !String.IsNullOrEmpty(TitleElement.TitlePrefix))
+                    sPrefix = TitleElement.TitlePrefix;
+
+                return sPrefix;
+            }
+        }
+
+        public string TitleWithoutPrefix
+        {
+            get
+            {
+                string sTitleWithoutPrefix = "";
+
+                if ((TitleElement != null) && !String.IsNullOrEmpty(TitleElement.TitleWithoutPrefix))
+                    sTitleWithoutPrefix = TitleElement.TitleWithoutPrefix;
+
+                return sTitleWithoutPrefix;
+            }
+        }
+
+        public int TitleTypeNum
+        {
+            get
+            {
+                int nTypeNum = -1;
+
+                if (!String.IsNullOrEmpty(TitleType))
+                    Int32.TryParse(TitleType, out nTypeNum);
+
+                return nTypeNum;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
         /// <remarks/>
-        public int TitleType
+        public string TitleType
         {
             get
             {
@@ -59,7 +168,7 @@ namespace OnixData.Version3.Title
         #region Short Tags
 
         /// <remarks/>
-        public int b202
+        public string b202
         {
             get { return TitleType; }
             set { TitleType = value; }
