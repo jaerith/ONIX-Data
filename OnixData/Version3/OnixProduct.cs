@@ -435,7 +435,7 @@ namespace OnixData.Version3
             return bSalesRights;
         }
 
-        public bool HasUSDRetailPrice()
+        public bool HasUSDPrice()
         {
             bool bHasUSDPrice = false;
 
@@ -447,8 +447,7 @@ namespace OnixData.Version3
                     {
                         OnixPrice[] Prices = TmpProductSupply.SupplyDetail.OnixPriceList;
 
-                        bHasUSDPrice =
-                            Prices.Any(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
+                        bHasUSDPrice = Prices.Any(x => x.HasSoughtPriceTypeCode() && (x.CurrencyCode == "USD"));
 
                         if (bHasUSDPrice)
                             break;
@@ -457,6 +456,31 @@ namespace OnixData.Version3
             }
 
             return bHasUSDPrice;
+        }
+
+
+        public bool HasUSDRetailPrice()
+        {
+            bool bHasSoughtPrice = false;
+
+            if (this.OnixProductSupplyList != null)
+            {
+                foreach (OnixProductSupply TmpProductSupply in this.OnixProductSupplyList)
+                {
+                    if (TmpProductSupply.SupplyDetail != null)
+                    {
+                        OnixPrice[] Prices = TmpProductSupply.SupplyDetail.OnixPriceList;
+
+                        bHasSoughtPrice =
+                            Prices.Any(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
+
+                        if (bHasSoughtPrice)
+                            break;
+                    }
+                }
+            }
+
+            return bHasSoughtPrice;
         }
 
         public bool HasUSRights()

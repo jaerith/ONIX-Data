@@ -173,6 +173,27 @@ namespace OnixData.Version3.Publishing
             get { return notForSaleList; }
         }
 
+        public string OnSaleDate
+        {
+            get
+            {
+                OnixPubDate[] DateList = this.OnixPublishingDateList;
+
+                string sOnSaleDate = "";
+
+                if ((DateList != null) && (DateList.Length > 0))
+                {
+                    OnixPubDate FoundOnSaleDate =
+                        DateList.Where(x => x.PubDateRoleNum == OnixPubDate.CONST_PUB_DT_ROLE_ON_SALE).LastOrDefault();
+
+                    if ((FoundOnSaleDate != null) && !String.IsNullOrEmpty(FoundOnSaleDate.Date))
+                        sOnSaleDate = FoundOnSaleDate.Date;
+                }
+
+                return sOnSaleDate;
+            }
+        }
+
         public string PublicationDate
         {
             get
@@ -184,7 +205,9 @@ namespace OnixData.Version3.Publishing
                 if ((PubDtList != null) && (PubDtList.Length > 0))
                 {                    
                     OnixPubDate FoundPubDate =
-                        PubDtList.Where(x => x.PublishingDateRole == OnixPubDate.CONST_PUB_DT_ROLE_NORMAL).LastOrDefault();
+                        PubDtList
+                        .Where(x => (x.PubDateRoleNum == OnixPubDate.CONST_PUB_DT_ROLE_NORMAL) || (x.PubDateRoleNum == OnixPubDate.CONST_PUB_DT_ROLE_PRINT_CTRPRT))
+                        .LastOrDefault();
 
                     if ((FoundPubDate != null) && !String.IsNullOrEmpty(FoundPubDate.Date))
                         sPubDate = FoundPubDate.Date;
@@ -239,11 +262,10 @@ namespace OnixData.Version3.Publishing
             }
         }
 
-
         #endregion
 
         #region Reference Tags
-        
+
         /// <remarks/>
         public string PublishingStatus
         {

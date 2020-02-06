@@ -14,8 +14,7 @@ namespace OnixData.Version3.Supply
     {
         public OnixSupplyDetail()
         {
-            ProductAvailability = "";
-            PackQuantity        = -1;
+            ProductAvailability = PackQuantity = UnpricedItemType = "";
 
             Price             = new OnixPrice[0];
             Supplier          = new OnixSupplier[0];
@@ -23,14 +22,17 @@ namespace OnixData.Version3.Supply
         }
 
         private string productAvailabilityField;
-        private int    packQuantityField;
+        private string packQuantityField;
+        private string unpricedItemTypeField;
 
         private OnixReturnsConditions[] returnsConditionsField;
         private OnixReturnsConditions[] shortReturnsConditionsField;
-        private OnixPrice[]             priceField;
-        private OnixPrice[]             shortPriceField;
-        private OnixSupplier[]          supplierField;
-        private OnixSupplier[]          shortSupplierField;
+
+        private OnixPrice[] priceField;
+        private OnixPrice[] shortPriceField;
+
+        private OnixSupplier[] supplierField;
+        private OnixSupplier[] shortSupplierField;
 
         #region ONIX Lists
 
@@ -87,7 +89,7 @@ namespace OnixData.Version3.Supply
 
         #endregion
 
-        #region
+        #region Helper Methods
 
         public bool HasUSDPrice()
         {
@@ -95,7 +97,7 @@ namespace OnixData.Version3.Supply
 
             if ((this.OnixPriceList != null) && (this.OnixPriceList.Length > 0))
             {
-                bHasUSDPrice = 
+                bHasUSDPrice =
                     this.OnixPriceList.Any(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
             }
 
@@ -113,6 +115,19 @@ namespace OnixData.Version3.Supply
             }
 
             return bHasRetCodeBisac;
+        }
+
+        public int PackQuantityNum
+        {
+            get
+            {
+                int nQuantity = -1;
+
+                if (!String.IsNullOrEmpty(PackQuantity))
+                    Int32.TryParse(PackQuantity, out nQuantity);
+
+                return nQuantity;
+            }
         }
 
         public string ReturnCodeBisac
@@ -153,7 +168,7 @@ namespace OnixData.Version3.Supply
         }
 
         /// <remarks/>
-        public int PackQuantity
+        public string PackQuantity
         {
             get
             {
@@ -207,6 +222,19 @@ namespace OnixData.Version3.Supply
             }
         }
 
+        /// <remarks/>
+        public string UnpricedItemType
+        {
+            get
+            {
+                return this.unpricedItemTypeField;
+            }
+            set
+            {
+                this.unpricedItemTypeField = value;
+            }
+        }
+
         #endregion
 
         #region Short Tags
@@ -219,7 +247,7 @@ namespace OnixData.Version3.Supply
         }
 
         /// <remarks/>
-        public int j145
+        public string j145
         {
             get { return PackQuantity; }
             set { PackQuantity = value; }
@@ -247,6 +275,13 @@ namespace OnixData.Version3.Supply
         {
             get { return shortSupplierField; }
             set { shortSupplierField = value; }
+        }
+
+        /// <remarks/>
+        public string j192
+        {
+            get { return UnpricedItemType; }
+            set { UnpricedItemType = value; }
         }
 
         #endregion

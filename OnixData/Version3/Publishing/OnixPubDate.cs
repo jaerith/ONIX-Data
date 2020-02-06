@@ -12,13 +12,14 @@ namespace OnixData.Version3.Publishing
     {
         #region CONSTANTS
 
-        public const string CONST_PUB_DT_ROLE_NORMAL       = "01";
-        public const string CONST_PUB_DT_ROLE_ANNOUNCE     = "02";
-        public const string CONST_PUB_DT_ROLE_TRADE_ANN    = "10";
-        public const string CONST_PUB_DT_ROLE_PUB_FIRST    = "11";
-        public const string CONST_PUB_DT_ROLE_LAST_REPRINT = "12";
-        public const string CONST_PUB_DT_ROLE_OOP_FIRST    = "13";
-        public const string CONST_PUB_DT_ROLE_LAST_REISSUE = "16";
+        public const int CONST_PUB_DT_ROLE_NORMAL       = 1;
+        public const int CONST_PUB_DT_ROLE_ON_SALE      = 2;
+        public const int CONST_PUB_DT_ROLE_TRADE_ANN    = 10;
+        public const int CONST_PUB_DT_ROLE_PUB_FIRST    = 11;
+        public const int CONST_PUB_DT_ROLE_LAST_REPRINT = 12;
+        public const int CONST_PUB_DT_ROLE_OOP_FIRST    = 13;
+        public const int CONST_PUB_DT_ROLE_LAST_REISSUE = 16;
+        public const int CONST_PUB_DT_ROLE_PRINT_CTRPRT = 19;
 
         #endregion
 
@@ -29,6 +30,23 @@ namespace OnixData.Version3.Publishing
 
         private string dateField;
         private string pubDateRoleField;
+
+        #region Helper Methods
+
+        public int PubDateRoleNum
+        {
+            get
+            {
+                int nPubDateRoleNum = -1;
+
+                if (!String.IsNullOrEmpty(PublishingDateRole))
+                    Int32.TryParse(PublishingDateRole, out nPubDateRoleNum);
+
+                return nPubDateRoleNum;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
