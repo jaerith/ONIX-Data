@@ -18,6 +18,23 @@ namespace OnixData.Version3
         private string barcodeTypeField;
         private string posOnProdField;
 
+        #region Helper Methods
+
+        public string BarcodeTypeAndPos
+        {
+            get
+            {
+                string sCombo = BarcodeType;
+
+                if (!String.IsNullOrEmpty(PositionOnProduct))
+                    sCombo += PositionOnProduct;
+
+                return sCombo;
+            }
+        }
+
+        #endregion
+
         #region Reference Tags
 
         /// <remarks/>

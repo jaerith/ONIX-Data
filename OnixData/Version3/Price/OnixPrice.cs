@@ -46,22 +46,45 @@ namespace OnixData.Version3.Price
         public OnixPrice()
         {
             PriceType    = -1;
-            PriceAmount  = 0;
+            PriceAmount  = "";
             Tax          = new OnixPriceTax();
             CurrencyCode = "";
 
+            discountField      = shortDiscountField      = new OnixDiscount[0];
             discountCodedField = shortDiscountCodedField = new OnixDiscountCoded[0];
         }
 
         private int          priceTypeField;
-        private decimal      priceAmountField;
+        private string       priceAmountField;
         private OnixPriceTax taxField;
         private string       currencyCodeField;
+
+        private OnixDiscount[] discountField;
+        private OnixDiscount[] shortDiscountField;
 
         private OnixDiscountCoded[] discountCodedField;
         private OnixDiscountCoded[] shortDiscountCodedField;
 
         #region Helper Methods
+
+        public string DiscountPercent
+        {
+            get
+            {
+                string DiscPct = "";
+
+                if ((this.OnixDiscountList != null) && (this.OnixDiscountList.Length > 0))
+                {
+                    OnixDiscount FoundDiscount =
+                        OnixDiscountList.Where(x => !String.IsNullOrEmpty(x.DiscountPercent)).FirstOrDefault();
+
+                    if ((FoundDiscount != null) && !String.IsNullOrEmpty(FoundDiscount.DiscountPercent))
+                        DiscPct = FoundDiscount.DiscountPercent;
+                }
+
+                return DiscPct;
+            }
+        }
 
         public bool HasSoughtRetailPriceType()
         {
@@ -102,9 +125,39 @@ namespace OnixData.Version3.Price
             }
         }
 
+        public decimal PriceAmountNum
+        {
+            get
+            {
+                decimal nPriceAmt = 0;
+
+                if (!String.IsNullOrEmpty(PriceAmount))
+                    Decimal.TryParse(PriceAmount, out nPriceAmt);
+
+                return nPriceAmt;
+            }
+        }
+
         #endregion
 
         #region ONIX Lists
+
+        public OnixDiscount[] OnixDiscountList
+        {
+            get
+            {
+                OnixDiscount[] DiscountList = null;
+
+                if (discountField != null)
+                    DiscountList = this.discountField;
+                else if (shortDiscountField != null)
+                    DiscountList = this.shortDiscountField;
+                else
+                    DiscountList = new OnixDiscount[0];
+
+                return DiscountList;
+            }
+        }
 
         public OnixDiscountCoded[] OnixDiscountCodedList
         {
@@ -141,7 +194,7 @@ namespace OnixData.Version3.Price
         }
 
         /// <remarks/>
-        public decimal PriceAmount
+        public string PriceAmount
         {
             get
             {
@@ -205,7 +258,7 @@ namespace OnixData.Version3.Price
         }
 
         /// <remarks/>
-        public decimal j151
+        public string j151
         {
             get { return PriceAmount; }
             set { PriceAmount = value; }

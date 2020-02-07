@@ -554,6 +554,29 @@ namespace OnixData.Version3
             }
         }
 
+        public OnixPrice USDCostPrice
+        {
+            get
+            {
+                OnixPrice USDPrice = new OnixPrice();
+
+                OnixSupplyDetail TargetSupplyDetail = USDRetailSupplyDetail;
+
+                if ((TargetSupplyDetail != null) && (TargetSupplyDetail.OnixPriceList != null) && (TargetSupplyDetail.OnixPriceList.Length > 0))
+                {
+                    OnixPrice[] Prices = TargetSupplyDetail.OnixPriceList;
+
+                    USDPrice =
+                        Prices.Where(x => x.HasSoughtSupplyCostPriceType() && (x.CurrencyCode == "USD")).FirstOrDefault();
+
+                    if (USDPrice == null)
+                        USDPrice = new OnixPrice();
+                }
+
+                return USDPrice;
+            }
+        }
+
         public OnixPrice USDRetailPrice
         {
             get
@@ -576,6 +599,49 @@ namespace OnixData.Version3
             }
         }
 
+        public OnixPrice USDValidPrice
+        {
+            get
+            {
+                OnixPrice USDPrice = USDRetailPrice;
+
+                if ((USDRetailPrice == null) || (USDRetailPrice.PriceAmountNum < 0))
+                {
+                    if (this.OnixProductSupplyList != null)
+                    {
+                        foreach (OnixProductSupply TmpPrdSupply in this.OnixProductSupplyList)
+                        {
+                            var TmpSupplyDetail = TmpPrdSupply.SupplyDetail;
+
+                            if (TmpSupplyDetail != null)
+                            {
+                                if ((TmpSupplyDetail != null) && 
+                                    (TmpSupplyDetail.OnixPriceList != null) && 
+                                    (TmpSupplyDetail.OnixPriceList.Length > 0))
+                                {
+                                    OnixPrice[] Prices = TmpSupplyDetail.OnixPriceList;
+
+                                    USDPrice =
+                                        Prices.Where(x => x.HasSoughtPriceTypeCode() && (x.CurrencyCode == "USD")).FirstOrDefault();
+
+                                    if ((USDPrice != null) && (USDPrice.PriceAmountNum > 0))
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (USDPrice == null)
+                    USDPrice = new OnixPrice();
+
+                return USDPrice;
+            }
+        }
+
+
         public OnixSupplyDetail USDRetailSupplyDetail
         {
             get
@@ -593,7 +659,7 @@ namespace OnixData.Version3
                             OnixPrice USDPrice =
                                 Prices.Where(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD")).FirstOrDefault();
 
-                            if ((USDPrice != null) && (USDPrice.PriceAmount > 0))
+                            if ((USDPrice != null) && (USDPrice.PriceAmountNum > 0))
                             {
                                 SupplyDetail = TmpPrdSupply.SupplyDetail;
                                 break;

@@ -84,6 +84,7 @@
     <Compile Include="Version3\Audience\OnixAudienceRange.cs" />
     <Compile Include="Version3\Content\OnixContentDetail.cs" />
     <Compile Include="Version3\OnixBarcode.cs" />
+    <Compile Include="Version3\Price\OnixDiscount.cs" />
     <Compile Include="Version3\Price\OnixDiscountCoded.cs" />
     <Compile Include="Version3\ProductPart\OnixProductPart.cs" />
     <Compile Include="Version3\Publishing\OnixImprintIdentifier.cs" />
