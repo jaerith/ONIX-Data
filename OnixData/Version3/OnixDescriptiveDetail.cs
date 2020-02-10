@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using OnixData.Version3.Audience;
+using OnixData.Version3.Epub;
 using OnixData.Version3.Language;
 using OnixData.Version3.ProductPart;
 using OnixData.Version3.Title;
@@ -26,9 +27,12 @@ namespace OnixData.Version3
             productContentTypeField = shortProductContentTypeField = new string[0];
             editionTypeField        = shortEditionTypeField        = new string[0];
             productFormDetailField  = shortProductFormDetailField  = new string[0];
+            epubTechProtectionField = shortEpubTechProtectionField = new string[0];
             audienceField           = shortAudienceField           = new OnixAudience[0];
             languageField           = shortLanguageField           = new OnixLanguage[0];
             prodPartField           = shortProdPartField           = new OnixProductPart[0];
+
+            epubUsageConstraintField = shortEpubUsageConstraintField = new OnixEpubUsageConstraint[0];
 
             EditionNumber    = -1;
             EditionStatement = "";
@@ -61,6 +65,8 @@ namespace OnixData.Version3
         private string[]   shortEditionTypeField;
         protected string[] productFormDetailField;
         protected string[] shortProductFormDetailField;
+        protected string[] epubTechProtectionField;
+        protected string[] shortEpubTechProtectionField;
 
         private OnixTitleDetail     titleDetailField;
 
@@ -82,6 +88,9 @@ namespace OnixData.Version3
         private OnixProductPart[]   shortProdPartField;
         private OnixSubject[]       subjectField;
         private OnixSubject[]       shortSubjectField;
+
+        public OnixEpubUsageConstraint[] epubUsageConstraintField;
+        public OnixEpubUsageConstraint[] shortEpubUsageConstraintField;
 
         #region ONIX Lists
 
@@ -116,6 +125,23 @@ namespace OnixData.Version3
                     EditionTypes = new string[0];
 
                 return EditionTypes;
+            }
+        }
+
+        public string[] OnixEpubTechProtectionList
+        {
+            get
+            {
+                string[] TechProtections = null;
+
+                if (this.epubTechProtectionField != null)
+                    TechProtections = this.epubTechProtectionField;
+                else if (this.shortEpubTechProtectionField != null)
+                    TechProtections = this.shortEpubTechProtectionField;
+                else
+                    TechProtections = new string[0];
+
+                return TechProtections;
             }
         }
 
@@ -201,6 +227,23 @@ namespace OnixData.Version3
                     Contributors = new OnixContributor[0];
 
                 return Contributors;
+            }
+        }
+
+        public OnixEpubUsageConstraint[] OnixEpubUsageConstraintList
+        {
+            get
+            {
+                OnixEpubUsageConstraint[] Constraints = null;
+
+                if (this.epubUsageConstraintField != null)
+                    Constraints = this.epubUsageConstraintField;
+                else if (this.shortEpubUsageConstraintField != null)
+                    Constraints = this.shortEpubUsageConstraintField;
+                else
+                    Constraints = new OnixEpubUsageConstraint[0];
+
+                return Constraints;
             }
         }
 
@@ -452,6 +495,28 @@ namespace OnixData.Version3
             }
         }
 
+        public int PageNumber
+        {
+            get
+            {
+                int nPageNum = 0;
+
+                if (this.OnixExtentList != null)
+                {
+                    OnixExtent PageAmtExtent =
+                        this.OnixExtentList
+                             .Where(x => x.ExtentType == OnixExtent.CONST_EXT_TYPE_PAGE_COUNT &&
+                                         x.ExtentUnit == OnixExtent.CONST_UNIT_TYPE_PAGES)
+                             .FirstOrDefault();
+
+                    if ((PageAmtExtent != null) && (PageAmtExtent.ExtentValue > 0))
+                        nPageNum = PageAmtExtent.ExtentValue;
+                }
+
+                return nPageNum;
+            }
+        }
+
         public string SeriesNumber
         {
             get
@@ -610,12 +675,11 @@ namespace OnixData.Version3
             set { this.epubTypeNoteField = value; }
         }
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Measure")]
-        public OnixMeasure[] Measure
+        [System.Xml.Serialization.XmlElementAttribute("EpubTechnicalProtection")]
+        public string[] EpubTechnicalProtection
         {
-            get { return this.measureField; }
-            set { this.measureField = value; }
+            get { return this.epubTechProtectionField; }
+            set { this.epubTechProtectionField = value; }
         }
 
         /// <remarks/>
@@ -657,6 +721,14 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("EpubUsageConstraint")]
+        public OnixEpubUsageConstraint[] EpubUsageConstraint
+        {
+            get { return this.epubUsageConstraintField; }
+            set { this.epubUsageConstraintField = value; }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Extent")]
         public OnixExtent[] Extent
         {
@@ -670,6 +742,14 @@ namespace OnixData.Version3
         {
             get { return this.languageField; }
             set { this.languageField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Measure")]
+        public OnixMeasure[] Measure
+        {
+            get { return this.measureField; }
+            set { this.measureField = value; }
         }
 
         /// <remarks/>
@@ -768,6 +848,14 @@ namespace OnixData.Version3
             set { shortEditionTypeField = value; }
         }
 
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("x317")]
+        public string[] x317
+        {
+            get { return shortEpubTechProtectionField; }
+            set { shortEpubTechProtectionField = value; }
+        }
+
         public int b057
         {
             get { return EditionNumber; }
@@ -825,6 +913,14 @@ namespace OnixData.Version3
         {
             get { return shortContributorField; }
             set { shortContributorField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("epubusageconstraint")]
+        public OnixEpubUsageConstraint[] epubusageconstraint
+        {
+            get { return this.shortEpubUsageConstraintField; }
+            set { this.shortEpubUsageConstraintField = value; }
         }
 
         /// <remarks/>
