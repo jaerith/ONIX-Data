@@ -32,27 +32,66 @@ namespace OnixData.Version3
         public const string CONST_CONTRIB_ROLE_FILMED_BY     = "F01";
         public const string CONST_CONTRIB_ROLE_OTHER         = "Z99";
 
+        private static readonly HashSet<string> CONST_ALL_ALLOWED_SUFFIX_LIST =
+            new HashSet<string>()
+{
+"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"
+, "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX"
+, "XX", "XXI", "XXII", "XXIII", "2nd", "3rd", "AB", "ACE", "AG", "ASC"
+, "B.V.", "BA", "BBA", "BE", "BS", "BSN", "CA", "CC", "CFP", "CM"
+, "Co.", "Co., Ltd.", "Corp.", "CPA", "CQ", "DBE", "DC", "DD", "DDS", "DGA"
+, "DMD", "DO", "DPM", "DSM", "DVM", "Esq", "fils", "FRS", "GmbH", "GOQ"
+, "Inc", "JD", "Jr", "KBE", "KC", "KCB", "KG", "KK", "Lit B", "Lit D"
+, "Litt B", "Litt D", "LLB", "LLC", "LLD", "LLM", "LM", "LOM", "LPN", "Ltd"
+, "MA", "MBA", "MBE", "MD", "MFA", "MH", "MHA", "MLA", "MNA", "MP"
+, "MPP", "MS", "MSc", "N.V.", "OBE", "OC", "OD", "OM", "OQ", "PC"
+, "père", "PhD", "plc", "Pty", "Pty Ltd", "QC", "RCAF", "RCMP", "RCN", "Ret"
+, "RN", "RS", "S.A.de C.V.", "S.p.A.", "S.r.l.", "SA", "SJ", "Sr", "USA", "USAF"
+, "USCG", "USMC", "USN", "VC", "VMD", "Y.K."
+};
+
+        private static readonly HashSet<string> CONST_ALL_ALLOWED_FILTERED_SUFFIX_LIST =
+            new HashSet<string>()
+{
+"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"
+, "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX"
+, "XX", "XXI", "XXII", "XXIII", "2ND", "3RD", "AB", "ACE", "AG", "ASC"
+, "BV", "BA", "BBA", "BE", "BS", "BSN", "CA", "CC", "CFP", "CM"
+, "CO", "CO,LTD", "CORP", "CPA", "CQ", "DBE", "DC", "DD", "DDS", "DGA"
+, "DMD", "DO", "DPM", "DSM", "DVM", "ESQ", "FILS", "FRS", "GMBH", "GOQ"
+, "INC", "JD", "JR", "KBE", "KC", "KCB", "KG", "KK", "LITB", "LITD"
+, "LITTB", "LITTD", "LLB", "LLC", "LLD", "LLM", "LM", "LOM", "LPN", "LTD"
+, "MA", "MBA", "MBE", "MD", "MFA", "MH", "MHA", "MLA", "MNA", "MP"
+, "MPP", "MS", "MSC", "NV", "OBE", "OC", "OD", "OM", "OQ", "PC"
+, "PÈRE", "PHD", "PLC", "PTY", "PTYLTD", "QC", "RCAF", "RCMP", "RCN", "RET"
+, "RN", "RS", "SADECV", "SPA", "SRL", "SA", "SJ", "SR", "USA", "USAF"
+, "USCG", "USMC", "USN", "VC", "VMD", "YK"
+};
+
         #endregion
 
         public OnixContributor()
         {
-            SequenceNumber    = -1;
-            ContributorRole   = personNameField = personNameInvertedField = "";
-            NamesBeforeKey    = KeyNames = "";
-            TitlesBeforeNames = TitlesAfterNames = LettersAfterNames = "";
-
+            SequenceNumber     = "";
+            ContributorRole    = PersonName = PersonNameInverted = "";
+            NamesBeforeKey     = PrefixToKey = KeyNames = "";
+            TitlesBeforeNames  = SuffixToKey = TitlesAfterNames = LettersAfterNames = "";
+            CorporateName      = "";
             onixNamesBeforeKey = onixKeyNames = onixLettersAndTitles = null;
         }
 
-        private int    sequenceNumberField;
+        private string sequenceNumberField;
         private string contributorRoleField;
         private string titlesBeforeNamesField;
-        private string namesBeforeKeyField;
-        private string keyNamesField;
         private string personNameField;
         private string personNameInvertedField;
+        private string namesBeforeKeyField;
+        private string prefixToKeyNameField;
+        private string keyNamesField;
+        private string suffixToKeyNameField;
         private string lettersAfterNamesField;
         private string titlesAfterNamesField;
+        private string corporateNameField;
 
         private string onixNamesBeforeKey;
         private string onixKeyNames;
@@ -96,125 +135,105 @@ namespace OnixData.Version3
             }
         }
 
+        public int SeqNum
+        {
+            get
+            {
+                int nSeqNum = 0;
+
+                if (!String.IsNullOrEmpty(SequenceNumber))
+                    Int32.TryParse(SequenceNumber, out nSeqNum);
+
+                return nSeqNum;
+            }
+        }
+
         #endregion
 
         #region Reference Tags
 
         /// <remarks/>
-        public int SequenceNumber
+        public string SequenceNumber
         {
-            get
-            {
-                return this.sequenceNumberField;
-            }
-            set
-            {
-                this.sequenceNumberField = value;
-            }
+            get { return this.sequenceNumberField; }
+            set { this.sequenceNumberField = value; }
         }
 
         /// <remarks/>
         public string ContributorRole
         {
-            get
-            {
-                return this.contributorRoleField;
-            }
-            set
-            {
-                this.contributorRoleField = value;
-            }
+            get { return this.contributorRoleField; }
+            set { this.contributorRoleField = value; }
         }
 
         /// <remarks/>
         public string TitlesBeforeNames
         {
-            get
-            {
-                return this.titlesBeforeNamesField;
-            }
-            set
-            {
-                this.titlesBeforeNamesField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string NamesBeforeKey
-        {
-            get
-            {
-                return this.namesBeforeKeyField;
-            }
-            set
-            {
-                this.namesBeforeKeyField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string KeyNames
-        {
-            get
-            {
-                return this.keyNamesField;
-            }
-            set
-            {
-                this.keyNamesField = value;
-            }
+            get { return this.titlesBeforeNamesField; }
+            set { this.titlesBeforeNamesField = value; }
         }
 
         /// <remarks/>
         public string PersonName
         {
-            get
-            {
-                return this.personNameField;
-            }
-            set
-            {
-                this.personNameField = value;
-            }
+            get { return this.personNameField; }
+            set { this.personNameField = value; }
         }
 
         /// <remarks/>
         public string PersonNameInverted
         {
-            get
-            {
-                return this.personNameInvertedField;
-            }
-            set
-            {
-                this.personNameInvertedField = value;
-            }
+            get { return this.personNameInvertedField; }
+            set { this.personNameInvertedField = value; }
+        }
+
+        /// <remarks/>
+        public string NamesBeforeKey
+        {
+            get { return this.namesBeforeKeyField; }
+            set { this.namesBeforeKeyField = value; }
+        }
+
+        /// <remarks/>
+        public string KeyNames
+        {
+            get { return this.keyNamesField; }
+            set { this.keyNamesField = value; }
         }
 
         /// <remarks/>
         public string LettersAfterNames
         {
-            get
-            {
-                return this.lettersAfterNamesField;
-            }
-            set
-            {
-                this.lettersAfterNamesField = value;
-            }
+            get { return this.lettersAfterNamesField; }
+            set { this.lettersAfterNamesField = value; }
         }
 
         /// <remarks/>
         public string TitlesAfterNames
         {
-            get
-            {
-                return this.titlesAfterNamesField;
-            }
-            set
-            {
-                this.titlesAfterNamesField = value;
-            }
+            get { return this.titlesAfterNamesField; }
+            set { this.titlesAfterNamesField = value; }
+        }
+
+        /// <remarks/>
+        public string CorporateName
+        {
+            get { return this.corporateNameField; }
+            set { this.corporateNameField = value; }
+        }
+
+        /// <remarks/>
+        public string PrefixToKey
+        {
+            get { return this.prefixToKeyNameField; }
+            set { this.prefixToKeyNameField = value; }
+        }
+
+        /// <remarks/>
+        public string SuffixToKey
+        {
+            get { return this.suffixToKeyNameField; }
+            set { this.suffixToKeyNameField = value; }
         }
 
         #endregion
@@ -222,7 +241,7 @@ namespace OnixData.Version3
         #region Short Tags
 
         /// <remarks/>
-        public int b034
+        public string b034
         {
             get { return SequenceNumber; }
             set { SequenceNumber = value; }
@@ -284,6 +303,27 @@ namespace OnixData.Version3
             set { TitlesAfterNames = value; }
         }
 
+        /// <remarks/>
+        public string b047
+        {
+            get { return CorporateName; }
+            set { CorporateName = value; }
+        }
+
+        /// <remarks/>
+        public string b247
+        {
+            get { return PrefixToKey; }
+            set { PrefixToKey = value; }
+        }
+
+        /// <remarks/>
+        public string b248
+        {
+            get { return SuffixToKey; }
+            set { SuffixToKey = value; }
+        }
+
         #endregion
 
         #region Support Methods
@@ -300,32 +340,6 @@ namespace OnixData.Version3
 
                 if (!String.IsNullOrEmpty(this.NamesBeforeKey))
                     KeyNamePrefixBuilder.Append(this.NamesBeforeKey);
-            }
-            else if (!String.IsNullOrEmpty(this.PersonName))
-            {
-                string[] NameComponents = this.PersonName.Split(new char[1] { ' ' });
-
-                if (NameComponents.Length == 1)
-                    KeyNameBuilder.Append(NameComponents[NameComponents.Length - 1]);
-                else if (NameComponents.Length > 1)
-                {
-                    int nKeyNameIndex = (NameComponents.Length - 1);
-                    if (NameComponents[nKeyNameIndex].Contains(".") || (NameComponents[nKeyNameIndex] == NameComponents[nKeyNameIndex].ToUpper()))
-                    {
-                        LettersTitlesBuilder.Append(NameComponents[nKeyNameIndex]);
-                        nKeyNameIndex = (NameComponents.Length - 2);
-                    }
-
-                    KeyNameBuilder.Append(NameComponents[nKeyNameIndex]);
-
-                    for (int i = 0; i < nKeyNameIndex; ++i)
-                    {
-                        if (KeyNamePrefixBuilder.Length > 0)
-                            KeyNamePrefixBuilder.Append(" ");
-
-                        KeyNamePrefixBuilder.Append(NameComponents[i]);
-                    }
-                }
             }
             else if (!String.IsNullOrEmpty(this.PersonNameInverted))
             {
@@ -351,9 +365,68 @@ namespace OnixData.Version3
                     }
                 }
             }
+            else if (!String.IsNullOrEmpty(this.PersonName))
+            {
+                string[] NameComponents = this.PersonName.Split(new char[1] { ' ' });
+
+                if (NameComponents.Length == 1)
+                    KeyNameBuilder.Append(NameComponents[NameComponents.Length - 1]);
+                else if (NameComponents.Length > 1)
+                {
+                    bool   bLongSuffix      = false;
+                    bool   bExtraLongSuffix = false;
+                    string sPossibleSuffix  = "";
+
+                    if (NameComponents.Length > 4)
+                    {
+                        sPossibleSuffix  = NameComponents[NameComponents.Length - 3] + " " + NameComponents[NameComponents.Length - 2] + " " + NameComponents[NameComponents.Length - 1];
+                        bExtraLongSuffix = true;
+                    }
+                    else if (NameComponents.Length > 3)
+                    {
+                        sPossibleSuffix = NameComponents[NameComponents.Length-2] + " " + NameComponents[NameComponents.Length-1];
+                        bLongSuffix     = true;
+                    }
+                    else
+                    {
+                        sPossibleSuffix = NameComponents[NameComponents.Length-1];
+                        bLongSuffix     = bExtraLongSuffix = false;
+                    }
+
+                    int nKeyNameIndex = (NameComponents.Length - 1);
+                    if (WithinAllowedSuffixDomain(sPossibleSuffix))
+                    {
+                        LettersTitlesBuilder.Append(sPossibleSuffix);
+
+                        if (bExtraLongSuffix)
+                            nKeyNameIndex = (NameComponents.Length - 4);
+                        else if (bLongSuffix)
+                            nKeyNameIndex = (NameComponents.Length - 3);
+                        else
+                            nKeyNameIndex = (NameComponents.Length - 2);
+                    }
+
+                    KeyNameBuilder.Append(NameComponents[nKeyNameIndex]);
+
+                    for (int i = 0; i < nKeyNameIndex; ++i)
+                    {
+                        if (KeyNamePrefixBuilder.Length > 0)
+                            KeyNamePrefixBuilder.Append(" ");
+
+                        KeyNamePrefixBuilder.Append(NameComponents[i]);
+                    }
+                }
+            }
+            else if (!String.IsNullOrEmpty(this.CorporateName))
+            {
+                KeyNameBuilder.Append(CorporateName);
+            }
 
             if (!String.IsNullOrEmpty(LettersAfterNames))
+            {
+                LettersTitlesBuilder.Clear();
                 LettersTitlesBuilder.Append(LettersAfterNames);
+            }
 
             if (!String.IsNullOrEmpty(TitlesAfterNames))
             {
@@ -363,12 +436,36 @@ namespace OnixData.Version3
                 LettersTitlesBuilder.Append(TitlesAfterNames);
             }
 
-            onixNamesBeforeKey   = KeyNamePrefixBuilder.ToString();
-            onixKeyNames         = KeyNameBuilder.ToString();
-            onixLettersAndTitles = LettersTitlesBuilder.ToString();
+            if (!String.IsNullOrEmpty(PrefixToKey))
+                KeyNamePrefixBuilder.Append(" " + PrefixToKey);
+
+            if (!String.IsNullOrEmpty(SuffixToKey))
+                LettersTitlesBuilder.Insert(0, SuffixToKey + " ");
+
+            onixNamesBeforeKey   = KeyNamePrefixBuilder.ToString().Trim();
+            onixKeyNames         = KeyNameBuilder.ToString().Trim();
+            onixLettersAndTitles = LettersTitlesBuilder.ToString().Trim();
+        }
+
+        public static bool WithinAllowedSuffixDomain(string psTestSuffix, bool pbTryFilteredVersion = true)
+        {
+            bool bSuffixMatch = false;
+
+            if (!String.IsNullOrEmpty(psTestSuffix))
+            {
+                bSuffixMatch = CONST_ALL_ALLOWED_SUFFIX_LIST.Contains(psTestSuffix);
+
+                if (!bSuffixMatch && pbTryFilteredVersion)
+                {
+                    string psFilteredSuffix = psTestSuffix.Replace(".", "").Replace(" ", "").ToUpper();
+
+                    bSuffixMatch = CONST_ALL_ALLOWED_FILTERED_SUFFIX_LIST.Contains(psFilteredSuffix);
+                }
+            }
+
+            return bSuffixMatch;
         }
 
         #endregion
-
     }
 }

@@ -23,6 +23,7 @@ namespace OnixData.Version3
             ProductForm            = ProductPackaging = "";
             ProductFormDescription = "";
             EpubType               = EpubTypeVersion = EpubFormatDescription = EpubTypeNote = "";
+            IllustrationsNote      = NumberOfIllustrations = "";
 
             productContentTypeField = shortProductContentTypeField = new string[0];
             editionTypeField        = shortEditionTypeField        = new string[0];
@@ -58,6 +59,9 @@ namespace OnixData.Version3
         protected string epubTypeVersionField;
         protected string epubFormatDescriptionField;
         protected string epubTypeNoteField;
+
+        protected string numOfIllustrationsField;
+        protected string illustrationsNoteField;
 
         private string[]   productContentTypeField;
         private string[]   shortProductContentTypeField;
@@ -690,6 +694,18 @@ namespace OnixData.Version3
             set { this.collectionField = value; }
         }
 
+        public string IllustrationsNote
+        {
+            get { return this.illustrationsNoteField; }
+            set { this.illustrationsNoteField = value; }
+        }
+
+        public string NumberOfIllustrations
+        {
+            get { return this.numOfIllustrationsField; }
+            set { this.numOfIllustrationsField = value; }
+        }
+
         /*
         public int SeriesNumber
         {
@@ -874,6 +890,18 @@ namespace OnixData.Version3
         {
             get { return AudienceCode; }
             set { AudienceCode = value; }
+        }
+
+        public string b062
+        {
+            get { return IllustrationsNote; }
+            set { IllustrationsNote = value; }
+        }
+
+        public string b125
+        {
+            get { return NumberOfIllustrations; }
+            set { NumberOfIllustrations = value; }
         }
 
         /// <remarks/>

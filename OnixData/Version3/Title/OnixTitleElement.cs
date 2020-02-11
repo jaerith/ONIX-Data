@@ -29,6 +29,7 @@ namespace OnixData.Version3.Title
         private string titleTextField;
         private string titlePrefixField;
         private string titleWithoutPrefixField;
+        private string subtitleField;
 
         #region Helper Methods
 
@@ -79,6 +80,18 @@ namespace OnixData.Version3.Title
             }
         }
 
+        public string Subtitle
+        {
+            get
+            {
+                return this.subtitleField;
+            }
+            set
+            {
+                this.subtitleField = value;
+            }
+        }
+
         /// <remarks/>
         public string TitlePrefix
         {
@@ -114,11 +127,11 @@ namespace OnixData.Version3.Title
         {
             get
             {
-                return this.titleElementLevelField;
+                return TitleElementLevel;
             }
             set
             {
-                this.titleElementLevelField = value;
+                TitleElementLevel = value;
             }
         }
 
@@ -127,11 +140,24 @@ namespace OnixData.Version3.Title
         {
             get
             {
-                return this.titleTextField;
+                return TitleText;
             }
             set
             {
-                this.titleTextField = value;
+                TitleText = value;
+            }
+        }
+
+        /// <remarks/>
+        public string b029
+        {
+            get
+            {
+                return Subtitle;
+            }
+            set
+            {
+                Subtitle = value;
             }
         }
 
@@ -140,11 +166,11 @@ namespace OnixData.Version3.Title
         {
             get
             {
-                return this.titlePrefixField;
+                return TitlePrefix;
             }
             set
             {
-                this.titlePrefixField = value;
+                TitlePrefix = value;
             }
         }
 
@@ -153,11 +179,11 @@ namespace OnixData.Version3.Title
         {
             get
             {
-                return this.titleWithoutPrefixField;
+                return TitleWithoutPrefix;
             }
             set
             {
-                this.titleWithoutPrefixField = value;
+                TitleWithoutPrefix = value;
             }
         }
 

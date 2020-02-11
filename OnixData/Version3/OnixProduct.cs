@@ -861,7 +861,15 @@ namespace OnixData.Version3
                     OnixTitleDetail ProductTitleDetail = DescriptiveDetail.TitleDetail;
 
                     if (ProductTitleDetail.TitleElement != null)
-                        ProductTitle = ProductTitleDetail.TitleElement.Title;
+                    {
+                        if (!String.IsNullOrEmpty(ProductTitleDetail.TitleElement.TitlePrefix))
+                            ProductTitle = ProductTitleDetail.TitleElement.TitlePrefix + " " + ProductTitleDetail.TitleElement.Title;
+                        else
+                            ProductTitle = ProductTitleDetail.TitleElement.Title;
+
+                        if (!String.IsNullOrEmpty(ProductTitleDetail.TitleElement.Subtitle))
+                            ProductTitle += ": " + ProductTitleDetail.TitleElement.Subtitle;
+                    }
                 }
 
                 return ProductTitle;
@@ -978,7 +986,7 @@ namespace OnixData.Version3
 
         #region Support Methods
 
-        public OnixMeasure GetMeasurement(int Type)
+        public OnixMeasure GetMeasurement(int pnType, bool pbMetricPreferred = false)
         {
             OnixMeasure FoundMeasurement = new OnixMeasure();
 
@@ -988,10 +996,19 @@ namespace OnixData.Version3
             {
                 OnixMeasure[] MeasureList = DescriptiveDetail.OnixMeasureList;
 
-                var MeasureType = MeasureList.Where(x => x.MeasureType == Type).LastOrDefault();
+                OnixMeasure MeasureType = null;
 
+                MeasureType = MeasureList.Where(x => (x.MeasureType == pnType) && !x.IsMetricUnitType()).LastOrDefault();
                 if (MeasureType != null)
                     FoundMeasurement = MeasureType;
+                
+                if ((MeasureType == null) || (MeasureType.Measurement == 0) || pbMetricPreferred)
+                {
+                    MeasureType = MeasureList.Where(x => (x.MeasureType == pnType) && x.IsMetricUnitType()).LastOrDefault();
+
+                    if (MeasureType != null)
+                        FoundMeasurement = MeasureType;
+                }
             }
 
             return FoundMeasurement;
