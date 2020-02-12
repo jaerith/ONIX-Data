@@ -21,7 +21,7 @@ namespace OnixData.Version3
             ProductComposition = AudienceCode = -1;
 
             ProductForm            = ProductPackaging = "";
-            ProductFormDescription = "";
+            ProductFormDescription = CountryOfManufacture = "";
             EpubType               = EpubTypeVersion = EpubFormatDescription = EpubTypeNote = "";
             IllustrationsNote      = NumberOfIllustrations = "";
 
@@ -54,6 +54,7 @@ namespace OnixData.Version3
         private int      editionNumberField;
         private string   editionStatementField;
         private int      audienceCodeField;
+        private string   countryOfManufactureField;
 
         protected string epubTypeField;
         protected string epubTypeVersionField;
@@ -62,6 +63,7 @@ namespace OnixData.Version3
 
         protected string numOfIllustrationsField;
         protected string illustrationsNoteField;
+
 
         private string[]   productContentTypeField;
         private string[]   shortProductContentTypeField;
@@ -633,6 +635,12 @@ namespace OnixData.Version3
             set { this.audienceRangeField = value; }
         }
 
+        public string CountryOfManufacture
+        {
+            get { return this.countryOfManufactureField; }
+            set { this.countryOfManufactureField = value; }
+        }
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("EditionType")]
         public string[] EditionType
@@ -918,6 +926,12 @@ namespace OnixData.Version3
         {
             get { return shortAudienceRangeField; }
             set { shortAudienceRangeField = value; }
+        }
+
+        public string x316
+        {
+            get { return this.CountryOfManufacture; }
+            set { this.CountryOfManufacture = value; }
         }
 
         /// <remarks/>

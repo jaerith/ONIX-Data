@@ -78,6 +78,8 @@ namespace OnixData.Version3
             TitlesBeforeNames  = SuffixToKey = TitlesAfterNames = LettersAfterNames = "";
             CorporateName      = "";
             onixNamesBeforeKey = onixKeyNames = onixLettersAndTitles = null;
+
+            altNameField = shortAltNameField = new OnixAlternateName[0];
         }
 
         private string sequenceNumberField;
@@ -96,6 +98,30 @@ namespace OnixData.Version3
         private string onixNamesBeforeKey;
         private string onixKeyNames;
         private string onixLettersAndTitles;
+
+        private OnixAlternateName[] altNameField;
+        private OnixAlternateName[] shortAltNameField;
+
+        #region ONIX Lists
+
+        public OnixAlternateName[] OnixAltNameList
+        {
+            get
+            {
+                OnixAlternateName[] AltNameList = new OnixAlternateName[0];
+
+                if (this.altNameField != null)
+                    AltNameList = this.altNameField;
+                else if (this.shortAltNameField != null)
+                    AltNameList = this.shortAltNameField;
+                else
+                    AltNameList = new OnixAlternateName[0];
+
+                return AltNameList;
+            }
+        }
+
+        #endregion
 
         #region ONIX Helpers
 
@@ -236,6 +262,14 @@ namespace OnixData.Version3
             set { this.suffixToKeyNameField = value; }
         }
 
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("AlternativeName")]
+        public OnixAlternateName[] AlternativeName
+        {
+            get { return this.altNameField; }
+            set { this.altNameField = value; }
+        }
+
         #endregion
 
         #region Short Tags
@@ -322,6 +356,14 @@ namespace OnixData.Version3
         {
             get { return SuffixToKey; }
             set { SuffixToKey = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("alternativename")]
+        public OnixAlternateName[] alternativename
+        {
+            get { return this.shortAltNameField; }
+            set { this.shortAltNameField = value; }
         }
 
         #endregion
@@ -464,6 +506,75 @@ namespace OnixData.Version3
             }
 
             return bSuffixMatch;
+        }
+
+        #endregion
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public partial class OnixAlternateName : OnixContributor
+    {
+        #region CONSTANTS
+
+        public const int CONST_NAME_TYPE_UNKNOWN   = 0;
+        public const int CONST_NAME_TYPE_PSEUDONYM = 1;
+        public const int CONST_NAME_TYPE_AUTH_CNTL = 2;
+        public const int CONST_NAME_TYPE_EARLIER   = 3;
+        public const int CONST_NAME_TYPE_REAL      = 4;
+        public const int CONST_NAME_TYPE_TRANSLIT  = 6;
+        public const int CONST_NAME_TYPE_LATER     = 7;
+
+        public readonly int[] CONST_SOUGHT_NAME_TYPES = { CONST_NAME_TYPE_PSEUDONYM, CONST_NAME_TYPE_REAL };
+
+        #endregion
+
+        public OnixAlternateName()
+        {
+            NameType = "";
+        }
+
+        private string nameTypeField;
+
+        #region Helper Methods
+
+        public bool IsSoughtNameType()
+        {
+            return CONST_SOUGHT_NAME_TYPES.Contains(NameTypeNum);
+        }
+
+        public int NameTypeNum
+        {
+            get
+            {
+                int nTypeNum = -1;
+
+                if (!String.IsNullOrEmpty(NameType))
+                    Int32.TryParse(NameType, out nTypeNum);
+
+                return nTypeNum;
+            }
+        }
+
+        #endregion
+
+        #region Reference Tags
+
+        /// <remarks/>
+        public string NameType
+        {
+            get { return this.nameTypeField; }
+            set { this.nameTypeField = value; }
+        }
+
+        #endregion
+
+        #region Short Tags
+
+        public string x414
+        {
+            get { return NameType; }
+            set { NameType = value; }
         }
 
         #endregion
