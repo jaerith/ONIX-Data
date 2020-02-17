@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.Schema;
 
+using OnixData.Extensions;
 using OnixData.Version3;
 using OnixData.Version3.Header;
 
@@ -28,78 +29,37 @@ namespace OnixData
 
         #endregion
 
-        private bool        ParserRefVerFlag  = false;
-        private bool        ParserRVWFlag     = false;
-        private FileInfo    ParserFileInfo    = null;
-        private XmlReader   CurrOnixReader    = null;
-        private OnixMessage CurrOnixMessage   = null;
+        private bool          ParserRefVerFlag  = false;
+        private bool          ParserRVWFlag     = false;
+        private FileInfo      ParserFileInfo    = null;
+        private StringBuilder ParserFileContent = null;
+        private XmlReader     CurrOnixReader    = null;
+        private OnixMessage   CurrOnixMessage   = null;
 
         public bool ReferenceVersion
         {
             get { return this.ParserRefVerFlag; }
         }
 
-        public OnixParser(FileInfo OnixFilepath, 
-                              bool ReportValidationWarnings, 
-                              bool LoadEntireFileIntoMemory = false)
+        public OnixParser(FileInfo OnixFilepath,
+                              bool ReportValidationWarnings,
+                              bool PreprocessOnixFile = true,
+                              bool LoadEntireFileIntoMemory = false,
+                              bool FilterBadEncodings = false)
         {
             if (!File.Exists(OnixFilepath.FullName))
                 throw new Exception("ERROR!  File(" + OnixFilepath + ") does not exist.");
 
             this.ParserFileInfo = OnixFilepath;
             this.ParserRVWFlag  = ReportValidationWarnings;
-            this.CurrOnixReader = CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag);
 
             bool   ReferenceVersion = DetectDtdVersionReference(OnixFilepath);
             string sOnixMsgTag      = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
 
             this.ParserRefVerFlag = ReferenceVersion;
 
-            if (LoadEntireFileIntoMemory)
-            {
-                this.CurrOnixMessage =
-                    new XmlSerializer(typeof(OnixMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.CurrOnixReader) as OnixMessage;
-            }
-            else
-                this.CurrOnixMessage = null;
-        }
-
-        public OnixParser(string OnixContent, bool ReportValidationWarnings, bool LoadEntireFileIntoMemory = false)
-        {
-            if (!String.IsNullOrEmpty(OnixContent))
-                throw new Exception("ERROR!  Provided ONIX content is empty.");
-
-            this.ParserFileInfo = null;
-            this.ParserRVWFlag  = ReportValidationWarnings;
-            this.CurrOnixReader = CreateXmlReader(new StringBuilder(OnixContent), this.ParserRVWFlag);
-
-            bool   ReferenceVersion = DetectDtdVersionReference(OnixContent);
-            string sOnixMsgTag      = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
-
-            this.ParserRefVerFlag = ReferenceVersion;
-
-            if (LoadEntireFileIntoMemory)
-            {
-                this.CurrOnixMessage =
-                    new XmlSerializer(typeof(OnixMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.CurrOnixReader) as OnixMessage;
-            }
-            else
-                this.CurrOnixMessage = null;
-        }
-
-        public OnixParser(bool ReportValidationWarnings,
-                      FileInfo OnixFilepath,
-                          bool ReferenceVersion,
-                          bool LoadEntireFileIntoMemory = false)
-        {
-            string sOnixMsgTag = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
-
-            if (!File.Exists(OnixFilepath.FullName))
-                throw new Exception("ERROR!  File(" + OnixFilepath + ") does not exist.");
-
-            this.ParserRefVerFlag = ReferenceVersion;
-            this.ParserFileInfo   = OnixFilepath;
-            this.ParserRVWFlag    = ReportValidationWarnings;
+            if (PreprocessOnixFile)
+                OnixFilepath.ReplaceIsoLatinEncodings(true, FilterBadEncodings);
 
             this.CurrOnixReader = CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag);
 
@@ -108,6 +68,36 @@ namespace OnixData
                 this.CurrOnixMessage =
                     new XmlSerializer(typeof(OnixMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.CurrOnixReader) as OnixMessage;
             }
+            else
+                this.CurrOnixMessage = null;
+        }
+
+        public OnixParser(string OnixContent, 
+                            bool ReportValidationWarnings,
+                            bool PreprocessOnixFile = true,
+                            bool FilterBadEncodings = false)
+
+        {
+            if (String.IsNullOrEmpty(OnixContent))
+                throw new Exception("ERROR!  Provided ONIX content is empty.");
+
+            this.ParserFileInfo = null;
+            this.ParserRVWFlag  = ReportValidationWarnings;
+
+            this.ParserFileContent = new StringBuilder(OnixContent);
+
+            if (PreprocessOnixFile)
+                this.ParserFileContent.ReplaceIsoLatinEncodings(FilterBadEncodings);
+
+            bool   ReferenceVersion = DetectDtdVersionReference(OnixContent);
+            string sOnixMsgTag      = ReferenceVersion ? CONST_ONIX_MESSAGE_REFERENCE_TAG : CONST_ONIX_MESSAGE_SHORT_TAG;
+
+            this.ParserRefVerFlag = ReferenceVersion;
+
+            this.CurrOnixReader = CreateXmlReader(this.ParserFileContent, this.ParserRVWFlag);
+
+            this.CurrOnixMessage =
+                new XmlSerializer(typeof(OnixMessage), new XmlRootAttribute(sOnixMsgTag)).Deserialize(this.CurrOnixReader) as OnixMessage;
         }
 
         static public XmlReader CreateXmlReader(FileInfo CurrOnixFilepath, bool ReportValidationWarnings)
@@ -136,9 +126,9 @@ namespace OnixData
             return OnixXmlReader;
         }
 
-        static public XmlTextReader CreateXmlReader(StringBuilder LegacyOnixContent, bool ReportValidationWarnings)
+        static public XmlReader CreateXmlReader(StringBuilder OnixContent, bool ReportValidationWarnings)
         {
-            XmlTextReader OnixXmlReader = new XmlTextReader(new StringReader(LegacyOnixContent.ToString()));
+            XmlTextReader OnixXmlReader = new XmlTextReader(new StringReader(OnixContent.ToString()));
             OnixXmlReader.XmlResolver   = null;
             OnixXmlReader.DtdProcessing = DtdProcessing.Ignore;
             OnixXmlReader.Namespaces    = false;
@@ -200,7 +190,13 @@ namespace OnixData
 
         public OnixEnumerator GetEnumerator()
         {
-            return new OnixEnumerator(this, this.ParserFileInfo);
+            if (this.ParserFileInfo != null)
+                return new OnixEnumerator(this, this.ParserFileInfo);
+            else if (this.ParserFileContent != null)
+                return new OnixEnumerator(this, this.ParserFileContent);
+            else
+                return null;
+
         }
 
         public bool DetectDtdVersionReference(FileInfo LegacyOnixFilepath)
@@ -224,7 +220,7 @@ namespace OnixData
         {
             bool bReferenceVersion = true;
 
-            string sRefMsgTag = "<" + CONST_ONIX_MESSAGE_REFERENCE_TAG + ">";
+            string sRefMsgTag = "<" + CONST_ONIX_MESSAGE_REFERENCE_TAG + " ";
 
             if (psOnixMsg.Contains(sRefMsgTag))
                 bReferenceVersion = true;
@@ -254,6 +250,17 @@ namespace OnixData
 
             this.OnixParser = ProvidedParser;
             this.OnixReader = OnixParser.CreateXmlReader(OnixFilepath, false);
+
+            ProductSerializer = new XmlSerializer(typeof(OnixProduct), new XmlRootAttribute(this.ProductXmlTag));
+        }
+
+        public OnixEnumerator(OnixParser ProvidedParser, StringBuilder OnixContent)
+        {
+            this.ProductXmlTag = ProvidedParser.ReferenceVersion ? "Product" : "product";
+
+            this.OnixParser = ProvidedParser;
+
+            this.OnixReader = OnixParser.CreateXmlReader(OnixContent, false);
 
             ProductSerializer = new XmlSerializer(typeof(OnixProduct), new XmlRootAttribute(this.ProductXmlTag));
         }

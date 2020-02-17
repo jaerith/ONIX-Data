@@ -19,6 +19,13 @@ namespace OnixTestHarness
         {
             try
             {
+                bool bTestLegacyParser1  = false;
+                bool bTestLegacyParser2  = false;
+                bool bTestV3Parser1      = true;
+                bool bTestV3Parser2      = true;
+                bool bTestV3StringParser = true;    
+                bool bTestParseXML       = true;
+
                 int    nLegacyShortIdx = 0;
                 int    nLegacyPrdIdx   = 0;
                 int    nOnixPrdIdx     = 0;
@@ -30,7 +37,7 @@ namespace OnixTestHarness
                 string sEan     = "117";
                 bool   bIsValid = sEan.IsValidEAN();
 
-                if (true)
+                if (bTestLegacyParser1)
                 {
                     // using (OnixLegacyParser onixLegacyShortParser = new OnixLegacyParser(new FileInfo(sLegShortFile), true))
                     // using (OnixLegacyParser onixLegacyShortParser = new OnixLegacyParser(new FileInfo(sLegShortFile), true, false, false))
@@ -80,7 +87,7 @@ namespace OnixTestHarness
                                     string sTestEAN = TmpProduct.ISBN.ConvertISBNToEAN();
                                 }
 
-                                System.Console.WriteLine("Product [" + (nLegacyShortIdx++) + "] has " + sEANStatus + " EAN(" +
+                                System.Console.WriteLine("Legacy Product [" + (nLegacyShortIdx++) + "] has " + sEANStatus + " EAN(" +
                                                          TmpProduct.EAN + "), " + sISBNStatus + " ISBN(" + TmpProduct.ISBN + 
                                                          "), and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
                                                          ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
@@ -93,7 +100,7 @@ namespace OnixTestHarness
                     }
                 }
 
-                if (true)
+                if (bTestLegacyParser2)
                 {
                     FileInfo LegacyFileInfo = new FileInfo(@"C:\tmp\tmp2\onix.legacy.xml");
                     using (OnixLegacyParser LegacyParser = new OnixLegacyParser(LegacyFileInfo, true, false))
@@ -116,7 +123,7 @@ namespace OnixTestHarness
 
                             if (TmpProduct.IsValid())
                             {
-                                System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
+                                System.Console.WriteLine("Legacy Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
                                                             TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
                                                             ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
                             }
@@ -128,7 +135,7 @@ namespace OnixTestHarness
                     }
                 }
 
-                if (true)
+                if (bTestV3Parser1)
                 {
                     nOnixPrdIdx = 0;
 
@@ -148,7 +155,7 @@ namespace OnixTestHarness
 
                             if (TmpProduct.IsValid())
                             {
-                                System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
+                                System.Console.WriteLine("Product [" + (nOnixPrdIdx++) + "] has EAN(" +
                                                          TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
                                                          ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
                             }
@@ -160,12 +167,12 @@ namespace OnixTestHarness
                     }
                 }
 
-                if (true)
+                if (bTestV3Parser2)
                 {
                     nOnixPrdIdx = 0;
 
                     FileInfo CurrentFileInfo = new FileInfo(@"C:\tmp\tmp2\onix.sample.v3.short.xml");
-                    using (OnixParser V3Parser = new OnixParser(true, CurrentFileInfo, false, false))
+                    using (OnixParser V3Parser = new OnixParser(CurrentFileInfo, false, true))
                     {
                         OnixHeader Header = V3Parser.MessageHeader;
 
@@ -185,7 +192,7 @@ namespace OnixTestHarness
 
                             if (TmpProduct.IsValid())
                             {
-                                System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
+                                System.Console.WriteLine("Product [" + (nOnixPrdIdx++) + "] has EAN(" +
                                                          TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
                                                          ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
                             }
@@ -197,17 +204,56 @@ namespace OnixTestHarness
                     }
                 }
 
-                if (false)
+                if (bTestV3StringParser)
+                {
+                    nOnixPrdIdx = 0;
+
+                    using (OnixParser V3Parser = new OnixParser(sOnixXml, false, true))
+                    {
+                        OnixHeader Header = V3Parser.MessageHeader;
+
+                        foreach (OnixProduct TmpProduct in V3Parser)
+                        {
+                            long   lTempEAN  = TmpProduct.EAN;
+                            string sTempISBN = TmpProduct.ISBN;
+
+                            OnixContributor MainAuthor = TmpProduct.PrimaryAuthor;
+
+                            if (TmpProduct.HasUSDRetailPrice())
+                            {
+                                OnixData.Version3.Price.OnixPrice USDPrice = TmpProduct.USDRetailPrice;
+                            }
+
+                            // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
+
+                            if (TmpProduct.IsValid())
+                            {
+                                System.Console.WriteLine("Product [" + (nOnixPrdIdx++) + "] has EAN(" +
+                                                         TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
+                                                         ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
+                            }
+                            else
+                            {
+                                System.Console.WriteLine(TmpProduct.GetParsingError());
+                            }
+                        }
+                    }
+                }                
+
+                if (bTestParseXML)
                 {
                     OnixLegacyMessage onixLegacyMessage = sLegacyXml.ParseXML<OnixLegacyMessage>();
 
                     foreach (OnixLegacyProduct TmpProduct in onixLegacyMessage.Product)
                     {
-                        System.Console.WriteLine("Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
+                        System.Console.WriteLine("Legacy Product [" + (nLegacyPrdIdx++) + "] has EAN(" +
                                                  TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
                                                  ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
                     }
 
+                    /**
+                     ** NOTE: Not working at the moment
+                     **
                     OnixMessage onixMessage = sOnixXml.ParseXML<OnixMessage>();
                     foreach (OnixProduct TmpProduct in onixMessage.Product)
                     {
@@ -215,6 +261,7 @@ namespace OnixTestHarness
                                                  TmpProduct.EAN + ") and USD Retail Price(" + TmpProduct.USDRetailPrice.PriceAmount +
                                                  ") - HasUSRights(" + TmpProduct.HasUSRights() + ").");
                     }
+                     **/
                 }
             }
             catch (Exception ex)

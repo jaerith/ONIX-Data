@@ -28,16 +28,25 @@ namespace OnixTestHarness
 
         public static T ParseXML<T>(this string @this, string sRoot = "ONIXMessage") where T : class
         {
+            /**
+             ** OLD WAY
             XmlReaderSettings settings = new XmlReaderSettings();
-            settings.ConformanceLevel = ConformanceLevel.Document;
-            settings.ValidationType   = ValidationType.Schema;
-            settings.DtdProcessing    = DtdProcessing.Parse;
-            settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessInlineSchema;
-            settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
+            //settings.ConformanceLevel = ConformanceLevel.Document;
+            //settings.ValidationType   = ValidationType.Schema;
+            //settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
+            //settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessInlineSchema;
+            //settings.DtdProcessing    = DtdProcessing.Parse;
             // settings.ValidationFlags &= ~(XmlSchemaValidationFlags.ProcessInlineSchema);
             // settings.ValidationFlags &= ~(XmlSchemaValidationFlags.ReportValidationWarnings);
 
             var reader = XmlReader.Create(@this.Trim().ToStream(), settings);
+             **/
+
+            XmlTextReader reader = new XmlTextReader(new StringReader(@this));
+            reader.XmlResolver   = null;
+            reader.DtdProcessing = DtdProcessing.Ignore;
+            reader.Namespaces    = false;
+
             return new XmlSerializer(typeof(T), new XmlRootAttribute(sRoot)).Deserialize(reader) as T;
         }
 
