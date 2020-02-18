@@ -18,9 +18,9 @@ namespace OnixData.Version3
     {
         public OnixDescriptiveDetail()
         {
-            ProductComposition = AudienceCode = -1;
+            ProductComposition = -1;
 
-            ProductForm            = ProductPackaging = "";
+            ProductForm            = ProductPackaging = AudienceCode = "";
             ProductFormDescription = CountryOfManufacture = "";
             EpubType               = EpubTypeVersion = EpubFormatDescription = EpubTypeNote = "";
             IllustrationsNote      = NumberOfIllustrations = "";
@@ -53,7 +53,7 @@ namespace OnixData.Version3
         private string   productPackagingField;
         private int      editionNumberField;
         private string   editionStatementField;
-        private int      audienceCodeField;
+        private string   audienceCodeField;
         private string   countryOfManufactureField;
 
         protected string epubTypeField;
@@ -613,7 +613,7 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        public int AudienceCode
+        public string AudienceCode
         {
             get { return this.audienceCodeField; }
             set { this.audienceCodeField = value; }
@@ -894,7 +894,7 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        public int b073
+        public string b073
         {
             get { return AudienceCode; }
             set { AudienceCode = value; }
