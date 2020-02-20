@@ -209,6 +209,30 @@ namespace OnixData.Version3
             }
         }
 
+        public string LastDateForReturns
+        {
+            get
+            {
+                string sLastDt = "";
+
+                var SoughtSupplyDetail = USDRetailSupplyDetail;
+
+
+                if ((SoughtSupplyDetail != null) &&
+                    (SoughtSupplyDetail.OnixSupplyDateList != null) &&
+                    (SoughtSupplyDetail.OnixSupplyDateList.Length > 0))
+                {
+                    var SoughtDate =
+                        SoughtSupplyDetail.OnixSupplyDateList.Where(x => x.IsLasteDateForReturns()).FirstOrDefault();
+
+                    if ((SoughtDate != null) && !String.IsNullOrEmpty(SoughtDate.Date))
+                        sLastDt = SoughtDate.Date;
+                }
+
+                return sLastDt;
+            }
+        }
+
         public string LIBRARY_CONGRESS_NUM
         {
             get

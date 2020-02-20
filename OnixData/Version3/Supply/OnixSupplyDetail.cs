@@ -19,6 +19,7 @@ namespace OnixData.Version3.Supply
             Price             = new OnixPrice[0];
             Supplier          = new OnixSupplier[0];
             ReturnsConditions = new OnixReturnsConditions[0];
+            SupplyDate        = new OnixSupplyDate[0];
         }
 
         private string productAvailabilityField;
@@ -33,6 +34,9 @@ namespace OnixData.Version3.Supply
 
         private OnixSupplier[] supplierField;
         private OnixSupplier[] shortSupplierField;
+
+        private OnixSupplyDate[] supplyDateField;
+        private OnixSupplyDate[] shortSupplyDateField;
 
         #region ONIX Lists
 
@@ -84,6 +88,23 @@ namespace OnixData.Version3.Supply
                     Suppliers = new OnixSupplier[0];
 
                 return Suppliers;
+            }
+        }
+
+        public OnixSupplyDate[] OnixSupplyDateList
+        {
+            get
+            {
+                OnixSupplyDate[] SupplyDates = null;
+
+                if (this.supplyDateField != null)
+                    SupplyDates = this.supplyDateField;
+                else if (this.shortSupplyDateField != null)
+                    SupplyDates = this.shortSupplyDateField;
+                else
+                    SupplyDates = new OnixSupplyDate[0];
+
+                return SupplyDates;
             }
         }
 
@@ -223,6 +244,20 @@ namespace OnixData.Version3.Supply
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("SupplyDate", IsNullable = false)]
+        public OnixSupplyDate[] SupplyDate
+        {
+            get
+            {
+                return this.supplyDateField;
+            }
+            set
+            {
+                this.supplyDateField = value;
+            }
+        }
+
+        /// <remarks/>
         public string UnpricedItemType
         {
             get
@@ -275,6 +310,14 @@ namespace OnixData.Version3.Supply
         {
             get { return shortSupplierField; }
             set { shortSupplierField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("supplydate", IsNullable = false)]
+        public OnixSupplyDate[] supplydate
+        {
+            get { return this.shortSupplyDateField; }
+            set { this.shortSupplyDateField = value; }
         }
 
         /// <remarks/>

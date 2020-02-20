@@ -94,6 +94,7 @@
     <Compile Include="Version3\Publishing\OnixSalesRights.cs" />
     <Compile Include="Version3\Publishing\OnixTerritory.cs" />
     <Compile Include="Version3\Supply\OnixSupplierId.cs" />
+    <Compile Include="Version3\Supply\OnixSupplyDate.cs" />
     <Compile Include="Version3\Text\OnixCollateralDetail.cs" />
     <Compile Include="Version3\Related\OnixRelatedMaterial.cs" />
     <Compile Include="Version3\Related\OnixRelatedProduct.cs" />
