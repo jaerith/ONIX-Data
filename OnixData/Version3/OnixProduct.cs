@@ -46,7 +46,6 @@ namespace OnixData.Version3
 
             productIdentifierField = shortProductIdentifierField = new OnixProductId[0];
             barcodeField           = shortBarcodeField           = new OnixBarcode[0];
-            languageField          = shortLanguageField          = new OnixLanguage[0];
             productSupplyField     = shortProductSupplyField     = new OnixProductSupply[0];
 
             ContentDetail     = new OnixContentDetail();
@@ -71,9 +70,6 @@ namespace OnixData.Version3
 
         private OnixBarcode[]         barcodeField;
         private OnixBarcode[]         shortBarcodeField;
-
-        private OnixLanguage[]        languageField;
-        private OnixLanguage[]        shortLanguageField;
 
         private OnixProductSupply[]     productSupplyField;
         private OnixProductSupply[]     shortProductSupplyField;
@@ -380,7 +376,8 @@ namespace OnixData.Version3
                     OnixPublisher FoundPublisher =
                         PublishingDetail.OnixPublisherList.Where(x => SoughtPubTypes.Contains(x.PublishingRole)).LastOrDefault();
 
-                    FoundPubName = FoundPublisher.PublisherName;
+                    if ((FoundPublisher != null) && !String.IsNullOrEmpty(FoundPublisher.PublisherName))
+                        FoundPubName = FoundPublisher.PublisherName;
                 }
 
                 return FoundPubName;
@@ -777,23 +774,6 @@ namespace OnixData.Version3
             }
         }
 
-        public OnixLanguage[] OnixLanguageList
-        {
-            get
-            {
-                OnixLanguage[] LangList = null;
-
-                if (this.languageField != null)
-                    LangList = this.languageField;
-                else if (this.shortLanguageField != null)
-                    LangList = this.shortLanguageField;
-                else
-                    LangList = new OnixLanguage[0];
-
-                return LangList;
-            }
-        }
-
         public OnixProductSupply[] OnixProductSupplyList
         {
             get
@@ -886,10 +866,7 @@ namespace OnixData.Version3
 
                     if (ProductTitleDetail.TitleElement != null)
                     {
-                        if (!String.IsNullOrEmpty(ProductTitleDetail.TitleElement.TitlePrefix))
-                            ProductTitle = ProductTitleDetail.TitleElement.TitlePrefix + " " + ProductTitleDetail.TitleElement.Title;
-                        else
-                            ProductTitle = ProductTitleDetail.TitleElement.Title;
+                        ProductTitle = ProductTitleDetail.TitleElement.Title;
 
                         if (!String.IsNullOrEmpty(ProductTitleDetail.TitleElement.Subtitle))
                             ProductTitle += ": " + ProductTitleDetail.TitleElement.Subtitle;

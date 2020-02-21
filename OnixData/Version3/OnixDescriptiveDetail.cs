@@ -515,8 +515,8 @@ namespace OnixData.Version3
                                          x.ExtentUnit == OnixExtent.CONST_UNIT_TYPE_PAGES)
                              .FirstOrDefault();
 
-                    if ((PageAmtExtent != null) && (PageAmtExtent.ExtentValue > 0))
-                        nPageNum = PageAmtExtent.ExtentValue;
+                    if ((PageAmtExtent != null) && (PageAmtExtent.ExtentValueNum > 0))
+                        nPageNum = PageAmtExtent.ExtentValueNum;
                 }
 
                 return nPageNum;

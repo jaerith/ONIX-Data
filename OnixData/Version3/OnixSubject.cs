@@ -21,14 +21,13 @@ namespace OnixData.Version3
 
         public OnixSubject()
         {
-            MainSubject = SubjectCode = SubjectSchemeIdentifier = "";
-
-            SubjectSchemeVersion = -1;
+            MainSubject = SubjectCode = SubjectSchemeIdentifier = SubjectSchemeVersion = "";
+            
         }
 
         private string mainSubjectField;
         private string subjectSchemeIdentifierField;
-        private int    subjectSchemeVersionField;
+        private string subjectSchemeVersionField;
         private string subjectCodeField;
 
 
@@ -83,7 +82,7 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        public int SubjectSchemeVersion
+        public string SubjectSchemeVersion
         {
             get
             {
@@ -134,19 +133,19 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
+        public string b068
+        {
+            get { return SubjectSchemeVersion; }
+            set { SubjectSchemeVersion = value; }
+        }
+
+        /// <remarks/>
         public string b069
         {
             get { return SubjectCode; }
             set { SubjectCode = value; }
         }
 
-
-        /// <remarks/>
-        public int b068
-        {
-            get { return SubjectSchemeVersion; }
-            set { SubjectSchemeVersion = value; }
-        }
 
         #endregion
     }

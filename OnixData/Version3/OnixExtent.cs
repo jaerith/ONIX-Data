@@ -38,18 +38,36 @@ namespace OnixData.Version3
 
         public OnixExtent()
         {
-            ExtentType = ExtentValue = ExtentUnit = -1;
+            ExtentType  = ExtentUnit = -1;
+            ExtentValue = "";
         }
 
-        private int extentTypeField;
-        private int extentValueField;
-        private int extentUnitField;
+        private int    extentTypeField;
+        private string extentValueField;
+        private int    extentUnitField;
 
         #region Helper Methods
 
         public bool HasSoughtExtentTypeCode()
         {
             return CONST_SOUGHT_EXTENT_TYPES.Contains(this.ExtentType);
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        public int ExtentValueNum
+        {
+            get
+            {
+                int nExtValue = -1;
+
+                if (!String.IsNullOrEmpty(ExtentValue))
+                    Int32.TryParse(ExtentValue, out nExtValue);
+
+                return nExtValue;
+            }
         }
 
         #endregion
@@ -70,7 +88,7 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        public int ExtentValue
+        public string ExtentValue
         {
             get
             {
@@ -107,7 +125,7 @@ namespace OnixData.Version3
         }
 
         /// <remarks/>
-        public int b219
+        public string b219
         {
             get { return ExtentValue; }
             set { ExtentValue = value; }
