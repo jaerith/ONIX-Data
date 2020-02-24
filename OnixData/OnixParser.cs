@@ -244,6 +244,13 @@ namespace OnixData
         private OnixProduct   CurrentRecord     = null;
         private XmlSerializer ProductSerializer = null;
 
+
+        #region Properties 
+
+        public List<OnixTextContent> CurrentCommList { get; set; }
+
+        #endregion 
+
         public OnixEnumerator(OnixParser ProvidedParser, FileInfo OnixFilepath) 
         {
             this.ProductXmlTag = ProvidedParser.ReferenceVersion ? "Product" : "product";
@@ -252,6 +259,8 @@ namespace OnixData
             this.OnixReader = OnixParser.CreateXmlReader(OnixFilepath, false);
 
             ProductSerializer = new XmlSerializer(typeof(OnixProduct), new XmlRootAttribute(this.ProductXmlTag));
+
+            CurrentCommList = new List<OnixTextContent>();
         }
 
         public OnixEnumerator(OnixParser ProvidedParser, StringBuilder OnixContent)
@@ -263,6 +272,8 @@ namespace OnixData
             this.OnixReader = OnixParser.CreateXmlReader(OnixContent, false);
 
             ProductSerializer = new XmlSerializer(typeof(OnixProduct), new XmlRootAttribute(this.ProductXmlTag));
+
+            CurrentCommList = new List<OnixTextContent>();
         }
 
         public void Dispose()
@@ -291,6 +302,15 @@ namespace OnixData
                 {
                     CurrentRecord =
                         this.ProductSerializer.Deserialize(new StringReader(sInputXml)) as OnixProduct;
+
+                    CurrentCommList.Clear();
+
+                    if ((CurrentRecord.CollateralDetail != null) && 
+                        (CurrentRecord.CollateralDetail.OnixTextContentList != null) && 
+                        (CurrentRecord.CollateralDetail.OnixTextContentList.Length > 0))
+                    {
+                        CurrentCommList.AddRange(CurrentRecord.CollateralDetail.OnixTextContentList);
+                    }
                 }
                 catch (Exception ex)
                 {
