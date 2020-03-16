@@ -12,12 +12,23 @@ namespace OnixData.Version3.Publishing
     {
         #region CONSTANTS
 
-        public const string CONST_SALES_WITH_EXCL_RIGHTS     = "01";
-        public const string CONST_SALES_WITH_NON_EXCL_RIGHTS = "02";
-        public const string CONST_NOT_FOR_SALE               = "03";
+        public const int CONST_SALES_WITH_EXCL_RIGHTS         = 1;
+        public const int CONST_SALES_WITH_NON_EXCL_RIGHTS     = 2;
+        public const int CONST_NOT_FOR_SALE_GENERAL           = 3;
+        public const int CONST_NOT_FOR_SALE_PUB_EXL_RIGHTS    = 4;
+        public const int CONST_NOT_FOR_SALE_PUB_NO_EXL_RIGHTS = 5;
+        public const int CONST_NOT_FOR_SALE_PUB_NO_RIGHTS     = 6;
+        public const int CONST_SALES_WITH_EXCL_RIGHTS_SRA     = 7;
+        public const int CONST_SALES_WITH_NOEX_RIGHTS_SRA     = 8;
 
         public const int  CONST_MISSING_NUM_VALUE = -1;
         public const char CONST_LIST_DELIM        = ' ';
+
+        public static readonly int[] SALES_WITH_RIGHTS_COLL =
+            new int[] { CONST_SALES_WITH_EXCL_RIGHTS, CONST_SALES_WITH_NON_EXCL_RIGHTS, CONST_SALES_WITH_EXCL_RIGHTS_SRA, CONST_SALES_WITH_NOEX_RIGHTS_SRA };
+
+        public static readonly int[] NO_SALES_RIGHTS_COLL =
+            new int[] { CONST_NOT_FOR_SALE_GENERAL, CONST_NOT_FOR_SALE_PUB_EXL_RIGHTS, CONST_NOT_FOR_SALE_PUB_NO_EXL_RIGHTS, CONST_NOT_FOR_SALE_PUB_NO_RIGHTS };
 
         #endregion
 
@@ -39,6 +50,22 @@ namespace OnixData.Version3.Publishing
         private OnixTerritory territoryField;
 
         #region Helper Methods
+
+        public bool HasSalesRights
+        {
+            get 
+            {
+                return SALES_WITH_RIGHTS_COLL.Contains(SalesRightTypeNum);
+            }
+        }
+
+        public bool HasNotForSalesRights
+        {
+            get
+            {
+                return NO_SALES_RIGHTS_COLL.Contains(SalesRightTypeNum);
+            }
+        }
 
         public List<string> RightsIncludedCountryList
         {

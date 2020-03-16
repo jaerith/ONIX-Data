@@ -441,7 +441,7 @@ namespace OnixData.Version3
 
             if ((this.PublishingDetail != null) && (this.PublishingDetail.OnixSalesRightsList != null) && (this.PublishingDetail.OnixSalesRightsList.Count() > 0))
             {
-                bNotForSalesRights = this.PublishingDetail.OnixSalesRightsList.Any(x => x.SalesRightTypeNum == Convert.ToInt32(OnixSalesRights.CONST_NOT_FOR_SALE));
+                bNotForSalesRights = this.PublishingDetail.OnixSalesRightsList.Any(x => x.HasNotForSalesRights);
             }
 
             return bNotForSalesRights;
@@ -458,8 +458,7 @@ namespace OnixData.Version3
 
             if ((this.PublishingDetail != null) && (this.PublishingDetail.OnixSalesRightsList != null) && (this.PublishingDetail.OnixSalesRightsList.Count() > 0))
             {
-                bSalesRights = this.PublishingDetail.OnixSalesRightsList.Any(x => x.SalesRightTypeNum == Convert.ToInt32(OnixSalesRights.CONST_SALES_WITH_EXCL_RIGHTS) ||
-                                                                                  x.SalesRightTypeNum == Convert.ToInt32(OnixSalesRights.CONST_SALES_WITH_NON_EXCL_RIGHTS));
+                bSalesRights = this.PublishingDetail.OnixSalesRightsList.Any(x => x.HasSalesRights);
             }
 
             return bSalesRights;

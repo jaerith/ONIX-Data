@@ -122,15 +122,13 @@ namespace OnixData.Version3.Publishing
                     {
                         salesRightsList = new List<string>();
 
-                        SalesRights.Where(x => x.SalesRightsType == OnixSalesRights.CONST_SALES_WITH_EXCL_RIGHTS ||
-                                               x.SalesRightsType == OnixSalesRights.CONST_SALES_WITH_NON_EXCL_RIGHTS)
+                        SalesRights.Where(x => x.HasSalesRights)
                                    .ToList()
                                    .Where(x => !String.IsNullOrEmpty(x.Territory.CountriesIncluded))
                                    .ToList()
                                    .ForEach(x => salesRightsList.AddRange(x.Territory.CountriesIncluded.Split(' ').ToList()));
 
-                        SalesRights.Where(x => x.SalesRightsType == OnixSalesRights.CONST_SALES_WITH_EXCL_RIGHTS ||
-                                               x.SalesRightsType == OnixSalesRights.CONST_SALES_WITH_NON_EXCL_RIGHTS)
+                        SalesRights.Where(x => x.HasSalesRights)
                                    .ToList()
                                    .Where(x => !String.IsNullOrEmpty(x.Territory.RegionsIncluded))
                                    .ToList()
@@ -141,13 +139,13 @@ namespace OnixData.Version3.Publishing
                     {
                         notForSaleList = new List<string>();
 
-                        SalesRights.Where(x => x.SalesRightsType == OnixSalesRights.CONST_NOT_FOR_SALE)
+                        SalesRights.Where(x => x.HasNotForSalesRights)
                                    .ToList()
                                    .Where(x => !String.IsNullOrEmpty(x.Territory.CountriesIncluded))
                                    .ToList()
                                    .ForEach(x => notForSaleList.AddRange(x.Territory.CountriesIncluded.Split(' ').ToList()));
 
-                        SalesRights.Where(x => x.SalesRightsType == OnixSalesRights.CONST_NOT_FOR_SALE)
+                        SalesRights.Where(x => x.HasNotForSalesRights)
                                    .ToList()
                                    .Where(x => !String.IsNullOrEmpty(x.Territory.RegionsIncluded))
                                    .ToList()
@@ -219,10 +217,8 @@ namespace OnixData.Version3.Publishing
 
         public void SetRightsFlags()
         {
-            int[] aSalesRightsColl = new int[] { Convert.ToInt32(OnixSalesRights.CONST_SALES_WITH_EXCL_RIGHTS),
-                                                 Convert.ToInt32(OnixSalesRights.CONST_SALES_WITH_NON_EXCL_RIGHTS) };
-
-            int[] aNonSalesRightsColl = new int[] { Convert.ToInt32(OnixSalesRights.CONST_NOT_FOR_SALE) };
+            int[] aSalesRightsColl    = OnixSalesRights.SALES_WITH_RIGHTS_COLL;
+            int[] aNonSalesRightsColl = OnixSalesRights.NO_SALES_RIGHTS_COLL;
 
             OnixSalesRights[] SalesRightsList = 
                 this.OnixSalesRightsList.Where(x => aSalesRightsColl.Contains(x.SalesRightTypeNum)).ToArray();

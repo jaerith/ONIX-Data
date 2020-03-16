@@ -538,6 +538,16 @@ namespace OnixData.Version3
 
                     if (SeriesCollection != null)
                         sSeriesNum = SeriesCollection.TitleSequence;
+
+                    if (String.IsNullOrEmpty(sSeriesNum))
+                    {
+                        var CollSeqList = SeriesCollection.OnixCollectionSequenceList;
+
+                        var CollSeq = CollSeqList.Where(x => x.IsSeriesSeq()).LastOrDefault();
+
+                        if ((CollSeq != null) && (CollSeq.CollectionSequenceNum > 0))
+                            sSeriesNum = CollSeq.CollectionSequence;
+                    }
                 }
 
                 return sSeriesNum;
@@ -555,7 +565,7 @@ namespace OnixData.Version3
                 if ((CollList != null) && (CollList.Length > 0))
                 {
                     OnixCollection SeriesCollection =
-                        CollList.Where(x => x.IsSeriesType()).LastOrDefault();
+                        CollList.Where(x => x.IsSeriesType()).FirstOrDefault();
 
                     if (SeriesCollection != null)
                         sSeriesTitle = SeriesCollection.CollectionName;

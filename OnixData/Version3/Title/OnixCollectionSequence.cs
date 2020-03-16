@@ -64,6 +64,11 @@ namespace OnixData.Version3.Title
             return ((CollectionSequenceTypeNum == CONST_COLL_SEQ_TYPE_PROP) || (CollectionSequenceTypeNum == CONST_COLL_SEQ_TYPE_TTL_ORDER));
         }
 
+        public bool IsSeriesSeq()
+        {
+            return (IsTitleSeq() || (CollectionSequenceTypeNum == CONST_COLL_SEQ_TYPE_NAR_ORDER));
+        }
+
         #endregion
 
         #region Reference Tags

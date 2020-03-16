@@ -19,7 +19,7 @@ namespace OnixData.Version3.Title
 
         public OnixCollection()
         {
-            CollectionType   = "";
+            collTypeField    = "";
             collSeqField     = shortCollSeqField     = new OnixCollectionSequence[0];
             titleDetailField = shortTitleDetailField = new OnixTitleDetail[0];
         }
