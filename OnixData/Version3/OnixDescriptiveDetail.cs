@@ -511,12 +511,21 @@ namespace OnixData.Version3
                 {
                     OnixExtent PageAmtExtent =
                         this.OnixExtentList
-                             .Where(x => x.ExtentType == OnixExtent.CONST_EXT_TYPE_PAGE_COUNT &&
-                                         x.ExtentUnit == OnixExtent.CONST_UNIT_TYPE_PAGES)
-                             .FirstOrDefault();
+                            .Where(x => x.ExtentType == OnixExtent.CONST_EXT_TYPE_TOTAL_PG_CT)
+                            .FirstOrDefault();
 
                     if ((PageAmtExtent != null) && (PageAmtExtent.ExtentValueNum > 0))
                         nPageNum = PageAmtExtent.ExtentValueNum;
+                    else
+                    {
+                        PageAmtExtent =
+                            this.OnixExtentList
+                                .Where(x => x.ExtentType == OnixExtent.CONST_EXT_TYPE_MAIN_PPG_CNT)
+                                .FirstOrDefault();
+
+                        if ((PageAmtExtent != null) && (PageAmtExtent.ExtentValueNum > 0))
+                            nPageNum = PageAmtExtent.ExtentValueNum;
+                    }
                 }
 
                 return nPageNum;

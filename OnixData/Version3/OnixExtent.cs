@@ -12,12 +12,13 @@ namespace OnixData.Version3
     {
         #region CONSTANTS
 
-        public const int CONST_EXT_TYPE_PAGE_COUNT = 0;
-        public const int CONST_EXT_TYPE_WORD_NUM   = 2;
-        public const int CONST_EXT_TYPE_FT_PG_CNT  = 3;
-        public const int CONST_EXT_TYPE_BK_PG_CT   = 4;
-        public const int CONST_EXT_TYPE_DUR_TIME   = 9;
-        public const int CONST_EXT_TYPE_FILESIZE   = 22;
+        public const int CONST_EXT_TYPE_MAIN_PPG_CNT = 0;
+        public const int CONST_EXT_TYPE_WORD_NUM     = 2;
+        public const int CONST_EXT_TYPE_FT_PG_CNT    = 3;
+        public const int CONST_EXT_TYPE_BK_PG_CT     = 4;
+        public const int CONST_EXT_TYPE_TOTAL_PG_CT  = 5;
+        public const int CONST_EXT_TYPE_DUR_TIME     = 9;
+        public const int CONST_EXT_TYPE_FILESIZE     = 22;
 
         public const int CONST_UNIT_TYPE_WORDS   = 2;
         public const int CONST_UNIT_TYPE_PAGES   = 3;
