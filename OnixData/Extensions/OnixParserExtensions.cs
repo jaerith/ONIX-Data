@@ -101,6 +101,110 @@ namespace OnixData.Extensions
         }
 
         /// <summary>
+        /// Returns the index of the start of the contents in a StringBuilder
+        /// </summary>        
+        /// <param name="value">The string to find</param>
+        /// <param name="startIndex">The starting index.</param>
+        /// <param name="ignoreCase">if set to <c>true</c> it will ignore case</param>
+        /// <returns></returns>
+        public static int IndexOf(this StringBuilder sb, string value, int startIndex, bool ignoreCase = false, int maxSrchLen = 0)
+        {
+            int index;
+            int length = value.Length;
+
+            int maxSearchLength = 0;
+
+            if (maxSrchLen > 0)
+                maxSearchLength = startIndex + maxSrchLen;
+            else
+                maxSearchLength = (sb.Length - length) + 1;                
+
+            if (ignoreCase)
+            {
+                for (int i = startIndex; i < maxSearchLength; ++i)
+                {
+                    if (Char.ToLower(sb[i]) == Char.ToLower(value[0]))
+                    {
+                        index = 1;
+                        while ((index < length) && (Char.ToLower(sb[i + index]) == Char.ToLower(value[index])))
+                            ++index;
+
+                        if (index == length)
+                            return i;
+                    }
+                }
+
+                return -1;
+            }
+
+            for (int i = startIndex; i < maxSearchLength; ++i)
+            {
+                if (sb[i] == value[0])
+                {
+                    index = 1;
+                    while ((index < length) && (sb[i + index] == value[index]))
+                        ++index;
+
+                    if (index == length)
+                        return i;
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Removes all ONIX commentary bodies (which is useful for data providers who consistently
+        /// send problematic garbage data in large text segments)
+        /// </summary>        
+        /// <returns></returns>
+        public static void PurgeAllCommTags(this StringBuilder psText)
+        {
+            psText.PurgeTags("ContributorStatement");
+            psText.PurgeTags("b049");
+
+            psText.PurgeTags("BiographicalNote");
+            psText.PurgeTags("b044");
+
+            psText.PurgeTags("Text");
+            psText.PurgeTags("d104");
+        }
+
+        /// <summary>
+        /// Removes the tag (and body) from the string
+        /// </summary>        
+        /// <param name="psCommTagName">The string to find</param>
+        /// <returns></returns>
+        public static void PurgeTags(this StringBuilder psText, string psCommTagName)
+        {
+            string sCommTagStart = "<" + psCommTagName + ">";
+            string sCommTagEnd   = "</" + psCommTagName + ">";
+
+            int nStartIdx = 0;
+            int nEndIdx   = 0;
+            while (nStartIdx < psText.Length)
+            {
+                nStartIdx = psText.IndexOf(sCommTagStart, nStartIdx);
+                if (nStartIdx >= 0)
+                {
+                    nEndIdx = psText.IndexOf(sCommTagEnd, nStartIdx, false, 20000);
+                    if (nEndIdx > 0)
+                    {
+                        int nCommBodyLen = ((nEndIdx - nStartIdx) + sCommTagEnd.Length);
+
+                        psText.Remove(nStartIdx, nCommBodyLen);
+                    }
+                    else
+                    {
+                        nStartIdx += sCommTagStart.Length;
+                    }
+                }
+                else
+                    break;
+            }
+        }
+
+        /// <summary>
         /// 
         /// Since the .NET XML parser has very limited support for incorporating DTD/XSD/ENT/ELT files, this method will 
         /// perform the work on behalf of ELT utilization (i.e., by translating any ONIX shorthand codes that map to Unicode encodings).
