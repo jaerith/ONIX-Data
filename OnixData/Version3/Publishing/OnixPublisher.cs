@@ -14,6 +14,7 @@ namespace OnixData.Version3.Publishing
 
         public const int CONST_PUB_ROLE_PUBLISHER = 1;
         public const int CONST_PUB_ROLE_CO_PUB    = 2;
+        public const int CONST_PUB_ROLE_IN_ASSOC  = 7;		
 
         #endregion
 
