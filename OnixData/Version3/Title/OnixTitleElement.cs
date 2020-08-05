@@ -21,17 +21,39 @@ namespace OnixData.Version3.Title
 
         public OnixTitleElement()
         {
+            partNumberField   = "";
             TitleElementLevel = -1;
             TitleText         = TitlePrefix = TitleWithoutPrefix = "";
         }
 
         private int    titleElementLevelField;
+        private string partNumberField;
         private string titleTextField;
         private string titlePrefixField;
         private string titleWithoutPrefixField;
         private string subtitleField;
 
         #region Helper Methods
+
+        public int GetPartNum()
+        {
+            int nPartNum = -1;
+
+            if (!String.IsNullOrEmpty(PartNumber))
+                Int32.TryParse(PartNumber, out nPartNum);
+
+            return nPartNum;
+        }
+
+        public bool IsElementLevelCollection()
+        {
+            return (titleElementLevelField == CONST_TITLE_TYPE_COLLECTION);
+        }
+
+        public bool IsElementLevelProduct()
+        {
+            return (titleElementLevelField == CONST_TITLE_TYPE_PRODUCT);
+        }
 
         public string Title
         {
@@ -53,6 +75,18 @@ namespace OnixData.Version3.Title
         #endregion
 
         #region Reference Tags
+
+        public string PartNumber
+        {
+            get
+            {
+                return partNumberField;
+            }
+            set
+            {
+                partNumberField = value;
+            }
+        }
 
         /// <remarks/>
         public int TitleElementLevel
@@ -134,6 +168,19 @@ namespace OnixData.Version3.Title
                 TitleElementLevel = value;
             }
         }
+
+        /// <remarks/>
+        public string x410
+        {
+            get
+            {
+                return PartNumber;
+            }
+            set
+            {
+                PartNumber = value;
+            }
+        }        
 
         /// <remarks/>
         public string b203

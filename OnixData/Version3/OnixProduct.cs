@@ -857,7 +857,7 @@ namespace OnixData.Version3
             {
                 string ProductTitle = "";
 
-                if ((DescriptiveDetail != null)             &&
+                if ((DescriptiveDetail != null) &&
                     (DescriptiveDetail.TitleDetail != null) &&
                     (DescriptiveDetail.TitleDetail.TitleTypeNum == OnixTitleElement.CONST_TITLE_TYPE_PRODUCT))
                 {
@@ -865,10 +865,10 @@ namespace OnixData.Version3
 
                     if (ProductTitleDetail.TitleElement != null)
                     {
-                        ProductTitle = ProductTitleDetail.TitleElement.Title;
+                        ProductTitle = ProductTitleDetail.FirstTitleElement.Title;
 
-                        if (!String.IsNullOrEmpty(ProductTitleDetail.TitleElement.Subtitle))
-                            ProductTitle += ": " + ProductTitleDetail.TitleElement.Subtitle;
+                        if (!String.IsNullOrEmpty(ProductTitleDetail.FirstTitleElement.Subtitle))
+                            ProductTitle += ": " + ProductTitleDetail.FirstTitleElement.Subtitle;
                     }
                 }
 

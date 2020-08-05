@@ -19,14 +19,87 @@ namespace OnixData.Version3.Title
 
         public OnixTitleDetail()
         {
-            TitleType    = "";
-            TitleElement = new OnixTitleElement();
+            TitleType         = "";
+            titleElementField = shortTitleElementField = new OnixTitleElement[0];
         }
 
-        private string              titleTypeField;
-        private OnixTitleElement titleElementField;
+        private string             titleTypeField;
+        private OnixTitleElement[] titleElementField;
+        private OnixTitleElement[] shortTitleElementField;
+
+        #region ONIX Lists
+
+        public OnixTitleElement[] OnixTitleElementList
+        {
+            get
+            {
+                OnixTitleElement[] TitleElemList = null;
+
+                if (this.titleElementField != null)
+                    TitleElemList = this.titleElementField;
+                else if (this.shortTitleElementField != null)
+                    TitleElemList = this.shortTitleElementField;
+                else
+                    TitleElemList = new OnixTitleElement[0];
+
+                return TitleElemList;
+            }
+        }
+
+        #endregion
 
         #region Helper Methods
+
+        public OnixTitleElement FirstCollectionTitleElement
+        {
+            get
+            {
+                OnixTitleElement CollTitleElement = null;
+
+                if ((OnixTitleElementList != null) && (OnixTitleElementList.Length > 0))
+                {
+                    var FoundElement =
+                        OnixTitleElementList.Where(x => x.IsElementLevelCollection()).FirstOrDefault();
+
+                    if (FoundElement != null)
+                        CollTitleElement = FoundElement;
+                }
+
+                return CollTitleElement;
+            }
+        }
+
+        public OnixTitleElement FirstProductTitleElement
+        {
+            get
+            {
+                OnixTitleElement PrdTitleElement = null;
+
+                if ((OnixTitleElementList != null) && (OnixTitleElementList.Length > 0))
+                {
+                    var FoundElement =
+                        OnixTitleElementList.Where(x => x.IsElementLevelProduct()).FirstOrDefault();
+
+                    if (FoundElement != null)
+                        PrdTitleElement = FoundElement;
+                }
+
+                return PrdTitleElement;
+            }
+        }
+
+        public OnixTitleElement FirstTitleElement
+        {
+            get
+            {
+                OnixTitleElement FirstElement = null;
+
+                if ((OnixTitleElementList != null) && (OnixTitleElementList.Length > 0))
+                    FirstElement = OnixTitleElementList[0];
+
+                return FirstElement;
+            }
+        }
 
         public string FullName
         {
@@ -34,8 +107,8 @@ namespace OnixData.Version3.Title
             {
                 string sFullName = "";
 
-                if ((TitleElement != null) && !String.IsNullOrEmpty(TitleElement.Title))
-                    sFullName = TitleElement.Title;
+                if ((FirstTitleElement != null) && !String.IsNullOrEmpty(FirstTitleElement.Title))
+                    sFullName = FirstTitleElement.Title;
 
                 return sFullName;
             }
@@ -58,8 +131,8 @@ namespace OnixData.Version3.Title
         {
             bool bIsCollName = false;
 
-            if (TitleElement != null)
-                bIsCollName = (TitleElement.TitleElementLevel == OnixTitleElement.CONST_TITLE_TYPE_COLLECTION);
+            if (FirstTitleElement != null)
+                bIsCollName = (FirstTitleElement.TitleElementLevel == OnixTitleElement.CONST_TITLE_TYPE_COLLECTION);
 
             return bIsCollName;
         }
@@ -68,8 +141,8 @@ namespace OnixData.Version3.Title
         {
             bool bIsProdName = false;
 
-            if (TitleElement != null)
-                bIsProdName = (TitleElement.TitleElementLevel == OnixTitleElement.CONST_TITLE_TYPE_PRODUCT);
+            if (FirstTitleElement != null)
+                bIsProdName = (FirstTitleElement.TitleElementLevel == OnixTitleElement.CONST_TITLE_TYPE_PRODUCT);
 
             return bIsProdName;
         }
@@ -78,8 +151,8 @@ namespace OnixData.Version3.Title
         {
             bool bIsSubCollName = false;
 
-            if (TitleElement != null)
-                bIsSubCollName = (TitleElement.TitleElementLevel == OnixTitleElement.CONST_TITLE_TYPE_SUB_COLL);
+            if (FirstTitleElement != null)
+                bIsSubCollName = (FirstTitleElement.TitleElementLevel == OnixTitleElement.CONST_TITLE_TYPE_SUB_COLL);
 
             return bIsSubCollName;
         }
@@ -88,8 +161,8 @@ namespace OnixData.Version3.Title
         {
             bool bIsSubItemName = false;
 
-            if (TitleElement != null)
-                bIsSubItemName = (TitleElement.TitleElementLevel == OnixTitleElement.CONST_TITLE_TYPE_SUB_ITEM);
+            if (FirstTitleElement != null)
+                bIsSubItemName = (FirstTitleElement.TitleElementLevel == OnixTitleElement.CONST_TITLE_TYPE_SUB_ITEM);
 
             return bIsSubItemName;
         }
@@ -100,8 +173,8 @@ namespace OnixData.Version3.Title
             {
                 string sPrefix = "";
 
-                if ((TitleElement != null) && !String.IsNullOrEmpty(TitleElement.TitlePrefix))
-                    sPrefix = TitleElement.TitlePrefix;
+                if ((FirstTitleElement != null) && !String.IsNullOrEmpty(FirstTitleElement.TitlePrefix))
+                    sPrefix = FirstTitleElement.TitlePrefix;
 
                 return sPrefix;
             }
@@ -113,8 +186,8 @@ namespace OnixData.Version3.Title
             {
                 string sTitleWithoutPrefix = "";
 
-                if ((TitleElement != null) && !String.IsNullOrEmpty(TitleElement.TitleWithoutPrefix))
-                    sTitleWithoutPrefix = TitleElement.TitleWithoutPrefix;
+                if ((FirstTitleElement != null) && !String.IsNullOrEmpty(FirstTitleElement.TitleWithoutPrefix))
+                    sTitleWithoutPrefix = FirstTitleElement.TitleWithoutPrefix;
 
                 return sTitleWithoutPrefix;
             }
@@ -140,27 +213,15 @@ namespace OnixData.Version3.Title
         /// <remarks/>
         public string TitleType
         {
-            get
-            {
-                return this.titleTypeField;
-            }
-            set
-            {
-                this.titleTypeField = value;
-            }
+            get { return this.titleTypeField; }
+            set { this.titleTypeField = value; }
         }
 
-        /// <remarks/>
-        public OnixTitleElement TitleElement
+        [System.Xml.Serialization.XmlElementAttribute("TitleElement")]
+        public OnixTitleElement[] TitleElement
         {
-            get
-            {
-                return this.titleElementField;
-            }
-            set
-            {
-                this.titleElementField = value;
-            }
+            get { return this.titleElementField; }
+            set { this.titleElementField = value; }
         }
 
         #endregion
@@ -174,11 +235,12 @@ namespace OnixData.Version3.Title
             set { TitleType = value; }
         }
 
+        [System.Xml.Serialization.XmlElementAttribute("titleelement")]
         /// <remarks/>
-        public OnixTitleElement titleelement
+        public OnixTitleElement[] titleelement
         {
-            get { return TitleElement; }
-            set { TitleElement = value; }
+            get { return this.shortTitleElementField; }
+            set { shortTitleElementField = value; }
         }
 
         #endregion

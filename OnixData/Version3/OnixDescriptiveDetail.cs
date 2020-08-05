@@ -559,6 +559,21 @@ namespace OnixData.Version3
                                 sSeriesNum = CollSeq.CollectionSequence;
                         }
                     }
+
+                    if (String.IsNullOrEmpty(sSeriesNum) && (SeriesCollection.OnixTitleDetailList != null) && (SeriesCollection.OnixTitleDetailList.Length > 0))
+                    {
+                        var TitleDetailFound =
+                            SeriesCollection.OnixTitleDetailList.Where(x => x.HasQualifiedTitle()).FirstOrDefault();
+
+                        if (TitleDetailFound != null)
+                        {
+                            var TitleElement =
+                                TitleDetailFound.OnixTitleElementList.Where(x => x.GetPartNum() > 0).FirstOrDefault();
+
+                            if (TitleElement != null)
+                                sSeriesNum = Convert.ToString(TitleElement.GetPartNum());
+                        }
+                    }
                 }
 
                 return sSeriesNum;
@@ -580,12 +595,26 @@ namespace OnixData.Version3
 
                     if (SeriesCollection != null)
                         sSeriesTitle = SeriesCollection.CollectionName;
+
+                    if (String.IsNullOrEmpty(sSeriesTitle) && (SeriesCollection.OnixTitleDetailList != null) && (SeriesCollection.OnixTitleDetailList.Length > 0))
+                    {
+                        var TitleDetailFound =
+                            SeriesCollection.OnixTitleDetailList
+                                            .Where(x => x.HasQualifiedTitle() && (x.FirstCollectionTitleElement != null)).FirstOrDefault();
+
+                        if (TitleDetailFound != null)
+                        {
+                            var TitleElement = TitleDetailFound.FirstCollectionTitleElement;
+
+                            if (!String.IsNullOrEmpty(TitleElement.TitleText))
+                                sSeriesTitle = TitleElement.TitleText;
+                        }
+                    }
                 }
 
                 return sSeriesTitle;
             }
         }
-
         #endregion
 
         #region Reference Tags
