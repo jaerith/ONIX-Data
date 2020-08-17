@@ -12,10 +12,15 @@ namespace OnixData.Version3.Title
     {
         #region CONSTANTS
 
-        public const int CONST_TITLE_TYPE_PRODUCT    = 1;
-        public const int CONST_TITLE_TYPE_COLLECTION = 2;
-        public const int CONST_TITLE_TYPE_SUB_COLL   = 3;
-        public const int CONST_TITLE_TYPE_SUB_ITEM   = 4;
+        public const int CONST_TITLE_TYPE_PRODUCT      = 1;
+        public const int CONST_TITLE_TYPE_COLLECTION   = 2;
+        public const int CONST_TITLE_TYPE_SUB_COLL     = 3;
+        public const int CONST_TITLE_TYPE_SUB_ITEM     = 4;
+        public const int CONST_TITLE_TYPE_MASTER_BRAND = 5;
+        public const int CONST_TITLE_TYPE_SUB_SUB_COLL = 6;
+
+        public readonly int[] CONST_TITLE_TYPES_SERIES =
+            new[] { CONST_TITLE_TYPE_COLLECTION, CONST_TITLE_TYPE_SUB_COLL, CONST_TITLE_TYPE_SUB_SUB_COLL };
 
         #endregion
 
@@ -53,6 +58,16 @@ namespace OnixData.Version3.Title
         public bool IsElementLevelProduct()
         {
             return (titleElementLevelField == CONST_TITLE_TYPE_PRODUCT);
+        }
+
+        public bool IsMasterBrandType()
+        {
+            return (TitleElementLevel == CONST_TITLE_TYPE_MASTER_BRAND);
+        }
+
+        public bool IsQualifiedSeriesType()
+        {
+            return (CONST_TITLE_TYPES_SERIES.Contains(TitleElementLevel));
         }
 
         public string Title
@@ -235,5 +250,4 @@ namespace OnixData.Version3.Title
         }
 
         #endregion
-    }
-}
+    }}

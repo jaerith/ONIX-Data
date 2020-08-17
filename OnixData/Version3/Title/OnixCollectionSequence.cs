@@ -20,11 +20,15 @@ namespace OnixData.Version3.Title
         public const int CONST_COLL_SEQ_TYPE_SGR_ORDER  = 6;
         public const int CONST_COLL_SEQ_TYPE_SGD_ORDER  = 7;
 
+        public readonly int[] CONST_COLL_SEQ_TYPES_PRIMARY =
+            new int[] { CONST_COLL_SEQ_TYPE_TTL_ORDER , CONST_COLL_SEQ_TYPE_PUB_ORDER, CONST_COLL_SEQ_TYPE_NAR_ORDER,
+                        CONST_COLL_SEQ_TYPE_ORIG_ORDER, CONST_COLL_SEQ_TYPE_SGR_ORDER, CONST_COLL_SEQ_TYPE_SGD_ORDER };
+
         #endregion
 
         public OnixCollectionSequence()
         {
-            CollectionSequenceType = CollectionSequenceTypeName = CollectionSequence = "";
+            CollectionSequenceType = CollectionSequenceTypeName = CollectionSequenceNumber = "";
         }
       
         private string collSeqTypeField;
@@ -52,8 +56,8 @@ namespace OnixData.Version3.Title
             {
                 int nCollSeq = -1;
 
-                if (!String.IsNullOrEmpty(CollectionSequence))
-                    Int32.TryParse(CollectionSequence, out nCollSeq);
+                if (!String.IsNullOrEmpty(CollectionSequenceNumber))
+                    Int32.TryParse(CollectionSequenceNumber, out nCollSeq);
 
                 return nCollSeq;
             }
@@ -66,7 +70,7 @@ namespace OnixData.Version3.Title
 
         public bool IsSeriesSeq()
         {
-            return (IsTitleSeq() || (CollectionSequenceTypeNum == CONST_COLL_SEQ_TYPE_NAR_ORDER));
+            return CONST_COLL_SEQ_TYPES_PRIMARY.Contains(CollectionSequenceTypeNum);
         }
 
         #endregion
@@ -100,7 +104,7 @@ namespace OnixData.Version3.Title
         }
 
         /// <remarks/>
-        public string CollectionSequence
+        public string CollectionSequenceNumber
         {
             get
             {
@@ -147,14 +151,13 @@ namespace OnixData.Version3.Title
         {
             get
             {
-                return CollectionSequence;
+                return CollectionSequenceNumber;
             }
             set
             {
-                CollectionSequence = value;
+                CollectionSequenceNumber = value;
             }
         }
 
         #endregion
-    }
-}
+    }}

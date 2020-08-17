@@ -50,6 +50,41 @@ namespace OnixData.Version3.Title
 
         #region Helper Methods
 
+        public string AssembledSeriesName
+        {
+            get
+            {
+                StringBuilder SeriesNameBuilder = new StringBuilder();
+
+                var SeriesNameParts =
+                    this.OnixTitleElementList.Where(x => x.IsQualifiedSeriesType()).OrderBy(x => x.TitleElementLevel);
+
+                if (SeriesNameParts != null)
+                {
+                    foreach (var TitleElement in SeriesNameParts)
+                    {
+                        if (SeriesNameBuilder.Length > 0)
+                            SeriesNameBuilder.Append(" : ");
+
+                        SeriesNameBuilder.Append(TitleElement.Title);
+                    }
+                }
+
+                if (SeriesNameBuilder.Length <= 0)
+                {
+                    var MasterBrandTitle =
+                        this.OnixTitleElementList.Where(x => x.IsMasterBrandType()).FirstOrDefault();
+
+                    if ((MasterBrandTitle != null) && !String.IsNullOrEmpty(MasterBrandTitle.Title))
+                    {
+                        SeriesNameBuilder.Append(MasterBrandTitle.Title);
+                    }
+                }
+
+                return SeriesNameBuilder.ToString();
+            }
+        }
+
         public OnixTitleElement FirstCollectionTitleElement
         {
             get
@@ -112,6 +147,19 @@ namespace OnixData.Version3.Title
 
                 return sFullName;
             }
+        }
+
+        public bool HasDistinctiveTitle()
+        {
+            bool bHasQualifiedTitle = false;
+
+            if (TitleTypeNum > 0)
+            {
+                if (TitleTypeNum == CONST_TITLE_TYPE_DIST_TITLE)
+                    bHasQualifiedTitle = true;
+            }
+
+            return bHasQualifiedTitle;
         }
 
         public bool HasQualifiedTitle()

@@ -12,8 +12,13 @@ namespace OnixData.Version3.Title
     {
         #region CONSTANTS
 
-        public const int CONST_COLL_TYPE_SERIES = 10;
-        public const int CONST_COLL_TYPE_AGGR   = 20;
+        public const int CONST_COLL_TYPE_MISC     = 0;
+        public const int CONST_COLL_TYPE_SERIES_1 = 10;
+        public const int CONST_COLL_TYPE_SERIES_2 = 11;
+        public const int CONST_COLL_TYPE_AGGR     = 20;
+
+        public readonly int[] CONST_COLL_TYPES_SERIES =
+            new int[] { CONST_COLL_TYPE_SERIES_1, CONST_COLL_TYPE_SERIES_2, CONST_COLL_TYPE_AGGR };
 
         #endregion
 
@@ -134,7 +139,40 @@ namespace OnixData.Version3.Title
 
         public bool IsSeriesType()
         {
-            return (CollectionTypeNum == CONST_COLL_TYPE_SERIES);
+            return (CONST_COLL_TYPES_SERIES.Contains(CollectionTypeNum));
+        }
+
+        public bool IsGeneralType()
+        {
+            return (CollectionTypeNum == CONST_COLL_TYPE_MISC);
+        }
+
+        public string SeriesSequence
+        {
+            get
+            {
+                string sSeqNum = "";
+
+                if ((this.OnixCollectionSequenceList != null) && (this.OnixCollectionSequenceList.Length > 0))
+                {
+                    OnixCollectionSequence SeriesSeq =
+                        this.OnixCollectionSequenceList
+                            .Where(x => x.IsSeriesSeq()).OrderBy(x => x.CollectionSequenceTypeNum).FirstOrDefault();
+
+                    if ((SeriesSeq == null) || (SeriesSeq.CollectionSequenceTypeNum < 0))
+                    {
+                        SeriesSeq =
+                            this.OnixCollectionSequenceList
+                                .Where(x => x.CollectionSequenceTypeNum == OnixCollectionSequence.CONST_COLL_SEQ_TYPE_PROP)
+                                .FirstOrDefault();
+                    }
+
+                    if ((SeriesSeq != null) && (SeriesSeq.CollectionSequenceNum > 0))
+                        sSeqNum = Convert.ToString(SeriesSeq.CollectionSequenceNum);
+                }
+
+                return sSeqNum;
+            }
         }
 
         public string TitleSequence
@@ -149,7 +187,7 @@ namespace OnixData.Version3.Title
                         this.OnixCollectionSequenceList.Where(x => x.IsTitleSeq()).LastOrDefault();
 
                     if ((TitleCollSeq != null) && (TitleCollSeq.CollectionSequenceNum > 0))
-                        sSeqNum = TitleCollSeq.CollectionSequence;
+                        sSeqNum = Convert.ToString(TitleCollSeq.CollectionSequenceNum);
                 }
 
                 return sSeqNum;
