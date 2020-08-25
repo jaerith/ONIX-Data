@@ -873,7 +873,7 @@ namespace OnixData.Version3
                 {
                     OnixTitleDetail ProductTitleDetail = DescriptiveDetail.TitleDetail;
 
-                    if (ProductTitleDetail.TitleElement != null)
+                    if (ProductTitleDetail.FirstTitleElement != null)
                     {
                         ProductTitle = ProductTitleDetail.FirstTitleElement.Title;
 
