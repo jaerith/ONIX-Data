@@ -21,7 +21,7 @@ namespace OnixData.Version3
             ProductComposition = -1;
 
             ProductForm            = ProductPackaging = AudienceCode = "";
-            ProductFormDescription = CountryOfManufacture = "";
+            ProductFormDescription = PrimaryContentType = CountryOfManufacture = "";
             EpubType               = EpubTypeVersion = EpubFormatDescription = EpubTypeNote = "";
             IllustrationsNote      = NumberOfIllustrations = "";
 
@@ -63,7 +63,7 @@ namespace OnixData.Version3
 
         protected string numOfIllustrationsField;
         protected string illustrationsNoteField;
-
+        private   string primaryContentTypeField;
 
         private string[]   productContentTypeField;
         private string[]   shortProductContentTypeField;
@@ -99,6 +99,22 @@ namespace OnixData.Version3
         public OnixEpubUsageConstraint[] shortEpubUsageConstraintField;
 
         #region ONIX Lists
+
+        public string[] OnixAllContentTypeList
+        {
+            get
+            {
+                List<string> AllContentTypes = new List<string>();
+
+                if (PrimaryContentType != null)
+                    AllContentTypes.Add(PrimaryContentType);
+
+                if (OnixProductContentTypeList != null)
+                    AllContentTypes.AddRange(OnixProductContentTypeList);
+
+                return AllContentTypes.ToArray();
+            }
+        }
 
         public string[] OnixProductContentTypeList
         {
@@ -658,6 +674,12 @@ namespace OnixData.Version3
             set { this.productFormDetailField = value; }
         }
 
+        public string PrimaryContentType
+        {
+            get { return this.primaryContentTypeField; }
+            set { this.primaryContentTypeField = value; }
+        }
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("ProductContentType")]
         public string[] ProductContentType
@@ -884,6 +906,13 @@ namespace OnixData.Version3
         {
             get { return ProductFormDescription; }
             set { ProductFormDescription = value; }
+        }
+
+        /// <remarks/>
+        public string x416
+        {
+            get { return PrimaryContentType; }
+            set { PrimaryContentType = value; }
         }
 
         /// <remarks/>

@@ -287,6 +287,16 @@ namespace OnixData.Version3
             get { return (this.DescriptiveDetail != null ? this.DescriptiveDetail.OnixProductFormDetailList : new string[0]); }
         }
 
+        public string PrimaryContentType
+        {
+            get { return (this.DescriptiveDetail != null ? this.DescriptiveDetail.PrimaryContentType : ""); }
+        }
+
+        public string[] AllProductContentTypeList
+        {
+            get { return (this.DescriptiveDetail != null ? this.DescriptiveDetail.OnixAllContentTypeList : new string[0]); }
+        }
+
         public string[] ProductContentTypeList
         {
             get { return (this.DescriptiveDetail != null ? this.DescriptiveDetail.OnixProductContentTypeList : new string[0]); }
