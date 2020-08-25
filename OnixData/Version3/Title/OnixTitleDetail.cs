@@ -64,7 +64,7 @@ namespace OnixData.Version3.Title
                     foreach (var TitleElement in SeriesNameParts)
                     {
                         if (SeriesNameBuilder.Length > 0)
-                            SeriesNameBuilder.Append(" : ");
+                            SeriesNameBuilder.Append(": ");
 
                         SeriesNameBuilder.Append(TitleElement.Title);
                     }
