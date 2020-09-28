@@ -525,22 +525,28 @@ namespace OnixData.Version3
 
                 if (this.OnixExtentList != null)
                 {
-                    OnixExtent PageAmtExtent =
+                    OnixExtent[] PageCountExtents =
                         this.OnixExtentList
+                            .Where(x => x.HasSoughtPageCountType() && (x.ExtentValueNum > 0))
+                            .OrderBy(x => x.ExtentType)
+                            .ToArray();
+
+                    if ((PageCountExtents != null) && (PageCountExtents.Length > 0))
+                    {
+                        OnixExtent PageAmtTotalExtent =
+                            PageCountExtents
                             .Where(x => x.ExtentType == OnixExtent.CONST_EXT_TYPE_TOTAL_PG_CT)
                             .FirstOrDefault();
 
-                    if ((PageAmtExtent != null) && (PageAmtExtent.ExtentValueNum > 0))
-                        nPageNum = PageAmtExtent.ExtentValueNum;
-                    else
-                    {
-                        PageAmtExtent =
-                            this.OnixExtentList
-                                .Where(x => x.ExtentType == OnixExtent.CONST_EXT_TYPE_MAIN_PPG_CNT)
-                                .FirstOrDefault();
+                        if (PageAmtTotalExtent != null)
+                            nPageNum = PageAmtTotalExtent.ExtentValueNum;
+                        else
+                        {
+                            OnixExtent PageAmtFirstExtent = PageCountExtents[0];
 
-                        if ((PageAmtExtent != null) && (PageAmtExtent.ExtentValueNum > 0))
-                            nPageNum = PageAmtExtent.ExtentValueNum;
+                            if (PageAmtFirstExtent != null)
+                                nPageNum = PageAmtFirstExtent.ExtentValueNum;
+                        }
                     }
                 }
 

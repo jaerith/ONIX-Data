@@ -17,7 +17,12 @@ namespace OnixData.Version3
         public const int CONST_EXT_TYPE_FT_PG_CNT    = 3;
         public const int CONST_EXT_TYPE_BK_PG_CT     = 4;
         public const int CONST_EXT_TYPE_TOTAL_PG_CT  = 5;
+        public const int CONST_EXT_TYPE_PROD_PG_CT   = 6;
+        public const int CONST_EXT_TYPE_ABS_PG_CT    = 7;
+        public const int CONST_EXT_TYPE_PT_CRT_PG_CT = 8;
         public const int CONST_EXT_TYPE_DUR_TIME     = 9;
+        public const int CONST_EXT_TYPE_PG_CT_DG_PRD = 10;
+        public const int CONST_EXT_TYPE_CNT_PG_CT    = 11;
         public const int CONST_EXT_TYPE_FILESIZE     = 22;
 
         public const int CONST_UNIT_TYPE_WORDS   = 2;
@@ -28,6 +33,13 @@ namespace OnixData.Version3
         public const int CONST_UNIT_TYPE_BYTES   = 17;
         public const int CONST_UNIT_TYPE_KBYTES  = 18;
         public const int CONST_UNIT_TYPE_MBYTES  = 19;
+
+        public readonly int[] CONST_SOUGHT_PAGE_COUNT_TYPES
+            = {
+                CONST_EXT_TYPE_MAIN_PPG_CNT, CONST_EXT_TYPE_TOTAL_PG_CT, CONST_EXT_TYPE_PROD_PG_CT,
+                CONST_EXT_TYPE_ABS_PG_CT, CONST_EXT_TYPE_PT_CRT_PG_CT, CONST_EXT_TYPE_PG_CT_DG_PRD,
+                CONST_EXT_TYPE_CNT_PG_CT
+              };
 
         public readonly int[] CONST_SOUGHT_EXTENT_TYPES
             = {
@@ -48,6 +60,11 @@ namespace OnixData.Version3
         private int    extentUnitField;
 
         #region Helper Methods
+
+        public bool HasSoughtPageCountType()
+        {
+            return CONST_SOUGHT_PAGE_COUNT_TYPES.Contains(this.ExtentType);
+        }
 
         public bool HasSoughtExtentTypeCode()
         {
