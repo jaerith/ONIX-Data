@@ -39,6 +39,9 @@ namespace OnixData.Version3.Publishing
             this.rightsCountryIncList = new List<string>();
             this.rightsRegionIncList  = new List<string>();
 
+            this.rightsCountryExcList = new List<string>();
+            this.rightsRegionExcList  = new List<string>();
+
             Territory = new OnixTerritory();
         }
 
@@ -46,6 +49,9 @@ namespace OnixData.Version3.Publishing
 
         private List<string> rightsCountryIncList;
         private List<string> rightsRegionIncList;
+
+        private List<string> rightsCountryExcList;
+        private List<string> rightsRegionExcList;
 
         private OnixTerritory territoryField;
 
@@ -64,6 +70,38 @@ namespace OnixData.Version3.Publishing
             get
             {
                 return NO_SALES_RIGHTS_COLL.Contains(SalesRightTypeNum);
+            }
+        }
+
+        public List<string> RightsExcludedCountryList
+        {
+            get
+            {
+                if (this.rightsCountryExcList.Count() <= 0)
+                {
+                    if (this.Territory.CountriesExcluded.Count() > 0)
+                    {
+                        this.rightsCountryExcList.AddRange(this.Territory.CountriesExcluded.Split(CONST_LIST_DELIM));
+                    }
+                }
+
+                return this.rightsCountryExcList;
+            }
+        }
+
+        public List<string> RightsExcludedRegionList
+        {
+            get
+            {
+                if (this.rightsRegionExcList.Count() <= 0)
+                {
+                    if (this.Territory.RegionsExcluded.Count() > 0)
+                    {
+                        this.rightsRegionExcList.AddRange(this.Territory.RegionsExcluded.Split(CONST_LIST_DELIM));
+                    }
+                }
+
+                return this.rightsRegionExcList;
             }
         }
 

@@ -12,7 +12,7 @@ namespace OnixData.Version3.Publishing
     {
         public OnixPublishingDetail()
         {
-            PublishingStatus = "";
+            PublishingStatus = ROWSalesRightsType = "";
 
             Imprint        = new OnixImprint[0];
             Publisher      = new OnixPublisher[0];
@@ -49,6 +49,8 @@ namespace OnixData.Version3.Publishing
 
         private List<string> salesRightsList;
         private List<string> notForSaleList;
+
+        private string rowSalesRightsTypeField;
 
         #region ONIX Lists
 
@@ -215,6 +217,19 @@ namespace OnixData.Version3.Publishing
             }
         }
 
+        public int ROWSalesRightsTypeNum
+        {
+            get
+            {
+                int nTypeNum = OnixSalesRights.CONST_MISSING_NUM_VALUE;
+
+                if (!String.IsNullOrEmpty(ROWSalesRightsType))
+                    Int32.TryParse(ROWSalesRightsType, out nTypeNum);
+
+                return nTypeNum;
+            }
+        }
+
         public void SetRightsFlags()
         {
             int[] aSalesRightsColl    = OnixSalesRights.SALES_WITH_RIGHTS_COLL;
@@ -242,6 +257,12 @@ namespace OnixData.Version3.Publishing
 
                 NoSalesRightsInUSFlag =
                     SalesRightsList.Any(x => aNonSalesRightsColl.Contains(x.SalesRightTypeNum) && x.RightsIncludedCountryList.Contains("US"));
+                if (!NoSalesRightsInUSFlag)
+                {
+                    NoSalesRightsInUSFlag = 
+                        SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightTypeNum) &&
+                                            x.RightsExcludedCountryList.Contains("US"));
+                }
 
                 SalesRightsAllWorldFlag =
                     SalesRightsList.Any(x => aSalesRightsColl.Contains(x.SalesRightTypeNum) && 
@@ -254,6 +275,15 @@ namespace OnixData.Version3.Publishing
                 {
                     NoSalesRightsInUSFlag =
                         NotForSaleRightsList.Any(x => x.RightsIncludedCountryList.Contains("US"));
+                }
+            }
+
+            if (!String.IsNullOrEmpty(this.ROWSalesRightsType))
+            {
+                if (!SalesRightsAllWorldFlag)
+                {
+                    SalesRightsAllWorldFlag =
+                        OnixSalesRights.SALES_WITH_RIGHTS_COLL.Contains(this.ROWSalesRightsTypeNum);
                 }
             }
         }
@@ -301,6 +331,12 @@ namespace OnixData.Version3.Publishing
             set { this.salesRightsField = value; }
         }
 
+        public string ROWSalesRightsType
+        {
+            get { return this.rowSalesRightsTypeField; }
+            set { this.rowSalesRightsTypeField = value; }
+        }
+
         #endregion
 
         #region Short Tags
@@ -344,6 +380,13 @@ namespace OnixData.Version3.Publishing
             set { this.shortSalesRightsField = value; }
         }
 
+        public string x456
+        {
+            get { return this.ROWSalesRightsType; }
+            set { this.ROWSalesRightsType = value; }
+        }        
+
         #endregion
     }
+
 }
