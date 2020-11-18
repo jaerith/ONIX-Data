@@ -112,16 +112,19 @@ namespace OnixData.Extensions
             int index;
             int length = value.Length;
 
-            int maxSearchLength = 0;
+            int maxSearchIndex = 0;
 
             if (maxSrchLen > 0)
-                maxSearchLength = startIndex + maxSrchLen;
+                maxSearchIndex = startIndex + maxSrchLen;
             else
-                maxSearchLength = (sb.Length - length) + 1;                
+                maxSearchIndex = (sb.Length - length) + 1;
+
+            if (maxSearchIndex > sb.Length)
+                maxSearchIndex = (sb.Length - length) + 1;
 
             if (ignoreCase)
             {
-                for (int i = startIndex; i < maxSearchLength; ++i)
+                for (int i = startIndex; i < maxSearchIndex; ++i)
                 {
                     if (Char.ToLower(sb[i]) == Char.ToLower(value[0]))
                     {
@@ -137,7 +140,7 @@ namespace OnixData.Extensions
                 return -1;
             }
 
-            for (int i = startIndex; i < maxSearchLength; ++i)
+            for (int i = startIndex; i < maxSearchIndex; ++i)
             {
                 if (sb[i] == value[0])
                 {
@@ -166,8 +169,8 @@ namespace OnixData.Extensions
             psText.PurgeTags("BiographicalNote");
             psText.PurgeTags("b044");
 
-            psText.PurgeTags("Text");
-            psText.PurgeTags("d104");
+            psText.PurgeTags("OtherText");
+            psText.PurgeTags("othertext");
         }
 
         /// <summary>
@@ -187,7 +190,7 @@ namespace OnixData.Extensions
                 nStartIdx = psText.IndexOf(sCommTagStart, nStartIdx);
                 if (nStartIdx >= 0)
                 {
-                    nEndIdx = psText.IndexOf(sCommTagEnd, nStartIdx, false, 20000);
+                    nEndIdx = psText.IndexOf(sCommTagEnd, nStartIdx, false, 50000);
                     if (nEndIdx > 0)
                     {
                         int nCommBodyLen = ((nEndIdx - nStartIdx) + sCommTagEnd.Length);
@@ -200,7 +203,9 @@ namespace OnixData.Extensions
                     }
                 }
                 else
+                {
                     break;
+                }
             }
         }
 
