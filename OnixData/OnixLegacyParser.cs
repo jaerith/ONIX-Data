@@ -59,6 +59,8 @@ namespace OnixData
             get { return this.ParserRefVerFlag; }
         }
 
+        public bool ShouldApplyDefaults { get; set; }
+
         public bool AlwaysReturnInputXml { get; set; }
 
         public OnixLegacyParser(FileInfo LegacyOnixFilepath, 
@@ -71,9 +73,10 @@ namespace OnixData
 
             AlwaysReturnInputXml = false;
 
-            this.ParserFileInfo   = LegacyOnixFilepath;
-            this.ParserRVWFlag    = true;
-            this.PerformValidFlag = ExecuteValidation;
+            this.ParserFileInfo      = LegacyOnixFilepath;
+            this.ParserRVWFlag       = true;
+            this.ShouldApplyDefaults = true;
+            this.PerformValidFlag    = ExecuteValidation;
 
             if (PreprocessOnixFile)
                 LegacyOnixFilepath.ReplaceIsoLatinEncodings(true);
@@ -108,10 +111,11 @@ namespace OnixData
             if (!File.Exists(LegacyOnixFilepath.FullName))
                 throw new Exception("ERROR!  File(" + LegacyOnixFilepath + ") does not exist.");
 
-            this.ParserRefVerFlag = ReferenceVersion;
-            this.ParserFileInfo   = LegacyOnixFilepath;
-            this.ParserRVWFlag    = true;
-            this.PerformValidFlag = ExecuteValidation;
+            this.ParserRefVerFlag    = ReferenceVersion;
+            this.ParserFileInfo      = LegacyOnixFilepath;
+            this.ParserRVWFlag       = true;
+            this.ShouldApplyDefaults = true;
+            this.PerformValidFlag    = ExecuteValidation;
 
             if (PreprocessOnixFile)
                 LegacyOnixFilepath.ReplaceIsoLatinEncodings(true);
@@ -138,9 +142,10 @@ namespace OnixData
 
             AlwaysReturnInputXml = false;
 
-            this.ParserFileContent = new StringBuilder(LegacyOnixContent);
-            this.ParserRVWFlag     = true;
-            this.PerformValidFlag  = ExecuteValidation;
+            this.ParserFileContent   = new StringBuilder(LegacyOnixContent);
+            this.ParserRVWFlag       = true;
+            this.ShouldApplyDefaults = true;
+            this.PerformValidFlag    = ExecuteValidation;
 
             if (PreprocessOnixFile)
             {
@@ -178,10 +183,11 @@ namespace OnixData
             if (String.IsNullOrEmpty(LegacyOnixContent))
                 throw new Exception("ERROR!  ONIX content provided is empty.");
 
-            this.ParserRefVerFlag  = ReferenceVersion;
-            this.ParserFileContent = new StringBuilder(LegacyOnixContent);
-            this.ParserRVWFlag     = true;
-            this.PerformValidFlag  = ExecuteValidation;
+            this.ParserRefVerFlag    = ReferenceVersion;
+            this.ParserFileContent   = new StringBuilder(LegacyOnixContent);
+            this.ParserRVWFlag       = true;
+            this.ShouldApplyDefaults = true;
+            this.PerformValidFlag    = ExecuteValidation;
 
             if (PreprocessOnixFile)
             {
@@ -199,6 +205,15 @@ namespace OnixData
             }
             else
                 this.LegacyOnixMessage = null;
+        }
+
+        public XmlReader CreateXmlReader()
+        {
+            XmlReader OnixReader =
+                (this.ParserFileInfo != null) ? 
+                    CreateXmlReader(this.ParserFileInfo, this.ParserRVWFlag, false) : CreateXmlReader(this.ParserFileContent, this.ParserRVWFlag, false);
+
+            return OnixReader;
         }
 
         /// <summary>
@@ -355,21 +370,24 @@ namespace OnixData
 
                 if (this.LegacyOnixMessage != null)
                     LegacyHeader = this.LegacyOnixMessage.Header;
-                else if (this.LegacyOnixReader != null)
+                else
                 {
-                    XmlDocument XMLDoc = new XmlDocument();
-                    XMLDoc.Load(this.LegacyOnixReader);
+                    using (XmlReader OnixReader = CreateXmlReader())
+                    { 
+                        XmlDocument XMLDoc = new XmlDocument();
+                        XMLDoc.Load(OnixReader);
 
-                    XmlNodeList HeaderList = XMLDoc.GetElementsByTagName(sOnixHdrTag);
+                        XmlNodeList HeaderList = XMLDoc.GetElementsByTagName(sOnixHdrTag);
 
-                    if ((HeaderList != null) && (HeaderList.Count > 0))
-                    {
-                        XmlNode HeaderNode  = HeaderList.Item(0);
-                        string  sHeaderBody = HeaderNode.OuterXml;
+                        if ((HeaderList != null) && (HeaderList.Count > 0))
+                        {
+                            XmlNode HeaderNode  = HeaderList.Item(0);
+                            string  sHeaderBody = HeaderNode.OuterXml;
 
-                        LegacyHeader = 
-                            new XmlSerializer(typeof(OnixLegacyHeader), new XmlRootAttribute(sOnixHdrTag))
-                            .Deserialize(new StringReader(sHeaderBody)) as OnixLegacyHeader;
+                            LegacyHeader = 
+                                new XmlSerializer(typeof(OnixLegacyHeader), new XmlRootAttribute(sOnixHdrTag))
+                                .Deserialize(new StringReader(sHeaderBody)) as OnixLegacyHeader;
+                        }
                     }
                 }
 
@@ -541,6 +559,7 @@ namespace OnixData
         private List<string>       OtherTextList     = new List<string>();
         private XmlDocument        OnixDoc           = null;
         private XmlNodeList        ProductList       = null;
+        private OnixLegacyHeader   OnixHeader        = null;
         private OnixLegacyProduct  CurrentRecord     = null;
         private XmlSerializer      ProductSerializer = null;
 
@@ -590,13 +609,16 @@ namespace OnixData
         {
             bool bResult = true;
 
-            if (OnixDoc == null)
+            if (this.OnixDoc == null)
             {
                 this.OnixDoc = new XmlDocument();
                 this.OnixDoc.Load(this.OnixReader);
 
                 this.ProductList = this.OnixDoc.GetElementsByTagName(this.ProductXmlTag);
             }
+
+            if (this.OnixHeader == null)
+                this.OnixHeader = OnixParser.MessageHeader;
 
             if (++CurrentIndex < this.ProductList.Count)
             {
@@ -609,6 +631,9 @@ namespace OnixData
 
                     if ((CurrentRecord != null) && OnixParser.AlwaysReturnInputXml)
                         CurrentRecord.SetInputXml(sInputXml);
+
+                    if ((CurrentRecord != null) && OnixParser.ShouldApplyDefaults)
+                        CurrentRecord.ApplyHeaderDefaults(this.OnixHeader);
 
                     if ((CurrentRecord != null) && 
                         (CurrentRecord.OnixOtherTextList != null) && 
