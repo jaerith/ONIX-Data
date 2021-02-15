@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+
+using OnixData.Legacy;
+using OnixData.Version3;
+using OnixData.Version3.Header;
+using OnixData.Version3.Price;
+using OnixData.Version3.Supply;
 
 namespace OnixData.Extensions
 {
@@ -23,6 +30,136 @@ namespace OnixData.Extensions
 
         static public bool DebugFlag          = true;
         static public bool FilterBadEncodings = true;
+
+        /// <summary>
+        /// 
+        /// Since the deserialized ONIX product may not have certain values populated, we must look to the 
+        /// deserialized message header (from the provided ONIX file) and check whether or not default values 
+        /// are supplied for those fields.  If so, we will populate them here.
+        /// 
+        /// <param name="poOnixProduct">Refers to the current deserialized ONIX product being examined</param>
+        /// <param name="poOnixHeader">Refers to the deserialized header that belongs to the ONIX file</param>
+        /// <returns>N/A</returns>
+        /// </summary>
+        public static void ApplyHeaderDefaults(this OnixLegacyProduct poOnixProduct, OnixLegacyHeader poOnixHeader)
+        {
+            if (poOnixHeader != null)
+            {
+                foreach (OnixLegacySupplyDetail TmpSupplyDetail in poOnixProduct.OnixSupplyDetailList)
+                {
+                    if ((TmpSupplyDetail != null) && (TmpSupplyDetail.OnixPriceList != null))
+                    {
+                        foreach (OnixLegacyPrice TmpPrice in TmpSupplyDetail.OnixPriceList)
+                        {
+                            if (!String.IsNullOrEmpty(poOnixHeader.DefaultCurrencyCode) && String.IsNullOrEmpty(TmpPrice.CurrencyCode))
+                                TmpPrice.CurrencyCode = poOnixHeader.DefaultCurrencyCode;
+
+                            if (!String.IsNullOrEmpty(poOnixHeader.DefaultPriceTypeCode) && (TmpPrice.PriceTypeCode <= 0))
+                            {
+                                int nDefPriceTypeCd = -1;
+
+                                try { nDefPriceTypeCd = Convert.ToInt32(poOnixHeader.DefaultPriceTypeCode); }
+                                catch (Exception ex) { }
+
+                                if (nDefPriceTypeCd > 0)
+                                    TmpPrice.PriceTypeCode = nDefPriceTypeCd;
+                            }
+                        }
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(poOnixHeader.DefaultClassOfTrade))
+                {
+                    if ((poOnixProduct.USDValidPrice != null) &&
+                        (String.IsNullOrEmpty(poOnixProduct.USDValidPrice.ClassOfTrade)))
+                    {
+                        poOnixProduct.USDValidPrice.ClassOfTrade = poOnixHeader.DefaultClassOfTrade;
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(poOnixHeader.DefaultLanguageOfText))
+                {
+                    if ((poOnixProduct.Language != null) && (String.IsNullOrEmpty(poOnixProduct.Language.LanguageCode)))
+                        poOnixProduct.Language.LanguageCode = poOnixHeader.DefaultLanguageOfText;
+                }
+
+                if (poOnixProduct.OnixMeasureList != null)
+                {
+                    foreach (OnixLegacyMeasure TmpMeasure in poOnixProduct.OnixMeasureList)
+                    {
+                        if (TmpMeasure.MeasureTypeCode > 0)
+                        {
+                            if ((TmpMeasure.MeasureTypeCode == OnixLegacyMeasure.CONST_MEASURE_TYPE_HEIGHT) ||
+                                (TmpMeasure.MeasureTypeCode == OnixLegacyMeasure.CONST_MEASURE_TYPE_THICK)  ||
+                                (TmpMeasure.MeasureTypeCode == OnixLegacyMeasure.CONST_MEASURE_TYPE_WIDTH)  ||
+                                (TmpMeasure.MeasureTypeCode == OnixLegacyMeasure.CONST_MEASURE_TYPE_DIAMTR))
+                            {
+                                if (!String.IsNullOrEmpty(poOnixHeader.DefaultLinearUnit) && String.IsNullOrEmpty(TmpMeasure.MeasureUnitCode))
+                                    TmpMeasure.MeasureUnitCode = poOnixHeader.DefaultLinearUnit;
+                            }
+                            else if (TmpMeasure.MeasureTypeCode == OnixLegacyMeasure.CONST_MEASURE_TYPE_WEIGHT)
+                            {
+                                if (!String.IsNullOrEmpty(poOnixHeader.DefaultWeightUnit) && String.IsNullOrEmpty(TmpMeasure.MeasureUnitCode))
+                                    TmpMeasure.MeasureUnitCode = poOnixHeader.DefaultWeightUnit;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// Since the deserialized ONIX product may not have certain values populated, we must look to the 
+        /// deserialized message header (from the provided ONIX file) and check whether or not default values 
+        /// are supplied for those fields.  If so, we will populate them here.
+        /// 
+        /// <param name="pOnixProduct">Refers to the current deserialized ONIX product being examined</param>
+        /// <param name="pOnixHeader">Refers to the deserialized header that belongs to the ONIX file</param>
+        /// <returns>N/A</returns>
+        /// </summary>
+        public static void ApplyHeaderDefaults(this OnixProduct pOnixProduct, OnixHeader pOnixHeader)
+        {
+            if (pOnixHeader != null)
+            {
+                if (!String.IsNullOrEmpty(pOnixHeader.DefaultCurrencyCode) || !String.IsNullOrEmpty(pOnixHeader.DefaultPriceType))
+                {
+                    foreach (OnixProductSupply TmpSupply in pOnixProduct.OnixProductSupplyList)
+                    {
+                        OnixSupplyDetail TmpSupplyDetail = TmpSupply.SupplyDetail;
+
+                        if ((TmpSupplyDetail != null) && (TmpSupplyDetail.OnixPriceList != null))
+                        {
+                            foreach (OnixPrice TmpPrice in TmpSupplyDetail.OnixPriceList)
+                            {
+                                if (!String.IsNullOrEmpty(pOnixHeader.DefaultCurrencyCode) && String.IsNullOrEmpty(TmpPrice.CurrencyCode))
+                                    TmpPrice.CurrencyCode = pOnixHeader.DefaultCurrencyCode;
+
+                                if (!String.IsNullOrEmpty(pOnixHeader.DefaultPriceType) && (TmpPrice.PriceType <= 0))
+                                {
+                                    int nDefPriceTypeCd = -1;
+                                    Int32.TryParse(pOnixHeader.DefaultPriceType, out nDefPriceTypeCd);
+
+                                    if (nDefPriceTypeCd > 0)
+                                        TmpPrice.PriceType = nDefPriceTypeCd;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(pOnixHeader.DefaultLanguageOfText))
+                {
+                    if ((pOnixProduct.DescriptiveDetail != null) && (pOnixProduct.DescriptiveDetail.OnixLanguageList != null))
+                    {
+                        pOnixProduct.DescriptiveDetail.OnixLanguageList
+                                                      .Where(x => String.IsNullOrEmpty(x.LanguageCode))
+                                                      .ToList()
+                                                      .ForEach(x => x.LanguageCode = pOnixHeader.DefaultLanguageOfText);
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// 
