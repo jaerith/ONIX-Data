@@ -26,6 +26,9 @@ namespace OnixData.Extensions
 
         private const string CONST_FILENAME_SKIP_REPLACE_MARKER = "SKIPREPLACECHARENC";
 
+        private const string CONST_ONIX_MSG_REF_TAG_START   = "<" + OnixParser.CONST_ONIX_MESSAGE_REFERENCE_TAG;
+        private const string CONST_ONIX_MSG_SHORT_TAG_START = "<" + OnixParser.CONST_ONIX_MESSAGE_SHORT_TAG;
+
         #endregion
 
         static public bool DebugFlag          = true;
@@ -291,6 +294,105 @@ namespace OnixData.Extensions
             }
 
             return -1;
+        }
+
+        /// <summary>
+        /// Indicates whether or not the provided file is an ONIX file
+        /// </summary>        
+        /// <param name="poTargetFile">The file being examined</param>
+        /// <returns>Boolean that indicates whether or not the file is an ONIX file</returns>
+        public static bool IsOnixFile(FileInfo poTargetFile)
+        {
+            string sFirstBlock = "";
+
+            using (var stream = File.OpenRead(poTargetFile.FullName))
+            {
+                using (var reader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    char[] buffer = new char[256];
+
+                    int n = reader.ReadBlock(buffer, 0, 256);
+
+                    char[] result = new char[n];
+                    Array.Copy(buffer, result, n);
+
+                    sFirstBlock = new string(result);
+                }
+            }
+
+            return IsOnixFile(sFirstBlock);
+        }
+
+        /// <summary>
+        /// Indicates whether or not the provided string is an ONIX body
+        /// </summary>        
+        /// <param name="psTargetFileContents">The string body being examined</param>
+        /// <returns>Boolean that indicates whether or not the string body is an ONIX type</returns>
+        public static bool IsOnixFile(string psTargetFileContents)
+        {
+            string sTargetTag = "";
+
+            if (psTargetFileContents.Contains(CONST_ONIX_MSG_SHORT_TAG_START))
+                sTargetTag = CONST_ONIX_MSG_SHORT_TAG_START;
+            else if (psTargetFileContents.Contains(CONST_ONIX_MSG_REF_TAG_START))
+                sTargetTag = CONST_ONIX_MSG_REF_TAG_START;
+
+            return (!String.IsNullOrEmpty(sTargetTag));
+        }
+
+        /// <summary>
+        /// Indicates whether or not the provided file is an ONIX 3.0 file
+        /// </summary>        
+        /// <param name="poTargetFile">The file being examined</param>
+        /// <returns>Boolean that indicates whether or not the file is an ONIX 3.0 file</returns>
+        public static bool IsOnixVersion3File(FileInfo poTargetFile)
+        {
+            string sFirstBlock = "";
+
+            using (var stream = File.OpenRead(poTargetFile.FullName))
+            {
+                using (var reader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    char[] buffer = new char[256];
+
+                    int n = reader.ReadBlock(buffer, 0, 256);
+
+                    char[] result = new char[n];
+                    Array.Copy(buffer, result, n);
+
+                    sFirstBlock = new string(result);
+                }
+            }
+
+            return IsOnixVersion3File(sFirstBlock);
+        }
+
+        /// <summary>
+        /// Indicates whether or not the provided string is an ONIX 3.0 body
+        /// </summary>        
+        /// <param name="psTargetFileContents">The string body being examined</param>
+        /// <returns>Boolean that indicates whether or not the string body is an ONIX 3.0 type</returns>
+        public static bool IsOnixVersion3File(string psTargetFileContents)
+        {
+            bool   bVersion3File = false;
+            string sTargetTag    = "";
+
+            if (psTargetFileContents.Contains(CONST_ONIX_MSG_SHORT_TAG_START))
+                sTargetTag = CONST_ONIX_MSG_SHORT_TAG_START;
+            else if (psTargetFileContents.Contains(CONST_ONIX_MSG_REF_TAG_START))
+                sTargetTag = CONST_ONIX_MSG_REF_TAG_START;
+
+            if (!String.IsNullOrEmpty(sTargetTag))
+            {
+                int nONIXMsgStartIdx = psTargetFileContents.IndexOf(sTargetTag);
+                int nONIXMsgEndIdx   = psTargetFileContents.IndexOf(">", nONIXMsgStartIdx);
+
+                string sONIXMsgTag = psTargetFileContents.Substring(nONIXMsgStartIdx, (nONIXMsgEndIdx - nONIXMsgStartIdx));
+                if (sONIXMsgTag.Contains("3.0"))
+                    bVersion3File = true;
+            }
+
+            return bVersion3File;
         }
 
         /// <summary>

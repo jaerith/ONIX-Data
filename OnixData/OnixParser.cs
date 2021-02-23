@@ -19,13 +19,13 @@ namespace OnixData
     {
         #region CONSTANTS
 
-        private const int CONST_DTD_REFERENCE_LENGTH = 500;
+        public const int CONST_DTD_REFERENCE_LENGTH = 500;
 
-        private const string CONST_ONIX_MESSAGE_REFERENCE_TAG = "ONIXMessage";
-        private const string CONST_ONIX_MESSAGE_SHORT_TAG     = "ONIXmessage";
+        public const string CONST_ONIX_MESSAGE_REFERENCE_TAG = "ONIXMessage";
+        public const string CONST_ONIX_MESSAGE_SHORT_TAG     = "ONIXmessage";
 
-        private const string CONST_ONIX_HEADER_REFERENCE_TAG = "Header";
-        private const string CONST_ONIX_HEADER_SHORT_TAG     = "header";
+        public const string CONST_ONIX_HEADER_REFERENCE_TAG = "Header";
+        public const string CONST_ONIX_HEADER_SHORT_TAG     = "header";
 
         #endregion
 
