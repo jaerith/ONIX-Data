@@ -301,7 +301,7 @@ namespace OnixData.Extensions
         /// </summary>        
         /// <param name="poTargetFile">The file being examined</param>
         /// <returns>Boolean that indicates whether or not the file is an ONIX file</returns>
-        public static bool IsOnixFile(FileInfo poTargetFile)
+        public static bool IsOnixFile(this FileInfo poTargetFile)
         {
             string sFirstBlock = "";
 
@@ -328,7 +328,7 @@ namespace OnixData.Extensions
         /// </summary>        
         /// <param name="psTargetFileContents">The string body being examined</param>
         /// <returns>Boolean that indicates whether or not the string body is an ONIX type</returns>
-        public static bool IsOnixFile(string psTargetFileContents)
+        public static bool IsOnixFile(this string psTargetFileContents)
         {
             string sTargetTag = "";
 
@@ -345,7 +345,7 @@ namespace OnixData.Extensions
         /// </summary>        
         /// <param name="poTargetFile">The file being examined</param>
         /// <returns>Boolean that indicates whether or not the file is an ONIX 3.0 file</returns>
-        public static bool IsOnixVersion3File(FileInfo poTargetFile)
+        public static bool IsOnixVersion3File(this FileInfo poTargetFile)
         {
             string sFirstBlock = "";
 
@@ -372,7 +372,7 @@ namespace OnixData.Extensions
         /// </summary>        
         /// <param name="psTargetFileContents">The string body being examined</param>
         /// <returns>Boolean that indicates whether or not the string body is an ONIX 3.0 type</returns>
-        public static bool IsOnixVersion3File(string psTargetFileContents)
+        public static bool IsOnixVersion3File(this string psTargetFileContents)
         {
             bool   bVersion3File = false;
             string sTargetTag    = "";
