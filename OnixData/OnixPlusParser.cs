@@ -91,15 +91,7 @@ namespace OnixData
         {
             XmlReader OnixXmlReader = null;
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-
-            settings.ValidationType = ValidationType.None;
-            settings.DtdProcessing  = DtdProcessing.Ignore;
-
-            if (ExecutionValidation)
-                settings.ConformanceLevel = ConformanceLevel.Document;
-
-            OnixXmlReader = XmlReader.Create(OnixFilepath.FullName, settings);
+            OnixXmlReader = new OnixXmlTextReader(OnixFilepath) { DtdProcessing = DtdProcessing.Ignore };
 
             return OnixXmlReader;
         }

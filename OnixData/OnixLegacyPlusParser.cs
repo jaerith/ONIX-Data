@@ -97,18 +97,8 @@ namespace OnixData
 
         static public XmlReader CreateXmlReader(FileInfo LegacyOnixFilepath, bool ReportValidationWarnings, bool ExecutionValidation)
         {
-            StringBuilder InvalidErrMsg = new StringBuilder();
-            XmlReader     OnixXmlReader = null;
-
-            XmlReaderSettings settings = new XmlReaderSettings();
-
-            settings.ValidationType = ValidationType.None;
-            settings.DtdProcessing  = DtdProcessing.Ignore;
-
-            if (ExecutionValidation)
-                settings.ConformanceLevel = ConformanceLevel.Document;
-
-            OnixXmlReader = XmlReader.Create(LegacyOnixFilepath.FullName, settings);
+            XmlReader OnixXmlReader = 
+                new OnixXmlTextReader(LegacyOnixFilepath) { DtdProcessing = DtdProcessing.Ignore };
 
             return OnixXmlReader;
         }
