@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Extensions\OnixDataExtensions.cs" />
     <Compile Include="Extensions\OnixParserExtensions.cs" />
+    <Compile Include="Extensions\OnixReplaceExtensions.cs" />
     <Compile Include="Legacy\OnixLegacyAudience.cs" />
     <Compile Include="Legacy\OnixLegacyAudRange.cs" />
     <Compile Include="Legacy\OnixLegacyBaseProduct.cs" />
@@ -74,6 +75,8 @@
     <Compile Include="OnixLegacyParser.cs" />
     <Compile Include="OnixLegacyPlusParser.cs" />
     <Compile Include="OnixParser.cs" />
+    <Compile Include="OnixPlusParser.cs" />
+    <Compile Include="OnixXmlTextReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Version3\Content\OnixContentItem.cs" />
     <Compile Include="Version3\Epub\OnixEpubUsageConstraint.cs" />
