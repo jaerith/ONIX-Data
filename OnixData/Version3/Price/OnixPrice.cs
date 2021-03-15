@@ -48,7 +48,8 @@ namespace OnixData.Version3.Price
             PriceType    = -1;
             PriceAmount  = "";
             Tax          = new OnixPriceTax();
-            CurrencyCode = "";
+            CurrencyCode = UnpricedItemType = "";
+
 
             discountField      = shortDiscountField      = new OnixDiscount[0];
             discountCodedField = shortDiscountCodedField = new OnixDiscountCoded[0];
@@ -58,6 +59,7 @@ namespace OnixData.Version3.Price
         private string       priceAmountField;
         private OnixPriceTax taxField;
         private string       currencyCodeField;
+        private string       unpricedItemTypeField;
 
         private OnixDiscount[] discountField;
         private OnixDiscount[] shortDiscountField;
@@ -246,6 +248,19 @@ namespace OnixData.Version3.Price
             }
         }
 
+        /// <remarks/>
+        public string UnpricedItemType
+        {
+            get
+            {
+                return this.unpricedItemTypeField;
+            }
+            set
+            {
+                this.unpricedItemTypeField = value;
+            }
+        }
+
         #endregion
 
         #region Short Tags
@@ -284,6 +299,13 @@ namespace OnixData.Version3.Price
         {
             get { return shortDiscountCodedField; }
             set { shortDiscountCodedField = value; }
+        }
+
+        /// <remarks/>
+        public string j192
+        {
+            get { return UnpricedItemType; }
+            set { UnpricedItemType = value; }
         }
 
         #endregion
