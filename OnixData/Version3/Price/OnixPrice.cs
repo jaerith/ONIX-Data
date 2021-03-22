@@ -69,6 +69,25 @@ namespace OnixData.Version3.Price
 
         #region Helper Methods
 
+        public string DiscountAmount
+        {
+            get
+            {
+                string DiscAmt = "";
+
+                if ((this.OnixDiscountList != null) && (this.OnixDiscountList.Length > 0))
+                {
+                    OnixDiscount FoundDiscount =
+                        OnixDiscountList.Where(x => !String.IsNullOrEmpty(x.DiscountAmount)).FirstOrDefault();
+
+                    if ((FoundDiscount != null) && !String.IsNullOrEmpty(FoundDiscount.DiscountAmount))
+                        DiscAmt = FoundDiscount.DiscountAmount;
+                }
+
+                return DiscAmt;
+            }
+        }
+
         public string DiscountPercent
         {
             get
