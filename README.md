@@ -15,6 +15,9 @@ Unfortunately, since validation of ONIX files has proven problematic on the .NET
 * [x] ONIX 2.1.3 and earlier (short tags)
 * [x] ONIX 2.1.3 and earlier (reference tags)
 
+# For Large ONIX Files
+When parsing larger ONIX files (typically anything greater than 250 MB), it's strongly encouraged to use the OnixLegacyPlusParser class (for ONIX 2.1) and the OnixPlusParser class (for ONIX 3.0).  These two classes are used just like the OnixLegacyParser and OnixParser classes, and they will help the user to avoid out-of-memory exceptions.  However, there is one caveat to know before using either of them: the ONIX-Data project does perform preprocessing on the ONIX file before doing any actual parsing.  These changes are merely real-world substitutions for ONIX encodings (found in the ONIX DTD), which is the same result for the output when parsing with a DTD. However, in the case of large files, we are actually changing the file itself, and it can take a few minutes to finish (like 6-8 minutes per 400 MB), depending on the machine's specs.  So, if you value the original copy of your large ONIX file, be sure to create a backup copy beforehand.
+
 # Notes
 
 If you would like to become better acquainted with legacy format of the ONIX standard, you can find documentation and relevant files (XSDs, DTDs, etc.) on <a target="_blank" href="http://www.editeur.org/15/Archived-Previous-Releases/">the archive page of EDITEUR</a>.
