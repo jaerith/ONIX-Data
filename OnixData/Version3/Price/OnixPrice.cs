@@ -254,6 +254,20 @@ namespace OnixData.Version3.Price
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Discount")]
+        public OnixDiscount[] Discount
+        {
+            get
+            {
+                return this.discountField;
+            }
+            set
+            {
+                this.discountField = value;
+            }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("DiscountCoded")]
         public OnixDiscountCoded[] DiscountCoded
         {
@@ -310,6 +324,14 @@ namespace OnixData.Version3.Price
         {
             get { return CurrencyCode; }
             set { CurrencyCode = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("discount")]
+        public OnixDiscount[] discount
+        {
+            get { return shortDiscountField; }
+            set { shortDiscountField = value; }
         }
 
         /// <remarks/>
