@@ -19,6 +19,7 @@ namespace OnixData.Extensions
     {
         #region CONSTANTS
 
+        private const int  CONST_ONIX_READ_BUFFER_LEN = 2048;
         private const int  CONST_MSG_REFERENCE_LENGTH = 2048;
         private const int  CONST_BLOCK_COUNT_SIZE     = 50000000;
         private const long CONST_LARGE_FILE_MINIMUM   = 250000000;
@@ -312,9 +313,9 @@ namespace OnixData.Extensions
             {
                 using (var reader = new StreamReader(stream, Encoding.UTF8))
                 {
-                    char[] buffer = new char[256];
+                    char[] buffer = new char[CONST_ONIX_READ_BUFFER_LEN];
 
-                    int n = reader.ReadBlock(buffer, 0, 256);
+                    int n = reader.ReadBlock(buffer, 0, CONST_ONIX_READ_BUFFER_LEN);
 
                     char[] result = new char[n];
                     Array.Copy(buffer, result, n);
@@ -349,16 +350,16 @@ namespace OnixData.Extensions
         /// <param name="poTargetFile">The file being examined</param>
         /// <returns>Boolean that indicates whether or not the file is an ONIX 3.0 file</returns>
         public static bool IsOnixVersion3File(this FileInfo poTargetFile)
-        {
+        {            
             string sFirstBlock = "";
 
             using (var stream = File.OpenRead(poTargetFile.FullName))
             {
                 using (var reader = new StreamReader(stream, Encoding.UTF8))
                 {
-                    char[] buffer = new char[256];
+                    char[] buffer = new char[CONST_ONIX_READ_BUFFER_LEN];
 
-                    int n = reader.ReadBlock(buffer, 0, 256);
+                    int n = reader.ReadBlock(buffer, 0, CONST_ONIX_READ_BUFFER_LEN);
 
                     char[] result = new char[n];
                     Array.Copy(buffer, result, n);
