@@ -33,6 +33,8 @@ namespace OnixData.Extensions
         private const string CONST_ONIX_MSG_REF_TAG_START   = "<" + OnixParser.CONST_ONIX_MESSAGE_REFERENCE_TAG;
         private const string CONST_ONIX_MSG_SHORT_TAG_START = "<" + OnixParser.CONST_ONIX_MESSAGE_SHORT_TAG;
 
+        public const string CONST_REMOVE_CTRL_CHARS_REG_EXPR = @"[\x00-\x08\x0B\x0C\x0E-\x1F]";
+
         #endregion
 
         static public bool DebugFlag          = true;
@@ -165,6 +167,45 @@ namespace OnixData.Extensions
                                                       .ForEach(x => x.LanguageCode = pOnixHeader.DefaultLanguageOfText);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// Purges all control characters (and other bad encodings) from the file
+        /// and performs needed preprocessing.  Optionally, since the ONIX parsers of this
+        /// project do not use DTDs when parsing, some tags containing XHTML can be wrapped
+        /// with CDATA via this method, preventing them from failing with these parsers.
+        /// 
+        /// NOTE: These are permanent alterations to the file, so this method should be used carefully.
+        /// 
+        /// <param name="ParserFileInfo">Indicates the file to be cleaned.</param>
+        /// <param name="ShouldCDATAWrapXHTML">Indicates any commentary fields marked as XHTML should be wrapped with CDATA.</param>
+        /// <returns>N/A</returns>
+        /// </summary>
+        public static void Clean(this FileInfo ParserFileInfo, bool ShouldCDATAWrapXHTML = false)
+        {
+            if ((ParserFileInfo != null) && ParserFileInfo.Exists && !ParserFileInfo.FullName.Contains(CONST_FILENAME_SKIP_REPLACE_MARKER))
+            {
+                // Only perform in-memory replacement if flag is set and if the file is less than 250 MB
+                if (ParserFileInfo.Length < CONST_LARGE_FILE_MINIMUM)
+                {
+                    StringBuilder AllFileText = new StringBuilder(File.ReadAllText(ParserFileInfo.FullName));
+
+                    AllFileText.ReplaceIsoLatinEncodings(true);
+
+                    if (ShouldCDATAWrapXHTML)
+                        AllFileText.WrapXHTMLTextWithCDATA();
+
+                    var sAllFileText = AllFileText.ToString();
+
+                    sAllFileText =
+                         Regex.Replace(sAllFileText, CONST_REMOVE_CTRL_CHARS_REG_EXPR, "", System.Text.RegularExpressions.RegexOptions.Compiled);
+
+                    File.WriteAllText(ParserFileInfo.FullName, sAllFileText);
+                }
+                else
+                    throw new Exception("ERROR!  File is too large to be cleaned via this method.");
             }
         }
 
@@ -762,5 +803,71 @@ namespace OnixData.Extensions
                 CurrentBlock.Clear();
             }
         }
+
+        /// <summary>
+        /// Wraps possible XHTML values with CDATA block
+        /// </summary>        
+        /// <returns></returns>
+        public static void WrapXHTMLTextWithCDATA(this StringBuilder psText)
+        {
+            string sRefStartTag   = "<Text textformat=\"05\">";
+            string sShortStartTag = "<d104 textformat=\"05\">";
+
+            if (psText.IndexOf(sRefStartTag, 0) > 0)
+                psText.WrapXHTMLTextWithCDATA(sRefStartTag, "</Text>");
+            else
+                psText.WrapXHTMLTextWithCDATA(sShortStartTag, "</d104>");
+        }
+
+        /// <summary>
+        /// Removes the commentary tag (and body) from the string
+        /// </summary>        
+        /// <param name="psCommTagName">The string to find</param>
+        /// <returns></returns>
+        public static void WrapXHTMLTextWithCDATA(this StringBuilder psText, 
+                                                string psStartTagName, 
+                                                string psEndTag, 
+                                                   int pnMaxCommLen = 50000)
+        {
+            int nStartIdx = 0;
+            int nEndIdx   = 0;
+
+            string sCDATAStart    = "<![CDATA[";
+            string sStartTagCDATA = psStartTagName + "<![CDATA[";
+            string sEndTagCDATA   = "]]>" + psEndTag;
+
+            int nLoopCount   = 0;
+            int nCommBodyLen = 0;
+
+            for (nLoopCount = 0; (nStartIdx < psText.Length) && (nLoopCount < 1000000); ++nLoopCount)
+            {
+                nStartIdx = psText.IndexOf(psStartTagName, nStartIdx);
+                if (nStartIdx >= 0)
+                {
+                    nEndIdx = psText.IndexOf(psEndTag, nStartIdx, false, pnMaxCommLen);
+                    
+                    if (nEndIdx > 0)
+                    {
+                        nCommBodyLen = ((nEndIdx - nStartIdx) + psEndTag.Length);
+
+                        if (psText.IndexOf(sCDATAStart, nStartIdx, false, nCommBodyLen) < 0)
+                        {
+                            psText.Replace(psEndTag, sEndTagCDATA, nEndIdx, psEndTag.Length);
+
+                            psText.Replace(psStartTagName, sStartTagCDATA, nStartIdx, psStartTagName.Length);
+                        }
+
+                        nStartIdx += psStartTagName.Length + nCommBodyLen;
+                    }
+                    else
+                    {
+                        nStartIdx += pnMaxCommLen;
+                    }
+                }
+                else
+                    break;
+            }
+        }
+
     }
 }
