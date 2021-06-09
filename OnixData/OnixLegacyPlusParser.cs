@@ -219,7 +219,7 @@ namespace OnixData
             if (this.OnixHeader == null)
                 this.OnixHeader = OnixParser.MessageHeader;
 
-            while (this.OnixReader.Read())
+            do
             {
                 if ((this.OnixReader.NodeType == XmlNodeType.Element) && (this.OnixReader.Name == this.ProductXmlTag))
                 {
@@ -228,7 +228,8 @@ namespace OnixData
                     sProductBody = this.OnixReader.ReadOuterXml();
                     break;
                 }
-            }
+
+            } while (this.OnixReader.Read());
 
             if (!String.IsNullOrEmpty(sProductBody))
             {

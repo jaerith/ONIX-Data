@@ -206,7 +206,7 @@ namespace OnixData
             bool   bResult      = false;
             string sProductBody = null;
 
-            while (this.OnixReader.Read())
+            do
             {
                 if ((this.OnixReader.NodeType == XmlNodeType.Element) && (this.OnixReader.Name == this.ProductXmlTag))
                 {
@@ -215,7 +215,8 @@ namespace OnixData
                     sProductBody = this.OnixReader.ReadOuterXml();
                     break;
                 }
-            }
+
+            } while (this.OnixReader.Read());
 
             if (!String.IsNullOrEmpty(sProductBody))
             {
