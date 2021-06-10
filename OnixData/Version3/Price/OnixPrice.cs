@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using OnixData.Version3.Publishing;
+
 namespace OnixData.Version3.Price
 {
     /// <remarks/>
@@ -50,6 +52,7 @@ namespace OnixData.Version3.Price
             Tax          = new OnixPriceTax();
             CurrencyCode = UnpricedItemType = "";
 
+            Territory = new OnixTerritory();
 
             discountField      = shortDiscountField      = new OnixDiscount[0];
             discountCodedField = shortDiscountCodedField = new OnixDiscountCoded[0];
@@ -66,6 +69,8 @@ namespace OnixData.Version3.Price
 
         private OnixDiscountCoded[] discountCodedField;
         private OnixDiscountCoded[] shortDiscountCodedField;
+
+        private OnixTerritory territoryField;
 
         #region Helper Methods
 
@@ -294,6 +299,12 @@ namespace OnixData.Version3.Price
             }
         }
 
+        public OnixTerritory Territory
+        {
+            get { return this.territoryField; }
+            set { this.territoryField = value; }
+        }
+
         #endregion
 
         #region Short Tags
@@ -347,6 +358,12 @@ namespace OnixData.Version3.Price
         {
             get { return UnpricedItemType; }
             set { UnpricedItemType = value; }
+        }
+
+        public OnixTerritory territory
+        {
+            get { return Territory; }
+            set { Territory = value; }
         }
 
         #endregion
