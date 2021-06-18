@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ONIXmessage release="3.0" xmlns="http://ns.editeur.org/onix/3.0/short">
+	<header>
+		<sender>
+			<x298>Global Bookinfo</x298>
+			<x299>Jane King, +1 555 321 7654</x299>
+			<j272>jbk@globalbookinfo.com</j272>
+		</sender>
+		<addressee>
+			<x300>BooksBooksBooks.com</x300>
+		</addressee>
+		<m180>232</m180>
+		<x307>20140915T0905-0400</x307>
+		<m183>Sample block update message – updates prices</m183>
+	</header>
+	<!-- product record 1 of 1 in message -->
+	<product>
+		<a001>com.globalbookinfo.onix.01734529</a001>
+		<a002>04</a002>
+		<a194>04</a194>
+		<recordsourceidentifier>
+			<x311>06</x311>
+			<b244>0614141800001</b244>
+		</recordsourceidentifier>
+		<a197>Global Bookinfo</a197>
+		<productidentifier>
+			<b221>03</b221>
+			<b244>9780007232833</b244>
+		</productidentifier>
+		<productidentifier>
+			<b221>15</b221>
+			<b244>9780007232833</b244>
+		</productidentifier>
+		<!-- there is no Block 1 -->
+		<!-- there is no Block 2 -->
+		<!-- there is no Block 3 -->
+		<!-- there is no Block 4 -->
+		<!-- there is no Block 5 -->
+		<productsupply>
+			<market>
+				<territory>
+					<x450>WORLD</x450>
+					<x451>AS AU CA GU MP NZ PH PR US VI ZA</x451>
+				</territory>
+			</market>
+			<marketpublishingdetail>
+				<j407>04</j407>
+				<marketdate>
+					<j408>01</j408>
+					<b306 dateformat="00">20060807</b306>
+				</marketdate>
+			</marketpublishingdetail>
+			<supplydetail>
+				<supplier>
+					<j292>01</j292>
+					<supplieridentifier>
+						<j345>06</j345>
+						<b244>5051366000000</b244>
+					</supplieridentifier>
+					<supplieridentifier>
+						<j345>07</j345>
+						<b244>0091073</b244>
+					</supplieridentifier>
+					<j137>HarperCollins Publishers</j137>
+					<j270>+44 1417 723200</j270>
+				</supplier>
+				<returnsconditions>
+					<j268>02</j268>
+					<j269>Y</j269>
+				</returnsconditions>
+				<j396>21</j396>
+				<j145>15</j145>
+				<price>
+					<x462>02</x462>
+					<discountcoded>
+						<j363>01</j363>
+						<j364>AHACP029</j364>
+					</discountcoded>
+					<j266>02</j266>
+					<j151>8.99</j151>
+					<tax>
+						<x470>01</x470>
+						<x471>Z</x471>
+						<x472>0</x472>
+						<x473>8.99</x473>
+						<x474>0.00</x474>
+					</tax>
+					<j152>GBP</j152>
+					<territory>
+						<x449>GB</x449>
+					</territory>
+					<x301>02</x301>
+					<x313>01</x313>
+				</price>
+				<price>
+					<x462>01</x462>
+					<discount>
+						<j267>37.5</j267>
+					</discount>
+					<j266>02</j266>
+					<j151>9.99</j151>
+					<j152>EUR</j152>
+					<territory>
+						<x449>AT BE CY FI FR DE ES GR IE IT LU MT NL PT SI SK AD MC ME SM VA</x449>
+					</territory>
+					<x301>01</x301>
+				</price>
+				<price>
+					<x462>01</x462>
+					<discount>
+						<j267>42.5</j267>
+					</discount>
+					<j266>02</j266>
+					<j151>8.99</j151>
+					<j152>GBP</j152>
+					<territory>
+						<x450>WORLD</x450>
+						<x451>GB AT BE CY FI FR DE ES GR IE IT LU MT NL PT SI SK AD MC ME SM VA AS AU CA GU MP NZ PH PR US VI ZA</x451>
+					</territory>
+					<x301>01</x301>
+				</price>
+			</supplydetail>
+		</productsupply>
+		<!-- aggregator could add other ProductSupply sections here, for AU/NZ and ZA distributors -->
+	</product>
+</ONIXmessage>
