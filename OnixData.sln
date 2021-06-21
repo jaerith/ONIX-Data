@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.CoreTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.NetFrameworkTests", "OnixData.Standard.NetFrameworkTests\OnixData.Standard.NetFrameworkTests.csproj", "{69E174F1-51DB-4628-AB3C-9D0225AD373E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.Benchmarks", "OnixData.Standard.Benchmarks\OnixData.Standard.Benchmarks.csproj", "{6043A8DC-AA0A-46DA-8012-6D6E73F84A0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{69E174F1-51DB-4628-AB3C-9D0225AD373E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69E174F1-51DB-4628-AB3C-9D0225AD373E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69E174F1-51DB-4628-AB3C-9D0225AD373E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6043A8DC-AA0A-46DA-8012-6D6E73F84A0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6043A8DC-AA0A-46DA-8012-6D6E73F84A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6043A8DC-AA0A-46DA-8012-6D6E73F84A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6043A8DC-AA0A-46DA-8012-6D6E73F84A0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
