@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ONIXMessage release="3.0" xmlns="http://ns.editeur.org/onix/3.0/reference">
+	<Header>
+		<Sender>
+			<SenderName>Global Bookinfo</SenderName>
+			<ContactName>Jane King, +1 555 321 7654</ContactName>
+			<EmailAddress>jbk@globalbookinfo.com</EmailAddress>
+		</Sender>
+		<Addressee>
+			<AddresseeName>BooksBooksBooks.com</AddresseeName>
+		</Addressee>
+		<MessageNumber>232</MessageNumber>
+		<SentDateTime>20140915T0905-0400</SentDateTime>
+		<MessageNote>Sample block update message – updates prices</MessageNote>
+	</Header>
+	<!-- product record 1 of 1 in message -->
+	<Product>
+		<RecordReference>com.globalbookinfo.onix.01734529</RecordReference>
+		<NotificationType>04</NotificationType>
+		<RecordSourceType>04</RecordSourceType>
+		<RecordSourceIdentifier>
+			<RecordSourceIDType>06</RecordSourceIDType>
+			<IDValue>0614141800001</IDValue>
+		</RecordSourceIdentifier>
+		<RecordSourceName>Global Bookinfo</RecordSourceName>
+		<ProductIdentifier>
+			<ProductIDType>03</ProductIDType>
+			<IDValue>9780007232833</IDValue>
+		</ProductIdentifier>
+		<ProductIdentifier>
+			<ProductIDType>15</ProductIDType>
+			<IDValue>9780007232833</IDValue>
+		</ProductIdentifier>
+		<!-- there is no Block 1 -->
+		<!-- there is no Block 2 -->
+		<!-- there is no Block 3 -->
+		<!-- there is no Block 4 -->
+		<!-- there is no Block 5 -->
+		<ProductSupply>
+			<Market>
+				<Territory>
+					<RegionsIncluded>WORLD</RegionsIncluded>
+					<CountriesExcluded>AS AU CA GU MP NZ PH PR US VI ZA</CountriesExcluded>
+				</Territory>
+			</Market>
+			<MarketPublishingDetail>
+				<MarketPublishingStatus>04</MarketPublishingStatus>
+				<MarketDate>
+					<MarketDateRole>01</MarketDateRole>
+					<Date dateformat="00">20060807</Date>
+				</MarketDate>
+			</MarketPublishingDetail>
+			<SupplyDetail>
+				<Supplier>
+					<SupplierRole>01</SupplierRole>
+					<SupplierIdentifier>
+						<SupplierIDType>06</SupplierIDType>
+						<IDValue>5051366000000</IDValue>
+					</SupplierIdentifier>
+					<SupplierIdentifier>
+						<SupplierIDType>07</SupplierIDType>
+						<IDValue>0091073</IDValue>
+					</SupplierIdentifier>
+					<SupplierName>HarperCollins Publishers</SupplierName>
+					<TelephoneNumber>+44 1417 723200</TelephoneNumber>
+				</Supplier>
+				<ReturnsConditions>
+						<ReturnsCodeType>02</ReturnsCodeType>
+						<ReturnsCode>Y</ReturnsCode>
+				</ReturnsConditions>
+				<ProductAvailability>21</ProductAvailability>
+				<PackQuantity>16</PackQuantity>
+				<Price>
+					<PriceType>02</PriceType>
+					<DiscountCoded>
+						<DiscountCodeType>01</DiscountCodeType>
+						<DiscountCode>AHACP029</DiscountCode>
+					</DiscountCoded>
+					<PriceStatus>02</PriceStatus>
+					<PriceAmount>8.99</PriceAmount>
+					<Tax>
+						<TaxType>01</TaxType>
+						<TaxRateCode>Z</TaxRateCode>
+						<TaxRatePercent>0</TaxRatePercent>
+						<TaxableAmount>8.99</TaxableAmount>
+						<TaxAmount>0.00</TaxAmount>
+					</Tax>
+					<CurrencyCode>GBP</CurrencyCode>
+					<Territory>
+						<CountriesIncluded>GB</CountriesIncluded>
+					</Territory>
+					<PrintedOnProduct>02</PrintedOnProduct>
+					<PositionOnProduct>01</PositionOnProduct>
+				</Price>
+				<Price>
+					<PriceType>01</PriceType>
+					<Discount>
+						<DiscountPercent>37.5</DiscountPercent>
+					</Discount>
+					<PriceStatus>02</PriceStatus>
+					<PriceAmount>9.99</PriceAmount>
+					<CurrencyCode>EUR</CurrencyCode>
+					<Territory>
+						<CountriesIncluded>AT BE CY FI FR DE ES GR IE IT LU MT NL PT SI SK AD MC ME SM VA</CountriesIncluded>
+					</Territory>
+					<PrintedOnProduct>01</PrintedOnProduct>
+				</Price>
+				<Price>
+					<PriceType>01</PriceType>
+					<Discount>
+						<DiscountPercent>42.5</DiscountPercent>
+					</Discount>
+					<PriceStatus>02</PriceStatus>
+					<PriceAmount>8.99</PriceAmount>
+					<CurrencyCode>GBP</CurrencyCode>
+					<Territory>
+						<RegionsIncluded>WORLD</RegionsIncluded>
+						<CountriesExcluded>GB AT BE CY FI FR DE ES GR IE IT LU MT NL PT SI SK AD MC ME SM VA AS AU CA GU MP NZ PH PR US VI ZA</CountriesExcluded>
+					</Territory>
+					<PrintedOnProduct>01</PrintedOnProduct>
+				</Price>
+			</SupplyDetail>
+		</ProductSupply>
+	</Product>
+</ONIXMessage>
