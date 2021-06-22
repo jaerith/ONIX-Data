@@ -391,6 +391,12 @@ namespace OnixData.Version3.Publishing
         {
             get { return this.ROWSalesRightsType; }
             set { this.ROWSalesRightsType = value; }
+        }
+
+        public string b083
+        {
+            get { return this.CountryOfPublication; }
+            set { this.CountryOfPublication = value; }
         }        
 
         #endregion

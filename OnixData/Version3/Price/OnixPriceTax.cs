@@ -13,12 +13,29 @@ namespace OnixData.Version3.Price
         public OnixPriceTax()
         {
             TaxType     = -1;
-            TaxRateCode = "";
+            TaxRateCode = TaxRatePercent = String.Empty;
         }            
 
         private int    taxTypeField;
         private string taxRateCodeField;
         private string taxRatePercentField;
+
+        #region Helper Methods
+
+        public decimal TaxRatePercentNum
+        {
+            get
+            {
+                decimal nPercent = 0;
+
+                if (!String.IsNullOrEmpty(TaxRatePercent))
+                    Decimal.TryParse(TaxRatePercent, out nPercent);
+
+                return nPercent;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
@@ -76,6 +93,13 @@ namespace OnixData.Version3.Price
         {
             get { return TaxRateCode; }
             set { TaxRateCode = value; }
+        }
+
+        /// <remarks/>
+        public string x472
+        {
+            get { return TaxRatePercent; }
+            set { TaxRatePercent = value; }
         }
 
         #endregion
