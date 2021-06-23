@@ -59,26 +59,17 @@
     <ItemGroup>
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="V3ParserTests.cs" />
+        <Compile Include="Version3\Text\OnixSupportingResourceTests.cs" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\OnixData.Standard.BaseTests\OnixData.Standard.BaseTests.csproj">
+        <Project>{bb75fe69-7afe-439b-a23a-a0171d839d70}</Project>
+        <Name>OnixData.Standard.BaseTests</Name>
+      </ProjectReference>
       <ProjectReference Include="..\OnixData.Standard\OnixData.Standard.csproj">
         <Project>{7cc9cafd-3211-4986-a326-9630c2edd9c2}</Project>
         <Name>OnixData.Standard</Name>
       </ProjectReference>
-    </ItemGroup>
-    <ItemGroup>
-      <Content Include="Samples\Onix3sample_refnames.xml">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="Samples\Onix3sample_refnames_blockupdate.xml">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="Samples\Onix3sample_shorttags.xml">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="Samples\Onix3sample_shorttags_blockupdate.xml">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

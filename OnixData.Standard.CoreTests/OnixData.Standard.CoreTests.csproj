@@ -22,22 +22,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\OnixData.Standard.BaseTests\OnixData.Standard.BaseTests.csproj" />
       <ProjectReference Include="..\OnixData.Standard\OnixData.Standard.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="Samples\Onix3sample_refnames.xml">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Samples\Onix3sample_refnames_blockupdate.xml">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Samples\Onix3sample_shorttags.xml">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Samples\Onix3sample_shorttags_blockupdate.xml">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 
 </Project>

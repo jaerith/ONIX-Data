@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OnixData.Standard.Version3.Text;
 
 namespace OnixData.Version3.Text
 {
@@ -10,14 +11,19 @@ namespace OnixData.Version3.Text
     {
         public OnixCollateralDetail()
         {
-            textContentField = shortTextContentField = new OnixTextContent[0];
-            contentDateField = shortContentDateField = new OnixContentDate[0];
+            textContentField = shortTextContentField = Array.Empty<OnixTextContent>();
+            contentDateField = shortContentDateField = Array.Empty<OnixContentDate>();
+            supportingResourceField = shortSupportingResourceField = Array.Empty<OnixSupportingResource>();
         }
 
         private OnixTextContent[] textContentField;
         private OnixTextContent[] shortTextContentField;
+        
         private OnixContentDate[] contentDateField;
         private OnixContentDate[] shortContentDateField;
+        
+        private OnixSupportingResource[] supportingResourceField;
+        private OnixSupportingResource[] shortSupportingResourceField;
 
         #region ONIX Lists
 
@@ -54,6 +60,23 @@ namespace OnixData.Version3.Text
                 return ContentDates;
             }
         }
+        
+        public OnixSupportingResource[] OnixSupportingResourceList
+        {
+            get
+            {
+                OnixSupportingResource[] supportingResources = null;
+
+                if (this.supportingResourceField != null)
+                    supportingResources = this.supportingResourceField;
+                else if (this.shortSupportingResourceField != null)
+                    supportingResources = this.shortSupportingResourceField;
+                else
+                    supportingResources = new OnixSupportingResource[0];
+
+                return supportingResources;
+            }
+        }
 
         #endregion
 
@@ -86,6 +109,14 @@ namespace OnixData.Version3.Text
                 this.contentDateField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("SupportingResource", IsNullable = true)]
+        public OnixSupportingResource[] SupportingResource
+        {
+            get => supportingResourceField;
+            set => supportingResourceField = value;
+        }
 
         #endregion
 
@@ -117,6 +148,14 @@ namespace OnixData.Version3.Text
             {
                 this.shortContentDateField = value;
             }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("supportingresource", IsNullable = true)]
+        public OnixSupportingResource[] supportingresource
+        {
+            get => shortSupportingResourceField;
+            set => shortSupportingResourceField = value;
         }
 
         #endregion
