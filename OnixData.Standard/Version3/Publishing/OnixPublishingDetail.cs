@@ -51,6 +51,7 @@ namespace OnixData.Version3.Publishing
         private List<string> notForSaleList;
 
         private string rowSalesRightsTypeField;
+        private string countryOfPublicationField;
 
         #region ONIX Lists
 
@@ -335,6 +336,12 @@ namespace OnixData.Version3.Publishing
         {
             get { return this.rowSalesRightsTypeField; }
             set { this.rowSalesRightsTypeField = value; }
+        }
+        
+        public string CountryOfPublication
+        {
+            get { return this.countryOfPublicationField; }
+            set { this.countryOfPublicationField = value; }
         }
 
         #endregion
