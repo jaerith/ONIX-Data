@@ -3,6 +3,7 @@ using System.IO;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
+using OnixData.Legacy;
 using OnixData.Version3;
 
 namespace OnixData.Standard.Benchmarks
@@ -16,7 +17,7 @@ namespace OnixData.Standard.Benchmarks
     {
         private string fileName;
         
-        [Params("Sample-1-Products", "Sample-5-Products", "Sample-50-Products", "Sample-500-Products")]
+        [Params("Sample-1-Product", "Sample-5-Products", "Sample-50-Products", "Sample-500-Products")]
         public string FileName;
 
         [GlobalSetup]
@@ -27,7 +28,7 @@ namespace OnixData.Standard.Benchmarks
         
         private void ParseSampleFileUsingV3Parser(string sampleFilename)
         {
-            var filepath = $"Samples/{sampleFilename}.xml";
+            var filepath = $"Samples/V3/{sampleFilename}.xml";
 
             var fileInfo = new FileInfo(filepath);
             using var v3Parser = new OnixParser(fileInfo, true);
@@ -43,12 +44,12 @@ namespace OnixData.Standard.Benchmarks
         
         private void ParseSampleFileUsingLegacyParser(string sampleFilename)
         {
-            var filepath = $"Samples/{sampleFilename}.xml";
+            var filepath = $"Samples/Legacy/{sampleFilename}.xml";
 
             var fileInfo = new FileInfo(filepath);
             using var legacyParser = new OnixLegacyParser(fileInfo, true);
             
-            foreach (OnixProduct tmpProduct in legacyParser)
+            foreach (OnixLegacyProduct tmpProduct in legacyParser)
             {
                 if (!tmpProduct.IsValid())
                 {
