@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE ONIXMessage SYSTEM "http://www.editeur.org/onix/2.1/02/reference/onix-international.dtd">
+<ONIXMessage>
+  <Header>
+    <FromCompany>Mundane Hippo Press</FromCompany>
+    <FromPerson>Sassy Pants</FromPerson>
+    <FromEmail>support@mundanepress.com</FromEmail>
+    <SentDate>201803232114</SentDate>
+  </Header>
+  <Product>
+    <ProductIdentifier>
+      <ProductIDType>03</ProductIDType>
+      <IDValue>9782234567890</IDValue>
+    </ProductIdentifier>
+    <ProductIdentifier>
+      <ProductIDType>15</ProductIDType>
+      <IDValue>9782234567890</IDValue>
+    </ProductIdentifier>
+    <ProductForm>DG</ProductForm>
+    <ProductFormDetail>E200</ProductFormDetail>
+    <EpubType>029</EpubType>
+    <EpubTypeVersion>2</EpubTypeVersion>
+    <NoSeries/>
+    <Title>
+      <TitleType>01</TitleType>
+      <TitleText>Le Merde, C'est La Vie</TitleText>
+    </Title>
+    <Contributor>
+      <SequenceNumber>1</SequenceNumber>
+      <ContributorRole>A01</ContributorRole>
+      <PersonName>Pierre Le Merde</PersonName>
+      <PersonNameInverted>Le Merde, Pierre</PersonNameInverted>
+      <KeyNames>Le Merde</KeyNames>
+      <BiographicalNote textformat="02">Il sent mauvais, et son livre se sens terrible.</BiographicalNote>
+    </Contributor>
+    <EditionTypeCode>DGO</EditionTypeCode>
+    <Language>
+      <LanguageRole>01</LanguageRole>
+      <LanguageCode>fre</LanguageCode>
+    </Language>
+    <Extent>
+      <ExtentType>08</ExtentType>
+      <ExtentValue>232</ExtentValue>
+      <ExtentUnit>03</ExtentUnit>
+    </Extent>
+    <MainSubject>
+      <MainSubjectSchemeIdentifier>29</MainSubjectSchemeIdentifier>
+      <SubjectCode>3459</SubjectCode>
+    </MainSubject>
+    <MainSubject>
+      <MainSubjectSchemeIdentifier>24</MainSubjectSchemeIdentifier>
+      <SubjectCode>3698</SubjectCode>
+    </MainSubject>
+    <MainSubject>
+      <MainSubjectSchemeIdentifier>10</MainSubjectSchemeIdentifier>
+      <SubjectCode>FIC027000</SubjectCode>
+    </MainSubject>
+    <OtherText>
+      <TextTypeCode>03</TextTypeCode>
+      <TextFormat>02</TextFormat>
+      <Text>Le personnage principal dit "Je m'en fous."</Text>
+    </OtherText>
+    <MediaFile>
+      <MediaFileTypeCode>01</MediaFileTypeCode>
+      <MediaFileLinkTypeCode>06</MediaFileLinkTypeCode>
+      <MediaFileLink>9782234567890.epub</MediaFileLink>
+    </MediaFile>
+    <Imprint>
+      <ImprintName>We Print Stuff</ImprintName>
+    </Imprint>
+    <Publisher>
+      <PublishingRole>01</PublishingRole>
+      <PublisherName>We Print Stuff</PublisherName>
+    </Publisher>
+    <PublishingStatus>04</PublishingStatus>
+    <PublicationDate>20180328</PublicationDate>
+    <SalesRights>
+      <SalesRightsType>01</SalesRightsType>
+      <RightsCountry>AT BE CA CY DE EE ES FI FR GB GR IE IT LU LV MT NL PT SI SK US</RightsCountry>
+    </SalesRights>
+    <SupplyDetail>
+      <SupplierName>Mundane Hippo</SupplierName>
+      <SupplierRole>01</SupplierRole>
+      <AvailabilityCode>IP</AvailabilityCode>
+      <ProductAvailability>20</ProductAvailability>
+      <OnSaleDate>20180328</OnSaleDate>
+      <Price>
+        <PriceTypeCode>41</PriceTypeCode>
+        <PriceQualifier>00</PriceQualifier>
+        <PriceAmount>6.99</PriceAmount>
+        <CurrencyCode>USD</CurrencyCode>
+        <CountryCode>US</CountryCode>
+      </Price>
+    </SupplyDetail>
+    <SupplyDetail>
+      <SupplierName>Mundane Hippo</SupplierName>
+      <SupplierRole>01</SupplierRole>
+      <AvailabilityCode>IP</AvailabilityCode>
+      <ProductAvailability>20</ProductAvailability>
+      <OnSaleDate>20180328</OnSaleDate>
+      <Price>
+        <PriceTypeCode>41</PriceTypeCode>
+        <PriceQualifier>00</PriceQualifier>
+        <PriceAmount>6.99</PriceAmount>
+        <CurrencyCode>CAD</CurrencyCode>
+        <CountryCode>CA</CountryCode>
+      </Price>
+    </SupplyDetail>
+  </Product>
+</ONIXMessage>  

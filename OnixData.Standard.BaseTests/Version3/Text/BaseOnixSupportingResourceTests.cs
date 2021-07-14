@@ -9,9 +9,9 @@ namespace OnixData.Standard.BaseTests.Version3.Text
     public abstract class BaseOnixSupportingResourceTests
     {
         [Fact]
-        public void ParseOnixSupportingResourceSample1()
+        public void ParseOnix3SupportingResourceSample1()
         {
-            var sFilepath = "Samples/OnixSupportingResourceSample1.xml";
+            var sFilepath = "Samples/Onix3SupportingResourceSample1.xml";
 
             var currentFileInfo = new FileInfo(sFilepath);
             using OnixParser v3Parser = new(currentFileInfo, true);
@@ -46,9 +46,9 @@ namespace OnixData.Standard.BaseTests.Version3.Text
         }
         
         [Fact]
-        protected void ParseOnixSupportingResourceSample1ShortTags()
+        protected void ParseOnix3SupportingResourceSample1ShortTags()
         {
-            var sFilepath = "Samples/OnixSupportingResourceSample1ShortTags.xml";
+            var sFilepath = "Samples/Onix3SupportingResourceSample1ShortTags.xml";
 
             var currentFileInfo = new FileInfo(sFilepath);
             using OnixParser v3Parser = new(currentFileInfo, true);
