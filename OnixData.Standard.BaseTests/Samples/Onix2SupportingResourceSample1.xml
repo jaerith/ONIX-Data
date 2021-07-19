@@ -87,9 +87,9 @@
       <Price>
         <PriceTypeCode>41</PriceTypeCode>
         <PriceQualifier>00</PriceQualifier>
-        <PriceAmount>6.99</PriceAmount>
-        <CurrencyCode>USD</CurrencyCode>
-        <CountryCode>US</CountryCode>
+        <PriceAmount>7.99</PriceAmount>
+        <CurrencyCode>CAD</CurrencyCode>
+        <CountryCode>CA</CountryCode>
       </Price>
     </SupplyDetail>
     <SupplyDetail>
@@ -102,8 +102,8 @@
         <PriceTypeCode>41</PriceTypeCode>
         <PriceQualifier>00</PriceQualifier>
         <PriceAmount>6.99</PriceAmount>
-        <CurrencyCode>CAD</CurrencyCode>
-        <CountryCode>CA</CountryCode>
+        <CurrencyCode>USD</CurrencyCode>
+        <CountryCode>US</CountryCode>
       </Price>
     </SupplyDetail>
   </Product>

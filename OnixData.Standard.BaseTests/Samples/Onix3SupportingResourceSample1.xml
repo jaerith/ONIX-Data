@@ -56,7 +56,7 @@
                 <TextType>03</TextType>
                 <ContentAudience>00</ContentAudience>
                 <Text><![CDATA[CollateralDetail TextContent Text.]]></Text>
-            </TextContent>
+            </TextContent>            
             <SupportingResource>
                 <ResourceContentType>01</ResourceContentType>
                 <ContentAudience>00</ContentAudience>

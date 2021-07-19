@@ -57,7 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Legacy\Text\OnixSupportingResourceTests.cs" />
+    <Compile Include="Legacy\CoreData\OnixSupportingResourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="V3ParserTests.cs" />
     <Compile Include="Version3\Text\OnixSupportingResourceTests.cs" />
