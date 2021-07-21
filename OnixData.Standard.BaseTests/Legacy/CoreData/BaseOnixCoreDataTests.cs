@@ -6,12 +6,12 @@ using Xunit;
 
 namespace OnixData.Standard.BaseTests.Legacy.CoreData
 {
-    public abstract class BaseOnixSupportingCoreDataTests
+    public abstract class BaseOnixCoreDataTests
     {
         [Fact]
-        public void ParseOnix2SupportingResourceSample1()
+        public void ParseOnix2CoreDataSample1()
         {
-            var sFilepath = "Samples/Onix2SupportingResourceSample1.xml";
+            var sFilepath = "Samples/Onix2CoreDataSample1.xml";
 
             var currentFileInfo = new FileInfo(sFilepath);
             using OnixLegacyParser v2Parser = new(currentFileInfo, true);
@@ -39,9 +39,9 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
         }
         
         [Fact]
-        protected void ParseOnix2SupportingResourceSample1ShortTags()
+        protected void ParseOnix2CoreDataSample1ShortTags()
         {
-            var sFilepath = "Samples/Onix2SupportingResourceSample1ShortTags.xml";
+            var sFilepath = "Samples/Onix2CoreDataSample1ShortTags.xml";
 
             var currentFileInfo = new FileInfo(sFilepath);
             using OnixLegacyParser v2Parser = new(currentFileInfo, true);

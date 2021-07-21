@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ONIXMessage release="3.0" xmlns="http://ns.editeur.org/onix/3.0/reference"
-			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			 xsi:schemaLocation="http://ns.editeur.org/onix/3.0/reference ">
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Header>
 		<Sender>
 			<SenderName>Global Bookinfo</SenderName>

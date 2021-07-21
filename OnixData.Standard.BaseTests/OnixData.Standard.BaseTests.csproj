@@ -6,10 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Update="Samples\Onix2SupportingResourceSample1ShortTags.xml">
+      <None Update="Samples\Onix2CoreDataSample1ShortTags.xml">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Samples\Onix2SupportingResourceSample1.xml">
+      <None Update="Samples\Onix2CoreDataSample1.xml">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>  

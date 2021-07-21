@@ -805,6 +805,25 @@ namespace OnixData.Extensions
         }
 
         /// <summary>
+        /// Due to the perform storm of inadequate DTD implementation of Microsoft XML libs 
+        /// and the baffling acceptance by the ONIX standard of XHTML being inside XML, 
+        /// this function will wraps possible XHTML values with CDATA blocks
+        /// 
+        /// NOTE: This should not be used with large files, since it will likely
+        ///       load to an OutOfMemory exception being thrown
+        /// 
+        /// </summary>        
+        /// <returns></returns>
+        public static void WrapXHTMLTextWithCDATA(this FileInfo poParserFileInfo)
+        {
+            StringBuilder AllFileText = new StringBuilder(File.ReadAllText(poParserFileInfo.FullName));
+
+            AllFileText.WrapXHTMLTextWithCDATA();
+
+            File.WriteAllText(poParserFileInfo.FullName, AllFileText.ToString());
+        }
+
+        /// <summary>
         /// Wraps possible XHTML values with CDATA block
         /// </summary>        
         /// <returns></returns>

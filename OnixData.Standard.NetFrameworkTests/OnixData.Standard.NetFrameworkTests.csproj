@@ -57,9 +57,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Legacy\CoreData\OnixSupportingResourceTests.cs" />
+    <Compile Include="Legacy\CoreData\OnixCoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="V3ParserTests.cs" />
+    <Compile Include="Version3\CoreData\OnixCoreTests.cs" />
     <Compile Include="Version3\Text\OnixSupportingResourceTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +79,7 @@
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
