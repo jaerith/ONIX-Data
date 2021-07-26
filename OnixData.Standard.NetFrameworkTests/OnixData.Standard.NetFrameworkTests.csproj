@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Legacy\CoreData\OnixCoreTests.cs" />
+    <Compile Include="Legacy\Text\OnixOtherTextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="V3ParserTests.cs" />
     <Compile Include="Version3\CoreData\OnixCoreTests.cs" />

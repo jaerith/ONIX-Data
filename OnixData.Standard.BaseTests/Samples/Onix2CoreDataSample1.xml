@@ -76,7 +76,11 @@
     <PublicationDate>20180328</PublicationDate>
     <SalesRights>
       <SalesRightsType>01</SalesRightsType>
-      <RightsCountry>AT BE CA CY DE EE ES FI FR GB GR IE IT LU LV MT NL PT SI SK US</RightsCountry>
+      <RightsCountry>AT BE CA CY DE EE ES FI FR GB GR IE IT LU LV MT NL PT SI SK</RightsCountry>
+    </SalesRights>
+    <SalesRights>
+      <SalesRightsType>03</SalesRightsType>
+      <RightsCountry>US</RightsCountry>
     </SalesRights>
     <SupplyDetail>
       <SupplierName>Mundane Hippo</SupplierName>

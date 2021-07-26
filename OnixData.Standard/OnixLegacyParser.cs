@@ -240,56 +240,6 @@ namespace OnixData
             if (ExecutionValidation)
             {
                 settings.ConformanceLevel = ConformanceLevel.Document;
-
-                if (bUseXSD)
-                {
-                    /*
-                     * NOTE: XSD Validation does not appear to be working correctly yet
-                     * 
-                    XmlSchemaSet schemas = new XmlSchemaSet();
-
-                    string XsdFilepath = "";
-
-                    if (ParserRefVerFlag)
-                        XsdFilepath = @"C:\ONIX_XSD\2.1\ONIX_BookProduct_Release2.1_reference.xsd";
-                    else
-                        XsdFilepath = @"C:\ONIX_XSD\2.1\ONIX_BookProduct_Release2.1_short.xsd";
-
-                    schemas.Add(null, XmlReader.Create(new StringReader(File.ReadAllText(XsdFilepath))));
-
-                    settings.Schemas        = schemas;
-                    settings.ValidationType = ValidationType.Schema;                
-
-                    if (ReportValidationWarnings)
-                        settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
-                    else
-                        settings.ValidationFlags &= ~(XmlSchemaValidationFlags.ReportValidationWarnings);
-
-                    // settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessInlineSchema;
-                    */
-                }
-
-                /*
-                 * NOTE: DTD Validation does not appear that it will ever work correctly on the .NET platform
-                 * 
-                if (bUseDTD)
-                {
-                    settings.DtdProcessing  = DtdProcessing.Parse;
-                    settings.ValidationType = ValidationType.DTD;
-
-                    settings.ValidationFlags |= XmlSchemaValidationFlags.AllowXmlAttributes;
-
-                    System.Xml.XmlResolver newXmlResolver = new System.Xml.XmlUrlResolver();
-                    newXmlResolver.ResolveUri(new Uri("C:\\ONIX_DTD\\2.1\\short"), "onix-international.dtd");
-                    settings.XmlResolver = newXmlResolver;
-
-                    settings.ValidationEventHandler += new ValidationEventHandler(delegate(object sender, ValidationEventArgs args)
-                    {
-                        // InvalidErrMsg.AppendLine(args.Message);
-                        throw new Exception(args.Message);
-                    });
-                }
-                */
             }
 
             OnixXmlReader = XmlReader.Create(LegacyOnixFilepath.FullName, settings);
@@ -440,42 +390,9 @@ namespace OnixData
         {
             bool ValidOnixFile = true;
 
-            /*
-             * NOTE: XSD Validation is proving to be consistently problematic
-             * 
-            try
-            {
-                XmlReaderSettings TempReaderSettings = new XmlReaderSettings() { DtdProcessing = DtdProcessing.Ignore };
-
-                using (XmlReader TempXmlReader = XmlReader.Create(ParserFileInfo.FullName, TempReaderSettings))
-                {
-                    XDocument OnixDoc = XDocument.Load(TempXmlReader);
-
-                    XmlSchemaSet schemas = new XmlSchemaSet();
-
-                    string XsdFilepath = "";
-
-                    if (ParserRefVerFlag)
-                        XsdFilepath = @"C:\ONIX_XSD\2.1\ONIX_BookProduct_Release2.1_reference.xsd";
-                    else
-                        XsdFilepath = @"C:\ONIX_XSD\2.1\ONIX_BookProduct_Release2.1_short.xsd";
-
-                    schemas.Add(null, XmlReader.Create(new StringReader(File.ReadAllText(XsdFilepath))));
-
-                    schemas.Compile();
-
-                    OnixDoc.Validate(schemas, (o, e) =>
-                    {
-                        Console.WriteLine("{0}", e.Message);
-                        ValidOnixFile = false;
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                ValidOnixFile = false;
-            }
-            */
+            /**
+             ** NOTE: XSD Validation is proving to be consistently problematic
+             **/
 
             return ValidOnixFile;
         }
