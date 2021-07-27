@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using OnixData.Legacy;
 using OnixData.Extensions;
@@ -14,7 +15,13 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
             var sFilepath = "Samples/Onix2CoreDataSample1.xml";
 
             var currentFileInfo = new FileInfo(sFilepath);
-            using OnixLegacyParser v2Parser = new(currentFileInfo, true);
+
+            Assert.True(currentFileInfo.Exists, "File does not exist!");
+
+            using OnixLegacyParser v2Parser =
+                new(File.ReadAllText(currentFileInfo.FullName), false, true, true);
+
+            Assert.Equal("Mundane Hippo Press", v2Parser.MessageHeader.FromCompany);
 
             foreach (OnixLegacyProduct tmpProduct in v2Parser)
             {
@@ -35,8 +42,8 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
                 Assert.Equal(6.99m, tmpProduct.USDRetailPrice.PriceAmountNum);
 
                 /**
-                 ** NOTE: Add more tests here
-                 **/
+                    ** NOTE: Add more tests here
+                    **/
             }
         }
         
@@ -46,7 +53,13 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
             var sFilepath = "Samples/Onix2CoreDataSample1ShortTags.xml";
 
             var currentFileInfo = new FileInfo(sFilepath);
-            using OnixLegacyParser v2Parser = new(currentFileInfo, true);
+
+            Assert.True(currentFileInfo.Exists, "File does not exist!");
+
+            using OnixLegacyParser v2Parser =
+                new(File.ReadAllText(currentFileInfo.FullName), false, true, true);
+
+            Assert.Equal("Mundane Hippo Press", v2Parser.MessageHeader.FromCompany);
 
             foreach (OnixLegacyProduct tmpProduct in v2Parser)
             {
@@ -65,6 +78,8 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
                 Assert.Equal(true, tmpProduct.HasUSRights());
 
                 Assert.Equal(19.95m, tmpProduct.USDRetailPrice.PriceAmountNum);
+
+                Assert.Equal("General Trade", tmpProduct.USDRetailPrice.ClassOfTrade);
 
                 /**
                  ** NOTE: Add more tests here

@@ -24,6 +24,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
             using OnixParser v3Parser = new(currentFileInfo, false, true, true, false);
 
+            Assert.Equal("Global Bookinfo", v3Parser.MessageHeader.Sender.SenderName);
+
             foreach (OnixProduct tmpProduct in v3Parser)
             {
                 Assert.True(tmpProduct.IsValid(), tmpProduct.GetParsingError()?.Message);
@@ -37,6 +39,9 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal("eng", tmpProduct.DescriptiveDetail.LanguageOfText);
 
                 Assert.Equal("HarperCollins Publishers", tmpProduct.PublisherName);
+
+                Assert.Equal(130.00m, tmpProduct.Width.Measurement);
+                Assert.Equal("mm", tmpProduct.Width.MeasureUnitCode);
 
                 Assert.Equal(0.00m, tmpProduct.USDRetailPrice.PriceAmountNum);
 
@@ -65,6 +70,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
             using OnixParser v3Parser = new(currentFileInfo, false, true, true, false);
 
+            Assert.Equal("Global Bookinfo", v3Parser.MessageHeader.Sender.SenderName);
+
             foreach (OnixProduct tmpProduct in v3Parser)
             {
                 Assert.True(tmpProduct.IsValid(), tmpProduct.GetParsingError()?.Message);
@@ -78,6 +85,9 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal("eng", tmpProduct.DescriptiveDetail.LanguageOfText);
 
                 Assert.Equal("HarperCollins Publishers", tmpProduct.PublisherName);
+
+                Assert.Equal(130.00m, tmpProduct.Width.Measurement);
+                Assert.Equal("mm", tmpProduct.Width.MeasureUnitCode);
 
                 Assert.Equal(0.00m, tmpProduct.USDRetailPrice.PriceAmountNum);
 

@@ -12,7 +12,8 @@ namespace OnixData.Standard.BaseTests.Legacy.Text
             var sFilepath = "Samples/Onix2CoreDataSample1.xml";
 
             var currentFileInfo = new FileInfo(sFilepath);
-            using OnixLegacyParser v2Parser = new(currentFileInfo, true);
+
+            using OnixLegacyParser v2Parser = new(currentFileInfo, false, true, true);
 
             foreach (OnixLegacyProduct tmpProduct in v2Parser)
             {
@@ -34,7 +35,7 @@ namespace OnixData.Standard.BaseTests.Legacy.Text
             var sFilepath = "Samples/Onix2CoreDataSample1ShortTags.xml";
 
             var currentFileInfo = new FileInfo(sFilepath);
-            using OnixLegacyParser v2Parser = new(currentFileInfo, true);
+            using OnixLegacyParser v2Parser = new(currentFileInfo, false, true, true);
 
             foreach (OnixLegacyProduct tmpProduct in v2Parser)
             {
