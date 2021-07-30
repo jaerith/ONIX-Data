@@ -41,7 +41,29 @@ namespace OnixData.Standard.Benchmarks
                 }
             }
         }
-        
+
+        private void ParseSampleFileUsingV3ParserNoPreprocess(string sampleFilename)
+        {
+            var filepath = $"Samples/V3/{sampleFilename}.xml";
+
+            var fileInfo = new FileInfo(filepath);
+
+            // NOTE: If you know your source is providing ONIX files without problematic data
+            //       (no special ONIX encodings, lack of bad characters, etc.), then you can gain
+            //       a significant performance boost by turning off preprocessing.
+            //       But be sure of that data quality beforehand.  And then count yourself very lucky...
+            using var v3Parser = 
+                new OnixParser(File.ReadAllText(fileInfo.FullName), false, false);
+
+            foreach (OnixProduct tmpProduct in v3Parser)
+            {
+                if (!tmpProduct.IsValid())
+                {
+                    Console.WriteLine(tmpProduct.GetParsingError()?.Message);
+                }
+            }
+        }
+
         private void ParseSampleFileUsingLegacyParser(string sampleFilename)
         {
             var filepath = $"Samples/Legacy/{sampleFilename}.xml";
@@ -57,14 +79,42 @@ namespace OnixData.Standard.Benchmarks
                 }
             }
         }
-        
+
+        private void ParseSampleFileUsingLegacyParserNoPreprocess(string sampleFilename)
+        {
+            var filepath = $"Samples/Legacy/{sampleFilename}.xml";
+
+            var fileInfo = new FileInfo(filepath);
+
+            // NOTE: If you know your source is providing ONIX files without problematic data
+            //       (no special ONIX encodings, lack of bad characters, etc.), then you can gain
+            //       a significant performance boost by turning off preprocessing.
+            //       But be sure of that data quality beforehand.  And then count yourself very lucky...
+            using var legacyParser = 
+                new OnixLegacyParser(File.ReadAllText(fileInfo.FullName), false, false);
+
+            foreach (OnixLegacyProduct tmpProduct in legacyParser)
+            {
+                if (!tmpProduct.IsValid())
+                {
+                    Console.WriteLine(tmpProduct.GetParsingError()?.Message);
+                }
+            }
+        }
+
         [Benchmark]
         public void V3Parser() => ParseSampleFileUsingV3Parser(fileName);
-        
+
+        [Benchmark]
+        public void V3ParserNoPreprocessing() => ParseSampleFileUsingV3ParserNoPreprocess(fileName);
+
         [Benchmark]
         public void LegacyParser() => ParseSampleFileUsingLegacyParser(fileName);
+
+        [Benchmark]
+        public void LegacyParserNoPreprocessing() => ParseSampleFileUsingLegacyParserNoPreprocess(fileName);
     }
-    
+
     public static class Program
     {
         public static void Main()
