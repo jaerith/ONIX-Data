@@ -13,6 +13,7 @@
         <RepositoryUrl>https://github.com/jaerith/ONIX-Data</RepositoryUrl>
         <RepositoryType>GIT</RepositoryType>
         <PackageTags>ONIX, parser, ebooks, audiobooks</PackageTags>
+        <IsTestProject>false</IsTestProject>
     </PropertyGroup>
 
 </Project>
