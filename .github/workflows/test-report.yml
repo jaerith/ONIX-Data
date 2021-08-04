@@ -20,7 +20,13 @@ jobs:
     - name: Code Coverage
       uses: zgosalvez/github-actions-report-lcov@v1
       with:
-        coverage-files: 'OnixData.Standard.Net5Tests/TestResults/coverage.info'
-        minimum-coverage: 0
         artifact-name: code-coverage-report
+        coverage-files: | 
+          'OnixData.Standard.Net5Tests/TestResults/coverage.info'
+          'OnixData.Standard.CoreTests/TestResults/coverage.info'
+          'TestResults/coverage.info'
+          'TestResults/coverage.info'
+          'coverage.info'
+          '*.info'
+        minimum-coverage: 0
         github-token: ${{ secrets.GITHUB_TOKEN }}
