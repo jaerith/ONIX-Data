@@ -1,16 +1,27 @@
-name: 'Test Report'
+name: 'Test Report and Code Coverage'
+
 on:
   workflow_run:
-    workflows: ['CI']                     
-    types:
-      - completed
+    workflows: ["CI"]
+    types: [completed]
+  
 jobs:
   report:
+    name: Workflow test
     runs-on: ubuntu-latest
     steps:
-    - uses: dorny/test-reporter@v1
+    - name: .NET Tests Results
+      uses: dorny/test-reporter@v1
       with:
-        artifact: .NET Tests results
+        artifact: test-results
         name: .NET Tests results           
-        path: '**/TestResults/*.trx'    
-        reporter: dotnet-trx   
+        path: '**/**/*.trx'    
+        reporter: dotnet-trx  
+    - name: Code Coverage
+      uses: zgosalvez/github-actions-report-lcov@v1
+      with:
+        artifact-name: code-coverage-report
+        name: Code Coverage
+        coverage-files: '**/TestResults/coverage.info'
+        minimum-coverage: 0
+        github-token: ${{ secrets.GITHUB_TOKEN }}
