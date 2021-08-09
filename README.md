@@ -1,3 +1,9 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Onix-Data-S-fork&metric=alert_status)](https://sonarcloud.io/dashboard?id=Onix-Data-S-fork)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Onix-Data-S-fork&metric=coverage)](https://sonarcloud.io/dashboard?id=Onix-Data-S-fork)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Onix-Data-S-fork&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=Onix-Data-S-fork)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Onix-Data-S-fork&metric=ncloc)](https://sonarcloud.io/dashboard?id=Onix-Data-S-fork)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Onix-Data-S-fork&metric=security_rating)](https://sonarcloud.io/dashboard?id=Onix-Data-S-fork)
+
 # ONIX-Data
 This solution is a C# library that serves to provide .NET data structures (and an accompanying set of helpful parsers) for the ONIX XML format, which is the international standard for representing the electronic data regarding books (along with other media).  This format has been established by the international book trade body known as EDITEUR.  Within this solution, you will find two collections of classes for serialization/deserialization: one that represents the legacy format (i.e., 2.1 and earlier) and another that represents the current format (i.e., 3.0).  In addition, two helpful parser classes have been included in order to assist with the population of those collections.
 
