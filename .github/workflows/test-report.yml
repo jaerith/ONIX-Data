@@ -7,9 +7,16 @@ on:
   
 jobs:
   report:
-    name: Workflow test
+    name: Reports
     runs-on: ubuntu-latest
     steps:
+    - name: Clone the repository
+      uses: actions/checkout@v2
+    - name: Download code coverage from GitHub
+      uses: actions/download-artifact@v2.0.10
+      with:
+        name: code-coverage-report
+        path: coverage
     - name: .NET Tests Results
       uses: dorny/test-reporter@v1
       with:
@@ -20,7 +27,7 @@ jobs:
     - name: Code Coverage
       uses: zgosalvez/github-actions-report-lcov@v1
       with:
-        artifact-name: code-coverage-report
+        artifact-name: code-coverage-processed-report
         name: Code Coverage
         coverage-files: '**/TestResults/coverage.info'
         minimum-coverage: 0
