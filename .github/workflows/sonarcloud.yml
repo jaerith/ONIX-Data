@@ -1,0 +1,46 @@
+name: SonarCloud
+
+on:
+  push:
+    branches: [ NetStandard ]
+  pull_request:
+    branches: [ NetStandard ]
+  workflow_dispatch:
+
+jobs:
+  validate-changes:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - uses: actions/checkout@v2.2.0
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 5
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+      - name: Setup .NET CORE
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+
+      - name: Restore dependencies
+        run: dotnet restore OnixDataStandard.sln
+
+      - name: Sonarqube Begin
+        run: | 
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet sonarscanner begin /o:onix-data-test-org /k:Onix-Data-S-fork /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.cs.vstest.reportsPaths="**/*.trx" /d:sonar.host.url="https://sonarcloud.io"
+
+      - name: Build
+        run: dotnet build OnixDataStandard.sln --no-restore
+
+      - name: Test
+        run: dotnet test OnixDataStandard.sln --no-build --verbosity normal --logger trx /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=opencover
+          /p:Exclude=\"[OnixData.Standard.BaseTests]*\" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute\"
+
+      - name: Sonarqube end
+        run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
