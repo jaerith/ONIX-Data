@@ -575,7 +575,10 @@ namespace OnixData.Version3
                         sSeriesNum = SeriesCollection.SeriesSequence;
                     }
 
-                    if (String.IsNullOrEmpty(sSeriesNum) && (SeriesCollection.OnixTitleDetailList != null) && (SeriesCollection.OnixTitleDetailList.Length > 0))
+                    if (String.IsNullOrEmpty(sSeriesNum)               &&
+                        (SeriesCollection != null)                     &&
+                        (SeriesCollection.OnixTitleDetailList != null) && 
+                        (SeriesCollection.OnixTitleDetailList.Length > 0))
                     {
                         var TitleDetailFound =
                             SeriesCollection.OnixTitleDetailList.Where(x => x.HasDistinctiveTitle()).FirstOrDefault();
