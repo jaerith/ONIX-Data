@@ -31,7 +31,7 @@ jobs:
       - name: Sonarqube Begin
         run: | 
           dotnet tool install --global dotnet-sonarscanner
-          dotnet sonarscanner begin /o:onix-data-test-org /k:Onix-Data-S-fork /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.cs.vstest.reportsPaths="**/*.trx" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet sonarscanner begin /o:onix-data-test-org /k:Onix-Data-S-fork /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.cs.vstest.reportsPaths="**/*.trx" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.exclusions="**/Samples/**""
 
       - name: Build
         run: dotnet build OnixDataStandard.sln --no-restore
