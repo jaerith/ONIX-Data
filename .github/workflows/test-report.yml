@@ -25,7 +25,7 @@ jobs:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: ci.yml
         workflow_conclusion: completed
-        name: code-coverage-processed
+        name: code-coverage-report
         path: coverage    
     - name: Code Coverage
       uses: zgosalvez/github-actions-report-lcov@v1
