@@ -12,18 +12,18 @@ jobs:
     steps:
     - name: Clone the repository
       uses: actions/checkout@v2
-    - name: Download code coverage from GitHub
-      uses: actions/download-artifact@v2.0.10
-      with:
-        name: code-coverage-report
-        path: coverage
     - name: .NET Tests Results
       uses: dorny/test-reporter@v1
       with:
         artifact: test-results
         name: .NET Tests results           
         path: '**/**/*.trx'    
-        reporter: dotnet-trx  
+        reporter: dotnet-trx
+    - name: Download code coverage from GitHub
+      uses: actions/download-artifact@v2.0.10
+      with:
+        name: code-coverage-report
+        path: coverage
     - name: Code Coverage
       uses: zgosalvez/github-actions-report-lcov@v1
       with:
