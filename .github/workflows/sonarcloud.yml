@@ -8,7 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  validate-changes:
+  sonarcloud-processing:
+    name: "SonarCloud"
     runs-on: ubuntu-latest
     steps:
     
@@ -20,6 +21,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.x
+          
       - name: Setup .NET CORE
         uses: actions/setup-dotnet@v1
         with:
