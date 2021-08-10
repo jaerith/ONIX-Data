@@ -1,4 +1,4 @@
-name: 'Test Report and Code Coverage'
+name: 'Test Report'
 
 on:
   workflow_run:
@@ -7,7 +7,7 @@ on:
   
 jobs:
   report:
-    name: Reports
+    name: Reports processing
     runs-on: ubuntu-latest
     steps:
     - name: Clone the repository
@@ -19,18 +19,3 @@ jobs:
         name: .NET Tests results           
         path: '**/**/*.trx'    
         reporter: dotnet-trx
-    - name: Download code coverage from GitHub
-      uses: dawidd6/action-download-artifact@v2
-      with:
-        github_token: ${{secrets.GITHUB_TOKEN}}
-        workflow: ci.yml
-        workflow_conclusion: completed
-        name: code-coverage-report
-        path: coverage    
-    - name: Code Coverage
-      uses: zgosalvez/github-actions-report-lcov@v1
-      with:
-        artifact-name: code-coverage-processed-report
-        coverage-files: '**/TestResults/coverage.info'
-        minimum-coverage: 0
-        github-token: ${{ secrets.GITHUB_TOKEN }}
