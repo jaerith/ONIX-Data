@@ -24,15 +24,9 @@ jobs:
     - name: Test
       run: dotnet test OnixDataStandard.sln --no-build --verbosity normal --logger trx /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
         /p:Exclude=\"[OnixData.Standard.BaseTests]*\" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute\"
-    - name: Upload Test Report artifact
+    - name: Upload Test Report Artifacts
       uses: actions/upload-artifact@v2 
       if: success() || failure()        
       with:
         name: test-results        
-        path: '**/TestResults/*.trx'   
-    - name: Upload Code Coverage artifact
-      uses: actions/upload-artifact@v2 
-      if: success() || failure()        
-      with:
-        name: code-coverage-report       
-        path: '**/TestResults/coverage.info'
+        path: '**/TestResults/*.trx'
