@@ -53,9 +53,9 @@ namespace OnixData.Extensions
                 return -1;
 
             nCheckSum = 0;
-            for (uint i = 0; i < sMainFragmentEAN.Length; i++)
+            for (int i = 0; i < sMainFragmentEAN.Length; i++)
             {
-                char cTempVal = sMainFragmentEAN.ToCharArray()[i];
+                char cTempVal = sMainFragmentEAN[i];
 
                 nTemp = Convert.ToInt32(new String(new char[] { cTempVal }));
 
@@ -97,7 +97,7 @@ namespace OnixData.Extensions
 
             for (int i = 3, j = 10; i < (CONST_EAN_LEN - 1); i++, j--)
             {
-                char cTempVal = TargetEAN.ToCharArray()[i];
+                char cTempVal = TargetEAN[i];
 
                 nTemp = Convert.ToInt32(new String(new char[] { cTempVal }));
 
@@ -144,9 +144,9 @@ namespace OnixData.Extensions
             EAN = EANPrefix + ISBN.Substring(0, (CONST_ISBN_LEN - 1));
 
             nCheckSum = 0;
-            for (uint i = 0; i < EAN.Length; i++)
+            for (int i = 0; i < EAN.Length; i++)
             {
-                char cTempVal = EAN.ToCharArray()[i];
+                char cTempVal = EAN[i];
 
                 // Do not convert the number directly from a char, since we do not want the ASCII value
                 // nTemp = Convert.ToInt32(cTempVal);
@@ -210,10 +210,9 @@ namespace OnixData.Extensions
             if (TargetEAN.Length < CONST_EAN_LEN)
                 TempEAN = TargetEAN.PadLeft(CONST_EAN_LEN, '0');
 
-            char[] EanCharArray = TempEAN.ToCharArray();
-            for (int i = 0; i < EanCharArray.Length; ++i)
+            for (int i = 0; i < TempEAN.Length; ++i)
             {
-                int TempCharVal = (int)EanCharArray[i];
+                int TempCharVal = (int) TempEAN[i];
 
                 diff = (TempCharVal - ZeroCharVal);
 
@@ -265,7 +264,7 @@ namespace OnixData.Extensions
 
             try
             {
-                cCurrentCheckDigit = TargetISBN.ToCharArray()[CONST_ISBN_LEN - 1];
+                cCurrentCheckDigit = TargetISBN[CONST_ISBN_LEN - 1];
 
                 if( cCurrentCheckDigit == 'x' )
                     cCurrentCheckDigit = 'X';
