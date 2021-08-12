@@ -1,8 +1,13 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Onix-Data-S-fork&metric=alert_status)](https://sonarcloud.io/dashboard?id=Onix-Data-S-fork)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Onix-Data-S-fork&metric=coverage)](https://sonarcloud.io/dashboard?id=Onix-Data-S-fork)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Onix-Data-S-fork&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=Onix-Data-S-fork)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Onix-Data-S-fork&metric=ncloc)](https://sonarcloud.io/dashboard?id=Onix-Data-S-fork)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Onix-Data-S-fork&metric=security_rating)](https://sonarcloud.io/dashboard?id=Onix-Data-S-fork)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=alert_status)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
+[![Reliability](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=security_rating)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
+[![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=ncloc)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=bugs)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=coverage)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
 
 # ONIX-Data
 This solution is a C# library that serves to provide .NET data structures (and an accompanying set of helpful parsers) for the ONIX XML format, which is the international standard for representing the electronic data regarding books (along with other media).  This format has been established by the international book trade body known as EDITEUR.  Within this solution, you will find two collections of classes for serialization/deserialization: one that represents the legacy format (i.e., 2.1 and earlier) and another that represents the current format (i.e., 3.0).  In addition, two helpful parser classes have been included in order to assist with the population of those collections.
@@ -24,9 +29,13 @@ Unfortunately, since validation of ONIX files has proven problematic on the .NET
 NOTE: Even though this project addresses many tags of both ONIX versions, it does not currently parse out all of them, especially in the case of ONIX 3.0 (which appears to aim at supporting the ontology of the known universe).  In the case that you find something unsupported and wanted, you can create an issue within this repo, and I will attempt to address it in my free time.  (Or you can implement it on your own and then issue a pull.)
 
 # For Large ONIX Files
-When parsing larger ONIX files (typically anything greater than 250 MB), it's strongly encouraged to use the OnixLegacyPlusParser class (for ONIX 2.1) and the OnixPlusParser class (for ONIX 3.0).  These two classes are used just like the OnixLegacyParser and OnixParser classes, and they will help the user to avoid out-of-memory exceptions.  However, there is one caveat to know before using either of them: the ONIX-Data project does perform preprocessing on the ONIX file before doing any actual parsing.  These changes are merely real-world substitutions for ONIX encodings (found in the ONIX DTD), which is the same result for the output when parsing with a DTD. However, in the case of large files, we are actually changing the file itself, and it can take a few minutes to finish (like 6-8 minutes per 400 MB), depending on the machine's specs.  So, if you value the original copy of your large ONIX file, be sure to create a backup copy beforehand.
+When parsing larger ONIX files (typically anything greater than 250 MB), it's strongly encouraged to use the OnixLegacyPlusParser class (for ONIX 2.1) and the OnixPlusParser class (for ONIX 3.0).  These two classes are used just like the OnixLegacyParser and OnixParser classes, and they will help the user to avoid out-of-memory exceptions.
 
 # Notes
+
+There is one caveat to know before using any of the Parsers: the ONIX-Data project does perform non-optional preprocessing on the ONIX file before doing any actual parsing.  These changes are merely real-world substitutions for ONIX encodings (found in the ONIX DTD), which is the same result for the output when parsing with a DTD.  These non-optional replacements actually change the file itself, and it can take a few minutes to finish (like 6-8 minutes per 400 MB), depending on the machine's specs.  So, if you value the original copy of your ONIX file (i.e., with non-standard ONIX encodings), be sure to create a backup copy beforehand.
+
+The Parsers also have an optional preprocessing step (invoked via the constructor), which will perform other friendly edits (like removing misformed HTML encodings, etc.) that will clean the file of any suspicious characters.  These characters can cause the Microsoft XML libraries to throw an exception.
 
 If you would like to become better acquainted with legacy format of the ONIX standard, you can find documentation and relevant files (XSDs, DTDs, etc.) on <a target="_blank" href="http://www.editeur.org/15/Archived-Previous-Releases/">the archive page of EDITEUR</a>.
 
