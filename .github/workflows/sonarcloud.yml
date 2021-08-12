@@ -30,7 +30,7 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore OnixDataStandard.sln
 
-      - name: Sonarqube Begin
+      - name: Sonarqube Begin Scan
         run: | 
           dotnet tool install --global dotnet-sonarscanner
           dotnet sonarscanner begin /o:"${{ secrets.SONAR_ORG }}" /k:"${{ secrets.SONAR_PROJECT }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.cs.vstest.reportsPaths="**/*.trx" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.exclusions="**/Samples/**" /d:sonar.coverage.exclusions="**/OnixData.Standard.Benchmarks/**"
@@ -42,7 +42,7 @@ jobs:
         run: dotnet test OnixDataStandard.sln --no-build --verbosity normal --logger trx /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=opencover
           /p:Exclude=\"[OnixData.Standard.BaseTests]*\" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute\"
 
-      - name: Sonarqube End
+      - name: Sonarqube End Scan
         run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
