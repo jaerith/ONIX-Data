@@ -42,7 +42,7 @@ jobs:
         run: dotnet test OnixDataStandard.sln --no-build --verbosity normal --logger trx /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=opencover
           /p:Exclude=\"[OnixData.Standard.BaseTests]*\" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute\"
 
-      - name: Sonarqube end
+      - name: Sonarqube End
         run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
