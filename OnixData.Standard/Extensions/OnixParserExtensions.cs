@@ -248,14 +248,14 @@ namespace OnixData.Extensions
                     else if (!Int32.TryParse(sInsideEncoding, out nEncodingVal))
                     {
                         int nIdx;
-                        for (nIdx = 0; nIdx < sInsideEncoding.ToCharArray().Length; ++nIdx)
+                        for (nIdx = 0; nIdx < sInsideEncoding.Length; ++nIdx)
                         {
-                            char cTemp = sInsideEncoding.ToCharArray()[nIdx];
+                            char cTemp = sInsideEncoding[nIdx];
                             if (!(cTemp == 'x') && !Char.IsDigit(cTemp))
                                 break;
                         }
 
-                        if (nIdx == sInsideEncoding.ToCharArray().Length)
+                        if (nIdx == sInsideEncoding.Length)
                             sResult = m.Value;
                         else
                             sResult = m.Value.Substring(nIdx + 2);
