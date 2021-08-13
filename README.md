@@ -1,4 +1,5 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=alert_status)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=jaerith_ONIX-Data)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
+
 [![Reliability](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=security_rating)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
 [![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)

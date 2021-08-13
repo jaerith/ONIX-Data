@@ -77,6 +77,8 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
 
                 Assert.Equal("eng", tmpProduct.Language.LanguageCode);
 
+                Assert.Equal("250", tmpProduct.OnixNumberOfPages);                
+
                 Assert.Equal("Mundane Hippo Press", tmpProduct.OnixPublisherName);
 
                 Assert.Equal(true, tmpProduct.HasUSRights());

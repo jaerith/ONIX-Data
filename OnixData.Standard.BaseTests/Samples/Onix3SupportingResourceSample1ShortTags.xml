@@ -1,4 +1,5 @@
 <!-- Sample based on Front cover, available as either a large TIFF or a JPEG thumbnail  example from official documentation -->
+<!-- This example should be replaced with another one, since it's an invalid mixture of reference and short tags -->
 <ONIXMessage release="3.0" xmlns="http://ns.editeur.org/onix/3.0/reference">
     <Header>
         <Sender>

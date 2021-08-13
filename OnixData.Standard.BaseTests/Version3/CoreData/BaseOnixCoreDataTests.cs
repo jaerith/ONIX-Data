@@ -82,6 +82,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.True(tmpProduct.EAN.ToString().IsValidEAN());
 
+                Assert.Equal("0007232837", tmpProduct.EAN.ToString().ConvertEANToISBN());
+
                 Assert.Equal("Roseanna", tmpProduct.Title);
 
                 Assert.Equal("Sjöwall", tmpProduct.PrimaryAuthor.OnixKeyNames);
