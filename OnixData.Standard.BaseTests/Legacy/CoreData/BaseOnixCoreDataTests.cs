@@ -29,6 +29,8 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
 
                 Assert.Equal("9782234567890", tmpProduct.EAN);
 
+                Assert.False(tmpProduct.EAN.IsISBNValid());
+
                 Assert.Equal("Le Merde, C'est La Vie", tmpProduct.OnixTitle);
 
                 Assert.Equal("Le Merde", tmpProduct.PrimaryAuthor.OnixKeyNames);
@@ -67,6 +69,8 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
 
                 Assert.Equal("9781234567890", tmpProduct.EAN);
 
+                Assert.False(tmpProduct.EAN.IsISBNValid());
+
                 Assert.Equal("Generic Title: Bland and Boring", tmpProduct.OnixTitle);
 
                 Assert.Equal("Smith", tmpProduct.PrimaryAuthor.OnixKeyNames);
@@ -80,6 +84,12 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
                 Assert.Equal(19.95m, tmpProduct.USDRetailPrice.PriceAmountNum);
 
                 Assert.Equal("General Trade", tmpProduct.USDRetailPrice.ClassOfTrade);
+
+                Assert.Equal("15", tmpProduct.OnixAudienceAgeFrom);
+
+                Assert.Equal("99", tmpProduct.OnixAudienceAgeTo);
+
+                Assert.Equal("01", tmpProduct.OnixAudienceCode);
 
                 /**
                  ** NOTE: Add more tests here

@@ -31,6 +31,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.True(tmpProduct.IsValid(), tmpProduct.GetParsingError()?.Message);
 
                 Assert.Equal(9780007232833, tmpProduct.EAN);
+                
+                Assert.True(tmpProduct.EAN.ToString().IsValidEAN());
 
                 Assert.Equal("Roseanna", tmpProduct.Title);
 
@@ -77,6 +79,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.True(tmpProduct.IsValid(), tmpProduct.GetParsingError()?.Message);
 
                 Assert.Equal(9780007232833, tmpProduct.EAN);
+
+                Assert.True(tmpProduct.EAN.ToString().IsValidEAN());
 
                 Assert.Equal("Roseanna", tmpProduct.Title);
 
