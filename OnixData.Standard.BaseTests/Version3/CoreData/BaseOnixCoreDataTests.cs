@@ -42,8 +42,16 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal("HarperCollins Publishers", tmpProduct.PublisherName);
 
+                Assert.Equal("FIC022000", tmpProduct.BisacCategoryCode.SubjectCode);
+
                 Assert.Equal(130.00m, tmpProduct.Width.Measurement);
                 Assert.Equal("mm", tmpProduct.Width.MeasureUnitCode);
+
+                Assert.Equal(245, tmpProduct.DescriptiveDetail.PageNumber);
+
+                Assert.Equal(false, tmpProduct.PublishingDetail.SalesRightsInUSFlag);
+
+                Assert.Equal("20060807", tmpProduct.PublishingDetail.PublicationDate);
 
                 Assert.Equal(0.00m, tmpProduct.USDRetailPrice.PriceAmountNum);
 
