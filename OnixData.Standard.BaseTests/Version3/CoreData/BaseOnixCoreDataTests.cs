@@ -37,7 +37,6 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal("Roseanna", tmpProduct.Title);
 
                 Assert.Equal("BC", tmpProduct.ProductForm);
-                Assert.Equal("B105", tmpProduct.ProductFormDetail);
 
                 Assert.Equal("eng", tmpProduct.DescriptiveDetail.LanguageOfText);
 
