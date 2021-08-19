@@ -36,18 +36,26 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal("Roseanna", tmpProduct.Title);
 
-                Assert.Equal("Sjöwall", tmpProduct.PrimaryAuthor.OnixKeyNames);
+                Assert.Equal("BC", tmpProduct.ProductForm);
+                Assert.Equal("B105", tmpProduct.ProductFormDetail);
 
                 Assert.Equal("eng", tmpProduct.DescriptiveDetail.LanguageOfText);
 
+                Assert.Equal(245, tmpProduct.DescriptiveDetail.PageNumber);
+
+                Assert.Equal("Sjöwall", tmpProduct.PrimaryAuthor.OnixKeyNames);
+
                 Assert.Equal("HarperCollins Publishers", tmpProduct.PublisherName);
+
+                Assert.Equal("The Martin Beck series", tmpProduct.SeriesTitle);
+                Assert.Equal("1", tmpProduct.SeriesNumber);
 
                 Assert.Equal("FIC022000", tmpProduct.BisacCategoryCode.SubjectCode);
 
                 Assert.Equal(130.00m, tmpProduct.Width.Measurement);
                 Assert.Equal("mm", tmpProduct.Width.MeasureUnitCode);
 
-                Assert.Equal(245, tmpProduct.DescriptiveDetail.PageNumber);
+                Assert.Equal("GB", tmpProduct.DescriptiveDetail.CountryOfManufacture);
 
                 Assert.Equal(false, tmpProduct.PublishingDetail.SalesRightsInUSFlag);
 

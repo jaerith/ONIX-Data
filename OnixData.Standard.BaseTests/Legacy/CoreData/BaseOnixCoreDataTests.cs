@@ -33,9 +33,13 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
 
                 Assert.Equal("Le Merde, C'est La Vie", tmpProduct.OnixTitle);
 
-                Assert.Equal("Le Merde", tmpProduct.PrimaryAuthor.OnixKeyNames);
+                Assert.Equal("DG", tmpProduct.ProductForm);
+
+                Assert.Equal("E200", tmpProduct.OnixProductFormDetailList[0]);
 
                 Assert.Equal("fre", tmpProduct.Language.LanguageCode);
+
+                Assert.Equal("Le Merde", tmpProduct.PrimaryAuthor.OnixKeyNames);
 
                 Assert.Equal("We Print Stuff", tmpProduct.OnixPublisherName);
 
