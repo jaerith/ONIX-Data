@@ -42,6 +42,19 @@ If you would like to become better acquainted with legacy format of the ONIX sta
 
 If you would like to become better acquainted with the current version of the ONIX standard, you can find documentation and relevant files (XSDs, DTDs, etc.) on <a target="_blank" href="http://www.editeur.org/93/Release-3.0-Downloads/">the current page of EDITEUR</a>.
 
+# Projects
+
+Project Source | Nuget_Package |  Description |
+------------- |--------------------------|-----------|
+[OnixData](https://github.com/jaerith/ONIX-Data/tree/master/OnixData)    | https://www.nuget.org/packages/ONIX-Data/ | This C# library serves to provide .NET data structures (and an accompanying set of helpful parsers) for the ONIX XML format. |
+[OnixData.Standard](https://github.com/jaerith/ONIX-Data/tree/master/OnixData.Standard) | https://www.nuget.org/packages/ONIX-Data.Standard/ | Packaged as a .NET Standard library, this C# library serves to provide .NET data structures (and an accompanying set of helpful parsers) for the ONIX XML format. |
+[OnixData.Standard.Benchmarks](https://github.com/jaerith/ONIX-Data/tree/master/OnixData.Standard.Benchmarks)    | | This project benchmarks the Standard version of the library, running its own simple tests against a variety of sample sizes and providing reports of its performance.|
+[OnixData.Standard.BaseTests](https://github.com/jaerith/ONIX-Data/tree/master/OnixData.Standard.BaseTests)| | This library contains more thorough unit tests of several ONIX sample files, which will then be employed in validating the library against various Microsoft frameworks.|
+[OnixData.Standard.NetFrameworkTests](https://github.com/jaerith/ONIX-Data/tree/master/OnixData.Standard.NetFrameworkTests)| | This project uses the BaseTests project to run unit tests against the .NET 4.6 framework. |
+[OnixData.Standard.CoreTests](https://github.com/jaerith/ONIX-Data/tree/master/OnixData.Standard.CoreTests)| | This project uses the BaseTests project to run unit tests against the .NET Core framework. |
+[OnixData.Standard.Net5Tests](https://github.com/jaerith/ONIX-Data/tree/master/OnixData.Standard.Net5Tests)| | This project uses the BaseTests project to run unit tests against the .NET 5 framework. |
+[OnixTestHarness](https://github.com/jaerith/ONIX-Data/tree/master/OnixTestHarness)| | This project is a simple test harness that provides some use cases on how to use the ONIX-Data parser. |
+
 # Usage Examples
 
     // An example of using the ONIX parser for the contemporary ONIX standard (i.e., 3.0)
