@@ -2,9 +2,9 @@ name: SonarCloud
 
 on:
   push:
-    branches: [ NetStandard ]
+    branches: [ master ]
   pull_request:
-    branches: [ NetStandard ]
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
