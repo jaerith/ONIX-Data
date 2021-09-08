@@ -450,6 +450,10 @@
 					<ReturnsCode>Y</ReturnsCode>
 				</ReturnsConditions>
 				<ProductAvailability>21</ProductAvailability>
+        <SupplyDate>
+          <SupplyDateRole>18</SupplyDateRole>
+          <Date>01/21/2022</Date>
+        </SupplyDate>
 				<PackQuantity>16</PackQuantity>
 				<Price>
 					<PriceType>02</PriceType>
@@ -503,7 +507,14 @@
 					</Territory>
 					<PrintedOnProduct>01</PrintedOnProduct>
 				</Price>
-			</SupplyDetail>
+        <Price>
+          <PriceType>01</PriceType>
+          <PriceStatus>02</PriceStatus>
+          <PriceAmount>10.99</PriceAmount>
+          <CurrencyCode>USD</CurrencyCode>
+          <PrintedOnProduct>01</PrintedOnProduct>
+        </Price>
+      </SupplyDetail>
 		</ProductSupply>
 		<!-- aggregator could add other ProductSupply sections here, for AU/NZ and ZA distributors -->
 	</Product>

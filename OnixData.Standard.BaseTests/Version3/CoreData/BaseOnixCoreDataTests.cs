@@ -27,7 +27,7 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
             Assert.Equal("Global Bookinfo", v3Parser.MessageHeader.Sender.SenderName);
 
             foreach (OnixProduct tmpProduct in v3Parser)
-            {
+            {                
                 Assert.True(tmpProduct.IsValid(), tmpProduct.GetParsingError()?.Message);
 
                 Assert.Equal(9780007232833, tmpProduct.EAN);
@@ -60,10 +60,12 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal("20060807", tmpProduct.PublishingDetail.PublicationDate);
 
-                Assert.Equal(0.00m, tmpProduct.USDRetailPrice.PriceAmountNum);
+                Assert.Equal(10.99m, tmpProduct.USDRetailPrice.PriceAmountNum);
 
                 Assert.Equal(7.99m, tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].PriceAmountNum);
                 Assert.Equal("GBP", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].CurrencyCode);
+
+                Assert.Equal("01/21/2022", tmpProduct.LastDateForReturns);
 
                 /**
                  ** NOTE: Add more tests here
