@@ -39,6 +39,19 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
 
                 Assert.Equal("fre", tmpProduct.Language.LanguageCode);
 
+                Assert.Equal("20180328", tmpProduct.PublicationDate);
+
+                Assert.Equal("136", tmpProduct.OnixNumberOfPages);
+
+                Assert.Equal(10.00m, tmpProduct.Height.MeasurementNum);
+
+                Assert.Equal("01", tmpProduct.OnixAudienceCode);
+
+                string sMainSubjSchemeId = OnixLegacySubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID.ToString();
+                Assert.Equal("FIC027000", tmpProduct.OnixMainSubjectList.FirstOrDefault(x => x.MainSubjectSchemeIdentifier == sMainSubjSchemeId).SubjectCode);
+
+                Assert.Equal("Spiritual Views from a Sad Sack", tmpProduct.SeriesTitle);
+
                 Assert.Equal("Le Merde", tmpProduct.PrimaryAuthor.OnixKeyNames);
 
                 Assert.Equal("We Print Stuff", tmpProduct.OnixPublisherName);

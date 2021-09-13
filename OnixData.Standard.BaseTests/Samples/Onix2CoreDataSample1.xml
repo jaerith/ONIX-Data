@@ -20,7 +20,10 @@
     <ProductFormDetail>E200</ProductFormDetail>
     <EpubType>029</EpubType>
     <EpubTypeVersion>2</EpubTypeVersion>
-    <NoSeries/>
+    <!-- <NoSeries/> -->
+    <Series>
+      <TitleOfSeries>Spiritual Views from a Sad Sack</TitleOfSeries>
+    </Series>
     <Title>
       <TitleType>01</TitleType>
       <TitleText>Le Merde, C'est La Vie</TitleText>
@@ -38,6 +41,7 @@
       <LanguageRole>01</LanguageRole>
       <LanguageCode>fre</LanguageCode>
     </Language>
+    <NumberOfPages>136</NumberOfPages>
     <Extent>
       <ExtentType>08</ExtentType>
       <ExtentValue>232</ExtentValue>
@@ -55,6 +59,10 @@
       <MainSubjectSchemeIdentifier>10</MainSubjectSchemeIdentifier>
       <SubjectCode>FIC027000</SubjectCode>
     </MainSubject>
+    <Audience>
+      <AudienceCodeType>01</AudienceCodeType>
+      <AudienceCodeValue>01</AudienceCodeValue>
+    </Audience>
     <OtherText>
       <TextTypeCode>03</TextTypeCode>
       <TextFormat>02</TextFormat>
@@ -74,6 +82,46 @@
     </Publisher>
     <PublishingStatus>04</PublishingStatus>
     <PublicationDate>20180328</PublicationDate>
+    <Measure>
+      <MeasureTypeCode>01</MeasureTypeCode>
+      <Measurement>10.00</Measurement>
+      <MeasureUnitCode>in</MeasureUnitCode>
+    </Measure>
+    <Measure>
+      <MeasureTypeCode>01</MeasureTypeCode>
+      <Measurement>254.00</Measurement>
+      <MeasureUnitCode>mm</MeasureUnitCode>
+    </Measure>
+    <Measure>
+      <MeasureTypeCode>02</MeasureTypeCode>
+      <Measurement>8.00</Measurement>
+      <MeasureUnitCode>in</MeasureUnitCode>
+    </Measure>
+    <Measure>
+      <MeasureTypeCode>02</MeasureTypeCode>
+      <Measurement>203.00</Measurement>
+      <MeasureUnitCode>mm</MeasureUnitCode>
+    </Measure>
+    <Measure>
+      <MeasureTypeCode>03</MeasureTypeCode>
+      <Measurement>0.29</Measurement>
+      <MeasureUnitCode>in</MeasureUnitCode>
+    </Measure>
+    <Measure>
+      <MeasureTypeCode>03</MeasureTypeCode>
+      <Measurement>7.39</Measurement>
+      <MeasureUnitCode>mm</MeasureUnitCode>
+    </Measure>
+    <Measure>
+      <MeasureTypeCode>08</MeasureTypeCode>
+      <Measurement>0.631</Measurement>
+      <MeasureUnitCode>lb</MeasureUnitCode>
+    </Measure>
+    <Measure>
+      <MeasureTypeCode>08</MeasureTypeCode>
+      <Measurement>286.220</Measurement>
+      <MeasureUnitCode>gr</MeasureUnitCode>
+    </Measure>
     <SalesRights>
       <SalesRightsType>01</SalesRightsType>
       <RightsCountry>AT BE CA CY DE EE ES FI FR GB GR IE IT LU LV MT NL PT SI SK</RightsCountry>
