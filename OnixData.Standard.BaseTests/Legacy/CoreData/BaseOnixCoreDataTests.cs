@@ -110,6 +110,8 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
 
                 Assert.Equal("01", tmpProduct.OnixAudienceCode);
 
+                Assert.Equal("sports leadership;sports metaphors", tmpProduct.Keywords);
+
                 /**
                  ** NOTE: Add more tests here
                  **/
