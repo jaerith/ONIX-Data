@@ -825,17 +825,25 @@ namespace OnixData.Extensions
 
         /// <summary>
         /// Wraps possible XHTML values with CDATA block
-        /// </summary>        
+        /// </summary>
         /// <returns></returns>
         public static void WrapXHTMLTextWithCDATA(this StringBuilder psText)
         {
             string sRefStartTag   = "<Text textformat=\"05\">";
             string sShortStartTag = "<d104 textformat=\"05\">";
 
+            string sRefStartTagAlt   = "<Text textformat='05'>";
+            string sShortStartTagAlt = "<d104 textformat='05'>";
+
             if (psText.IndexOf(sRefStartTag, 0) > 0)
                 psText.WrapXHTMLTextWithCDATA(sRefStartTag, "</Text>");
             else
                 psText.WrapXHTMLTextWithCDATA(sShortStartTag, "</d104>");
+
+            if (psText.IndexOf(sRefStartTagAlt, 0) > 0)
+                psText.WrapXHTMLTextWithCDATA(sRefStartTagAlt, "</Text>");
+            else
+                psText.WrapXHTMLTextWithCDATA(sShortStartTagAlt, "</d104>");
         }
 
         /// <summary>
