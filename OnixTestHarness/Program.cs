@@ -51,7 +51,7 @@ namespace OnixTestHarness
                         {
                             int x = 0;
 
-                            // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
+                            string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
 
                             if ((TmpProduct.OnixContributorList != null) && (TmpProduct.OnixContributorList.Length > 0))
                             {
@@ -109,8 +109,6 @@ namespace OnixTestHarness
 
                         foreach (OnixLegacyProduct TmpProduct in LegacyParser)
                         {
-                            // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
-
                             if ((TmpProduct.OnixAudRangeList != null) && (TmpProduct.OnixAudRangeList.Length > 0))
                             {
                                 OnixLegacyAudRange AudRange = TmpProduct.OnixAudRangeList[0];
@@ -151,8 +149,6 @@ namespace OnixTestHarness
 
                             OnixData.Version3.Price.OnixPrice USDPrice = TmpProduct.USDRetailPrice;
 
-                            // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
-
                             if (TmpProduct.IsValid())
                             {
                                 System.Console.WriteLine("Product [" + (nOnixPrdIdx++) + "] has EAN(" +
@@ -188,8 +184,6 @@ namespace OnixTestHarness
                                 OnixData.Version3.Price.OnixPrice USDPrice = TmpProduct.USDRetailPrice;
                             }
 
-                            // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
-
                             if (TmpProduct.IsValid())
                             {
                                 System.Console.WriteLine("Product [" + (nOnixPrdIdx++) + "] has EAN(" +
@@ -223,8 +217,6 @@ namespace OnixTestHarness
                             {
                                 OnixData.Version3.Price.OnixPrice USDPrice = TmpProduct.USDRetailPrice;
                             }
-
-                            // string[] TypeCodes = TmpProduct.OnixEditionTypeCodeList;
 
                             if (TmpProduct.IsValid())
                             {

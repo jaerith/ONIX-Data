@@ -1,0 +1,127 @@
+<!-- Sample based on Front cover, available as either a large TIFF or a JPEG thumbnail  example from official documentation -->
+<!-- This example should be replaced with another one, since it's an invalid mixture of reference and short tags -->
+<ONIXMessage release="3.0" xmlns="http://ns.editeur.org/onix/3.0/reference">
+    <Header>
+        <Sender>
+            <SenderName>SenderNameExample</SenderName>
+            <ContactName>ContactNameExample</ContactName>
+            <EmailAddress>EmailAddress@EmailAddress.com</EmailAddress>
+        </Sender>
+        <SentDateTime>20210620</SentDateTime>
+    </Header>
+    <Product datestamp="20210620T151325Z">
+        <RecordReference>65A8EAFD-E07C-4937-A61F-9FAF8BDF46D3</RecordReference>
+        <NotificationType>01</NotificationType>
+        <ProductIdentifier>
+            <ProductIDType>15</ProductIDType>
+            <IDValue>9999999999999</IDValue>
+        </ProductIdentifier>
+        <DescriptiveDetail>
+            <ProductComposition>01</ProductComposition>
+            <ProductForm>ED</ProductForm>
+            <PrimaryContentType>10</PrimaryContentType>
+            <EpubTechnicalProtection>01</EpubTechnicalProtection>
+            <TitleDetail>
+                <TitleType>01</TitleType>
+                <TitleElement>
+                    <TitleElementLevel>01</TitleElementLevel>
+                    <TitleText>TitleTextExample</TitleText>
+                </TitleElement>
+            </TitleDetail>
+            <Contributor>
+                <ContributorRole>A01</ContributorRole>
+                <NamesBeforeKey>NamesBeforeKeyExample</NamesBeforeKey>
+                <KeyNames>KeyNamesExample</KeyNames>
+            </Contributor>
+            <Language>
+                <LanguageRole>01</LanguageRole>
+                <LanguageCode>dan</LanguageCode>
+            </Language>
+            <Extent>
+                <ExtentType>22</ExtentType>
+                <ExtentValue>51</ExtentValue>
+                <ExtentUnit>18</ExtentUnit>
+            </Extent>
+            <Subject>
+                <SubjectSchemeIdentifier>12</SubjectSchemeIdentifier>
+                <SubjectCode>DD</SubjectCode>
+            </Subject>
+            <Subject>
+                <MainSubject />
+                <SubjectSchemeIdentifier>93</SubjectSchemeIdentifier>
+                <SubjectCode>DD</SubjectCode>
+            </Subject>
+        </DescriptiveDetail>
+        <CollateralDetail>
+            <TextContent>
+                <TextType>03</TextType>
+                <ContentAudience>00</ContentAudience>
+                <Text><![CDATA[CollateralDetail TextContent Text.]]></Text>
+            </TextContent>
+            <supportingresource>	<!-- A resource -->
+                <x436>01</x436>	<!-- s front cover -->
+                <x427>00</x427>	<!-- For all audiences -->
+                <x437>03</x437>	<!-- Is an image -->
+                <!-- resourcefeatures go here -->	<!--eg caption, credit -->
+                <resourceversion>	<!--Resource version 1 -->
+                    <x441>02</x441>	<!--Downloadable -->
+                    <resourceversionfeature>
+                        <x442>01</x442>	<!--File format -->
+                        <x439>D504</x439>	<!--TIFF -->
+                    </resourceversionfeature>
+                    <x435>http://www.publisher.com/covers/ 9780001234567.tif</x435>	<!-- URL -->
+                    <contentdate>
+                        <x429>17</x429>	<!--Last updated -->
+                        <b306 dateformat="00">20100412</b306>
+                    </contentdate>
+                </resourceversion>
+                <resourceversion><!--	Resource version 2 -->
+                    <x441>01</x441>	<!--Linkable -->
+                    <resourceversionfeature>
+                        <x442>01</x442>	<!--File format -->
+                        <x439>D502</x439>	<!--JPEG -->
+                    </resourceversionfeature>
+                    <resourceversionfeature>
+                        <x442>02</x442>	<!--Image height -->
+                        <x439>171</x439>	<!--171 pixels -->
+                    </resourceversionfeature>
+                    <resourceversionfeature>
+                        <x442>03</x442>	<!--Image width -->
+                        <x439>125</x439><!--	125 pixels -->
+                    </resourceversionfeature>
+                    <x435>http://www.publisher.com/covers/ 9780001234567.jpg</x435>	<!-- URL -->
+                    <contentdate>
+                        <x429>17</x429><!--Last upated -->
+                        <b306 dateformat="00">20100412</b306>
+                    </contentdate>
+                </resourceversion>
+            </supportingresource>
+        </CollateralDetail>
+        <PublishingDetail>
+            <Imprint>
+                <ImprintName>ImprintName</ImprintName>
+            </Imprint>
+            <Publisher>
+                <PublishingRole>01</PublishingRole>
+                <PublisherName>PublisherName</PublisherName>
+            </Publisher>
+            <PublishingDate>
+                <PublishingDateRole>01</PublishingDateRole>
+                <DateFormat>00</DateFormat>
+                <Date>20100507</Date>
+            </PublishingDate>
+        </PublishingDetail>
+        <ProductSupply>
+            <SupplyDetail>
+                <Supplier>
+                    <SupplierRole>00</SupplierRole>
+                    <SupplierName>SupplierName</SupplierName>
+                    <Website>
+                        <WebsiteLink>ftp://linkToEbook/030B9217-B2D5-47C2-97D6-DDCB45149C44.epub</WebsiteLink>
+                    </Website>
+                </Supplier>
+                <ProductAvailability>20</ProductAvailability>
+            </SupplyDetail>
+        </ProductSupply>
+    </Product>
+</ONIXMessage>

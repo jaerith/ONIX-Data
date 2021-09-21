@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>ONIX-Data</PackageId>
+        <Title>ONIX-Data</Title>
+        <Authors>jaerith</Authors>
+        <Description>This C# library serves to provide .NET data structures (and an accompanying set of helpful parsers) for the ONIX XML format, which is the international standard for representing the electronic data regarding books (along with other media). This format has been established by the international book trade body known as EDITEUR. Within this solution, you will find two collections of classes for serialization/deserialization: one that represents the legacy format (i.e., 2.1 and earlier) and another that represents the current format (i.e., 3.0). In addition, two helpful parser classes have been included in order to assist with the population of those collections.</Description>
+        <Copyright>Copyright © 2021</Copyright>
+        <PackageProjectUrl>https://github.com/jaerith/ONIX-Data</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/jaerith/ONIX-Data/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/jaerith/ONIX-Data</RepositoryUrl>
+        <RepositoryType>GIT</RepositoryType>
+        <PackageTags>ONIX, parser, ebooks, audiobooks</PackageTags>
+        <IsTestProject>false</IsTestProject>
+    </PropertyGroup>
+
+</Project>
