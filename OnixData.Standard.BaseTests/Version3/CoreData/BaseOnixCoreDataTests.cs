@@ -26,6 +26,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
             Assert.Equal("Global Bookinfo", v3Parser.MessageHeader.Sender.SenderName);
 
+            Assert.Equal("BooksBooksBooks.com", v3Parser.MessageHeader.Addressee.AddresseeName);
+
             foreach (OnixProduct tmpProduct in v3Parser)
             {                
                 Assert.True(tmpProduct.IsValid(), tmpProduct.GetParsingError()?.Message);
@@ -90,6 +92,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
             using OnixParser v3Parser = new(currentFileInfo, false, true, true, false);
 
             Assert.Equal("Global Bookinfo", v3Parser.MessageHeader.Sender.SenderName);
+
+            Assert.Equal("BooksBooksBooks.com", v3Parser.MessageHeader.Addressee.AddresseeName);
 
             foreach (OnixProduct tmpProduct in v3Parser)
             {

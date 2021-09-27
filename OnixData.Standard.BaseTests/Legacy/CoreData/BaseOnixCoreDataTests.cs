@@ -112,6 +112,8 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
 
                 Assert.Equal("sports leadership;sports metaphors", tmpProduct.Keywords);
 
+                Assert.Equal("9781234567891", tmpProduct.OnixRelatedProductList[0].EAN);
+
                 /**
                  ** NOTE: Add more tests here
                  **/
