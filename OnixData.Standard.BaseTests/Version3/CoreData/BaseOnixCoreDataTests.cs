@@ -63,6 +63,7 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal("20060807", tmpProduct.PublishingDetail.PublicationDate);
 
                 Assert.Equal(10.99m, tmpProduct.USDRetailPrice.PriceAmountNum);
+                Assert.Equal(10.99m, tmpProduct.USDValidPrice.PriceAmountNum);
 
                 Assert.Equal(7.99m, tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].PriceAmountNum);
                 Assert.Equal("GBP", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].CurrencyCode);
