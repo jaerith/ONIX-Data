@@ -119,7 +119,10 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal(0.00m, tmpProduct.USDRetailPrice.PriceAmountNum);
 
+                Assert.Equal(7.99m, tmpProduct.USDValidPrice.PriceAmountNum);
+
                 Assert.Equal(7.99m, tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].PriceAmountNum);
+                Assert.Equal(OnixData.Version3.Price.OnixPrice.CONST_PRICE_TYPE_RRP_INCL, tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].PriceType);
                 Assert.Equal("GBP", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].CurrencyCode);
 
                 /**
