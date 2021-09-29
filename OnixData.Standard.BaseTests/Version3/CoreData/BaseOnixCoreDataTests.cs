@@ -110,12 +110,17 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal("Sjöwall", tmpProduct.PrimaryAuthor.OnixKeyNames);
 
+                Assert.Equal("02", tmpProduct.OnixBarcodeList[0].BarcodeType);
+                Assert.Equal("09", tmpProduct.OnixBarcodeList[0].PositionOnProduct);
+
                 Assert.Equal("eng", tmpProduct.DescriptiveDetail.LanguageOfText);
 
                 Assert.Equal("HarperCollins Publishers", tmpProduct.PublisherName);
 
                 Assert.Equal(130.00m, tmpProduct.Width.Measurement);
                 Assert.Equal("mm", tmpProduct.Width.MeasureUnitCode);
+
+                Assert.Equal("Y", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixReturnsConditionsList[0].ReturnsCode);
 
                 Assert.Equal(0.00m, tmpProduct.USDRetailPrice.PriceAmountNum);
 
@@ -124,6 +129,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal(7.99m, tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].PriceAmountNum);
                 Assert.Equal(OnixData.Version3.Price.OnixPrice.CONST_PRICE_TYPE_RRP_INCL, tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].PriceType);
                 Assert.Equal("GBP", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].CurrencyCode);
+
+                Assert.Equal("9780007324378", tmpProduct.RelatedMaterial.OnixRelatedProductList[0].EAN);
 
                 /**
                  ** NOTE: Add more tests here

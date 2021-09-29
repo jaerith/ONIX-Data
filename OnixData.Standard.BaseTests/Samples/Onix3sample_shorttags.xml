@@ -31,7 +31,11 @@
 			<b221>15</b221>
 			<b244>9780007232833</b244>
 		</productidentifier>
-		<descriptivedetail>
+    <barcode>
+      <x312>02</x312>
+      <x313>09</x313>
+    </barcode>
+    <descriptivedetail>
 			<x314>00</x314>
 			<b012>BC</b012>
 			<b333>B105</b333>
