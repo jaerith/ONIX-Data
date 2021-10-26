@@ -53,6 +53,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal("FIC022000", tmpProduct.BisacCategoryCode.SubjectCode);
 
+                Assert.Equal("16", tmpProduct.DescriptiveDetail.OnixExtentList.FirstOrDefault(x => x.ExtentType == 4).ExtentValue);
+
                 Assert.Equal(130.00m, tmpProduct.Width.Measurement);
                 Assert.Equal("mm", tmpProduct.Width.MeasureUnitCode);
 
@@ -119,6 +121,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal(130.00m, tmpProduct.Width.Measurement);
                 Assert.Equal("mm", tmpProduct.Width.MeasureUnitCode);
+
+                Assert.Equal(4, tmpProduct.OnixProductSupplyList[0].MarketPublishingDetail.MarketPublishingStatus);
 
                 Assert.Equal("Y", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixReturnsConditionsList[0].ReturnsCode);
 

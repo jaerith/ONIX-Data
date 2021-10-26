@@ -50,6 +50,9 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
                 string sMainSubjSchemeId = OnixLegacySubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID.ToString();
                 Assert.Equal("FIC027000", tmpProduct.OnixMainSubjectList.FirstOrDefault(x => x.MainSubjectSchemeIdentifier == sMainSubjSchemeId).SubjectCode);
 
+                string sIllTypeDesc = tmpProduct.Illustrations.IllustrationTypeDescription.Substring(0, 6);
+                Assert.Equal("SAMPLE", sIllTypeDesc);
+
                 Assert.Equal("Spiritual Views from a Sad Sack", tmpProduct.SeriesTitle);
 
                 Assert.Equal("Le Merde", tmpProduct.PrimaryAuthor.OnixKeyNames);
@@ -59,6 +62,8 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
                 Assert.Equal(false, tmpProduct.HasUSRights());
 
                 Assert.Equal(6.99m, tmpProduct.USDRetailPrice.PriceAmountNum);
+
+                Assert.Equal("9782234567890.epub", tmpProduct.OnixMediaFileList[0].MediaFileLink);
 
                 /**
                     ** NOTE: Add more tests here

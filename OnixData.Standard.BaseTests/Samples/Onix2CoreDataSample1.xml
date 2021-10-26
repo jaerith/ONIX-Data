@@ -42,6 +42,10 @@
       <LanguageCode>fre</LanguageCode>
     </Language>
     <NumberOfPages>136</NumberOfPages>
+    <Illustrations>
+      <IllustrationType>01</IllustrationType>
+      <IllustrationTypeDescription>SAMPLE - 23:B&amp;W 6 x 9 in or 229 x 152 mm Perfect Bound on White w/Gloss Lam</IllustrationTypeDescription>
+    </Illustrations>
     <Extent>
       <ExtentType>08</ExtentType>
       <ExtentValue>232</ExtentValue>

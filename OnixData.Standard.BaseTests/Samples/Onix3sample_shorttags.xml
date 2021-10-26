@@ -215,7 +215,15 @@
 				<b204>22</b204>
 				<b206>01</b206>
 			</audience>
-		</descriptivedetail>
+      <complexity>
+        <b077>05</b077>
+        <b078>M</b078>
+      </complexity>
+      <complexity>
+        <b077>06</b077>
+        <b078>520L</b078>
+      </complexity>
+    </descriptivedetail>
 		<collateraldetail>
 			<textcontent>
 				<x426>02</x426>
