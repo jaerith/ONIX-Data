@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using OnixData.Version3.Supply;
+
 namespace OnixData.Version3.Publishing
 {
     /// <remarks/>
@@ -22,10 +24,37 @@ namespace OnixData.Version3.Publishing
         {
             PublishingRole = 0;
             PublisherName  = "";
+
+            websiteField      = new OnixWebsite[0];
+            shortWebsiteField = new OnixWebsite[0];
         }
 
         private int    publishingRoleField;
         private string publisherNameField;
+
+        private OnixWebsite[] websiteField;
+        private OnixWebsite[] shortWebsiteField;
+
+        #region Helper Methods
+
+        public OnixWebsite[] OnixWebsiteList
+        {
+            get
+            {
+                OnixWebsite[] websiteList = null;
+
+                if (this.websiteField != null)
+                    websiteList = this.websiteField;
+                else if (this.shortWebsiteField != null)
+                    websiteList = this.shortWebsiteField;
+                else
+                    websiteList = new OnixWebsite[0];
+
+                return websiteList;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
@@ -55,6 +84,20 @@ namespace OnixData.Version3.Publishing
             }
         }
 
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Website")]
+        public OnixWebsite[] Website
+        {
+            get
+            {
+                return this.websiteField;
+            }
+            set
+            {
+                this.websiteField = value;
+            }
+        }
+
         #endregion
 
         #region Short Tags
@@ -71,6 +114,20 @@ namespace OnixData.Version3.Publishing
         {
             get { return PublisherName; }
             set { PublisherName = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("website")]
+        public OnixWebsite[] website
+        {
+            get
+            {
+                return this.shortWebsiteField;
+            }
+            set
+            {
+                this.shortWebsiteField = value;
+            }
         }
 
         #endregion
