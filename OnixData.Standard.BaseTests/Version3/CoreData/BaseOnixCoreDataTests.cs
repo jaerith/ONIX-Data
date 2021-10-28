@@ -48,6 +48,9 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal("HarperCollins Publishers", tmpProduct.PublisherName);
 
+                Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.PublishingDetail.OnixPublisherList[0].OnixWebsiteList[0].WebsiteLink[0]);
+                Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixSupplierList[0].OnixWebsiteList[0].WebsiteLink[0]);
+
                 Assert.Equal("The Martin Beck series", tmpProduct.SeriesTitle);
                 Assert.Equal("1", tmpProduct.SeriesNumber);
 

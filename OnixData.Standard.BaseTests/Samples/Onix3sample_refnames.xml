@@ -170,7 +170,12 @@
 					<IDValue>0000000122824957</IDValue>
 				</NameIdentifier>
 				<NamesBeforeKey>Henning</NamesBeforeKey>
-				<KeyNames>Mankell</KeyNames>
+				<KeyNames>Mankell I</KeyNames>
+        <AlternativeName>
+          <NameType>04</NameType>
+          <NamesBeforeKey>Henning</NamesBeforeKey>
+          <KeyNames>Mankell</KeyNames>
+        </AlternativeName>        
 			</Contributor>
 			<ContributorStatement>By Maj Sjöwall and Per Wahlöö, translated by Lois Roth</ContributorStatement>
 			<NoEdition/>
@@ -444,7 +449,11 @@
 					</SupplierIdentifier>
 					<SupplierName>HarperCollins Publishers</SupplierName>
 					<TelephoneNumber>+44 1417 723200</TelephoneNumber>
-				</Supplier>
+          <Website>
+            <WebsiteRole>01</WebsiteRole>
+            <WebsiteLink>http://www.harpercollins.co.uk</WebsiteLink>
+          </Website>
+        </Supplier>
 				<ReturnsConditions>
 					<ReturnsCodeType>02</ReturnsCodeType>
 					<ReturnsCode>Y</ReturnsCode>
