@@ -393,7 +393,11 @@
 					</supplieridentifier>
 					<j137>HarperCollins Publishers</j137>
 					<j270>+44 1417 723200</j270>
-				</supplier>
+          <website>
+            <b367>01</b367>
+            <b295>http://www.harpercollins.co.uk</b295>
+          </website>
+        </supplier>
 				<returnsconditions>
 					<j268>02</j268>
 					<j269>Y</j269>

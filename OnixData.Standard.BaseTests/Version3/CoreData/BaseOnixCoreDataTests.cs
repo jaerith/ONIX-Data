@@ -48,8 +48,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal("HarperCollins Publishers", tmpProduct.PublisherName);
 
-                Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.PublishingDetail.OnixPublisherList[0].OnixWebsiteList[0].WebsiteLink[0]);
-                Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixSupplierList[0].OnixWebsiteList[0].WebsiteLink[0]);
+                Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.PublishingDetail.OnixPublisherList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
+                Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixSupplierList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
 
                 Assert.Equal("The Martin Beck series", tmpProduct.SeriesTitle);
                 Assert.Equal("1", tmpProduct.SeriesNumber);
@@ -121,6 +121,9 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal("eng", tmpProduct.DescriptiveDetail.LanguageOfText);
 
                 Assert.Equal("HarperCollins Publishers", tmpProduct.PublisherName);
+
+                Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.PublishingDetail.OnixPublisherList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
+                Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixSupplierList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
 
                 Assert.Equal(130.00m, tmpProduct.Width.Measurement);
                 Assert.Equal("mm", tmpProduct.Width.MeasureUnitCode);

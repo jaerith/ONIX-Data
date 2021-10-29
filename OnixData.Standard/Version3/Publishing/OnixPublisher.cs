@@ -43,10 +43,10 @@ namespace OnixData.Version3.Publishing
             {
                 OnixWebsite[] websiteList = null;
 
-                if (this.websiteField != null)
-                    websiteList = this.websiteField;
-                else if (this.shortWebsiteField != null)
-                    websiteList = this.shortWebsiteField;
+                if (this.Website != null)
+                    websiteList = this.Website;
+                else if (this.website != null)
+                    websiteList = this.website;
                 else
                     websiteList = new OnixWebsite[0];
 

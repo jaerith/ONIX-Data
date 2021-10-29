@@ -41,7 +41,12 @@ namespace OnixData.Version3.Supply
                 return websiteDescriptionList;
             }
         }
-        
+
+        public string[] OnixWebsiteDescriptionList
+        {
+            get { return WebsiteDescriptionList; }
+        }
+
         public string[] WebsiteLinkList
         {
             get
@@ -59,11 +64,16 @@ namespace OnixData.Version3.Supply
             }
         }
 
+        public string[] OnixWebsiteLinkList
+        {
+            get { return WebsiteLinkList; }
+        }
+
         #endregion
 
         #region Helper Methods
 
-        
+
 
         #endregion
 
@@ -121,15 +131,17 @@ namespace OnixData.Version3.Supply
             get { return WebsiteRole; }
             set { WebsiteRole = value; }
         }
-        
+
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("b294", IsNullable = true)]
         public string[] b294
         {
             get { return shortWebsiteDescriptionField; }
             set { shortWebsiteDescriptionField = value; }
         }
-        
+
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("b295", IsNullable = true)]
         public string[] b295
         {
             get { return shortWebsiteLinkField; }
