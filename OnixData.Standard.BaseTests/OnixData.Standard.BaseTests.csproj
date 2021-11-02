@@ -36,6 +36,9 @@
       <Content Include="Samples\Onix3sample_refnames.xml">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <Content Include="Samples\Onix3sample_refnames_badchar.xml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Include="Samples\Onix3sample_refnames_blockupdate.xml">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>

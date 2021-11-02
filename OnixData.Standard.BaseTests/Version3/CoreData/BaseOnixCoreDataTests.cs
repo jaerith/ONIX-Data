@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using OnixData.Extensions;
 using OnixData.Version3;
 using Xunit;
@@ -11,11 +13,25 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
         [Fact]
         public void ParseOnix3CoreDataSample()
         {
-            var sOrigFilepath = "Samples/Onix3sample_refnames.xml";
-            var sFilepath     = sOrigFilepath + ".copy.xml";
+            var sRecordTagName   = "Product";
+            var sKeyTagName      = "Ean";
+            var sBadCharFilepath = "Samples/Onix3sample_refnames_badchar.xml";
+            var sOrigFilepath    = "Samples/Onix3sample_refnames.xml";
+            var sFilepath        = sOrigFilepath + ".copy.xml";
+
+            Dictionary<string, string> BadRecords = new Dictionary<string, string>();
 
             // We will make a copy, since we are going to alter it
             File.Copy(sOrigFilepath, sFilepath, true);
+
+            StringBuilder sbXmlFileContents =
+                new StringBuilder(File.ReadAllText(sBadCharFilepath));
+
+            var bNotValid = sbXmlFileContents.ContainsBadXmlRecords(sRecordTagName, BadRecords, "Ean", true);
+
+            Assert.Equal(true, bNotValid);
+
+            Assert.Equal(1, BadRecords.Count);
 
             var currentFileInfo = new FileInfo(sFilepath);
 
@@ -84,7 +100,7 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
         [Fact]
         protected void ParseOnix3CoreDataSampleShortTags()
         {
-            var sOrigFilepath = "Samples/Onix3sample_shorttags.xml";
+            var sOrigFilepath = "Samples/Onix3sample_shorttags.xml";            
             var sFilepath     = sOrigFilepath + ".copy.xml";
 
             // We will make a copy, since we are going to alter it

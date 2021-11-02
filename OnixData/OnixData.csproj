@@ -44,6 +44,7 @@
     <Compile Include="Extensions\OnixDataExtensions.cs" />
     <Compile Include="Extensions\OnixParserExtensions.cs" />
     <Compile Include="Extensions\OnixReplaceExtensions.cs" />
+    <Compile Include="Extensions\OnixXmlExtensions.cs" />
     <Compile Include="Legacy\OnixLegacyAudience.cs" />
     <Compile Include="Legacy\OnixLegacyAudRange.cs" />
     <Compile Include="Legacy\OnixLegacyBaseProduct.cs" />
