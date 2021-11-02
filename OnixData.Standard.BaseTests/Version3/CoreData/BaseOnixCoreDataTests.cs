@@ -27,7 +27,16 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
             StringBuilder sbXmlFileContents =
                 new StringBuilder(File.ReadAllText(sBadCharFilepath));
 
-            var bNotValid = sbXmlFileContents.ContainsBadXmlRecords(sRecordTagName, BadRecords, "Ean", true);
+            var bNotValid = sbXmlFileContents.ContainsBadXmlRecords(sRecordTagName, BadRecords);
+            BadRecords.Clear();
+
+            bNotValid = sbXmlFileContents.ContainsBadXmlRecords(sRecordTagName, BadRecords, null, false);
+            BadRecords.Clear();
+
+            bNotValid = sbXmlFileContents.ContainsBadXmlRecords(sRecordTagName, BadRecords, "Ean", false);
+            BadRecords.Clear();
+
+            bNotValid = sbXmlFileContents.ContainsBadXmlRecords(sRecordTagName, BadRecords, "IDValue", true);
 
             Assert.Equal(true, bNotValid);
 
