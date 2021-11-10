@@ -172,10 +172,11 @@ namespace OnixData.Extensions
 
         /// <summary>
         /// 
-        /// Purges all control characters (and other bad encodings) from the file
-        /// and performs needed preprocessing.  Optionally, since the ONIX parsers of this
-        /// project do not use DTDs when parsing, some tags containing XHTML can be wrapped
-        /// with CDATA via this method, preventing them from failing with these parsers.
+        /// Purges all control characters (and other bad encodings) from the ONIX file
+        /// and performs needed preprocessing (i.e., ONIX-specific encodings).  Optionally, 
+        /// since the ONIX parsers of this project do not use DTDs when parsing, some tags 
+        /// containing XHTML can be wrapped with CDATA via this method, preventing them from 
+        /// failing with these parsers.
         /// 
         /// NOTE: These are permanent alterations to the file, so this method should be used carefully.
         /// 

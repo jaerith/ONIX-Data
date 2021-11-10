@@ -13,16 +13,21 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
         [Fact]
         public void ParseOnix3CoreDataSample()
         {
-            var sRecordTagName   = "Product";
-            var sKeyTagName      = "Ean";
-            var sBadCharFilepath = "Samples/Onix3sample_refnames_badchar.xml";
-            var sOrigFilepath    = "Samples/Onix3sample_refnames.xml";
-            var sFilepath        = sOrigFilepath + ".copy.xml";
+            var sRecordTagName    = "Product";
+            var sKeyTagName       = "Ean";
+            var sBadCharFilepath  = "Samples/Onix3sample_refnames_badchar.xml";
+            var sBadChar2Filepath = "Samples/Onix3sample_refnames_badchar_2.xml";
+            var sOrigFilepath     = "Samples/Onix3sample_refnames.xml";
+            var sFilepath         = sOrigFilepath + ".copy.xml";
+            var sBC2CopyFilepath  = sBadChar2Filepath + ".copy.xml";
 
             Dictionary<string, string> BadRecords = new Dictionary<string, string>();
 
             // We will make a copy, since we are going to alter it
             File.Copy(sOrigFilepath, sFilepath, true);
+            File.Copy(sBadChar2Filepath, sBC2CopyFilepath, true);
+
+            #region Testing Extension Methods to Process Problematic Files
 
             StringBuilder sbXmlFileContents =
                 new StringBuilder(File.ReadAllText(sBadCharFilepath));
@@ -41,6 +46,11 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
             Assert.Equal(true, bNotValid);
 
             Assert.Equal(1, BadRecords.Count);
+
+            FileInfo BadCharFile2 = new FileInfo(sBC2CopyFilepath);
+            BadCharFile2.Clean(true);
+
+            #endregion
 
             var currentFileInfo = new FileInfo(sFilepath);
 
