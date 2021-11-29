@@ -14,7 +14,7 @@ namespace OnixData.Standard.BaseTests.Version3.Text
             var sFilepath = "Samples/Onix3SupportingResourceSample1.xml";
 
             var currentFileInfo = new FileInfo(sFilepath);
-            using OnixParser v3Parser = new(currentFileInfo, true);
+            using OnixPlusParser v3Parser = new(currentFileInfo, true);
 
             foreach (OnixProduct tmpProduct in v3Parser)
             {
