@@ -57,6 +57,8 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
 
                 Assert.Equal("Le Merde", tmpProduct.PrimaryAuthor.OnixKeyNames);
 
+                Assert.True(tmpProduct.PrimaryAuthor.BiographicalNote.Contains("Il sent mauvais"));
+
                 Assert.Equal("We Print Stuff", tmpProduct.OnixPublisherName);
 
                 Assert.Equal(false, tmpProduct.HasUSRights());

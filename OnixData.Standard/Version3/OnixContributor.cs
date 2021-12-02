@@ -76,7 +76,7 @@ namespace OnixData.Version3
             ContributorRole    = PersonName = PersonNameInverted = "";
             NamesBeforeKey     = PrefixToKey = KeyNames = "";
             TitlesBeforeNames  = SuffixToKey = TitlesAfterNames = LettersAfterNames = "";
-            CorporateName      = "";
+            CorporateName      = BiographicalNote = "";
             onixNamesBeforeKey = onixKeyNames = onixLettersAndTitles = null;
 
             altNameField = shortAltNameField = new OnixAlternateName[0];
@@ -94,6 +94,7 @@ namespace OnixData.Version3
         private string lettersAfterNamesField;
         private string titlesAfterNamesField;
         private string corporateNameField;
+        private string biographicalNoteField;
 
         private string onixNamesBeforeKey;
         private string onixKeyNames;
@@ -241,6 +242,14 @@ namespace OnixData.Version3
             set { this.titlesAfterNamesField = value; }
         }
 
+        public string BiographicalNote
+        {
+            get
+            { return this.biographicalNoteField; }
+            set
+            { this.biographicalNoteField = value; }
+        }
+
         /// <remarks/>
         public string CorporateName
         {
@@ -335,6 +344,12 @@ namespace OnixData.Version3
         {
             get { return TitlesAfterNames; }
             set { TitlesAfterNames = value; }
+        }
+
+        public string b044
+        {
+            get { return BiographicalNote; }
+            set { BiographicalNote = value; }
         }
 
         /// <remarks/>

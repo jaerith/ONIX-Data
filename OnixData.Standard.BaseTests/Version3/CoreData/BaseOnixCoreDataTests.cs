@@ -81,6 +81,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal("Sjöwall", tmpProduct.PrimaryAuthor.OnixKeyNames);
 
+                Assert.True(tmpProduct.PrimaryAuthor.BiographicalNote.Contains("was born in Stockholm in 1935"));
+
                 Assert.Equal("HarperCollins Publishers", tmpProduct.PublisherName);
 
                 Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.PublishingDetail.OnixPublisherList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);

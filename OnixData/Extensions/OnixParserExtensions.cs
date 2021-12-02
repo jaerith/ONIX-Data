@@ -830,21 +830,35 @@ namespace OnixData.Extensions
         /// <returns></returns>
         public static void WrapXHTMLTextWithCDATA(this StringBuilder psText)
         {
-            string sRefStartTag   = "<Text textformat=\"05\">";
-            string sShortStartTag = "<d104 textformat=\"05\">";
+            string sTextRefStartTag      = "<Text textformat=\"05\">";
+            string sTextShortStartTag    = "<d104 textformat=\"05\">";
+            string sTextRefStartTagAlt   = "<Text textformat='05'>";
+            string sTextShortStartTagAlt = "<d104 textformat='05'>";
 
-            string sRefStartTagAlt   = "<Text textformat='05'>";
-            string sShortStartTagAlt = "<d104 textformat='05'>";
+            string sBioNoteRefStartTag      = "<BiographicalNote textformat=\"05\">";
+            string sBioNoteShortStartTag    = "<b044 textformat=\"05\">";
+            string sBioNoteRefStartTagAlt   = "<BiographicalNote textformat='05'>";
+            string sBioNoteShortStartTagAlt = "<b044 textformat='05'>";
 
-            if (psText.IndexOf(sRefStartTag, 0) > 0)
-                psText.WrapXHTMLTextWithCDATA(sRefStartTag, "</Text>");
+            if (psText.IndexOf(sTextRefStartTag, 0) > 0)
+                psText.WrapXHTMLTextWithCDATA(sTextRefStartTag, "</Text>");
             else
-                psText.WrapXHTMLTextWithCDATA(sShortStartTag, "</d104>");
+                psText.WrapXHTMLTextWithCDATA(sTextShortStartTag, "</d104>");
 
-            if (psText.IndexOf(sRefStartTagAlt, 0) > 0)
-                psText.WrapXHTMLTextWithCDATA(sRefStartTagAlt, "</Text>");
+            if (psText.IndexOf(sTextRefStartTagAlt, 0) > 0)
+                psText.WrapXHTMLTextWithCDATA(sTextRefStartTagAlt, "</Text>");
             else
-                psText.WrapXHTMLTextWithCDATA(sShortStartTagAlt, "</d104>");
+                psText.WrapXHTMLTextWithCDATA(sTextShortStartTagAlt, "</d104>");
+
+            if (psText.IndexOf(sBioNoteRefStartTag, 0) > 0)
+                psText.WrapXHTMLTextWithCDATA(sBioNoteRefStartTag, "</BiographicalNote>");
+            else
+                psText.WrapXHTMLTextWithCDATA(sBioNoteShortStartTag, "</b044>");
+
+            if (psText.IndexOf(sBioNoteRefStartTagAlt, 0) > 0)
+                psText.WrapXHTMLTextWithCDATA(sBioNoteRefStartTagAlt, "</BiographicalNote>");
+            else
+                psText.WrapXHTMLTextWithCDATA(sBioNoteShortStartTagAlt, "</b044>");
         }
 
         /// <summary>
