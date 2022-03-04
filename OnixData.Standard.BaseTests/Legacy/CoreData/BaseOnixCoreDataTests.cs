@@ -39,13 +39,37 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
 
                 Assert.Equal("fre", tmpProduct.Language.LanguageCode);
 
+                Assert.Equal("20180328", tmpProduct.PublicationDate);
+
+                Assert.Equal("136", tmpProduct.OnixNumberOfPages);
+
+                Assert.Equal(10.00m, tmpProduct.Height.MeasurementNum);
+
+                Assert.Equal(254.00m, tmpProduct.OnixMeasureList
+                                                .FirstOrDefault(x => x.MeasureUnitCode == "mm" && x.MeasureTypeCode == OnixLegacyMeasure.CONST_MEASURE_TYPE_HEIGHT)
+                                                .MeasurementNum);
+
+                Assert.Equal("01", tmpProduct.OnixAudienceCode);
+
+                string sMainSubjSchemeId = OnixLegacySubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID.ToString();
+                Assert.Equal("FIC027000", tmpProduct.OnixMainSubjectList.FirstOrDefault(x => x.MainSubjectSchemeIdentifier == sMainSubjSchemeId).SubjectCode);
+
+                string sIllTypeDesc = tmpProduct.Illustrations.IllustrationTypeDescription.Substring(0, 6);
+                Assert.Equal("SAMPLE", sIllTypeDesc);
+
+                Assert.Equal("Spiritual Views from a Sad Sack", tmpProduct.SeriesTitle);
+
                 Assert.Equal("Le Merde", tmpProduct.PrimaryAuthor.OnixKeyNames);
+
+                Assert.True(tmpProduct.PrimaryAuthor.BiographicalNote.Contains("Il sent mauvais"));
 
                 Assert.Equal("We Print Stuff", tmpProduct.OnixPublisherName);
 
                 Assert.Equal(false, tmpProduct.HasUSRights());
 
                 Assert.Equal(6.99m, tmpProduct.USDRetailPrice.PriceAmountNum);
+
+                Assert.Equal("9782234567890.epub", tmpProduct.OnixMediaFileList[0].MediaFileLink);
 
                 /**
                     ** NOTE: Add more tests here
@@ -96,6 +120,10 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
                 Assert.Equal("99", tmpProduct.OnixAudienceAgeTo);
 
                 Assert.Equal("01", tmpProduct.OnixAudienceCode);
+
+                Assert.Equal("sports leadership;sports metaphors", tmpProduct.Keywords);
+
+                Assert.Equal("9781234567891", tmpProduct.OnixRelatedProductList[0].EAN);
 
                 /**
                  ** NOTE: Add more tests here

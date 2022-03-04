@@ -235,13 +235,13 @@ namespace OnixData
             {
                 try
                 {
+                    bResult = true;
+
                     CurrentRecord =
                         this.ProductSerializer.Deserialize(new StringReader(sProductBody)) as OnixLegacyProduct;
 
                     if ((CurrentRecord != null) && OnixParser.ShouldApplyDefaults)
                         CurrentRecord.ApplyHeaderDefaults(this.OnixHeader);
-
-                    bResult = true;
                 }
                 catch (Exception ex)
                 {

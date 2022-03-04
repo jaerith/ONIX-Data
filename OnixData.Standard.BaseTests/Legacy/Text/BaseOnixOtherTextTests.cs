@@ -13,7 +13,7 @@ namespace OnixData.Standard.BaseTests.Legacy.Text
 
             var currentFileInfo = new FileInfo(sFilepath);
 
-            using OnixLegacyParser v2Parser = new(currentFileInfo, false, true, true);
+            using OnixLegacyParser v2Parser = new(currentFileInfo, false, true);
 
             foreach (OnixLegacyProduct tmpProduct in v2Parser)
             {
@@ -26,6 +26,15 @@ namespace OnixData.Standard.BaseTests.Legacy.Text
                 /**
                  ** NOTE: Add more tests here
                  **/
+            }
+
+            using OnixLegacyPlusParser v2PlusParser = new(currentFileInfo, false, true);
+
+            foreach (OnixLegacyProduct tmpProduct in v2PlusParser)
+            {
+                Assert.True(tmpProduct.IsValid(), tmpProduct.GetParsingError()?.Message);
+
+                Assert.Equal("9782234567890", tmpProduct.EAN);
             }
         }
 

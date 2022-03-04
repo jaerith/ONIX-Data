@@ -31,7 +31,11 @@
 			<b221>15</b221>
 			<b244>9780007232833</b244>
 		</productidentifier>
-		<descriptivedetail>
+    <barcode>
+      <x312>02</x312>
+      <x313>09</x313>
+    </barcode>
+    <descriptivedetail>
 			<x314>00</x314>
 			<b012>BC</b012>
 			<b333>B105</b333>
@@ -211,7 +215,15 @@
 				<b204>22</b204>
 				<b206>01</b206>
 			</audience>
-		</descriptivedetail>
+      <complexity>
+        <b077>05</b077>
+        <b078>M</b078>
+      </complexity>
+      <complexity>
+        <b077>06</b077>
+        <b078>520L</b078>
+      </complexity>
+    </descriptivedetail>
 		<collateraldetail>
 			<textcontent>
 				<x426>02</x426>
@@ -381,7 +393,11 @@
 					</supplieridentifier>
 					<j137>HarperCollins Publishers</j137>
 					<j270>+44 1417 723200</j270>
-				</supplier>
+          <website>
+            <b367>01</b367>
+            <b295>http://www.harpercollins.co.uk</b295>
+          </website>
+        </supplier>
 				<returnsconditions>
 					<j268>02</j268>
 					<j269>Y</j269>
@@ -437,7 +453,14 @@
 					</territory>
 					<x301>01</x301>
 				</price>
-			</supplydetail>
+        <price>
+          <x462>05</x462>
+          <j266>02</j266>
+          <j151>7.99</j151>
+          <j152>USD</j152>
+          <x301>01</x301>
+        </price>
+      </supplydetail>
 		</productsupply>
 		<!-- aggregator could add other ProductSupply sections here, for AU/NZ and ZA distributors -->
 	</product>

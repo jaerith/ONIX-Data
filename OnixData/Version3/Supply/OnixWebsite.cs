@@ -11,7 +11,7 @@ namespace OnixData.Version3.Supply
             websiteDescriptionField      = null;
             shortWebsiteDescriptionField = null;
 
-            websiteLinkField = null;
+            websiteLinkField      = null;
             shortWebsiteLinkField = null;
         }
 

@@ -172,10 +172,11 @@ namespace OnixData.Extensions
 
         /// <summary>
         /// 
-        /// Purges all control characters (and other bad encodings) from the file
-        /// and performs needed preprocessing.  Optionally, since the ONIX parsers of this
-        /// project do not use DTDs when parsing, some tags containing XHTML can be wrapped
-        /// with CDATA via this method, preventing them from failing with these parsers.
+        /// Purges all control characters (and other bad encodings) from the ONIX file
+        /// and performs needed preprocessing (i.e., ONIX-specific encodings).  Optionally, 
+        /// since the ONIX parsers of this project do not use DTDs when parsing, some tags 
+        /// containing XHTML can be wrapped with CDATA via this method, preventing them from 
+        /// failing with these parsers.
         /// 
         /// NOTE: These are permanent alterations to the file, so this method should be used carefully.
         /// 
@@ -825,17 +826,39 @@ namespace OnixData.Extensions
 
         /// <summary>
         /// Wraps possible XHTML values with CDATA block
-        /// </summary>        
+        /// </summary>
         /// <returns></returns>
         public static void WrapXHTMLTextWithCDATA(this StringBuilder psText)
         {
-            string sRefStartTag   = "<Text textformat=\"05\">";
-            string sShortStartTag = "<d104 textformat=\"05\">";
+            string sTextRefStartTag      = "<Text textformat=\"05\">";
+            string sTextShortStartTag    = "<d104 textformat=\"05\">";
+            string sTextRefStartTagAlt   = "<Text textformat='05'>";
+            string sTextShortStartTagAlt = "<d104 textformat='05'>";
 
-            if (psText.IndexOf(sRefStartTag, 0) > 0)
-                psText.WrapXHTMLTextWithCDATA(sRefStartTag, "</Text>");
+            string sBioNoteRefStartTag      = "<BiographicalNote textformat=\"05\">";
+            string sBioNoteShortStartTag    = "<b044 textformat=\"05\">";
+            string sBioNoteRefStartTagAlt   = "<BiographicalNote textformat='05'>";
+            string sBioNoteShortStartTagAlt = "<b044 textformat='05'>";
+
+            if (psText.IndexOf(sTextRefStartTag, 0) > 0)
+                psText.WrapXHTMLTextWithCDATA(sTextRefStartTag, "</Text>");
             else
-                psText.WrapXHTMLTextWithCDATA(sShortStartTag, "</d104>");
+                psText.WrapXHTMLTextWithCDATA(sTextShortStartTag, "</d104>");
+
+            if (psText.IndexOf(sTextRefStartTagAlt, 0) > 0)
+                psText.WrapXHTMLTextWithCDATA(sTextRefStartTagAlt, "</Text>");
+            else
+                psText.WrapXHTMLTextWithCDATA(sTextShortStartTagAlt, "</d104>");
+
+            if (psText.IndexOf(sBioNoteRefStartTag, 0) > 0)
+                psText.WrapXHTMLTextWithCDATA(sBioNoteRefStartTag, "</BiographicalNote>");
+            else
+                psText.WrapXHTMLTextWithCDATA(sBioNoteShortStartTag, "</b044>");
+
+            if (psText.IndexOf(sBioNoteRefStartTagAlt, 0) > 0)
+                psText.WrapXHTMLTextWithCDATA(sBioNoteRefStartTagAlt, "</BiographicalNote>");
+            else
+                psText.WrapXHTMLTextWithCDATA(sBioNoteShortStartTagAlt, "</b044>");
         }
 
         /// <summary>

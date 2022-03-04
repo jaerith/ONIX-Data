@@ -27,8 +27,8 @@ namespace OnixData.Version3.Supply
             supplierIdField      = null;
             shortSupplierIdField = null;
 
-            websiteField = null;
-            shortWebsiteField = null;
+            websiteField      = new OnixWebsite[0];
+            shortWebsiteField = new OnixWebsite[0];
         }
 
         private string supplierRoleField;
@@ -67,7 +67,7 @@ namespace OnixData.Version3.Supply
 
                 if (this.websiteField != null)
                     websiteList = this.websiteField;
-                else if (this.shortSupplierIdField != null)
+                else if (this.shortWebsiteField != null)
                     websiteList = this.shortWebsiteField;
                 else
                     websiteList = new OnixWebsite[0];

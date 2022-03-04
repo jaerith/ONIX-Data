@@ -26,6 +26,9 @@ namespace OnixData.Version3.Supply
 
             supplierIdField      = null;
             shortSupplierIdField = null;
+
+            websiteField      = new OnixWebsite[0];
+            shortWebsiteField = new OnixWebsite[0];
         }
 
         private string supplierRoleField;
@@ -33,6 +36,9 @@ namespace OnixData.Version3.Supply
 
         private OnixSupplierId[] supplierIdField;
         private OnixSupplierId[] shortSupplierIdField;
+
+        private OnixWebsite[] websiteField;
+        private OnixWebsite[] shortWebsiteField;
 
         #region Helper Methods
 
@@ -50,6 +56,23 @@ namespace OnixData.Version3.Supply
                     SupplierIdList = new OnixSupplierId[0];
 
                 return SupplierIdList;
+            }
+        }
+
+        public OnixWebsite[] OnixWebsiteList
+        {
+            get
+            {
+                OnixWebsite[] websiteList = null;
+
+                if (this.websiteField != null)
+                    websiteList = this.websiteField;
+                else if (this.shortWebsiteField != null)
+                    websiteList = this.shortWebsiteField;
+                else
+                    websiteList = new OnixWebsite[0];
+
+                return websiteList;
             }
         }
 
@@ -110,6 +133,20 @@ namespace OnixData.Version3.Supply
             }
         }
 
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Website")]
+        public OnixWebsite[] Website
+        {
+            get
+            {
+                return this.websiteField;
+            }
+            set
+            {
+                this.websiteField = value;
+            }
+        }
+
         #endregion
 
         #region Short Tags
@@ -139,6 +176,20 @@ namespace OnixData.Version3.Supply
             set
             {
                 this.shortSupplierIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("website")]
+        public OnixWebsite[] website
+        {
+            get
+            {
+                return this.shortWebsiteField;
+            }
+            set
+            {
+                this.shortWebsiteField = value;
             }
         }
 

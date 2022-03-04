@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ONIXMessage release="3.0" xmlns="http://ns.editeur.org/onix/3.0/reference"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Product>
+    <ProductIdentifier>
+      <ProductIDType>03</ProductIDType>
+      <IDValue>9785678901234</IDValue>
+    </ProductIdentifier>
+    <ProductIdentifier>
+      <ProductIDType>15</ProductIDType>
+      <IDValue>9785678901234</IDValue>
+    </ProductIdentifier>
+    <DescriptiveDetail>
+      <ProductComposition>00</ProductComposition>
+      <ProductForm>BC</ProductForm>
+      <ProductFormDetail>B105</ProductFormDetail>
+      <TitleDetail>
+        <TitleType>01</TitleType>
+        <TitleElement>
+          <SequenceNumber>1</SequenceNumber>
+          <TitleElementLevel>01</TitleElementLevel>
+          <NoPrefix/>
+          <TitleWithoutPrefix textcase="01">You Can't Hear Wingtips on Soft Tar</TitleWithoutPrefix>
+        </TitleElement>
+      </TitleDetail>
+      <Contributor>
+        <SequenceNumber>1</SequenceNumber>
+        <ContributorRole>A01</ContributorRole>
+        <NamesBeforeKey>Christopher</NamesBeforeKey>
+        <KeyNames>Montasanti</KeyNames>
+      </Contributor>
+      <NoEdition/>
+      <Language>
+        <LanguageRole>01</LanguageRole>
+        <LanguageCode>eng</LanguageCode>
+      </Language>
+      <Audience>
+        <AudienceCodeType>01</AudienceCodeType>
+        <AudienceCodeValue>01</AudienceCodeValue>
+      </Audience>
+      <Audience>
+        <AudienceCodeType>22</AudienceCodeType>
+        <AudienceCodeValue>01</AudienceCodeValue>
+      </Audience>
+    </DescriptiveDetail>
+    <PublishingDetail>
+      <Imprint>
+        <ImprintName>Wise Guys</ImprintName>
+      </Imprint>
+      <Publisher>
+        <PublishingRole>01</PublishingRole>
+        <PublisherName>Wise Guys</PublisherName>
+      </Publisher>
+      <SalesRights>
+        <SalesRightsType>01</SalesRightsType>
+        <Territory>
+          <CountriesIncluded>
+            AG AI AU BB BD BM BN BS BW BZ CM CY DM EG FJ FK GB GD GG GH GI GM GY HK IE IL IM
+            IN IO JE JM JO KE KI KN KW KY LC LK LS MT MU MV MW MY MZ NA NG NR NZ PG PK PN SB SC SD SG SH SL
+            SO SZ TC TO TT TV TZ UG VC VG VU WS YE RS ME ZA ZM ZW
+          </CountriesIncluded>
+        </Territory>
+      </SalesRights>
+      <SalesRights>
+        <SalesRightsType>06</SalesRightsType>
+        <Territory>
+          <CountriesIncluded>AS CA GU MP PH PR US VI</CountriesIncluded>
+        </Territory>
+      </SalesRights>
+      <ROWSalesRightsType>02</ROWSalesRightsType>
+    </PublishingDetail>
+    <ProductSupply>
+      <SupplyDetail>
+        <ReturnsConditions>
+          <ReturnsCodeType>02</ReturnsCodeType>
+          <ReturnsCode>Y</ReturnsCode>
+        </ReturnsConditions>
+        <ProductAvailability>21</ProductAvailability>
+        <SupplyDate>
+          <SupplyDateRole>18</SupplyDateRole>
+          <Date>01/21/2022</Date>
+        </SupplyDate>
+        <PackQuantity>16</PackQuantity>
+        <Price>
+          <PriceType>01</PriceType>
+          <Discount>
+            <DiscountPercent>42.5</DiscountPercent>
+          </Discount>
+          <PriceStatus>02</PriceStatus>
+          <PriceAmount>7.99</PriceAmount>
+          <CurrencyCode>GBP</CurrencyCode>
+          <Territory>
+            <RegionsIncluded>WORLD</RegionsIncluded>
+            <CountriesExcluded>
+              GB AT BE CY FI FR DE ES GR IE IT LU MT NL PT SI SK AD MC ME SM VA AS AU CA GU
+              MP NZ PH PR US VI ZA
+            </CountriesExcluded>
+          </Territory>
+          <PrintedOnProduct>01</PrintedOnProduct>
+        </Price>
+      </SupplyDetail>
+    </ProductSupply>
+  </Product>
+  <Product>
+    <ProductIdentifier>
+      <ProductIDType>03</ProductIDType>
+      <IDValue>9785678901234</IDValue>
+    </ProductIdentifier>
+    <ProductIdentifier>
+      <ProductIDType>15</ProductIDType>
+      <IDValue>9785678901234</IDValue>
+    </ProductIdentifier>
+    <DescriptiveDetail>
+      <ProductComposition>00</ProductComposition>
+      <ProductForm>BC</ProductForm>
+      <ProductFormDetail>B105</ProductFormDetail>
+      <TitleDetail>
+        <TitleType>01</TitleType>
+        <TitleElement>
+          <SequenceNumber>1</SequenceNumber>
+          <TitleElementLevel>01</TitleElementLevel>
+          <NoPrefix/>
+          <TitleWithoutPrefix textcase="01">You Can't Hear Wingtips on Soft Tar NeogZ</TitleWithoutPrefix>
+        </TitleElement>
+      </TitleDetail>
+      <Contributor>
+        <SequenceNumber>1</SequenceNumber>
+        <ContributorRole>A01</ContributorRole>
+        <NamesBeforeKey>Christopher</NamesBeforeKey>
+        <KeyNames>Montasanti</KeyNames>
+      </Contributor>
+      <NoEdition/>
+      <Language>
+        <LanguageRole>01</LanguageRole>
+        <LanguageCode>eng</LanguageCode>
+      </Language>
+      <Audience>
+        <AudienceCodeType>01</AudienceCodeType>
+        <AudienceCodeValue>01</AudienceCodeValue>
+      </Audience>
+      <Audience>
+        <AudienceCodeType>22</AudienceCodeType>
+        <AudienceCodeValue>01</AudienceCodeValue>
+      </Audience>
+    </DescriptiveDetail>
+    <PublishingDetail>
+      <Imprint>
+        <ImprintName>Wise Guys</ImprintName>
+      </Imprint>
+      <Publisher>
+        <PublishingRole>01</PublishingRole>
+        <PublisherName>Wise Guys</PublisherName>
+      </Publisher>
+      <SalesRights>
+        <SalesRightsType>01</SalesRightsType>
+        <Territory>
+          <CountriesIncluded>
+            AG AI AU BB BD BM BN BS BW BZ CM CY DM EG FJ FK GB GD GG GH GI GM GY HK IE IL IM
+            IN IO JE JM JO KE KI KN KW KY LC LK LS MT MU MV MW MY MZ NA NG NR NZ PG PK PN SB SC SD SG SH SL
+            SO SZ TC TO TT TV TZ UG VC VG VU WS YE RS ME ZA ZM ZW
+          </CountriesIncluded>
+        </Territory>
+      </SalesRights>
+      <SalesRights>
+        <SalesRightsType>06</SalesRightsType>
+        <Territory>
+          <CountriesIncluded>AS CA GU MP PH PR US VI</CountriesIncluded>
+        </Territory>
+      </SalesRights>
+      <ROWSalesRightsType>02</ROWSalesRightsType>
+    </PublishingDetail>
+    <ProductSupply>
+      <SupplyDetail>
+        <ReturnsConditions>
+          <ReturnsCodeType>02</ReturnsCodeType>
+          <ReturnsCode>Y</ReturnsCode>
+        </ReturnsConditions>
+        <ProductAvailability>21</ProductAvailability>
+        <SupplyDate>
+          <SupplyDateRole>18</SupplyDateRole>
+          <Date>01/21/2022</Date>
+        </SupplyDate>
+        <PackQuantity>16</PackQuantity>
+        <Price>
+          <PriceType>01</PriceType>
+          <Discount>
+            <DiscountPercent>42.5</DiscountPercent>
+          </Discount>
+          <PriceStatus>02</PriceStatus>
+          <PriceAmount>7.99</PriceAmount>
+          <CurrencyCode>GBP</CurrencyCode>
+          <Territory>
+            <RegionsIncluded>WORLD</RegionsIncluded>
+            <CountriesExcluded>
+              GB AT BE CY FI FR DE ES GR IE IT LU MT NL PT SI SK AD MC ME SM VA AS AU CA GU
+              MP NZ PH PR US VI ZA
+            </CountriesExcluded>
+          </Territory>
+          <PrintedOnProduct>01</PrintedOnProduct>
+        </Price>
+      </SupplyDetail>
+    </ProductSupply>
+  </Product>
+  <Product>
+    <ProductIdentifier>
+      <ProductIDType>03</ProductIDType>
+      <IDValue>9785678901234</IDValue>
+    </ProductIdentifier>
+    <ProductIdentifier>
+      <ProductIDType>15</ProductIDType>
+      <IDValue>9785678901234</IDValue>
+    </ProductIdentifier>
+    <DescriptiveDetail>
+      <ProductComposition>00</ProductComposition>
+      <ProductForm>BC</ProductForm>
+      <ProductFormDetail>B105</ProductFormDetail>
+      <TitleDetail>
+        <TitleType>01</TitleType>
+        <TitleElement>
+          <SequenceNumber>1</SequenceNumber>
+          <TitleElementLevel>01</TitleElementLevel>
+          <NoPrefix/>
+          <TitleWithoutPrefix textcase="01">You Can't Hear Wingtips on Soft Tar</TitleWithoutPrefix>
+        </TitleElement>
+      </TitleDetail>
+      <Contributor>
+        <SequenceNumber>1</SequenceNumber>
+        <ContributorRole>A01</ContributorRole>
+        <NamesBeforeKey>Christopher</NamesBeforeKey>
+        <KeyNames>Montasanti</KeyNames>
+      </Contributor>
+      <NoEdition/>
+      <Language>
+        <LanguageRole>01</LanguageRole>
+        <LanguageCode>eng</LanguageCode>
+      </Language>
+      <Audience>
+        <AudienceCodeType>01</AudienceCodeType>
+        <AudienceCodeValue>01</AudienceCodeValue>
+      </Audience>
+      <Audience>
+        <AudienceCodeType>22</AudienceCodeType>
+        <AudienceCodeValue>01</AudienceCodeValue>
+      </Audience>
+    </DescriptiveDetail>
+    <PublishingDetail>
+      <Imprint>
+        <ImprintName>Wise Guys</ImprintName>
+      </Imprint>
+      <Publisher>
+        <PublishingRole>01</PublishingRole>
+        <PublisherName>Wise Guys</PublisherName>
+      </Publisher>
+      <SalesRights>
+        <SalesRightsType>01</SalesRightsType>
+        <Territory>
+          <CountriesIncluded>
+            AG AI AU BB BD BM BN BS BW BZ CM CY DM EG FJ FK GB GD GG GH GI GM GY HK IE IL IM
+            IN IO JE JM JO KE KI KN KW KY LC LK LS MT MU MV MW MY MZ NA NG NR NZ PG PK PN SB SC SD SG SH SL
+            SO SZ TC TO TT TV TZ UG VC VG VU WS YE RS ME ZA ZM ZW
+          </CountriesIncluded>
+        </Territory>
+      </SalesRights>
+      <SalesRights>
+        <SalesRightsType>06</SalesRightsType>
+        <Territory>
+          <CountriesIncluded>AS CA GU MP PH PR US VI</CountriesIncluded>
+        </Territory>
+      </SalesRights>
+      <ROWSalesRightsType>02</ROWSalesRightsType>
+    </PublishingDetail>
+    <ProductSupply>
+      <SupplyDetail>
+        <ReturnsConditions>
+          <ReturnsCodeType>02</ReturnsCodeType>
+          <ReturnsCode>Y</ReturnsCode>
+        </ReturnsConditions>
+        <ProductAvailability>21</ProductAvailability>
+        <SupplyDate>
+          <SupplyDateRole>18</SupplyDateRole>
+          <Date>01/21/2022</Date>
+        </SupplyDate>
+        <PackQuantity>16</PackQuantity>
+        <Price>
+          <PriceType>01</PriceType>
+          <Discount>
+            <DiscountPercent>42.5</DiscountPercent>
+          </Discount>
+          <PriceStatus>02</PriceStatus>
+          <PriceAmount>7.99</PriceAmount>
+          <CurrencyCode>GBP</CurrencyCode>
+          <Territory>
+            <RegionsIncluded>WORLD</RegionsIncluded>
+            <CountriesExcluded>
+              GB AT BE CY FI FR DE ES GR IE IT LU MT NL PT SI SK AD MC ME SM VA AS AU CA GU
+              MP NZ PH PR US VI ZA
+            </CountriesExcluded>
+          </Territory>
+          <PrintedOnProduct>01</PrintedOnProduct>
+        </Price>
+      </SupplyDetail>
+    </ProductSupply>
+  </Product>
+</ONIXMessage>

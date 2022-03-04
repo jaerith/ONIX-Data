@@ -222,10 +222,11 @@ namespace OnixData
             {
                 try
                 {
+                    bResult = true;
+
                     CurrentRecord =
                         this.ProductSerializer.Deserialize(new StringReader(sProductBody)) as OnixProduct;
 
-                    bResult = true;
                 }
                 catch (Exception ex)
                 {

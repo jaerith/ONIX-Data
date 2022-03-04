@@ -57,7 +57,7 @@ namespace OnixData.Legacy
             NamesBeforeKey     = PrefixToKey;
             KeyNames           = "";
             TitlesBeforeNames  = SuffixToKey = TitlesAfterNames = LettersAfterNames = "";
-            CorporateName      = "";
+            CorporateName      = BiographicalNote = "";
 
             onixNamesBeforeKey = onixKeyNames = onixLettersAndTitles = null;
         }
@@ -74,6 +74,7 @@ namespace OnixData.Legacy
         private string lettersAfterNamesField;
         private string titlesAfterNamesField;
         private string corporateNameField;
+        private string biographicalNoteField;
 
         private string onixNamesBeforeKey;
         private string onixKeyNames;
@@ -277,6 +278,18 @@ namespace OnixData.Legacy
             }
         }
 
+        public string BiographicalNote
+        {
+            get
+            {
+                return this.biographicalNoteField;
+            }
+            set
+            {
+                this.biographicalNoteField = value;
+            }
+        }
+
         #endregion
 
         #region Short Tags
@@ -342,6 +355,12 @@ namespace OnixData.Legacy
         {
             get { return TitlesAfterNames; }
             set { TitlesAfterNames = value; }
+        }
+
+        public string b044
+        {
+            get { return BiographicalNote; }
+            set { BiographicalNote = value; }
         }
 
         /// <remarks/>

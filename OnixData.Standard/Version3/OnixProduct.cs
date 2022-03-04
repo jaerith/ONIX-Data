@@ -646,7 +646,7 @@ namespace OnixData.Version3
 
                 if ((USDPrice == null) || (USDPrice.PriceAmountNum <= 0))
                 {
-                    if ((USDValidPriceList != null) || (USDValidPriceList.Count > 0))
+                    if ((USDValidPriceList != null) && (USDValidPriceList.Count > 0))
                         USDPrice = USDValidPriceList.ElementAt(0);
                 }
 
