@@ -135,22 +135,23 @@ namespace OnixData.Extensions
                 {
                     foreach (OnixProductSupply TmpSupply in pOnixProduct.OnixProductSupplyList)
                     {
-                        OnixSupplyDetail TmpSupplyDetail = TmpSupply.SupplyDetail;
-
-                        if ((TmpSupplyDetail != null) && (TmpSupplyDetail.OnixPriceList != null))
+                        foreach (OnixSupplyDetail TmpSupplyDetail in TmpSupply.OnixSupplyDetailList)
                         {
-                            foreach (OnixPrice TmpPrice in TmpSupplyDetail.OnixPriceList)
+                            if ((TmpSupplyDetail != null) && (TmpSupplyDetail.OnixPriceList != null))
                             {
-                                if (!String.IsNullOrEmpty(pOnixHeader.DefaultCurrencyCode) && String.IsNullOrEmpty(TmpPrice.CurrencyCode))
-                                    TmpPrice.CurrencyCode = pOnixHeader.DefaultCurrencyCode;
-
-                                if (!String.IsNullOrEmpty(pOnixHeader.DefaultPriceType) && (TmpPrice.PriceType <= 0))
+                                foreach (OnixPrice TmpPrice in TmpSupplyDetail.OnixPriceList)
                                 {
-                                    int nDefPriceTypeCd = -1;
-                                    Int32.TryParse(pOnixHeader.DefaultPriceType, out nDefPriceTypeCd);
+                                    if (!String.IsNullOrEmpty(pOnixHeader.DefaultCurrencyCode) && String.IsNullOrEmpty(TmpPrice.CurrencyCode))
+                                        TmpPrice.CurrencyCode = pOnixHeader.DefaultCurrencyCode;
 
-                                    if (nDefPriceTypeCd > 0)
-                                        TmpPrice.PriceType = nDefPriceTypeCd;
+                                    if (!String.IsNullOrEmpty(pOnixHeader.DefaultPriceType) && (TmpPrice.PriceType <= 0))
+                                    {
+                                        int nDefPriceTypeCd = -1;
+                                        Int32.TryParse(pOnixHeader.DefaultPriceType, out nDefPriceTypeCd);
+
+                                        if (nDefPriceTypeCd > 0)
+                                            TmpPrice.PriceType = nDefPriceTypeCd;
+                                    }
                                 }
                             }
                         }
