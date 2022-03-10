@@ -453,13 +453,13 @@
 					</territory>
 					<x301>01</x301>
 				</price>
-        <price>
-          <x462>05</x462>
-          <j266>02</j266>
-          <j151>7.99</j151>
-          <j152>USD</j152>
-          <x301>01</x301>
-        </price>
+				<price>
+				  <x462>05</x462>
+				  <j266>02</j266>
+				  <j151>7.99</j151>
+				  <j152>USD</j152>
+				  <x301>01</x301>
+				</price>
       </supplydetail>
 		</productsupply>
 		<!-- aggregator could add other ProductSupply sections here, for AU/NZ and ZA distributors -->

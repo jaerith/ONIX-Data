@@ -88,6 +88,7 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.PublishingDetail.OnixPublisherList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
                 Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixSupplierList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
 
+                Assert.True(tmpProduct.HasUSDPrice());
                 Assert.True(tmpProduct.OnixProductSupplyList[0].GetSupplyDetailWithUSDPrice(true).HasUSDPrice());
                 Assert.True(tmpProduct.OnixProductSupplyList[0].GetSupplyDetailWithUSDPrice(false).HasUSDPrice());
                 Assert.True(tmpProduct.OnixProductSupplyList[0].USDSupplyDetail.HasUSDPrice());
@@ -165,6 +166,11 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.PublishingDetail.OnixPublisherList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
                 Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixSupplierList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
+
+                Assert.True(tmpProduct.HasUSDPrice());
+                Assert.True(tmpProduct.OnixProductSupplyList[0].GetSupplyDetailWithUSDPrice(true).HasUSDPrice());
+                Assert.True(tmpProduct.OnixProductSupplyList[0].GetSupplyDetailWithUSDPrice(false).HasUSDPrice());
+                Assert.True(tmpProduct.OnixProductSupplyList[0].USDSupplyDetail.HasUSDPrice());
 
                 Assert.Equal(130.00m, tmpProduct.Width.Measurement);
                 Assert.Equal("mm", tmpProduct.Width.MeasureUnitCode);
