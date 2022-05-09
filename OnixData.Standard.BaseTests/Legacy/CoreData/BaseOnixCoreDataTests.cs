@@ -49,6 +49,10 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
                                                 .FirstOrDefault(x => x.MeasureUnitCode == "mm" && x.MeasureTypeCode == OnixLegacyMeasure.CONST_MEASURE_TYPE_HEIGHT)
                                                 .MeasurementNum);
 
+                Assert.Equal(286.22m, tmpProduct.OnixMeasureList
+                                                .FirstOrDefault(x => x.MeasureUnitCode == "gr" && x.MeasureTypeCode == OnixLegacyMeasure.CONST_MEASURE_TYPE_WEIGHT)
+                                                .MeasurementNum);
+
                 Assert.Equal("01", tmpProduct.OnixAudienceCode);
 
                 string sMainSubjSchemeId = OnixLegacySubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID.ToString();
