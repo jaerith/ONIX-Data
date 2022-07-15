@@ -75,6 +75,8 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
 
                 Assert.Equal("9782234567890.epub", tmpProduct.OnixMediaFileList[0].MediaFileLink);
 
+                Assert.Equal("Mundane Hippo", tmpProduct.OnixSupplyDetailList[0].SupplierName);
+
                 /**
                     ** NOTE: Add more tests here
                     **/
