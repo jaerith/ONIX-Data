@@ -305,12 +305,12 @@
 				<b079>HarperPerennial</b079>
 			</imprint>
 			<publisher>
-				<b291>01</b291>
+				<b291>07</b291>
 				<publisheridentifier>
 					<x447>16</x447>
 					<b244>0000000404222532</b244>
 				</publisheridentifier>
-				<b081>HarperCollins Publishers</b081>
+				<b081>HarperCollins 'Doppleganger' Publishers</b081>
 				<website>
 					<b367>01</b367>
 					<b295>http://www.harpercollins.co.uk</b295>
@@ -453,13 +453,13 @@
 					</territory>
 					<x301>01</x301>
 				</price>
-        <price>
-          <x462>05</x462>
-          <j266>02</j266>
-          <j151>7.99</j151>
-          <j152>USD</j152>
-          <x301>01</x301>
-        </price>
+				<price>
+				  <x462>05</x462>
+				  <j266>02</j266>
+				  <j151>7.99</j151>
+				  <j152>USD</j152>
+				  <x301>01</x301>
+				</price>
       </supplydetail>
 		</productsupply>
 		<!-- aggregator could add other ProductSupply sections here, for AU/NZ and ZA distributors -->

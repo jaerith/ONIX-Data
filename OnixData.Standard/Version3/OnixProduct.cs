@@ -355,13 +355,13 @@ namespace OnixData.Version3
                 {
                     foreach (OnixProductSupply TmpSupply in this.OnixProductSupplyList)
                     {
-                        if ((TmpSupply.SupplyDetail != null) && (TmpSupply.SupplyDetail.OnixSupplierList != null))
+                        foreach (OnixSupplyDetail TmpSupplyDetail in TmpSupply.OnixSupplyDetailList)
                         {
-                            TmpSupply.SupplyDetail.OnixSupplierList
-                                                  .Where(x => x.OnixSupplierIdList != null &&
-                                                              x.OnixSupplierIdList.Any(y => y.SupplierIDType == OnixSupplierId.CONST_SUPPL_ID_TYPE_PROP))
-                                                  .ToList()
-                                                  .ForEach(x => PropSupplierIds.AddRange(x.OnixSupplierIdList));
+                            TmpSupplyDetail.OnixSupplierList
+                                           .Where(x => x.OnixSupplierIdList != null &&
+                                                       x.OnixSupplierIdList.Any(y => y.SupplierIDType == OnixSupplierId.CONST_SUPPL_ID_TYPE_PROP))
+                                           .ToList()
+                                           .ForEach(x => PropSupplierIds.AddRange(x.OnixSupplierIdList));
                         }
                     }
                 }
@@ -388,6 +388,14 @@ namespace OnixData.Version3
 
                     if ((FoundPublisher != null) && !String.IsNullOrEmpty(FoundPublisher.PublisherName))
                         FoundPubName = FoundPublisher.PublisherName;
+                    else
+                    {
+                        FoundPublisher =
+                            PublishingDetail.OnixPublisherList.Where(x => x.PublishingRole == OnixPublisher.CONST_PUB_ROLE_IN_ASSOC).LastOrDefault();
+
+                        if ((FoundPublisher != null) && !String.IsNullOrEmpty(FoundPublisher.PublisherName))
+                            FoundPubName = FoundPublisher.PublisherName;
+                    }
                 }
 
                 return FoundPubName;
@@ -482,9 +490,9 @@ namespace OnixData.Version3
             {
                 foreach (OnixProductSupply TmpProductSupply in this.OnixProductSupplyList)
                 {
-                    if (TmpProductSupply.SupplyDetail != null)
-                    {
-                        OnixPrice[] Prices = TmpProductSupply.SupplyDetail.OnixPriceList;
+                    foreach (OnixSupplyDetail TmpSupplyDetail in TmpProductSupply.OnixSupplyDetailList)
+                    {                        
+                        OnixPrice[] Prices = TmpSupplyDetail.OnixPriceList;
 
                         bHasUSDPrice = Prices.Any(x => x.HasSoughtPriceTypeCode() && (x.CurrencyCode == "USD"));
 
@@ -506,9 +514,9 @@ namespace OnixData.Version3
             {
                 foreach (OnixProductSupply TmpProductSupply in this.OnixProductSupplyList)
                 {
-                    if (TmpProductSupply.SupplyDetail != null)
+                    foreach (OnixSupplyDetail TmpSupplyDetail in TmpProductSupply.OnixSupplyDetailList)
                     {
-                        OnixPrice[] Prices = TmpProductSupply.SupplyDetail.OnixPriceList;
+                        OnixPrice[] Prices = TmpSupplyDetail.OnixPriceList;
 
                         bHasSoughtPrice =
                             Prices.Any(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD"));
@@ -525,37 +533,6 @@ namespace OnixData.Version3
         public bool HasUSRights()
         {
             bool bHasUSRights = false;
-
-            /**
-             ** NOTE: Should Marketing data be part of the consideration for rights?
-             **
-            int[] aSalesRightsColl = new int[] { OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_EXCL_RIGHTS,
-                                                 OnixMarketTerritory.CONST_SR_TYPE_FOR_SALE_WITH_NONEXCL_RIGHTS };
-
-            if (this.OnixProductSupplyList != null)
-            {
-                foreach (OnixProductSupply TmpProductSupply in this.OnixProductSupplyList)
-                {
-                    if ((TmpProductSupply != null) &&
-                        (TmpProductSupply.Market != null) &&
-                        (TmpProductSupply.Market.Territory != null))
-                    {
-                        List<string> TempCountriesIncluded = TmpProductSupply.Market.Territory.CountriesIncludedList;
-
-                        bHasUSRights = TempCountriesIncluded.Contains("US");
-
-                        if (bHasUSRights)
-                            break;
-                    }
-                }
-            }
-
-            // Viable usage?
-            if ((this.PublishingDetail != null) && (this.PublishingDetail.OnixSalesRightsList != null) && (this.PublishingDetail.OnixSalesRightsList.Count() > 0))
-            {
-                bHasUSRights = this.PublishingDetail.ForSaleRightsList.Contains("US");
-            }              
-              **/
 
             bHasUSRights = (this.PublishingDetail != null) ? this.PublishingDetail.SalesRightsInUSFlag : false;
 
@@ -642,13 +619,10 @@ namespace OnixData.Version3
         {
             get
             {
-                OnixPrice USDPrice = USDRetailPrice;
+                OnixPrice USDPrice = new OnixPrice();
 
-                if ((USDPrice == null) || (USDPrice.PriceAmountNum <= 0))
-                {
-                    if ((USDValidPriceList != null) && (USDValidPriceList.Count > 0))
-                        USDPrice = USDValidPriceList.ElementAt(0);
-                }
+                if ((USDValidPriceList != null) && (USDValidPriceList.Count > 0))
+                    USDPrice = USDValidPriceList.ElementAt(0);
 
                 return USDPrice;
             }
@@ -664,21 +638,22 @@ namespace OnixData.Version3
                 {
                     foreach (OnixProductSupply TmpPrdSupply in this.OnixProductSupplyList)
                     {
-                        var TmpSupplyDetail = TmpPrdSupply.SupplyDetail;
-
-                        if (TmpSupplyDetail != null)
+                        foreach (var TmpSupplyDetail in TmpPrdSupply.OnixSupplyDetailList)
                         {
-                            if ((TmpSupplyDetail != null) &&
-                                (TmpSupplyDetail.OnixPriceList != null) &&
-                                (TmpSupplyDetail.OnixPriceList.Length > 0))
+                            if (TmpSupplyDetail != null)
                             {
-                                OnixPrice[] Prices = TmpSupplyDetail.OnixPriceList;
+                                if ((TmpSupplyDetail != null) &&
+                                    (TmpSupplyDetail.OnixPriceList != null) &&
+                                    (TmpSupplyDetail.OnixPriceList.Length > 0))
+                                {
+                                    OnixPrice[] Prices = TmpSupplyDetail.OnixPriceList;
 
-                                var TmpPriceList =
-                                    Prices.Where(x => x.HasSoughtPriceTypeCode() && (x.CurrencyCode == "USD")).ToArray();
+                                    var TmpPriceList =
+                                        Prices.Where(x => x.HasSoughtPriceTypeCode() && (x.CurrencyCode == "USD")).ToArray();
 
-                                if ((TmpPriceList != null) && (TmpPriceList.Length > 0))
-                                    USDPriceList.AddRange(TmpPriceList);
+                                    if ((TmpPriceList != null) && (TmpPriceList.Length > 0))
+                                        USDPriceList.AddRange(TmpPriceList);
+                                }
                             }
                         }
                     }
@@ -698,16 +673,16 @@ namespace OnixData.Version3
                 {
                     foreach (OnixProductSupply TmpPrdSupply in this.OnixProductSupplyList)
                     {
-                        if (TmpPrdSupply.SupplyDetail != null)
+                        foreach (OnixSupplyDetail TmpSupplyDetail in TmpPrdSupply.OnixSupplyDetailList)
                         {
-                            OnixPrice[] Prices = TmpPrdSupply.SupplyDetail.OnixPriceList;
+                            OnixPrice[] Prices = TmpSupplyDetail.OnixPriceList;
 
                             OnixPrice USDPrice =
                                 Prices.Where(x => (x.PriceType == OnixPrice.CONST_PRICE_TYPE_RRP_EXCL) && (x.CurrencyCode == "USD")).FirstOrDefault();
 
                             if ((USDPrice != null) && (USDPrice.PriceAmountNum > 0))
                             {
-                                SupplyDetail = TmpPrdSupply.SupplyDetail;
+                                SupplyDetail = TmpSupplyDetail;
                                 break;
                             }
                         }
@@ -717,7 +692,6 @@ namespace OnixData.Version3
                 return SupplyDetail;
             }
         }
-
         public string UPC
         {
             get

@@ -49,6 +49,10 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
                                                 .FirstOrDefault(x => x.MeasureUnitCode == "mm" && x.MeasureTypeCode == OnixLegacyMeasure.CONST_MEASURE_TYPE_HEIGHT)
                                                 .MeasurementNum);
 
+                Assert.Equal(286.22m, tmpProduct.OnixMeasureList
+                                                .FirstOrDefault(x => x.MeasureUnitCode == "gr" && x.MeasureTypeCode == OnixLegacyMeasure.CONST_MEASURE_TYPE_WEIGHT)
+                                                .MeasurementNum);
+
                 Assert.Equal("01", tmpProduct.OnixAudienceCode);
 
                 string sMainSubjSchemeId = OnixLegacySubject.CONST_SUBJ_SCHEME_BISAC_CAT_ID.ToString();
@@ -70,6 +74,8 @@ namespace OnixData.Standard.BaseTests.Legacy.CoreData
                 Assert.Equal(6.99m, tmpProduct.USDRetailPrice.PriceAmountNum);
 
                 Assert.Equal("9782234567890.epub", tmpProduct.OnixMediaFileList[0].MediaFileLink);
+
+                Assert.Equal("Mundane Hippo", tmpProduct.OnixSupplyDetailList[0].SupplierName);
 
                 /**
                     ** NOTE: Add more tests here

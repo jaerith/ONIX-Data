@@ -447,13 +447,17 @@
 						<SupplierIDType>07</SupplierIDType>
 						<IDValue>0091073</IDValue>
 					</SupplierIdentifier>
+					<SupplierIdentifier>
+						<SupplierIDType>02</SupplierIDType>
+						<IDValue>BOGUS_ID</IDValue>
+					</SupplierIdentifier>
 					<SupplierName>HarperCollins Publishers</SupplierName>
 					<TelephoneNumber>+44 1417 723200</TelephoneNumber>
-          <Website>
-            <WebsiteRole>01</WebsiteRole>
-            <WebsiteLink>http://www.harpercollins.co.uk</WebsiteLink>
-          </Website>
-        </Supplier>
+				  <Website>
+					<WebsiteRole>01</WebsiteRole>
+					<WebsiteLink>http://www.harpercollins.co.uk</WebsiteLink>
+				  </Website>
+				</Supplier>
 				<ReturnsConditions>
 					<ReturnsCodeType>02</ReturnsCodeType>
 					<ReturnsCode>Y</ReturnsCode>

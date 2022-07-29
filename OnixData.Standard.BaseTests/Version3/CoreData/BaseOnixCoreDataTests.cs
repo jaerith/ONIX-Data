@@ -63,8 +63,12 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
             Assert.Equal("BooksBooksBooks.com", v3Parser.MessageHeader.Addressee.AddresseeName);
 
+            var header = v3Parser.MessageHeader;
+
             foreach (OnixProduct tmpProduct in v3Parser)
-            {                
+            {
+                tmpProduct.ApplyHeaderDefaults(header);
+
                 Assert.True(tmpProduct.IsValid(), tmpProduct.GetParsingError()?.Message);
 
                 Assert.Equal(9780007232833, tmpProduct.EAN);
@@ -86,7 +90,12 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal("HarperCollins Publishers", tmpProduct.PublisherName);
 
                 Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.PublishingDetail.OnixPublisherList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
-                Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixSupplierList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
+                Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixSupplierList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
+
+                Assert.True(tmpProduct.HasUSDPrice());
+                Assert.True(tmpProduct.OnixProductSupplyList[0].GetSupplyDetailWithUSDPrice(true).HasUSDPrice());
+                Assert.True(tmpProduct.OnixProductSupplyList[0].GetSupplyDetailWithUSDPrice(false).HasUSDPrice());
+                Assert.True(tmpProduct.OnixProductSupplyList[0].USDSupplyDetail.HasUSDPrice());
 
                 Assert.Equal("The Martin Beck series", tmpProduct.SeriesTitle);
                 Assert.Equal("1", tmpProduct.SeriesNumber);
@@ -107,8 +116,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal(10.99m, tmpProduct.USDRetailPrice.PriceAmountNum);
                 Assert.Equal(10.99m, tmpProduct.USDValidPrice.PriceAmountNum);
 
-                Assert.Equal(7.99m, tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].PriceAmountNum);
-                Assert.Equal("GBP", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].CurrencyCode);
+                Assert.Equal(7.99m, tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixPriceList[0].PriceAmountNum);
+                Assert.Equal("GBP", tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixPriceList[0].CurrencyCode);
 
                 Assert.Equal("01/21/2022", tmpProduct.LastDateForReturns);
 
@@ -138,8 +147,12 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
             Assert.Equal("BooksBooksBooks.com", v3Parser.MessageHeader.Addressee.AddresseeName);
 
+            var header = v3Parser.MessageHeader;
+
             foreach (OnixProduct tmpProduct in v3Parser)
             {
+                tmpProduct.ApplyHeaderDefaults(header);
+
                 Assert.True(tmpProduct.IsValid(), tmpProduct.GetParsingError()?.Message);
 
                 Assert.Equal(9780007232833, tmpProduct.EAN);
@@ -157,25 +170,29 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal("eng", tmpProduct.DescriptiveDetail.LanguageOfText);
 
-                Assert.Equal("HarperCollins Publishers", tmpProduct.PublisherName);
+                Assert.Equal("HarperCollins 'Doppleganger' Publishers", tmpProduct.PublisherName);
 
                 Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.PublishingDetail.OnixPublisherList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
-                Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixSupplierList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
+                Assert.Equal("http://www.harpercollins.co.uk", tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixSupplierList[0].OnixWebsiteList[0].OnixWebsiteLinkList[0]);
+
+                Assert.False(tmpProduct.OnixProductSupplyList[0].GetSupplyDetailWithUSDPrice(true).HasUSDPrice());
+                Assert.False(tmpProduct.OnixProductSupplyList[0].GetSupplyDetailWithUSDPrice(false).HasUSDPrice());
+                Assert.False(tmpProduct.OnixProductSupplyList[0].USDSupplyDetail.HasUSDPrice());
 
                 Assert.Equal(130.00m, tmpProduct.Width.Measurement);
                 Assert.Equal("mm", tmpProduct.Width.MeasureUnitCode);
 
                 Assert.Equal(4, tmpProduct.OnixProductSupplyList[0].MarketPublishingDetail.MarketPublishingStatus);
 
-                Assert.Equal("Y", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixReturnsConditionsList[0].ReturnsCode);
+                Assert.Equal("Y", tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixReturnsConditionsList[0].ReturnsCode);
 
                 Assert.Equal(0.00m, tmpProduct.USDRetailPrice.PriceAmountNum);
 
                 Assert.Equal(7.99m, tmpProduct.USDValidPrice.PriceAmountNum);
 
-                Assert.Equal(7.99m, tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].PriceAmountNum);
-                Assert.Equal(OnixData.Version3.Price.OnixPrice.CONST_PRICE_TYPE_RRP_INCL, tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].PriceType);
-                Assert.Equal("GBP", tmpProduct.OnixProductSupplyList[0].SupplyDetail.OnixPriceList[0].CurrencyCode);
+                Assert.Equal(7.99m, tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixPriceList[0].PriceAmountNum);
+                Assert.Equal(OnixData.Version3.Price.OnixPrice.CONST_PRICE_TYPE_RRP_INCL, tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixPriceList[0].PriceType);
+                Assert.Equal("GBP", tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixPriceList[0].CurrencyCode);
 
                 Assert.Equal("9780007324378", tmpProduct.RelatedMaterial.OnixRelatedProductList[0].EAN);
 
