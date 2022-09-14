@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using OnixData.Extensions;
 using OnixData.Version3;
+using OnixData.Version3.Publishing;
 using Xunit;
 
 namespace OnixData.Standard.BaseTests.Version3.CoreData
@@ -112,6 +114,14 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal(false, tmpProduct.PublishingDetail.SalesRightsInUSFlag);
 
                 Assert.Equal("20060807", tmpProduct.PublishingDetail.PublicationDate);
+
+                Assert.Equal("1968", tmpProduct
+                                     .PublishingDetail
+                                     .OnixPublishingDateList
+                                     .Where(x => Convert.ToInt32(x.PublishingDateRole) == OnixPubDate.CONST_PUB_DT_ROLE_PUB_FIRST)
+                                     .FirstOrDefault()
+                                     .Date
+                            );
 
                 Assert.Equal(10.99m, tmpProduct.USDRetailPrice.PriceAmountNum);
                 Assert.Equal(10.99m, tmpProduct.USDValidPrice.PriceAmountNum);
