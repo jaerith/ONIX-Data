@@ -87,6 +87,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
 
                 Assert.Equal("Sjöwall", tmpProduct.PrimaryAuthor.OnixKeyNames);
 
+                Assert.Equal("7421", tmpProduct.PrimaryAuthor.GetFirstProprietaryNameId().IDValue);
+
                 Assert.True(tmpProduct.PrimaryAuthor.BiographicalNote.Contains("was born in Stockholm in 1935"));
 
                 Assert.Equal("HarperCollins Publishers", tmpProduct.PublisherName);
@@ -174,6 +176,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal("Roseanna", tmpProduct.Title);
 
                 Assert.Equal("Sjöwall", tmpProduct.PrimaryAuthor.OnixKeyNames);
+
+                Assert.Equal("7421", tmpProduct.PrimaryAuthor.GetFirstProprietaryNameId().IDValue);
 
                 Assert.Equal("02", tmpProduct.OnixBarcodeList[0].BarcodeType);
                 Assert.Equal("09", tmpProduct.OnixBarcodeList[0].PositionOnProduct);
