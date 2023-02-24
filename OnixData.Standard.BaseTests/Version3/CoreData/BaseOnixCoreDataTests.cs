@@ -62,10 +62,20 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
             using OnixParser v3Parser = new(currentFileInfo, false, true, true, false);
 
             Assert.Equal("Global Bookinfo", v3Parser.MessageHeader.Sender.SenderName);
+            Assert.Equal("01", v3Parser.MessageHeader.Sender.OnixSenderIdentifierList[0].SenderIDType);
+            Assert.Equal("W3C CCG DID", v3Parser.MessageHeader.Sender.OnixSenderIdentifierList[0].IDTypeName);
+            Assert.StartsWith("did:ethr:0x94", v3Parser.MessageHeader.Sender.OnixSenderIdentifierList[0].IDValue);
 
             Assert.Equal("BooksBooksBooks.com", v3Parser.MessageHeader.Addressee.AddresseeName);
+            Assert.Equal("01", v3Parser.MessageHeader.Addressee.OnixAddresseeIdentifierList[0].AddresseeIDType);
+            Assert.Equal("W3C CCG DID", v3Parser.MessageHeader.Addressee.OnixAddresseeIdentifierList[0].IDTypeName);
+            Assert.StartsWith("did:ethr:0x94", v3Parser.MessageHeader.Addressee.OnixAddresseeIdentifierList[0].IDValue);
 
             var header = v3Parser.MessageHeader;
+
+            Assert.Equal("231", header.MessageNumber);
+            Assert.Equal("1", header.MessageRepeat);
+            Assert.Equal("Sample message", header.MessageNote);
 
             foreach (OnixProduct tmpProduct in v3Parser)
             {
@@ -156,10 +166,20 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
             using OnixParser v3Parser = new(currentFileInfo, false, true, true, false);
 
             Assert.Equal("Global Bookinfo", v3Parser.MessageHeader.Sender.SenderName);
+            Assert.Equal("01", v3Parser.MessageHeader.Sender.OnixSenderIdentifierList[0].SenderIDType);
+            Assert.Equal("W3C CCG DID", v3Parser.MessageHeader.Sender.OnixSenderIdentifierList[0].IDTypeName);
+            Assert.StartsWith("did:ethr:0x94", v3Parser.MessageHeader.Sender.OnixSenderIdentifierList[0].IDValue);
 
             Assert.Equal("BooksBooksBooks.com", v3Parser.MessageHeader.Addressee.AddresseeName);
+            Assert.Equal("01", v3Parser.MessageHeader.Addressee.OnixAddresseeIdentifierList[0].AddresseeIDType);
+            Assert.Equal("W3C CCG DID", v3Parser.MessageHeader.Addressee.OnixAddresseeIdentifierList[0].IDTypeName);
+            Assert.StartsWith("did:ethr:0x94", v3Parser.MessageHeader.Addressee.OnixAddresseeIdentifierList[0].IDValue);
 
             var header = v3Parser.MessageHeader;
+
+            Assert.Equal("231", header.MessageNumber);
+            Assert.Equal("1", header.MessageRepeat);
+            Assert.Equal("Sample message", header.MessageNote);
 
             foreach (OnixProduct tmpProduct in v3Parser)
             {
