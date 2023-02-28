@@ -17,6 +17,8 @@ Even though the "sunset date" for the legacy version 2.1 has passed, many (if no
 
 Unfortunately, since validation of ONIX files has proven problematic on the .NET platform, there is an <a target="_blank" href="https://github.com/jaerith/ONIX-Validator">accompanying Java project</a> that can serve to validate those files instead.
 
+NOTE: The Framework project is now considered to be deprecated.  All future development will only occur in the Standard project.
+
 # Requirements
 * Visual Studio 2012 (at least)
 * An unconditional love for a XML tag collection that attempts to cover the ontology of the known universe.
