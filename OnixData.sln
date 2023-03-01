@@ -1,23 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25029.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33318.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData", "OnixData\OnixData.csproj", "{001B5989-7440-44BB-BEED-FE4422E2634E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixTestHarness", "OnixTestHarness\OnixTestHarness.csproj", "{4B03D0C9-7AC3-4775-8A91-AF9A6408BEBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard", "OnixData.Standard\OnixData.Standard.csproj", "{7CC9CAFD-3211-4986-A326-9630C2EDD9C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnixData.Standard", "OnixData.Standard\OnixData.Standard.csproj", "{7CC9CAFD-3211-4986-A326-9630C2EDD9C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.CoreTests", "OnixData.Standard.CoreTests\OnixData.Standard.CoreTests.csproj", "{5E2B03F3-3D73-4348-AADB-01A5C9EE5825}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnixData.Standard.CoreTests", "OnixData.Standard.CoreTests\OnixData.Standard.CoreTests.csproj", "{5E2B03F3-3D73-4348-AADB-01A5C9EE5825}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.NetFrameworkTests", "OnixData.Standard.NetFrameworkTests\OnixData.Standard.NetFrameworkTests.csproj", "{69E174F1-51DB-4628-AB3C-9D0225AD373E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.Benchmarks", "OnixData.Standard.Benchmarks\OnixData.Standard.Benchmarks.csproj", "{6043A8DC-AA0A-46DA-8012-6D6E73F84A0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnixData.Standard.Benchmarks", "OnixData.Standard.Benchmarks\OnixData.Standard.Benchmarks.csproj", "{6043A8DC-AA0A-46DA-8012-6D6E73F84A0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.BaseTests", "OnixData.Standard.BaseTests\OnixData.Standard.BaseTests.csproj", "{BB75FE69-7AFE-439B-A23A-A0171D839D70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnixData.Standard.BaseTests", "OnixData.Standard.BaseTests\OnixData.Standard.BaseTests.csproj", "{BB75FE69-7AFE-439B-A23A-A0171D839D70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.Net5Tests", "OnixData.Standard.Net5Tests\OnixData.Standard.Net5Tests.csproj", "{8F1139CD-BC43-49F4-A199-9584EEB396CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnixData.Standard.Net5Tests", "OnixData.Standard.Net5Tests\OnixData.Standard.Net5Tests.csproj", "{8F1139CD-BC43-49F4-A199-9584EEB396CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.Extensions", "OnixData.Standard.Extensions\OnixData.Standard.Extensions.csproj", "{2690D1F4-755F-42BD-B0B1-05F128F10A62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.Extensions.Tests", "OnixData.Standard.Extensions.Tests\OnixData.Standard.Extensions.Tests.csproj", "{1BA44B98-F10D-422F-B21D-F6D9550EA144}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,8 +61,19 @@ Global
 		{8F1139CD-BC43-49F4-A199-9584EEB396CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F1139CD-BC43-49F4-A199-9584EEB396CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F1139CD-BC43-49F4-A199-9584EEB396CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2690D1F4-755F-42BD-B0B1-05F128F10A62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2690D1F4-755F-42BD-B0B1-05F128F10A62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2690D1F4-755F-42BD-B0B1-05F128F10A62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2690D1F4-755F-42BD-B0B1-05F128F10A62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BA44B98-F10D-422F-B21D-F6D9550EA144}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BA44B98-F10D-422F-B21D-F6D9550EA144}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BA44B98-F10D-422F-B21D-F6D9550EA144}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BA44B98-F10D-422F-B21D-F6D9550EA144}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BE432431-E3E3-4701-BFC2-FB0445ADD9A3}
 	EndGlobalSection
 EndGlobal
