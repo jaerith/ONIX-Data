@@ -282,8 +282,6 @@ namespace OnixData.Extensions
 
                 CheckSum = 11 - (CheckSum % 11);
 
-                // sprintf(acTemp, "%c", cCurrentCheckDigit);
-
                 if (cCurrentCheckDigit == 'X')
                     TempVal = 0;
                 else
