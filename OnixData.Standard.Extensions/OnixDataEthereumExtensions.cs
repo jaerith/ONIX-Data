@@ -106,7 +106,7 @@ namespace OnixData.Standard.Extensions
 @"The Product list of this message was signed with the private key of did:ethr:";
 
         public const string SignedProductListMessageNoteFormat =
-SignedProductListMessageNoteFormatStart + @"{0}, resulting in the signature({1}).";
+SignedProductListMessageNoteFormatStart + @"{0}, resulting in the signature ({1}).";
 
         public const string StartProductRefTag   = "<Product";
         public const string StartProductShortTag = "<product";
@@ -116,7 +116,7 @@ SignedProductListMessageNoteFormatStart + @"{0}, resulting in the signature({1})
 
 		public static string CleanXml(this string xmlContent)
         {
-			return xmlContent.Replace("\r\n", String.Empty).Replace("\t", "  ");
+			return xmlContent.Replace("\r\n", "\n").Replace("\t", "  ");
 		}
 
         public static bool DetectMsgNoteEthereumSignature(this OnixMessage onixMessage)
@@ -229,7 +229,10 @@ SignedProductListMessageNoteFormatStart + @"{0}, resulting in the signature({1})
 				element.Save(xmlWriter);
 			}
 
-			return prettyPrintBuilder.ToString();
+            string newOnixXmlContent = prettyPrintBuilder.ToString().CleanXml();
+
+            return removeFirstNewLine ? newOnixXmlContent.PrepareFinalOnixMessage() : newOnixXmlContent;
+
 		}
 
         public static string ToSimpleOnixString(this OnixProduct onixProduct, string headerMsgNote = null)
