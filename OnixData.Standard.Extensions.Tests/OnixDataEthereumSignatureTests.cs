@@ -1,4 +1,4 @@
-using Org.BouncyCastle.Bcpg.OpenPgp;
+using OnixData.Standard.Extensions.Models;
 
 namespace OnixData.Standard.Extensions.Tests
 {
@@ -83,20 +83,19 @@ namespace OnixData.Standard.Extensions.Tests
 		{
 			var publicAddress = "0x94618601FE6cb8912b274E5a00453949A57f8C1e";
 			var privateKey    = "0x7580e7fb49df1c861f0050fae31c2224c6aba908e116b8da44ee8cd927b990b0";
-
-            string onixPrettyPrintXml = SAMPLE_V3_ONIX_XML.PrettyPrintXml();
+			var onixContent   = new OnixXmlText(SAMPLE_V3_ONIX_XML);
 
 			string sMessageNote =
-				onixPrettyPrintXml.GenerateSignedMessageNote(publicAddress, privateKey);
+				onixContent.GenerateSignedMessageNote(publicAddress, privateKey);
 
-			using (OnixParser parser = new OnixParser(onixPrettyPrintXml, false, false, true))
+			using (OnixParser parser = new OnixParser(onixContent.XmlText, false, false, true))
 			{
 				Assert.True(parser.Message.DetectMsgNoteEthereumSignature());
 
 				Assert.Equal(sMessageNote, parser.MessageHeader.MessageNote);
 
                 bool isEthereumSignatureValid = 
-					parser.Message.ValidateMsgNoteEthereumSignature(onixPrettyPrintXml);
+					parser.Message.ValidateMsgNoteEthereumSignature(onixContent);
 
 				Assert.True(isEthereumSignatureValid);
 			}

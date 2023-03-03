@@ -7,6 +7,8 @@ using Nethereum.Signer;
 
 using OnixData.Version3;
 
+using OnixData.Standard.Extensions.Models;
+
 namespace OnixData.Standard.Extensions
 {
     public static class OnixDataEthereumExtensions
@@ -145,11 +147,11 @@ SignedProductListMessageNoteFormatStart + @"{0}, resulting in the signature ({1}
             return messageNote;
         }
 
-        public static string GenerateSignedMessageNote(this string onixContent, string publicKey, string privateKey)
+        public static string GenerateSignedMessageNote(this OnixXmlText onixContent, string publicKey, string privateKey)
         {
             string messageNote = String.Empty;
 
-            if (!String.IsNullOrEmpty(onixContent))
+            if (!String.IsNullOrEmpty(onixContent.XmlText))
             {
                 string productList = onixContent.GetProductList();
 
@@ -164,21 +166,21 @@ SignedProductListMessageNoteFormatStart + @"{0}, resulting in the signature ({1}
             return messageNote;
         }
 
-        public static string GetProductList(this string onixContent)
+        public static string GetProductList(this OnixXmlText onixContent)
         {
             string productList = String.Empty;
 
-            if (!String.IsNullOrEmpty(onixContent))
+            if (!String.IsNullOrEmpty(onixContent.XmlText))
             {
                 var startTag = String.Empty;
                 var endTag   = String.Empty;
 
-                if (onixContent.Contains(StartProductRefTag) && onixContent.Contains(EndProductRefTag))
+                if (onixContent.XmlText.Contains(StartProductRefTag) && onixContent.XmlText.Contains(EndProductRefTag))
                 {
                     startTag = StartProductRefTag;
                     endTag   = EndProductRefTag;
                 }
-                else if (onixContent.Contains(StartProductShortTag) && onixContent.Contains(EndProductShortTag))
+                else if (onixContent.XmlText.Contains(StartProductShortTag) && onixContent.XmlText.Contains(EndProductShortTag))
                 {
                     startTag = StartProductShortTag;
                     endTag   = EndProductShortTag;
@@ -186,10 +188,10 @@ SignedProductListMessageNoteFormatStart + @"{0}, resulting in the signature ({1}
 
                 if (!String.IsNullOrEmpty(startTag))
                 {
-                    var productListIdx = onixContent.IndexOf(startTag);
-                    var productListLen = (onixContent.LastIndexOf(endTag) - productListIdx) + endTag.Length;
+                    var productListIdx = onixContent.XmlText.IndexOf(startTag);
+                    var productListLen = (onixContent.XmlText.LastIndexOf(endTag) - productListIdx) + endTag.Length;
 
-                    productList = onixContent.Substring(productListIdx, productListLen);
+                    productList = onixContent.XmlText.Substring(productListIdx, productListLen);
                 }
 
             }
@@ -213,11 +215,11 @@ SignedProductListMessageNoteFormatStart + @"{0}, resulting in the signature ({1}
             return onixContent;
         }
 
-        public static string PrettyPrintXml(this string xmlContent, bool removeFirstNewLine = true)
+        public static string PrettyPrintXml(this OnixXmlText onixContent, bool removeFirstNewLine = true)
         {
 			var prettyPrintBuilder = new StringBuilder();
 
-			var element = XElement.Parse(xmlContent);
+			var element = XElement.Parse(onixContent.XmlText);
 
 			var settings = new XmlWriterSettings();
 			settings.OmitXmlDeclaration  = false;
@@ -295,7 +297,7 @@ SignedProductListMessageNoteFormatStart + @"{0}, resulting in the signature ({1}
 
         }
 
-        public static bool ValidateMsgNoteEthereumSignature(this OnixMessage onixMessage, string rawOnixContent)
+        public static bool ValidateMsgNoteEthereumSignature(this OnixMessage onixMessage, OnixXmlText rawOnixContent)
         {
             bool validEthereumSignature = false;
 
