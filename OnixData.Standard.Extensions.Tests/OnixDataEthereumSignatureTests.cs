@@ -1,4 +1,7 @@
+using OnixData.Version3;
+
 using OnixData.Standard.Extensions.Models;
+using OnixData.Version3.Publishing;
 
 namespace OnixData.Standard.Extensions.Tests
 {
@@ -18,10 +21,11 @@ namespace OnixData.Standard.Extensions.Tests
 		</Sender>
 		<MessageNumber>1</MessageNumber>
 		<SentDateTime>20230110T1115-0400</SentDateTime>
-		<MessageNote><![CDATA[The Product list of this message was signed with the private key of did:ethr:0x94618601FE6cb8912b274E5a00453949A57f8C1e, resulting in the signature (0x9ef18f99f80f1940748b353334b58d13a345e18eb1af5dc5de304802e4980a5318e86cad394ae8a690b787a3bfc77541462c524b96194a16ffd836e447832f981b).]]></MessageNote>
+		<MessageNote><![CDATA[The Product list of this message was signed with the private key of did:ethr:0x94618601FE6cb8912b274E5a00453949A57f8C1e, resulting in the signature (0xb4adb206870e19ae608e243de5331ea76ab6eba4b6f22ae6845c99721d42d18163ae68a5a963b180f31478b741a1944aaf93df1fb7d422b381ea9c2516c7d7761c).]]></MessageNote>
 	</Header>	
 	<!-- product record 1 of 1 in message -->
 	<Product>
+        <RecordReference>secretsofflukeman.johnsonbooks.nick.eth</RecordReference>
 		<DescriptiveDetail>
 			<ProductComposition>00</ProductComposition>
 			<ProductForm>BC</ProductForm>
@@ -67,8 +71,8 @@ namespace OnixData.Standard.Extensions.Tests
 		<PublishingDetail>
 			<Publisher>
 				<PublishingRole>01</PublishingRole>
-				<PublisherName>My Mom's Basement</PublisherName>
-			</Publisher>
+                <PublisherName>nick.eth</PublisherName>
+            </Publisher>
 			<PublishingDate>
 				<PublishingDateRole>01</PublishingDateRole>
 				<Date dateformat=""00"">20240807</Date>
@@ -84,6 +88,9 @@ namespace OnixData.Standard.Extensions.Tests
 			var publicAddress = "0x94618601FE6cb8912b274E5a00453949A57f8C1e";
 			var privateKey    = "0x7580e7fb49df1c861f0050fae31c2224c6aba908e116b8da44ee8cd927b990b0";
 			var onixContent   = new OnixXmlText(SAMPLE_V3_ONIX_XML);
+            string web3Url    = String.Empty;
+
+			// NOTE: To test certain extension methods, supply your own Web3 Url
 
 			string sMessageNote =
 				onixContent.GenerateSignedMessageNote(publicAddress, privateKey);
@@ -98,7 +105,23 @@ namespace OnixData.Standard.Extensions.Tests
 					parser.Message.ValidateMsgNoteEthereumSignature(onixContent);
 
 				Assert.True(isEthereumSignatureValid);
-			}
+
+				if (!String.IsNullOrEmpty(web3Url))
+				{
+                    foreach (OnixProduct onixProduct in parser)
+                    {
+                        if ((onixProduct.PublishingDetail != null) &&
+                            (onixProduct.PublishingDetail.OnixPublisherList.Count() > 0))
+                        {
+                            onixProduct.PublishingDetail
+                                       .OnixPublisherList
+                                       .Where(x => x.PublisherName.ToLower().Contains(".eth"))
+                                       .ToList()
+                                       .ForEach(x => Assert.True(x.ValidatePublisherEnsName(web3Url)));
+                        }
+                    }
+                }
+            }
 		}
 	}
 }

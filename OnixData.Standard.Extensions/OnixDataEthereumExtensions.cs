@@ -4,10 +4,13 @@ using System.Xml;
 using System.Xml.Linq;
 
 using Nethereum.Signer;
+using Nethereum.Web3;
 
 using OnixData.Version3;
+using OnixData.Version3.Publishing;
 
 using OnixData.Standard.Extensions.Models;
+using OnixData.Version3.Header;
 
 namespace OnixData.Standard.Extensions
 {
@@ -234,7 +237,6 @@ SignedProductListMessageNoteFormatStart + @"{0}, resulting in the signature ({1}
             string newOnixXmlContent = prettyPrintBuilder.ToString().CleanXml();
 
             return removeFirstNewLine ? newOnixXmlContent.PrepareFinalOnixMessage() : newOnixXmlContent;
-
 		}
 
         public static string ToSimpleOnixString(this OnixProduct onixProduct, string headerMsgNote = null)
@@ -295,6 +297,48 @@ SignedProductListMessageNoteFormatStart + @"{0}, resulting in the signature ({1}
                                  , onixProduct.PublishingDetail?.PublicationDate
                                 );
 
+        }
+
+        public static bool ValidatePublisherEnsName(this OnixPublisher onixPublisher, string web3Url)
+        {
+            bool validEnsName = false;
+
+            var web3       = new Web3(web3Url);
+		    var ensService = web3.Eth.GetEnsService();
+
+            if (!String.IsNullOrEmpty(onixPublisher.PublisherName) && onixPublisher.PublisherName.ToLower().Trim().EndsWith(".eth"))
+            {
+                var publicAddress = ensService.ResolveAddressAsync(onixPublisher.PublisherName).Result;
+
+                validEnsName = !String.IsNullOrEmpty(publicAddress);
+            }
+
+            return validEnsName;
+        }
+
+        public static bool ValidateSenderEnsName(this OnixHeaderSender onixSender, string web3Url)
+        {
+            bool validEnsName = false;
+
+            var web3       = new Web3(web3Url);
+            var ensService = web3.Eth.GetEnsService();
+
+            if (onixSender.OnixSenderIdentifierList != null)
+            {
+                foreach (var onixSenderId in onixSender.OnixSenderIdentifierList)
+                {
+                    if (!String.IsNullOrEmpty(onixSenderId.IDValue) && 
+                        onixSenderId.IDValue.ToLower().Trim().EndsWith(".eth"))
+                    {
+                        var publicAddress = ensService.ResolveAddressAsync(onixSenderId.IDValue).Result;
+
+                        validEnsName = !String.IsNullOrEmpty(publicAddress);
+                        break;
+                    }
+                }
+            }
+
+            return validEnsName;
         }
 
         public static bool ValidateMsgNoteEthereumSignature(this OnixMessage onixMessage, OnixXmlText rawOnixContent)
