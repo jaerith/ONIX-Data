@@ -20,7 +20,7 @@ Unfortunately, since validation of ONIX files has proven problematic on the .NET
 NOTE: The Framework project is now considered to be deprecated.  All future development will only occur in the Standard project.
 
 # Requirements
-* Visual Studio 2012 (at least)
+* Visual Studio 2019 (at least)
 * An unconditional love for a XML tag collection that attempts to cover the ontology of the known universe.
 
 # ONIX Editions Handled
