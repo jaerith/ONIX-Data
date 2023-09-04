@@ -30,7 +30,7 @@ NOTE: The Framework project is now considered to be deprecated.  All future deve
 * [x] ONIX 2.1.3 and earlier (short tags)
 * [x] ONIX 2.1.3 and earlier (reference tags)
 
-NOTE: Even though this project addresses many tags of both ONIX versions, it does not currently parse out all of them, especially in the case of ONIX 3.0 (which appears to aim at supporting the ontology of the known universe).  In the case that you find something unsupported and wanted, you can create an issue within this repo, and I will attempt to address it in my free time.  (Or you can implement it on your own and then issue a pull.)
+NOTE: Even though this project addresses many tags of both ONIX versions, it does not currently parse out all of them, especially in the case of ONIX 3.0 (which appears to aim at supporting the ontology of the known universe).  In the case that you find something unsupported and wanted, you can create an issue within this repo, and I will attempt to address it in my free time.  (Or you can implement it on your own and then issue a pull.)  The same applies for any possible features that can be incorporated into the Extensions folder (like autocorrection with ChatGPT, etc.).
 
 # For Large ONIX Files
 When parsing larger ONIX files (typically anything greater than 250 MB), it's strongly encouraged to use the OnixLegacyPlusParser class (for ONIX 2.1) and the OnixPlusParser class (for ONIX 3.0).  These two classes are used just like the OnixLegacyParser and OnixParser classes, and they will help the user to avoid out-of-memory exceptions.
