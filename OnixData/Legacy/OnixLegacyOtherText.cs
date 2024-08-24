@@ -16,7 +16,7 @@ namespace OnixData.Legacy
         public const int CONST_OTEXT_TYPE_ANNOTATION  = 2;
         public const int CONST_OTEXT_TYPE_REV_QUOTE   = 8;
         public const int CONST_OTEXT_TYPE_SERIES_DESC = 43;
-        
+
         #endregion
 
         public OnixLegacyOtherText()
@@ -58,7 +58,6 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnore]
         public string Text
         {
             get
@@ -89,7 +88,6 @@ namespace OnixData.Legacy
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnore]
         public string d104
         {
             get { return Text; }
