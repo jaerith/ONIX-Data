@@ -423,6 +423,7 @@ namespace OnixData.Extensions
         {
             bool   bVersion3File = false;
             string sTargetTag    = "";
+            string sReleaseTag   = "release=\"";
 
             if (psTargetFileContents.Contains(CONST_ONIX_MSG_SHORT_TAG_START))
                 sTargetTag = CONST_ONIX_MSG_SHORT_TAG_START;
@@ -435,8 +436,42 @@ namespace OnixData.Extensions
                 int nONIXMsgEndIdx   = psTargetFileContents.IndexOf(">", nONIXMsgStartIdx);
 
                 string sONIXMsgTag = psTargetFileContents.Substring(nONIXMsgStartIdx, (nONIXMsgEndIdx - nONIXMsgStartIdx));
-                if (sONIXMsgTag.Contains("3.0"))
-                    bVersion3File = true;
+                if (!String.IsNullOrEmpty(sONIXMsgTag))
+                {
+                    sONIXMsgTag = sONIXMsgTag.ToLower();
+
+                    int nReleaseStartIdx = sONIXMsgTag.IndexOf(sReleaseTag);
+                    if (nReleaseStartIdx < 0)
+                    {
+                        return false;
+                    }
+
+                    nReleaseStartIdx += sReleaseTag.Length;
+
+                    int nReleaseEndIdx = sONIXMsgTag.IndexOf("\"", nReleaseStartIdx);
+                    if (nReleaseEndIdx < 0)
+                    {
+                        return false;
+                    }
+
+                    string sReleaseVal =
+                        (nReleaseEndIdx > nReleaseStartIdx) ?
+                        sONIXMsgTag.Substring(nReleaseStartIdx, (nReleaseEndIdx - nReleaseStartIdx)) : String.Empty;
+
+                    sReleaseVal = sReleaseVal.Trim();
+                    if (!String.IsNullOrEmpty(sReleaseVal))
+                    {
+                        decimal dOnixVersion = 0.0M;
+
+                        if (Decimal.TryParse(sReleaseVal, out dOnixVersion))
+                        {
+                            if ((dOnixVersion >= 3.0M) && (dOnixVersion <= 4.0M))
+                            {
+                                bVersion3File = true;
+                            }
+                        }
+                    }
+                }
             }
 
             return bVersion3File;

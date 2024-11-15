@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using OnixData.Extensions;
 using OnixData.Version3;
+using OnixData.Version3.Publishing;
 using Xunit;
 
 namespace OnixData.Standard.BaseTests.Version3.CoreData
@@ -60,10 +62,20 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
             using OnixParser v3Parser = new(currentFileInfo, false, true, true, false);
 
             Assert.Equal("Global Bookinfo", v3Parser.MessageHeader.Sender.SenderName);
+            Assert.Equal("01", v3Parser.MessageHeader.Sender.OnixSenderIdentifierList[0].SenderIDType);
+            Assert.Equal("W3C CCG DID", v3Parser.MessageHeader.Sender.OnixSenderIdentifierList[0].IDTypeName);
+            Assert.StartsWith("did:ethr:0x94", v3Parser.MessageHeader.Sender.OnixSenderIdentifierList[0].IDValue);
 
             Assert.Equal("BooksBooksBooks.com", v3Parser.MessageHeader.Addressee.AddresseeName);
+            Assert.Equal("01", v3Parser.MessageHeader.Addressee.OnixAddresseeIdentifierList[0].AddresseeIDType);
+            Assert.Equal("W3C CCG DID", v3Parser.MessageHeader.Addressee.OnixAddresseeIdentifierList[0].IDTypeName);
+            Assert.StartsWith("did:ethr:0x94", v3Parser.MessageHeader.Addressee.OnixAddresseeIdentifierList[0].IDValue);
 
             var header = v3Parser.MessageHeader;
+
+            Assert.Equal("231", header.MessageNumber);
+            Assert.Equal("1", header.MessageRepeat);
+            Assert.Equal("Sample message", header.MessageNote);
 
             foreach (OnixProduct tmpProduct in v3Parser)
             {
@@ -84,6 +96,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal(245, tmpProduct.DescriptiveDetail.PageNumber);
 
                 Assert.Equal("Sjöwall", tmpProduct.PrimaryAuthor.OnixKeyNames);
+
+                Assert.Equal("7421", tmpProduct.PrimaryAuthor.GetFirstProprietaryNameId().IDValue);
 
                 Assert.True(tmpProduct.PrimaryAuthor.BiographicalNote.Contains("was born in Stockholm in 1935"));
 
@@ -112,6 +126,14 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal(false, tmpProduct.PublishingDetail.SalesRightsInUSFlag);
 
                 Assert.Equal("20060807", tmpProduct.PublishingDetail.PublicationDate);
+
+                Assert.Equal("1968", tmpProduct
+                                     .PublishingDetail
+                                     .OnixPublishingDateList
+                                     .Where(x => Convert.ToInt32(x.PublishingDateRole) == OnixPubDate.CONST_PUB_DT_ROLE_PUB_FIRST)
+                                     .FirstOrDefault()
+                                     .Date
+                            );
 
                 Assert.Equal(10.99m, tmpProduct.USDRetailPrice.PriceAmountNum);
                 Assert.Equal(10.99m, tmpProduct.USDValidPrice.PriceAmountNum);
@@ -144,10 +166,20 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
             using OnixParser v3Parser = new(currentFileInfo, false, true, true, false);
 
             Assert.Equal("Global Bookinfo", v3Parser.MessageHeader.Sender.SenderName);
+            Assert.Equal("01", v3Parser.MessageHeader.Sender.OnixSenderIdentifierList[0].SenderIDType);
+            Assert.Equal("W3C CCG DID", v3Parser.MessageHeader.Sender.OnixSenderIdentifierList[0].IDTypeName);
+            Assert.StartsWith("did:ethr:0x94", v3Parser.MessageHeader.Sender.OnixSenderIdentifierList[0].IDValue);
 
             Assert.Equal("BooksBooksBooks.com", v3Parser.MessageHeader.Addressee.AddresseeName);
+            Assert.Equal("01", v3Parser.MessageHeader.Addressee.OnixAddresseeIdentifierList[0].AddresseeIDType);
+            Assert.Equal("W3C CCG DID", v3Parser.MessageHeader.Addressee.OnixAddresseeIdentifierList[0].IDTypeName);
+            Assert.StartsWith("did:ethr:0x94", v3Parser.MessageHeader.Addressee.OnixAddresseeIdentifierList[0].IDValue);
 
             var header = v3Parser.MessageHeader;
+
+            Assert.Equal("231", header.MessageNumber);
+            Assert.Equal("1", header.MessageRepeat);
+            Assert.Equal("Sample message", header.MessageNote);
 
             foreach (OnixProduct tmpProduct in v3Parser)
             {
@@ -164,6 +196,8 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal("Roseanna", tmpProduct.Title);
 
                 Assert.Equal("Sjöwall", tmpProduct.PrimaryAuthor.OnixKeyNames);
+
+                Assert.Equal("7421", tmpProduct.PrimaryAuthor.GetFirstProprietaryNameId().IDValue);
 
                 Assert.Equal("02", tmpProduct.OnixBarcodeList[0].BarcodeType);
                 Assert.Equal("09", tmpProduct.OnixBarcodeList[0].PositionOnProduct);

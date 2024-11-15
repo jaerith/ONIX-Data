@@ -1,4 +1,5 @@
-[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=jaerith_ONIX-Data)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
+<!-- Will address quality gate and new code coverage in the future -->
+<!-- [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=jaerith_ONIX-Data)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data) -->
 
 [![Reliability](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=jaerith_ONIX-Data&metric=security_rating)](https://sonarcloud.io/dashboard?id=jaerith_ONIX-Data)
@@ -17,8 +18,10 @@ Even though the "sunset date" for the legacy version 2.1 has passed, many (if no
 
 Unfortunately, since validation of ONIX files has proven problematic on the .NET platform, there is an <a target="_blank" href="https://github.com/jaerith/ONIX-Validator">accompanying Java project</a> that can serve to validate those files instead.
 
+NOTE: The Framework project is now considered to be deprecated.  All future development will only occur in the Standard project.
+
 # Requirements
-* Visual Studio 2012 (at least)
+* Visual Studio 2019 (at least)
 * An unconditional love for a XML tag collection that attempts to cover the ontology of the known universe.
 
 # ONIX Editions Handled
@@ -27,7 +30,7 @@ Unfortunately, since validation of ONIX files has proven problematic on the .NET
 * [x] ONIX 2.1.3 and earlier (short tags)
 * [x] ONIX 2.1.3 and earlier (reference tags)
 
-NOTE: Even though this project addresses many tags of both ONIX versions, it does not currently parse out all of them, especially in the case of ONIX 3.0 (which appears to aim at supporting the ontology of the known universe).  In the case that you find something unsupported and wanted, you can create an issue within this repo, and I will attempt to address it in my free time.  (Or you can implement it on your own and then issue a pull.)
+NOTE: Even though this project addresses many tags of both ONIX versions, it does not currently parse out all of them, especially in the case of ONIX 3.0 (which appears to aim at supporting the ontology of the known universe).  In the case that you find something unsupported and wanted, you can create an issue within this repo, and I will attempt to address it in my free time.  (Or you can implement it on your own and then issue a pull.)  The same applies for any possible features that can be incorporated into the Extensions folder (like autocorrection with ChatGPT, etc.).
 
 # For Large ONIX Files
 When parsing larger ONIX files (typically anything greater than 250 MB), it's strongly encouraged to use the OnixLegacyPlusParser class (for ONIX 2.1) and the OnixPlusParser class (for ONIX 3.0).  These two classes are used just like the OnixLegacyParser and OnixParser classes, and they will help the user to avoid out-of-memory exceptions.

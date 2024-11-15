@@ -3,14 +3,25 @@
 			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Header>
 		<Sender>
+			<SenderIdentifier>
+				<SenderIDType>01</SenderIDType>
+			    <IDTypeName>W3C CCG DID</IDTypeName>
+				<IDValue>did:ethr:0x94618601FE6cb8912b274E5a00453949A57f8C1e</IDValue>
+			</SenderIdentifier>
 			<SenderName>Global Bookinfo</SenderName>
 			<ContactName>Jane King, +1 555 321 7654</ContactName>
 			<EmailAddress>jbk@globalbookinfo.com</EmailAddress>
 		</Sender>
 		<Addressee>
+			<AddresseeIdentifier>
+				<AddresseeIDType>01</AddresseeIDType>
+			    <IDTypeName>W3C CCG DID</IDTypeName>
+				<IDValue>did:ethr:0x94618601FE6cb8912b274E5a00453949A57f8C1e</IDValue>
+			</AddresseeIdentifier>			
 			<AddresseeName>BooksBooksBooks.com</AddresseeName>
 		</Addressee>
 		<MessageNumber>231</MessageNumber>
+		<MessageRepeat>1</MessageRepeat>
 		<SentDateTime>20100510T1115-0400</SentDateTime>
 		<MessageNote>Sample message</MessageNote>
 	</Header>

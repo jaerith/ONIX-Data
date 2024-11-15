@@ -2,14 +2,25 @@
 <ONIXmessage release="3.0" xmlns="http://ns.editeur.org/onix/3.0/short">
 	<header>
 		<sender>
+			<senderidentifier>
+				<m379>01</m379>
+				<b233>W3C CCG DID</b233>
+				<b244>did:ethr:0x94618601FE6cb8912b274E5a00453949A57f8C1e</b244>
+			</senderidentifier>
 			<x298>Global Bookinfo</x298>
 			<x299>Jane King, +1 555 321 7654</x299>
 			<j272>jbk@globalbookinfo.com</j272>
 		</sender>
 		<addressee>
+			<addresseeidentifier>
+				<m380>01</m380>
+				<b233>W3C CCG DID</b233>
+		        <b244>did:ethr:0x94618601FE6cb8912b274E5a00453949A57f8C1e</b244>
+			</addresseeidentifier>
 			<x300>BooksBooksBooks.com</x300>
 		</addressee>
 		<m180>231</m180>
+		<m181>1</m181>
 		<x307>20100510T1115-0400</x307>
 		<m183>Sample message</m183>
 	</header>

@@ -90,6 +90,7 @@
     <Compile Include="Version3\Audience\OnixAudience.cs" />
     <Compile Include="Version3\Audience\OnixAudienceRange.cs" />
     <Compile Include="Version3\Content\OnixContentDetail.cs" />
+    <Compile Include="Version3\Names\OnixNameIdentifier.cs" />
     <Compile Include="Version3\OnixBarcode.cs" />
     <Compile Include="Version3\Price\OnixDiscount.cs" />
     <Compile Include="Version3\Price\OnixDiscountCoded.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Version3\Title\OnixTitleDetail.cs" />
     <Compile Include="Version3\Title\OnixTitleElement.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

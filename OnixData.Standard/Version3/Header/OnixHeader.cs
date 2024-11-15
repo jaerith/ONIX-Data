@@ -14,12 +14,17 @@ namespace OnixData.Version3.Header
         {
             Sender       = new OnixHeaderSender();
             Addressee    = new OnixHeaderAddressee();
-            SentDateTime = DefaultLanguageOfText = DefaultCurrencyCode = DefaultPriceType = "";
+            SentDateTime = DefaultLanguageOfText = DefaultCurrencyCode = DefaultPriceType = String.Empty;
+            MessageNote  = MessageNumber = MessageRepeat = String.Empty;
         }
 
         private OnixHeaderSender    senderField;
         private OnixHeaderAddressee addresseeField;
+
         private string              sentDateTimeField;
+        private string              messageNumber;
+        private string              messageRepeat;
+        private string              messageNote;
         private string              defLangOfText;
         private string              defPriceType;
         private string              defCurrencyCode;
@@ -45,6 +50,24 @@ namespace OnixData.Version3.Header
         {
             get { return this.sentDateTimeField; }
             set { this.sentDateTimeField = value; }
+        }
+
+        public string MessageNumber
+        {
+            get { return this.messageNumber; }
+            set { this.messageNumber = value; }
+        }
+
+        public string MessageRepeat
+        {
+            get { return this.messageRepeat; }
+            set { this.messageRepeat = value; }
+        }
+
+        public string MessageNote 
+        {
+            get { return this.messageNote; }
+            set { this.messageNote = value; }
         }
 
         /// <remarks/>
@@ -91,6 +114,24 @@ namespace OnixData.Version3.Header
         {
             get { return SentDateTime; }
             set { SentDateTime = value; }
+        }
+
+        public string m180
+        {
+            get { return MessageNumber; }
+            set { MessageNumber = value; }
+        }
+
+        public string m181
+        {
+            get { return MessageRepeat; }
+            set { MessageRepeat = value; }
+        }
+
+        public string m183
+        {
+            get { return MessageNote; }
+            set { MessageNote = value; }
         }
 
         /// <remarks/>

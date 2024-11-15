@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using OnixData.Version3.Names;
+
 namespace OnixData.Version3
 {
     /// <remarks/>
@@ -72,14 +74,16 @@ namespace OnixData.Version3
 
         public OnixContributor()
         {
-            SequenceNumber     = "";
-            ContributorRole    = PersonName = PersonNameInverted = "";
-            NamesBeforeKey     = PrefixToKey = KeyNames = "";
-            TitlesBeforeNames  = SuffixToKey = TitlesAfterNames = LettersAfterNames = "";
+            SequenceNumber    = "";
+            ContributorRole   = PersonName = PersonNameInverted = "";
+            NamesBeforeKey    = PrefixToKey = KeyNames = "";
+            TitlesBeforeNames = SuffixToKey = TitlesAfterNames = LettersAfterNames = "";
+
             CorporateName      = BiographicalNote = "";
             onixNamesBeforeKey = onixKeyNames = onixLettersAndTitles = null;
 
             altNameField = shortAltNameField = new OnixAlternateName[0];
+            nameIdField  = shortNameIdField = new OnixNameIdentifier[0];
         }
 
         private string sequenceNumberField;
@@ -103,7 +107,27 @@ namespace OnixData.Version3
         private OnixAlternateName[] altNameField;
         private OnixAlternateName[] shortAltNameField;
 
+        private OnixNameIdentifier[] nameIdField;
+        private OnixNameIdentifier[] shortNameIdField;
+
         #region ONIX Lists
+
+        public OnixNameIdentifier[] OnixNameIdList
+        {
+            get
+            {
+                OnixNameIdentifier[] NameIdList = new OnixNameIdentifier[0];
+
+                if (this.nameIdField != null)
+                    NameIdList = this.nameIdField;
+                else if (this.shortNameIdField != null)
+                    NameIdList = this.shortNameIdField;
+                else
+                    NameIdList = new OnixNameIdentifier[0];
+
+                return NameIdList;
+            }
+        }
 
         public OnixAlternateName[] OnixAltNameList
         {
@@ -125,6 +149,22 @@ namespace OnixData.Version3
         #endregion
 
         #region ONIX Helpers
+
+        /// <remarks/>
+        public OnixNameIdentifier GetFirstNameIdentifier(int pnNameIdTypeNum)
+        {
+            var firstNameID =
+                OnixNameIdList
+                .Where(x => (x.NameIDTypeNum == pnNameIdTypeNum) && (!String.IsNullOrEmpty(x.IDValue)))
+                .FirstOrDefault();
+
+            return (firstNameID != null) ? firstNameID : new OnixNameIdentifier();
+        }
+
+        public OnixNameIdentifier GetFirstProprietaryNameId()
+        {
+            return GetFirstNameIdentifier(OnixNameIdentifier.CONST_NAME_TYPE_ID_PROP);
+        }
 
         /// <remarks/>
         public string OnixNamesBeforeKey
@@ -242,19 +282,19 @@ namespace OnixData.Version3
             set { this.titlesAfterNamesField = value; }
         }
 
+        public string BiographicalNote
+        {
+            get
+            { return this.biographicalNoteField; }
+            set
+            { this.biographicalNoteField = value; }
+        }
+
         /// <remarks/>
         public string CorporateName
         {
             get { return this.corporateNameField; }
             set { this.corporateNameField = value; }
-        }
-
-        public string BiographicalNote
-        {
-            get
-            { return this.biographicalNoteField; }
-            set 
-            { this.biographicalNoteField = value; }
         }
 
         /// <remarks/>
@@ -277,6 +317,14 @@ namespace OnixData.Version3
         {
             get { return this.altNameField; }
             set { this.altNameField = value; }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("NameIdentifier")]
+        public OnixNameIdentifier[] NameIdentifier
+        {
+            get { return this.nameIdField; }
+            set { this.nameIdField = value; }
         }
 
         #endregion
@@ -381,11 +429,19 @@ namespace OnixData.Version3
             set { this.shortAltNameField = value; }
         }
 
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("nameidentifier")]
+        public OnixNameIdentifier[] nameidentifier
+        {
+            get { return this.shortNameIdField; }
+            set { this.shortNameIdField = value; }
+        }
+
         #endregion
 
         #region Support Methods
 
-        public void DetermineContribFields()
+        private void DetermineContribFields()
         {
             StringBuilder KeyNamePrefixBuilder = new StringBuilder();
             StringBuilder KeyNameBuilder       = new StringBuilder();

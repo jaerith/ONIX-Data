@@ -13,9 +13,35 @@ namespace OnixData.Version3.Header
         public OnixHeaderAddressee()
         {
             AddresseeName = "";
+
+            AddresseeIdentifier = addresseeidentifier = new OnixHeaderAddresseeIdentifier[0];
         }
 
         private string addresseeNameField;
+
+        private OnixHeaderAddresseeIdentifier[] addresseeIdentifierField;
+        private OnixHeaderAddresseeIdentifier[] shortAddresseeIdentifierField;
+
+        #region Helper Methods
+
+        public OnixHeaderAddresseeIdentifier[] OnixAddresseeIdentifierList
+        {
+            get
+            {
+                OnixHeaderAddresseeIdentifier[] AddresseeIdList = null;
+
+                if (this.addresseeIdentifierField != null)
+                    AddresseeIdList = this.addresseeIdentifierField;
+                else if (this.shortAddresseeIdentifierField != null)
+                    AddresseeIdList = this.shortAddresseeIdentifierField;
+                else
+                    AddresseeIdList = new OnixHeaderAddresseeIdentifier[0];
+
+                return AddresseeIdList;
+            }
+        }
+
+        #endregion
 
         #region Reference Tags
 
@@ -32,6 +58,14 @@ namespace OnixData.Version3.Header
             }
         }
 
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("AddresseeIdentifier")]
+        public OnixHeaderAddresseeIdentifier[] AddresseeIdentifier
+        {
+            get { return this.addresseeIdentifierField; }
+            set { this.addresseeIdentifierField = value; }
+        }
+
         #endregion
 
         #region Short Tags
@@ -41,7 +75,15 @@ namespace OnixData.Version3.Header
         {
             get { return AddresseeName; }
             set { AddresseeName = value; }
-        }        
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("addresseeidentifier")]
+        public OnixHeaderAddresseeIdentifier[] addresseeidentifier
+        {
+            get { return this.shortAddresseeIdentifierField; }
+            set { this.shortAddresseeIdentifierField = value; }
+        }
 
         #endregion
     }
