@@ -21,7 +21,7 @@ jobs:
       run: dotnet test OnixDataStandard.sln --no-build --verbosity normal --logger trx /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
         /p:Exclude=\"[OnixData.Standard.BaseTests]*\" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute\"
     - name: Upload Test Report Artifacts
-      uses: actions/upload-artifact@v2 
+      uses: actions/upload-artifact@v4 
       if: success() || failure()        
       with:
         name: test-results        
