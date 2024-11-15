@@ -63,14 +63,10 @@ jobs:
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language
     
-    - name: Setup .NET 5
+    - name: Setup .NET 8
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
-    - name: Setup .NET CORE
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '3.1.x'
+        dotnet-version: 8.x.x
     - name: Restore dependencies
       run: dotnet restore OnixDataStandard.sln
     - name: Build
