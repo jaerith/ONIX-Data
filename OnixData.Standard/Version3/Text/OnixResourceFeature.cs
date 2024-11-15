@@ -1,4 +1,4 @@
-namespace OnixData.Version3.Text
+namespace OnixData.Standard.Version3.Text
 {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]

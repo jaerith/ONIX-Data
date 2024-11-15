@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
+﻿using System.Text;
 
-using OnixData.Legacy;
-using OnixData.Version3;
-using OnixData.Version3.Header;
-using OnixData.Version3.Price;
-using OnixData.Version3.Supply;
-
-namespace OnixData.Extensions
+namespace OnixData.Standard.Extensions
 {
     public static class OnixReplaceExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OnixData.Version3.Text
+namespace OnixData.Standard.Version3.Text
 {
     public partial class OnixCollateralDetail
     {

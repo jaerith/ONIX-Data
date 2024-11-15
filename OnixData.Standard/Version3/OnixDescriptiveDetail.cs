@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OnixData.Standard.Version3.Audience;
+using OnixData.Standard.Version3.Epub;
+using OnixData.Standard.Version3.Language;
+using OnixData.Standard.Version3.ProductPart;
+using OnixData.Standard.Version3.Title;
 
-using OnixData.Version3.Audience;
-using OnixData.Version3.Epub;
-using OnixData.Version3.Language;
-using OnixData.Version3.ProductPart;
-using OnixData.Version3.Title;
-
-namespace OnixData.Version3
+namespace OnixData.Standard.Version3
 {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]

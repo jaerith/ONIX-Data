@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using OnixData.Extensions;
-using OnixData.Version3;
-using OnixData.Version3.Publishing;
+using OnixData.Standard.Extensions;
+using OnixData.Standard.Version3;
+using OnixData.Standard.Version3.Price;
+using OnixData.Standard.Version3.Publishing;
 using Xunit;
 
 namespace OnixData.Standard.BaseTests.Version3.CoreData
@@ -225,7 +226,7 @@ namespace OnixData.Standard.BaseTests.Version3.CoreData
                 Assert.Equal(7.99m, tmpProduct.USDValidPrice.PriceAmountNum);
 
                 Assert.Equal(7.99m, tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixPriceList[0].PriceAmountNum);
-                Assert.Equal(OnixData.Version3.Price.OnixPrice.CONST_PRICE_TYPE_RRP_INCL, tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixPriceList[0].PriceType);
+                Assert.Equal(OnixPrice.CONST_PRICE_TYPE_RRP_INCL, tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixPriceList[0].PriceType);
                 Assert.Equal("GBP", tmpProduct.OnixProductSupplyList[0].OnixSupplyDetailList[0].OnixPriceList[0].CurrencyCode);
 
                 Assert.Equal("9780007324378", tmpProduct.RelatedMaterial.OnixRelatedProductList[0].EAN);

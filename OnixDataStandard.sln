@@ -6,9 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.BaseTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.Benchmarks", "OnixData.Standard.Benchmarks\OnixData.Standard.Benchmarks.csproj", "{62FBE53E-A23D-40A9-96CD-EA13217275B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.CoreTests", "OnixData.Standard.CoreTests\OnixData.Standard.CoreTests.csproj", "{495A9468-F2F7-4A17-B369-4AB2BFAC562D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.Net5Tests", "OnixData.Standard.Net5Tests\OnixData.Standard.Net5Tests.csproj", "{9831702F-E111-4C20-AAAC-679F56337FB8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnixData.Standard.Net8Tests", "OnixData.Standard.Net8Tests\OnixData.Standard.Net8Tests.csproj", "{9831702F-E111-4C20-AAAC-679F56337FB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +26,6 @@ Global
 		{62FBE53E-A23D-40A9-96CD-EA13217275B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62FBE53E-A23D-40A9-96CD-EA13217275B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62FBE53E-A23D-40A9-96CD-EA13217275B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{495A9468-F2F7-4A17-B369-4AB2BFAC562D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{495A9468-F2F7-4A17-B369-4AB2BFAC562D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{495A9468-F2F7-4A17-B369-4AB2BFAC562D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{495A9468-F2F7-4A17-B369-4AB2BFAC562D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9831702F-E111-4C20-AAAC-679F56337FB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9831702F-E111-4C20-AAAC-679F56337FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9831702F-E111-4C20-AAAC-679F56337FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU

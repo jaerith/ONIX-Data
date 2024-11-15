@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using System.Xml;
 
-using OnixData;
-
-namespace OnixData.Extensions
+namespace OnixData.Standard.Extensions
 {
     public static class OnixXmlExtensions
     {

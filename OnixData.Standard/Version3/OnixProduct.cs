@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OnixData.Standard.Version3.Content;
+using OnixData.Standard.Version3.Price;
+using OnixData.Standard.Version3.Publishing;
+using OnixData.Standard.Version3.Related;
+using OnixData.Standard.Version3.Supply;
+using OnixData.Standard.Version3.Text;
+using OnixData.Standard.Version3.Title;
 
-using OnixData.Version3.Content;
-using OnixData.Version3.Language;
-using OnixData.Version3.Market;
-using OnixData.Version3.Price;
-using OnixData.Version3.Publishing;
-using OnixData.Version3.Related;
-using OnixData.Version3.Supply;
-using OnixData.Version3.Text;
-using OnixData.Version3.Title;
-
-namespace OnixData.Version3
+namespace OnixData.Standard.Version3
 {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]

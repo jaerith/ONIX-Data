@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OnixData.Standard.Version3.Publishing;
 
-using OnixData.Version3.Publishing;
-
-namespace OnixData.Version3.Price
+namespace OnixData.Standard.Version3.Price
 {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
@@ -157,8 +154,8 @@ namespace OnixData.Version3.Price
             {
                 decimal nPriceAmt = 0;
 
-                if (!String.IsNullOrEmpty(PriceAmount))
-                    Decimal.TryParse(PriceAmount, out nPriceAmt);
+                if (!string.IsNullOrEmpty(PriceAmount))
+                    decimal.TryParse(PriceAmount, NumberStyles.Any, CultureInfo.InvariantCulture, out nPriceAmt);
 
                 return nPriceAmt;
             }

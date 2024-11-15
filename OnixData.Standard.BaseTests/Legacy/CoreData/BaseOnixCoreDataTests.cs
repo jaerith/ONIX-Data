@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using OnixData.Legacy;
-using OnixData.Extensions;
+using OnixData.Standard.Extensions;
+using OnixData.Standard.Legacy;
 using Xunit;
 
 namespace OnixData.Standard.BaseTests.Legacy.CoreData

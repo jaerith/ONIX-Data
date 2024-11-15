@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
-using System.Xml.Schema;
+using OnixData.Standard.Extensions;
+using OnixData.Standard.Version3;
+using OnixData.Standard.Version3.Header;
 
-using OnixData.Extensions;
-using OnixData.Version3;
-using OnixData.Version3.Header;
-
-namespace OnixData
+namespace OnixData.Standard
 {
     public class OnixPlusParser : IDisposable, IEnumerable
     {

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using OnixData.Standard.Legacy;
 
-using OnixData.Legacy;
-using OnixData.Version3;
-
-namespace OnixData.Extensions
+namespace OnixData.Standard.Extensions
 {
     public static class OnixDataExtensions
     {

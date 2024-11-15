@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using OnixData.Legacy;
+using OnixData.Standard.Legacy;
 using Xunit;
 
 namespace OnixData.Standard.BaseTests.Legacy.Text
