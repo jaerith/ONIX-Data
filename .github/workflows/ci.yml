@@ -9,14 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET 5
+    - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
-    - name: Setup .NET CORE
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '3.1.x'
+        dotnet-version: '8.x.x'
     - name: Restore dependencies
       run: dotnet restore OnixDataStandard.sln
     - name: Build
@@ -25,7 +21,7 @@ jobs:
       run: dotnet test OnixDataStandard.sln --no-build --verbosity normal --logger trx /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
         /p:Exclude=\"[OnixData.Standard.BaseTests]*\" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute\"
     - name: Upload Test Report Artifacts
-      uses: actions/upload-artifact@v2 
+      uses: actions/upload-artifact@v4 
       if: success() || failure()        
       with:
         name: test-results        

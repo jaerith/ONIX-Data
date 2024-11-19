@@ -1,7 +1,7 @@
 using System;
-using OnixData.Version3.Publishing;
+using OnixData.Standard.Version3.Publishing;
 
-namespace OnixData.Version3.Text
+namespace OnixData.Standard.Version3.Text
 {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]

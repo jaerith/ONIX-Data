@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
-using OnixData.Version3;
-using OnixData.Version3.Header;
+using OnixData.Standard.Version3;
 using Xunit;
 
 namespace OnixData.Standard.BaseTests.Version3.Text

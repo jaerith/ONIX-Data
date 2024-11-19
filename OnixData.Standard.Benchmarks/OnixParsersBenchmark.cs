@@ -3,8 +3,8 @@ using System.IO;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
-using OnixData.Legacy;
-using OnixData.Version3;
+using OnixData.Standard.Legacy;
+using OnixData.Standard.Version3;
 
 namespace OnixData.Standard.Benchmarks
 {

@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
-using System.Xml.Schema;
+using OnixData.Standard.Extensions;
+using OnixData.Standard.Legacy;
 
-using OnixData.Legacy;
-using OnixData.Extensions;
-
-namespace OnixData
+namespace OnixData.Standard
 {
     /// <summary>
     /// 

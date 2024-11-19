@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OnixData.Standard.Version3.Header;
 
-using OnixData.Version3.Header;
-
-namespace OnixData.Version3
+namespace OnixData.Standard.Version3
 {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]

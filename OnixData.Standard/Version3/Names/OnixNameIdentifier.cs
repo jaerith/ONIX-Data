@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OnixData.Version3.Names
+namespace OnixData.Standard.Version3.Names
 {
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class OnixNameIdentifier

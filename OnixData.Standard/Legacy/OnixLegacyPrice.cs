@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OnixData.Legacy
+namespace OnixData.Standard.Legacy
 {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
@@ -217,8 +215,8 @@ namespace OnixData.Legacy
             {
                 decimal dPriceAmountNum = -1;
 
-                if (!String.IsNullOrEmpty(this.priceAmountField))
-                    Decimal.TryParse(this.priceAmountField, out dPriceAmountNum);
+                if (!string.IsNullOrEmpty(this.priceAmountField))
+                    decimal.TryParse(this.priceAmountField, NumberStyles.Any, CultureInfo.InvariantCulture, out dPriceAmountNum);
 
                 return dPriceAmountNum;
             }

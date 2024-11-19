@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 
-namespace OnixData.Legacy
+namespace OnixData.Standard.Legacy
 {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
@@ -79,8 +75,8 @@ namespace OnixData.Legacy
             {
                 decimal nMeasurementVal = 0;
 
-                if (!String.IsNullOrEmpty(Measurement))
-                    Decimal.TryParse(Measurement, out nMeasurementVal);
+                if (!string.IsNullOrEmpty(Measurement))
+                    decimal.TryParse(Measurement, NumberStyles.Any, CultureInfo.InvariantCulture, out nMeasurementVal);
 
                 return nMeasurementVal;
             }

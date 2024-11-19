@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using OnixData.Standard.Version3.Names;
 
-using OnixData.Version3.Names;
-
-namespace OnixData.Version3
+namespace OnixData.Standard.Version3
 {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
