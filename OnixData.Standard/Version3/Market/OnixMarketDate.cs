@@ -8,12 +8,12 @@
         {
             MarketDateRole = DateFormat = -1;
 
-            Date = 0;
+            Date = string.Empty;
         }
 
-        private int  marketDateRoleField;
-        private int  dateFormatField;
-        private uint dateField;
+        private int    marketDateRoleField;
+        private int    dateFormatField;
+        private string dateField;
 
         #region Reference Tags
 
@@ -44,7 +44,7 @@
         }
 
         /// <remarks/>
-        public uint Date
+        public string Date
         {
             get
             {
@@ -75,7 +75,7 @@
         }
 
         /// <remarks/>
-        public uint b306
+        public string b306
         {
             get { return Date; }
             set { Date = value; }

@@ -12,12 +12,14 @@ namespace OnixData.Version3.Text
     {
         public OnixContentDate()
         {
-            ContentDateRole = DateFormat = Date = - 1;
+            ContentDateRole = DateFormat = -1;
+
+            Date = string.Empty;
         }
 
-        private int contentDateRoleField;
-        private int dateFormatField;
-        private int dateField;
+        private int    contentDateRoleField;
+        private int    dateFormatField;
+        private string dateField;
 
         #region Reference Tags
 
@@ -48,7 +50,7 @@ namespace OnixData.Version3.Text
         }
 
         /// <remarks/>
-        public int Date
+        public string Date
         {
             get
             {
@@ -79,7 +81,7 @@ namespace OnixData.Version3.Text
         }
 
         /// <remarks/>
-        public int b306
+        public string b306
         {
             get { return Date; }
             set { Date = value; }

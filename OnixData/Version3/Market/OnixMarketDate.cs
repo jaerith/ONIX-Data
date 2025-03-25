@@ -14,12 +14,12 @@ namespace OnixData.Version3.Market
         {
             MarketDateRole = DateFormat = -1;
 
-            Date = 0;
+            Date = string.Empty;
         }
 
-        private int  marketDateRoleField;
-        private int  dateFormatField;
-        private uint dateField;
+        private int    marketDateRoleField;
+        private int    dateFormatField;
+        private string dateField;
 
         #region Reference Tags
 
@@ -50,7 +50,7 @@ namespace OnixData.Version3.Market
         }
 
         /// <remarks/>
-        public uint Date
+        public string Date
         {
             get
             {
@@ -81,7 +81,7 @@ namespace OnixData.Version3.Market
         }
 
         /// <remarks/>
-        public uint b306
+        public string b306
         {
             get { return Date; }
             set { Date = value; }
