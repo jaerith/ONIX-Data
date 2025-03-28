@@ -559,6 +559,8 @@ namespace OnixData.Standard.Extensions
 
                     AllFileText.ReplaceIsoLatinEncodings(ShouldReplaceTechEncodings);
 
+                    AllFileText.WrapXHTMLTextWithCDATA();
+
                     var sAllFileText = AllFileText.ToString();
 
                     if (FilterBadEncodings)
@@ -793,6 +795,8 @@ namespace OnixData.Standard.Extensions
                 System.Console.Out.Flush();
 
                 poParserFileBlock.ReplaceIsoLatinEncodings(true);
+
+                poParserFileBlock.WrapXHTMLTextWithCDATA();
 
                 string sCurrentBlock = poParserFileBlock.ToString();
 

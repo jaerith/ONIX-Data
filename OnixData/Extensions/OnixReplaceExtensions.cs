@@ -36,6 +36,8 @@ namespace OnixData.Extensions
 
                 ReplaceIsoLatinEncodings(ParserFileContent);
 
+                ParserFileContent.WrapXHTMLTextWithCDATA();
+
                 // From the "iso-tech.ent" file
                 if (ShouldReplaceTechEncodings)
                     ReplaceTechEncodings(ParserFileContent);

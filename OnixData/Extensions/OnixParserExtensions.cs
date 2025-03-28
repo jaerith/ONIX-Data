@@ -566,6 +566,8 @@ namespace OnixData.Extensions
                                     {
                                         TempLineBuilder.ReplaceIsoLatinEncodings(ShouldReplaceTechEncodings);
 
+                                        TempLineBuilder.WrapXHTMLTextWithCDATA();
+
                                         // NOTE: This section will remove any problematic control characters which are not allowed within XML
                                         string sFilteredContents =
                                              System.Text.RegularExpressions.Regex.Replace(TempLineBuilder.ToString(),
@@ -761,6 +763,8 @@ namespace OnixData.Extensions
                 System.Console.Out.Flush();
 
                 poParserFileBlock.ReplaceIsoLatinEncodings(true);
+
+                poParserFileBlock.WrapXHTMLTextWithCDATA();
 
                 string sCurrentBlock = poParserFileBlock.ToString();
 
