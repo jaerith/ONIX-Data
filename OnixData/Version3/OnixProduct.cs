@@ -160,23 +160,45 @@ namespace OnixData.Version3
             }
         }
 
-        public long EAN
+        public string EANText
         {
             get
             {
                 OnixProductId[] ProductIdList = OnixProductIdList;
 
+                string TempEAN = string.Empty;
+                if ((ProductIdList != null) && (ProductIdList.Length > 0))
+                {
+                    OnixProductId EanProductId =
+                        ProductIdList.Where(x => (x.ProductIDType == CONST_PRODUCT_TYPE_EAN) ||
+                                                    (x.ProductIDType == CONST_PRODUCT_TYPE_ISBN13)).LastOrDefault();
+
+                    if ((EanProductId != null) && !String.IsNullOrEmpty(EanProductId.IDValue))
+                    {
+                        TempEAN = EanProductId.IDValue;
+                    }
+                }
+
+                return TempEAN;
+            }
+        }
+
+        public long EAN
+        {
+            get
+            {
                 long TempEAN = this.eanField;
+
                 if (TempEAN <= 0)
                 {
-                    if ((ProductIdList != null) && (ProductIdList.Length > 0))
+                    if (!String.IsNullOrEmpty(EANText))
                     {
-                        OnixProductId EanProductId =
-                            ProductIdList.Where(x => (x.ProductIDType == CONST_PRODUCT_TYPE_EAN) ||
-                                                     (x.ProductIDType == CONST_PRODUCT_TYPE_ISBN13)).LastOrDefault();
+                        if (!Int64.TryParse(EANText, out TempEAN))
+                        {
+                            TempEAN = -1;
+                        }
 
-                        if ((EanProductId != null) && !String.IsNullOrEmpty(EanProductId.IDValue))
-                            TempEAN = this.eanField = Convert.ToInt64(EanProductId.IDValue);
+                        this.eanField = TempEAN;
                     }
                 }
 
