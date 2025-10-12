@@ -12,6 +12,7 @@ using System.Xml.Schema;
 using OnixData.Extensions;
 using OnixData.Version3;
 using OnixData.Version3.Header;
+using OnixData.Version3.Text;
 
 namespace OnixData
 {
