@@ -60,7 +60,7 @@ Project Source | Nuget_Package |  Description |
 [OnixData.Standard.Net5Tests](https://github.com/jaerith/ONIX-Data/tree/master/OnixData.Standard.Net5Tests)| | This project uses the BaseTests project to run unit tests against the .NET 5 framework. |
 [OnixTestHarness](https://github.com/jaerith/ONIX-Data/tree/master/OnixTestHarness)| | This project is a simple test harness that provides some use cases on how to use the ONIX-Data parser. |
 
-# Usage Examples
+# Common Usage Examples
 
     // An example of using the ONIX parser for the contemporary ONIX standard (i.e., 3.0)
     int nOnixPrdIdx = 0;
@@ -168,6 +168,48 @@ Project Source | Nuget_Package |  Description |
             else
             {
                 System.Console.WriteLine(TmpProduct.GetParsingError());
+            }
+        }
+    }
+
+# Extension Usage Examples (including OpenAI)
+
+    // An example of using the ONIX parser for the contemporary ONIX standard (i.e., 3.0)
+    int    onixPrdIdx = 0;
+    string filepath   = @"YourVer3OnixFilepath.xml";
+
+    OnixChatServiceSettings onixChatServiceSettings = new OnixChatServiceSettings();
+    onixChatServiceSettings.ApiKey = "xxx";
+
+    FileInfo currentFileInfo = new FileInfo(filepath);
+    using (OnixParser v3Parser = new OnixParser(currentFileInfo, true))
+    {
+        foreach (OnixProduct tmpProduct in v3Parser)
+        {
+            OnixData.Version3.Price.OnixPrice usdPrice = tmpProduct.USDRetailPrice;
+             
+            if (tmpProduct.IsValid())
+            {
+                System.Console.WriteLine("Product [" + (onixPrdIdx++) + "] has EAN(" +
+                                         tmpProduct.EAN + ") and USD Retail Price(" + tmpProduct.USDRetailPrice.PriceAmount +
+                                         ") - HasUSRights(" + tmpProduct.HasUSRights() + ").");
+
+                if (tmpProduct.CollateralDetail != null)
+                {
+                    foreach (var onixTextContent in tmpProduct.CollateralDetail.OnixTextContentList)
+                    {
+                        // Function to be implemented by developer, contextually evaluating text based on needs of environment
+                        // (simple grammar check, thorough examination with Nu Html Validator, etc)
+                        if (!IsValid(onixTextContent))
+                        {
+                            onixTextContent.RepairHtmlText(onixChatServiceSettings);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                System.Console.WriteLine(tmpProduct.GetParsingError());
             }
         }
     }
