@@ -1,10 +1,10 @@
 ﻿using System;
 
-using OnixData.Legacy;
-using OnixData.Services;
-using OnixData.Version3.Text;
+using OnixData.Standard.Legacy;
+using OnixData.Standard.Services;
+using OnixData.Standard.Version3.Text;
 
-namespace OnixData.Extensions
+namespace OnixData.Standard.Extensions
 {
     public static class OnixRepairTextExtensions
     {
